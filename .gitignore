@@ -5,3 +5,5 @@ artifacts/
 Thumbs.db
 .qwen/
 .codex/skills/astro-engineering-scanner/
+__pycache__/
+*.pyc

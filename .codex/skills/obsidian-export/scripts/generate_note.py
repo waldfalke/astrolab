@@ -14,6 +14,20 @@ from pathlib import Path
 from datetime import datetime
 
 
+def split_local_datetime(value):
+    """Return (date, time) from YAML datetime/string value."""
+    if isinstance(value, datetime):
+        return value.strftime('%Y-%m-%d'), value.strftime('%H:%M:%S')
+
+    text = str(value or '').strip()
+    if not text:
+        return 'unknown', 'unknown'
+    parts = text.split()
+    if len(parts) >= 2:
+        return parts[0], parts[1]
+    return parts[0], 'unknown'
+
+
 def load_chart_data(chart_dir):
     """Load all chart data."""
     data = {}
@@ -45,7 +59,8 @@ def load_chart_data(chart_dir):
     # Load aspects
     aspects_file = chart_dir / "outputs" / "natal_aspects.json"
     if aspects_file.exists():
-        with open(aspects_file, 'r', encoding='utf-8') as f:
+        # Some generated JSON files include UTF-8 BOM; utf-8-sig handles both forms.
+        with open(aspects_file, 'r', encoding='utf-8-sig') as f:
             data['aspects'] = json.load(f)
     
     return data
@@ -55,12 +70,13 @@ def generate_frontmatter(metadata):
     """Generate Obsidian frontmatter."""
     birth = metadata.get('birth', {})
     location = metadata.get('location', {})
+    birth_date, birth_time = split_local_datetime(birth.get('local_datetime', ''))
     
     return f"""---
 tags: [chart, natal]
 chart_id: {metadata.get('chart_id', 'unknown')}
-birth_date: {birth.get('local_datetime', '').split()[0]}
-birth_time: {birth.get('local_datetime', '').split()[1] if ' ' in birth.get('local_datetime', '') else 'unknown'}
+birth_date: {birth_date}
+birth_time: {birth_time}
 birth_place: {metadata.get('display_name', 'Unknown')}
 created: {datetime.now().strftime('%Y-%m-%d')}
 ---
@@ -105,13 +121,21 @@ def generate_aspects_table(aspects):
     """Generate aspects markdown table."""
     if not aspects:
         return ""
+
+    if isinstance(aspects, dict):
+        aspects = aspects.get('aspects', [])
     
     lines = ["| Planet 1 | Planet 2 | Aspect | Angle | Orb | Applying |",
              "|---|---|---|---|---|---|"]
     
     for a in aspects:
+        if not isinstance(a, dict):
+            continue
         applying = "Yes" if a.get('applying', False) else "No"
-        lines.append(f"| {a.get('planet1', '')} | {a.get('planet2', '')} | {a.get('type', '')} | {a.get('angle', '')}° | {a.get('orb', '')}° | {applying} |")
+        p1 = a.get('planet1', a.get('body1', ''))
+        p2 = a.get('planet2', a.get('body2', ''))
+        aspect_type = a.get('type', a.get('aspect', ''))
+        lines.append(f"| {p1} | {p2} | {aspect_type} | {a.get('angle', '')}° | {a.get('orb', '')}° | {applying} |")
     
     return "\n".join(lines) + "\n"
 
@@ -139,10 +163,11 @@ def generate_note(chart_id, output_dir):
     # Birth data
     birth = metadata.get('birth', {})
     location = metadata.get('location', {})
+    birth_date, birth_time = split_local_datetime(birth.get('local_datetime', ''))
     content += "## Birth Data\n\n"
     content += f"| Field | Value |\n|---|---|\n"
-    content += f"| Date | {birth.get('local_datetime', '').split()[0]} |\n"
-    content += f"| Time | {birth.get('local_datetime', '').split()[1] if ' ' in birth.get('local_datetime', '') else 'unknown'} ({birth.get('timezone', 'unknown')}) |\n"
+    content += f"| Date | {birth_date} |\n"
+    content += f"| Time | {birth_time} ({birth.get('timezone', 'unknown')}) |\n"
     content += f"| UTC | {birth.get('utc_datetime', 'unknown')} |\n"
     content += f"| Location | {location.get('latitude', '')}, {location.get('longitude', '')} |\n\n"
     
