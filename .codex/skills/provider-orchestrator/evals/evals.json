@@ -1,0 +1,33 @@
+{
+  "skill_name": "provider-orchestrator",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "normal-natal-call",
+      "prompt": "Calculate natal planetary positions for 1982-06-13T09:39:10Z, lat 44.100833, lon 39.083333",
+      "expected_output": "SUCCESS status, swissremote provider used, QC PASS, output files in artifacts/results/",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "primary-timeout",
+      "prompt": "Calculate houses (Placidus) when primary provider times out",
+      "expected_output": "DEGRADED status, ephemeris backup used, QC SKIPPED",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "qc-mismatch",
+      "prompt": "Run cross-provider QC check and report any deltas over threshold",
+      "expected_output": "QC report with per-planet deltas, FAIL if any delta > 1.0°",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "auth-error-no-failover",
+      "prompt": "Call provider with invalid API key",
+      "expected_output": "AUTH_FAILED error, no failover triggered, user instructed to fix credentials",
+      "files": []
+    }
+  ]
+}

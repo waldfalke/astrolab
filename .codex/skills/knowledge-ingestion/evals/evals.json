@@ -1,0 +1,33 @@
+{
+  "skill_name": "knowledge-ingestion",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "process-methodology-doc",
+      "prompt": "Add phase analysis methodology to knowledge base",
+      "expected_output": "Terms extracted, glossary updated, vector store chunks added",
+      "files": ["docs/HANDOFF_PROMPT_NEXT_AI.md"]
+    },
+    {
+      "id": 2,
+      "eval_name": "bilingual-term-lookup",
+      "prompt": "What is Russian term for 'quincunx'?",
+      "expected_output": "quincunx = квинконс (150°) with related terms",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "disambiguation",
+      "prompt": "What does 'дом' mean in: IV дом?",
+      "expected_output": "дом = house (astrological), not home (general), with context explanation",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "new-term-candidate",
+      "prompt": "Process new document and identify terms for glossary addition",
+      "expected_output": "Ingestion report with matched_existing, new_candidates, ambiguous terms",
+      "files": []
+    }
+  ]
+}

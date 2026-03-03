@@ -1,0 +1,33 @@
+{
+  "skill_name": "artifact-builder",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "natal-delivery-pack",
+      "prompt": "Prepare delivery pack for tuapse_19820613_133910 natal",
+      "expected_output": "packs/<pack_id>/ with PACK_MANIFEST.yaml (READY), 00_summary.txt, 01_natal/ files",
+      "files": ["charts/tuapse_19820613_133910/INDEX.yaml"]
+    },
+    {
+      "id": 2,
+      "eval_name": "incomplete-forecast-pack",
+      "prompt": "Build forecast pack when only solar_arc is available (no progressions)",
+      "expected_output": "PACK_MANIFEST.yaml with INCOMPLETE status, missing_methods lists secondary_progressions",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "archive-old-runs",
+      "prompt": "Archive runs older than 30 days for tuapse_19820613_133910",
+      "expected_output": "Archive batch created, INDEX.yaml external paths rewritten, verification report generated",
+      "files": ["charts/tuapse_19820613_133910/INDEX.yaml"]
+    },
+    {
+      "id": 4,
+      "eval_name": "blocked-by-validation",
+      "prompt": "Build pack when chart.yaml has invalid timezone format",
+      "expected_output": "BLOCKED status, reason: schema validation failed, errors listed",
+      "files": []
+    }
+  ]
+}

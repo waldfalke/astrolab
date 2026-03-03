@@ -1,0 +1,13 @@
+﻿chart_id: tuapse_19820613_133910
+display_name: Tuapse Natal 1982-06-13 13:39:10
+birth:
+  local_datetime: 1982-06-13 13:39:10
+  timezone: +04:00
+  utc_datetime: 1982-06-13T09:39:10Z
+location:
+  latitude: 44.100833
+  longitude: 39.083333
+structure:
+  methods_dir: methods
+  outputs_dir: outputs
+  packs_dir: packs
