@@ -16,13 +16,13 @@ Generate explicit execution plans for chart calculations with dependency trackin
 
 **Input:**
 ```yaml
-request: "Натал + прогноз для tuapse_19820613_133910"
-chart_id: tuapse_19820613_133910
+request: "Натал + прогноз для trump_19460614_105400_jamaica_ny"
+chart_id: trump_19460614_105400_jamaica_ny
 ```
 
 **Output:**
 ```yaml
-plan_id: plan_tuapse_19820613_133910_20260304_150000
+plan_id: plan_trump_19460614_105400_jamaica_ny_20260304_150000
 methods:
   - sequence: 1, method: natal_failover, depends_on: []
   - sequence: 2, method: house_placidus, depends_on: []
@@ -95,3 +95,4 @@ Group B: secondary_progressions, solar_arc (parallel, after A)
 **Natal+forecast:** `4 methods, 2 parallel groups`
 
 **Method failure:** `house_placidus FAILED → progressions SKIPPED`
+

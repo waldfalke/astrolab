@@ -145,9 +145,9 @@ def generate_run_plan(requested_methods, dependencies):
 
 ```yaml
 run_plan:
-  plan_id: plan_tuapse_19820613_133910_20260304_150000
+  plan_id: plan_trump_19460614_105400_jamaica_ny_20260304_150000
   created_at: 2026-03-04T15:00:00Z
-  chart_id: tuapse_19820613_133910
+  chart_id: trump_19460614_105400_jamaica_ny
   request: "Натал + прогноз"
   
   methods:
@@ -157,9 +157,9 @@ run_plan:
       depends_on: []
       estimated_duration_sec: 30
       params:
-        datetime_utc: 1982-06-13T09:39:10Z
-        latitude: 44.100833
-        longitude: 39.083333
+        datetime_utc: 1946-06-14T14:54:00Z
+        latitude: 40.700000
+        longitude: -73.816400
         orb: 6
         
     - sequence: 2
@@ -168,9 +168,9 @@ run_plan:
       depends_on: []
       estimated_duration_sec: 30
       params:
-        datetime_utc: 1982-06-13T09:39:10Z
-        latitude: 44.100833
-        longitude: 39.083333
+        datetime_utc: 1946-06-14T14:54:00Z
+        latitude: 40.700000
+        longitude: -73.816400
         house_system: Placidus
         
     - sequence: 3
@@ -179,7 +179,7 @@ run_plan:
       depends_on: [natal_failover]
       estimated_duration_sec: 30
       params:
-        birth_utc: 1982-06-13T09:39:10Z
+        birth_utc: 1946-06-14T14:54:00Z
         target_utc: 2026-03-04T00:00:00Z
         method: secondary_progressions
         
@@ -189,7 +189,7 @@ run_plan:
       depends_on: [natal_failover]
       estimated_duration_sec: 30
       params:
-        birth_utc: 1982-06-13T09:39:10Z
+        birth_utc: 1946-06-14T14:54:00Z
         target_utc: 2026-03-04T00:00:00Z
         method: solar_arc_directions
   
@@ -228,7 +228,7 @@ Create summary for next step:
 
 ```yaml
 handoff_summary:
-  plan_id: plan_tuapse_19820613_133910_20260304_150000
+  plan_id: plan_trump_19460614_105400_jamaica_ny_20260304_150000
   completed_at: 2026-03-04T15:05:00Z
   
   execution_result:
@@ -344,7 +344,7 @@ def check_method_completed(chart_id, method):
 <method>_<chart_id>_<timestamp>
 
 Example:
-natal_failover_tuapse_19820613_133910_20260304_150000
+natal_failover_trump_19460614_105400_jamaica_ny_20260304_150000
 ```
 
 ### 4. Plan Persistence
@@ -368,7 +368,7 @@ def update_plan_status(plan_id, overall_status):
 
 ### Example 1: Natal + Forecast Request
 
-**User says:** "Натал + прогноз для tuapse_19820613_133910"
+**User says:** "Натал + прогноз для trump_19460614_105400_jamaica_ny"
 
 **Actions:**
 1. Parse request → methods: [natal_failover, house_placidus, secondary_progressions, solar_arc]
@@ -379,7 +379,7 @@ def update_plan_status(plan_id, overall_status):
 **Result:**
 ```yaml
 run_plan:
-  plan_id: plan_tuapse_19820613_133910_20260304_150000
+  plan_id: plan_trump_19460614_105400_jamaica_ny_20260304_150000
   methods:
     - sequence: 1, method: natal_failover
     - sequence: 2, method: house_placidus
@@ -390,22 +390,22 @@ run_plan:
 
 ### Example 2: New Chart Request
 
-**User says:** "Calculate natal for June 13, 1982, 13:39, Tuapse"
+**User says:** "Calculate natal for June 13, 1982, 13:39, Jamaica Queens NY"
 
 **Actions:**
 1. Parse request → methods: [natal_failover, house_placidus]
 2. Extract birth data
-3. Generate chart_id: tuapse_19820613_133910
+3. Generate chart_id: trump_19460614_105400_jamaica_ny
 4. Generate run plan
 
 **Result:**
 ```yaml
 run_plan:
-  chart_id: tuapse_19820613_133910 (new)
+  chart_id: trump_19460614_105400_jamaica_ny (new)
   birth_data:
-    local_datetime: 1982-06-13 13:39:10
+    local_datetime: 1946-06-14 10:54:00
     timezone: +04:00
-    location: Tuapse (44.100833, 39.083333)
+    location: Jamaica Queens NY (40.700000, -73.816400)
   methods:
     - sequence: 1, method: natal_failover
     - sequence: 2, method: house_placidus
@@ -494,3 +494,4 @@ synastry_matrix → requires: natal_failover (for both charts)
 - [ ] Method status tracked (PENDING, RUNNING, COMPLETE, FAILED, SKIPPED)
 - [ ] Handoff summary generated after completion
 - [ ] Failures propagate to dependent methods (mark as SKIPPED)
+

@@ -4,21 +4,21 @@
     {
       "id": 1,
       "eval_name": "new-natal-chart",
-      "prompt": "Build natal chart for June 13, 1982, 13:39, Tuapse",
-      "expected_output": "Chart project created at charts/tuapse_19820613_133910/ with chart.yaml, INDEX.yaml, methods/, outputs/",
+      "prompt": "Build natal chart for June 13, 1982, 13:39, Jamaica Queens NY",
+      "expected_output": "Chart project created at charts/trump_19460614_105400_jamaica_ny/ with chart.yaml, INDEX.yaml, methods/, outputs/",
       "files": []
     },
     {
       "id": 2,
       "eval_name": "add-forecast-to-existing",
-      "prompt": "Add progressions and solar arc to tuapse_19820613_133910",
+      "prompt": "Add progressions and solar arc to trump_19460614_105400_jamaica_ny",
       "expected_output": "INDEX.yaml updated with secondary_progressions and solar_arc methods, new output files added",
-      "files": ["charts/tuapse_19820613_133910/chart.yaml"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/chart.yaml"]
     },
     {
       "id": 3,
       "eval_name": "full-workbench",
-      "prompt": "Натал + прогноз для tuapse_19820613_133910",
+      "prompt": "Натал + прогноз для trump_19460614_105400_jamaica_ny",
       "expected_output": "Complete chart project with natal_failover, house_placidus, secondary_progressions, solar_arc methods",
       "files": []
     },
@@ -31,3 +31,4 @@
     }
   ]
 }
+

@@ -90,35 +90,35 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_mcp_provide
 # Secondary progressions (1 day = 1 year)
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_secondary_progressions.ps1 `
   -CaseId "demo_secondary" -Latitude 44.1 -Longitude 39.07 `
-  -BirthDateTimeUtc "1982-06-13T09:39:10Z" -TargetDateUtc "2026-03-02T00:00:00Z" -Orb 1
+  -BirthDateTimeUtc "1946-06-14T14:54:00Z" -TargetDateUtc "2026-03-02T00:00:00Z" -Orb 1
 
 # Solar arc directions
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_solar_arc.ps1 `
   -CaseId "demo_solar_arc" -Latitude 44.1 -Longitude 39.07 `
-  -BirthDateTimeUtc "1982-06-13T09:39:10Z" -TargetDateUtc "2026-03-02T00:00:00Z" -Orb 1
+  -BirthDateTimeUtc "1946-06-14T14:54:00Z" -TargetDateUtc "2026-03-02T00:00:00Z" -Orb 1
 
 # Transits to natal (explicit transit recipe)
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_transits_to_natal.ps1 `
   -CaseId "demo_transits_now" -Latitude 44.1 -Longitude 39.07 `
-  -BirthDateTimeUtc "1982-06-13T09:39:10Z" -TransitDateTimeUtc "2026-03-02T00:00:00Z" -Orb 1
+  -BirthDateTimeUtc "1946-06-14T14:54:00Z" -TransitDateTimeUtc "2026-03-02T00:00:00Z" -Orb 1
 
 # Build chart project from method runs
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\build_chart_project.ps1 `
-  -ChartId "tuapse_19820613_133910" `
-  -BirthDateTimeLocal "1982-06-13 13:39:10" -BirthTimezone "+04:00" `
-  -BirthDateTimeUtc "1982-06-13T09:39:10Z" -Latitude 44.100833 -Longitude 39.083333 `
-  -NatalFailoverRunDir "D:\Dev\CATMEastrolab\artifacts\results\natal_failover_tuapse_19820613_133910_20260302_101307" `
-  -HouseRunDir "D:\Dev\CATMEastrolab\artifacts\results\house_placidus_tuapse_19820613_133910_gc_nodes_aspects_orb6_20260302_103757" `
-  -SecondaryProgressionsRunDir "D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_tuapse_19820613_progressions_now_20260302_110650" `
-  -SolarArcRunDir "D:\Dev\CATMEastrolab\artifacts\results\solar_arc_tuapse_19820613_solar_arc_20260302_105559"
+  -ChartId "trump_19460614_105400_jamaica_ny" `
+  -BirthDateTimeLocal "1946-06-14 10:54:00" -BirthTimezone "+04:00" `
+  -BirthDateTimeUtc "1946-06-14T14:54:00Z" -Latitude 40.700000 -Longitude -73.816400 `
+  -NatalFailoverRunDir "D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_105400_jamaica_ny_20260302_101307" `
+  -HouseRunDir "D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_105400_jamaica_ny_gc_nodes_aspects_orb6_20260302_103757" `
+  -SecondaryProgressionsRunDir "D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_progressions_now_20260302_110650" `
+  -SolarArcRunDir "D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_solar_arc_20260302_105559"
 
 # Validate chart provenance integrity
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\check_chart_provenance.ps1 `
-  -ChartId "tuapse_19820613_133910"
+  -ChartId "trump_19460614_105400_jamaica_ny"
 
 # Validate chart project contracts
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\validate_chart_project.ps1 `
-  -ChartId "tuapse_19820613_133910"
+  -ChartId "trump_19460614_105400_jamaica_ny"
 
 # Archive runs safely with index rewrite (dry-run by default)
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\archive_runs.ps1 `
@@ -126,7 +126,7 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\archive_runs.ps
 
 # Execute archive and rewrite only one chart index
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\archive_runs.ps1 `
-  -Filter "provider_probe_20260302_130604" -ChartId "tuapse_19820613_133910" -Execute
+  -Filter "provider_probe_20260302_130604" -ChartId "trump_19460614_105400_jamaica_ny" -Execute
 ```
 
 ## Output Location
@@ -166,3 +166,4 @@ See also:
 
 1. `provider_profile.yaml` - active provider setup
 2. `failover_runbook.md` - incident and fallback process
+

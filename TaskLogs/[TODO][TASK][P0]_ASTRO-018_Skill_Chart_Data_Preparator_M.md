@@ -204,20 +204,20 @@ Follow existing conventions from `build_chart_project.ps1`:
 
 ### Example 1: Basic Natal Chart
 
-**User says:** "Build natal chart for June 13, 1982, 13:39, Tuapse"
+**User says:** "Build natal chart for June 13, 1982, 13:39, Jamaica Queens NY"
 
 **Actions:**
-1. Parse birth data → `1982-06-13 13:39:10`, UTC+4, Tuapse (44.100833, 39.083333)
-2. Generate chart_id: `tuapse_19820613_133910`
+1. Parse birth data → `1946-06-14 10:54:00`, UTC+4, Jamaica Queens NY (40.700000, -73.816400)
+2. Generate chart_id: `trump_19460614_105400_jamaica_ny`
 3. Call provider-orchestrator for `natal_failover` + `house_placidus`
 4. Build chart-project structure
 5. Validate schemas
 
-**Result:** `charts/tuapse_19820613_133910/` with all files
+**Result:** `charts/trump_19460614_105400_jamaica_ny/` with all files
 
 ### Example 2: Full Workbench
 
-**User says:** "Натал + прогноз для tuapse_19820613_133910"
+**User says:** "Натал + прогноз для trump_19460614_105400_jamaica_ny"
 
 **Actions:**
 1. Check if chart exists → yes, load chart.yaml
@@ -279,3 +279,4 @@ Follow existing conventions from `build_chart_project.ps1`:
 - [ ] Schema validation passes after build
 - [ ] Skill handles provider failures gracefully (degraded mode)
 - [ ] Idempotent: running twice doesn't break chart structure
+

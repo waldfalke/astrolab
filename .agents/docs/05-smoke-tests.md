@@ -15,7 +15,7 @@ Expected marker:
 ## B. Schema validator smoke
 
 ```powershell
-python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id tuapse_19820613_133910 --json
+python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id trump_19460614_105400_jamaica_ny --json
 ```
 
 Expected markers:
@@ -27,12 +27,12 @@ Expected markers:
 ## C. Obsidian export smoke
 
 ```powershell
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id tuapse_19820613_133910 --output artifacts/skill-smoke/obsidian
+python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
 ```
 
 Expected marker:
 
-- `Generated: artifacts\skill-smoke\obsidian\tuapse_19820613_133910_natal.md`
+- `Generated: artifacts\skill-smoke\obsidian\trump_19460614_105400_jamaica_ny_natal.md`
 
 ## D. Transit recipe smoke
 
@@ -55,3 +55,4 @@ Expected markers:
 
 - `Chart provenance integrity: PASS`
 - `Chart project validation: PASS`
+

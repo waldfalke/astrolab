@@ -231,7 +231,7 @@ Rationale: Aspects have direction (faster → slower planet) and phase meaning d
 
 ### Example 1: Single Planet Analysis
 
-**User says:** "Analyze Sun in chart tuapse_19820613_133910"
+**User says:** "Analyze Sun in chart trump_19460614_105400_jamaica_ny"
 
 **Actions:**
 1. Load chart data
@@ -344,3 +344,4 @@ Central planet: Venus (6 connections)
 - [ ] Synthesis only produced after explicit command
 - [ ] Phase dictionary applied consistently
 - [ ] Directed aspect notation used (not symmetric)
+

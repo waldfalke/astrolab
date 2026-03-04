@@ -16,14 +16,14 @@ Assemble delivery packs from chart-project outputs with validation and QC gates.
 
 **Input:**
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 pack_type: natal | forecast | synastry | full_workbench
 include_qc: true
 ```
 
 **Output:**
 ```yaml
-pack_id: tuapse_19820613_133910_natal_20260304
+pack_id: trump_19460614_105400_jamaica_ny_natal_20260304
 status: READY | INCOMPLETE | BLOCKED
 pack_dir: packs/<pack_id>/
 ```
@@ -45,7 +45,7 @@ Call `schema-validator`. Block if FAIL.
 ### 3. Build PACK_MANIFEST.yaml
 
 ```yaml
-pack_id: tuapse_19820613_133910_natal_20260304
+pack_id: trump_19460614_105400_jamaica_ny_natal_20260304
 methods_included:
   - method: natal_failover
     status: READY
@@ -98,3 +98,4 @@ Map `outputs/` → pack folders with stable names.
 **Incomplete forecast:** `INCOMPLETE, missing secondary_progressions`
 
 **Archive:** `4 runs archived, INDEX.yaml updated`
+

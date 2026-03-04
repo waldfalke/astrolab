@@ -146,7 +146,7 @@ Group C (requires specific prereqs):
 <method>_<chart_id>_<timestamp>
 
 Example:
-natal_failover_tuapse_19820613_133910_20260304_141520
+natal_failover_trump_19460614_105400_jamaica_ny_20260304_141520
 ```
 
 ### Summary File
@@ -174,3 +174,4 @@ For "Натал + прогноз":
 ```
 
 Total estimated time: ~2 minutes (with parallel execution)
+

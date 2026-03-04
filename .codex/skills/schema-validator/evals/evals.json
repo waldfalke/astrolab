@@ -4,9 +4,9 @@
     {
       "id": 1,
       "eval_name": "valid-chart-project",
-      "prompt": "Validate tuapse_19820613_133910 chart project",
+      "prompt": "Validate trump_19460614_105400_jamaica_ny chart project",
       "expected_output": "PASS status, chart.yaml valid, INDEX.yaml valid, provenance integrity valid",
-      "files": ["charts/tuapse_19820613_133910/chart.yaml", "charts/tuapse_19820613_133910/INDEX.yaml"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/chart.yaml", "charts/trump_19460614_105400_jamaica_ny/INDEX.yaml"]
     },
     {
       "id": 2,
@@ -20,7 +20,7 @@
       "eval_name": "missing-output-file",
       "prompt": "Validate chart where outputs/natal_longitudes.csv was deleted",
       "expected_output": "FAIL status, provenance_integrity.missing_files contains the deleted file",
-      "files": ["charts/tuapse_19820613_133910/INDEX.yaml"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/INDEX.yaml"]
     },
     {
       "id": 4,
@@ -31,3 +31,4 @@
     }
   ]
 }
+

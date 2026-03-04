@@ -16,7 +16,7 @@ Make chart the primary project unit with clear separation between method raw fil
 1. `artifacts/mcp-recipes/build_chart_project.ps1`
 2. `charts/README.md`
 3. Built chart project:
-   - `charts/tuapse_19820613_133910`
+   - `charts/trump_19460614_105400_jamaica_ny`
 4. Task log:
    - `TaskLogs/task_log_ASTRO-007_chart_project_systemization_20260302.md`
 
@@ -25,3 +25,4 @@ Make chart the primary project unit with clear separation between method raw fil
 1. Chart project generated from real method runs.
 2. Outputs mapped to raw sources in `INDEX.yaml`.
 3. Structure reproducible via script - achieved.
+

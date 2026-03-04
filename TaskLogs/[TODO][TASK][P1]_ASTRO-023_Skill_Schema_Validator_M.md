@@ -245,7 +245,7 @@ def check_provenance_integrity(chart_dir, index_data):
 
 ```yaml
 validation_report:
-  chart_id: tuapse_19820613_133910
+  chart_id: trump_19460614_105400_jamaica_ny
   validated_at: 2026-03-04T15:00:00Z
   
   chart_yaml:
@@ -345,7 +345,7 @@ ERROR in chart.yaml:
 
 ### Example 1: Valid Chart-Project
 
-**User says:** "Validate tuapse_19820613_133910"
+**User says:** "Validate trump_19460614_105400_jamaica_ny"
 
 **Actions:**
 1. Load chart.yaml and INDEX.yaml
@@ -470,3 +470,4 @@ artifact-builder: Validation FAIL, blocking pack build
 - [ ] Other skills can call validator and get blocking result
 - [ ] Timezone formats validated correctly
 - [ ] Method names validated against known set
+

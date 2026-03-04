@@ -16,9 +16,9 @@ Build complete chart-project structures from birth data.
 
 **Input:**
 ```yaml
-birth_datetime: 1982-06-13 13:39:10
+birth_datetime: 1946-06-14 10:54:00
 timezone: +04:00
-location: Tuapse (44.100833, 39.083333)
+location: Jamaica Queens NY (40.700000, -73.816400)
 methods: [natal_failover, house_placidus]
 ```
 
@@ -58,15 +58,15 @@ charts/<chart_id>/
 ### 4. Generate chart.yaml
 
 ```yaml
-chart_id: tuapse_19820613_133910
-display_name: Tuapse Natal 1982-06-13 13:39:10
+chart_id: trump_19460614_105400_jamaica_ny
+display_name: Trump Natal 1946-06-14 10:54:00
 birth:
-  local_datetime: 1982-06-13 13:39:10
+  local_datetime: 1946-06-14 10:54:00
   timezone: +04:00
-  utc_datetime: 1982-06-13T09:39:10Z
+  utc_datetime: 1946-06-14T14:54:00Z
 location:
-  latitude: 44.100833
-  longitude: 39.083333
+  latitude: 40.700000
+  longitude: -73.816400
 structure:
   methods_dir: methods
   outputs_dir: outputs
@@ -76,7 +76,7 @@ structure:
 ### 5. Generate INDEX.yaml
 
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 generated_at: 2026-03-04T14:30:00Z
 provenance_model: canonical_source_v1
 raw_methods: [...]
@@ -106,7 +106,7 @@ Call `schema-validator` skill.
 
 ## Examples
 
-**New natal:** `charts/tuapse_19820613_133910/` created
+**New natal:** `charts/trump_19460614_105400_jamaica_ny/` created
 
 **Add forecast:** INDEX.yaml updated with new methods
 
@@ -117,3 +117,4 @@ Call `schema-validator` skill.
 | Provider unavailable | Check provider-orchestrator status |
 | INDEX.yaml validation fails | Verify canonical_source paths exist |
 | Duplicate chart_id | Append new runs, don't overwrite |
+

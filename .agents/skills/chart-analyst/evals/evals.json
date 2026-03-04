@@ -4,16 +4,16 @@
     {
       "id": 1,
       "eval_name": "single-planet-analysis",
-      "prompt": "Analyze Sun in chart tuapse_19820613_133910",
+      "prompt": "Analyze Sun in chart trump_19460614_105400_jamaica_ny",
       "expected_output": "State vector P <Z.z : H.h : D> with calculations, aspect network resonance",
-      "files": ["charts/tuapse_19820613_133910/outputs/planets_primary.csv"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/outputs/planets_primary.csv"]
     },
     {
       "id": 2,
       "eval_name": "full-chart-no-synthesis",
-      "prompt": "Analyze all planets in tuapse_19820613_133910",
+      "prompt": "Analyze all planets in trump_19460614_105400_jamaica_ny",
       "expected_output": "Per-planet output for all 10 planets, synthesis_ready: false",
-      "files": ["charts/tuapse_19820613_133910/INDEX.yaml"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/INDEX.yaml"]
     },
     {
       "id": 3,
@@ -25,9 +25,10 @@
     {
       "id": 4,
       "eval_name": "aspect-pattern-detection",
-      "prompt": "Find aspect patterns in tuapse_19820613_133910",
+      "prompt": "Find aspect patterns in trump_19460614_105400_jamaica_ny",
       "expected_output": "Patterns detected: Stellium, Grand Trine, T-Square, or Yod (if present)",
-      "files": ["charts/tuapse_19820613_133910/outputs/natal_aspects.json"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/outputs/natal_aspects.json"]
     }
   ]
 }
+

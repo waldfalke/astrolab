@@ -155,7 +155,7 @@ Expected output: [describe success]
 ## Agent Workflow Example
 
 ```
-User: "Натал + прогноз для tuapse_19820613_133910"
+User: "Натал + прогноз для trump_19460614_105400_jamaica_ny"
 
 Workflow:
 1. run-planner → generates execution plan with method order
@@ -230,3 +230,4 @@ Workflow:
 ---
 
 **Next Action:** Create SKILL.md templates for Phase 1 skills (provider-orchestrator, schema-validator, artifact-builder).
+

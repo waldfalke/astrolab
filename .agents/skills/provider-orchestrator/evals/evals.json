@@ -4,7 +4,7 @@
     {
       "id": 1,
       "eval_name": "normal-natal-call",
-      "prompt": "Calculate natal planetary positions for 1982-06-13T09:39:10Z, lat 44.100833, lon 39.083333",
+      "prompt": "Calculate natal planetary positions for 1946-06-14T14:54:00Z, lat 40.700000, lon -73.816400",
       "expected_output": "SUCCESS status, swissremote provider used, QC PASS, output files in artifacts/results/",
       "files": []
     },
@@ -31,3 +31,4 @@
     }
   ]
 }
+

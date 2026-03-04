@@ -50,6 +50,7 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 ## 4. First Smoke Check
 
 ```powershell
-python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id tuapse_19820613_133910 --json
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id tuapse_19820613_133910 --output artifacts/skill-smoke/obsidian
+python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id trump_19460614_105400_jamaica_ny --json
+python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
 ```
+

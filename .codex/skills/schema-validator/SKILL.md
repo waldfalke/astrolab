@@ -16,7 +16,7 @@ Validate chart-project files against JSON schemas and check provenance integrity
 
 **Input:**
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 validate: [chart.yaml, INDEX.yaml]
 check_provenance: true
 ```
@@ -57,7 +57,7 @@ Verify all `canonical_source` paths exist.
 
 ```yaml
 validation_report:
-  chart_id: tuapse_19820613_133910
+  chart_id: trump_19460614_105400_jamaica_ny
   overall_status: PASS
   errors: [...]
   recommendations: [...]
@@ -87,3 +87,4 @@ validation_report:
 **Invalid timezone:** `FAIL, birth.timezone pattern mismatch`
 
 **Missing file:** `FAIL, provenance_integrity.missing_files`
+

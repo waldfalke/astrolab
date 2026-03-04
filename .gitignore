@@ -7,6 +7,7 @@ Thumbs.db
 __pycache__/
 *.pyc
 .tools/
+.private/
 artifacts/result-packs/
 artifacts/results/
 artifacts/skill-smoke/

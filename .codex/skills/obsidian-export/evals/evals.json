@@ -4,9 +4,9 @@
     {
       "id": 1,
       "eval_name": "export-natal-chart",
-      "prompt": "Export tuapse_19820613_133910 to Obsidian",
+      "prompt": "Export trump_19460614_105400_jamaica_ny to Obsidian",
       "expected_output": "Note file, Canvas JSON, attachments folder with SVG files",
-      "files": ["charts/tuapse_19820613_133910/chart.yaml"]
+      "files": ["charts/trump_19460614_105400_jamaica_ny/chart.yaml"]
     },
     {
       "id": 2,
@@ -31,3 +31,4 @@
     }
   ]
 }
+

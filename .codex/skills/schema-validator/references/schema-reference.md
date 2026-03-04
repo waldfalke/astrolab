@@ -20,7 +20,7 @@ structure: object       # Folder structure config
 birth:
   local_datetime: string    # "YYYY-MM-DD HH:MM:SS"
   timezone: string          # "+04:00" or "Asia/Yekaterinburg"
-  utc_datetime: string      # ISO8601 "1982-06-13T09:39:10Z"
+  utc_datetime: string      # ISO8601 "1946-06-14T14:54:00Z"
 
 location:
   latitude: number          # -90 to +90
@@ -123,15 +123,15 @@ function Check-ProvenanceIntegrity {
 ## Example Valid chart.yaml
 
 ```yaml
-chart_id: tuapse_19820613_133910
-display_name: Tuapse Natal 1982-06-13 13:39:10
+chart_id: trump_19460614_105400_jamaica_ny
+display_name: Trump Natal 1946-06-14 10:54:00
 birth:
-  local_datetime: 1982-06-13 13:39:10
+  local_datetime: 1946-06-14 10:54:00
   timezone: +04:00
-  utc_datetime: 1982-06-13T09:39:10Z
+  utc_datetime: 1946-06-14T14:54:00Z
 location:
-  latitude: 44.100833
-  longitude: 39.083333
+  latitude: 40.700000
+  longitude: -73.816400
 structure:
   methods_dir: methods
   outputs_dir: outputs
@@ -143,21 +143,21 @@ structure:
 ## Example Valid INDEX.yaml Entry
 
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 generated_at: 2026-03-02T14:22:47+03:00
 chart_file: chart.yaml
 provenance_model: canonical_source_v1
 
 raw_methods:
   - method: natal_failover
-    run_name: natal_failover_tuapse_19820613_133910_20260302_101307
-    project_run_dir: methods/natal_failover/natal_failover_tuapse_19820613_133910_20260302_101307
-    canonical_run_dir: methods/natal_failover/natal_failover_tuapse_19820613_133910_20260302_101307
+    run_name: natal_failover_trump_19460614_105400_jamaica_ny_20260302_101307
+    project_run_dir: methods/natal_failover/natal_failover_trump_19460614_105400_jamaica_ny_20260302_101307
+    canonical_run_dir: methods/natal_failover/natal_failover_trump_19460614_105400_jamaica_ny_20260302_101307
     source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\...
     external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\...
     external_source_run_exists: true
     summary:
-      CASE_ID: tuapse_19820613_133910
+      CASE_ID: trump_19460614_105400_jamaica_ny
       RUN_STATUS: FULL
       PROVIDER_USED: swissremote
 
@@ -169,3 +169,4 @@ outputs:
     external_source: D:\Dev\CATMEastrolab\artifacts\results\...
     external_source_exists: true
 ```
+

@@ -16,7 +16,7 @@ Generate visual chart representations (SVG/PNG) from normalized chart data.
 
 **Input:**
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 render_type: wheel | aspect_grid | house_diagram | all
 output_format: svg | png
 size: 800
@@ -99,3 +99,4 @@ svg2png(url='chart_wheel.svg', write_to='chart_wheel.png')
 **Aspect grid:** `Table with glyphs and aspect symbols`
 
 **PNG export:** `800x800 for delivery pack`
+

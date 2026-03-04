@@ -323,7 +323,7 @@ Mark retrograde planets:
 
 ### Example 1: Basic Chart Wheel
 
-**User says:** "Generate chart wheel for tuapse_19820613_133910"
+**User says:** "Generate chart wheel for trump_19460614_105400_jamaica_ny"
 
 **Actions:**
 1. Load positions, houses, aspects
@@ -335,7 +335,7 @@ Mark retrograde planets:
 
 **Result:**
 ```
-charts/tuapse_19820613_133910/outputs/chart_wheel.svg
+charts/trump_19460614_105400_jamaica_ny/outputs/chart_wheel.svg
   - 800x800 viewBox
   - 12 sign sectors
   - 12 house cusps
@@ -432,3 +432,4 @@ packs/.../04_interpretation/chart_wheel.png
 - [ ] House diagram (quadrant view) rendered
 - [ ] PNG export from SVG works
 - [ ] Output files saved to chart-project outputs/
+

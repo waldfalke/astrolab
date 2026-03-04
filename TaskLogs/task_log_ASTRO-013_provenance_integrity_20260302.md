@@ -52,10 +52,11 @@ Guarantee that chart project provenance remains valid after run moves, archiving
 ## Runtime Validation
 
 1. Rebuilt chart project from archived runs:
-   - `charts/tuapse_19820613_133910`
+   - `charts/trump_19460614_105400_jamaica_ny`
 2. Verified provenance checker output:
    - `CHARTS_CHECKED=1`
    - `CANONICAL_MISSING=0`
    - `EXTERNAL_MISSING=0`
 3. Saved checker report:
-   - `charts/tuapse_19820613_133910/provenance_check.csv`
+   - `charts/trump_19460614_105400_jamaica_ny/provenance_check.csv`
+

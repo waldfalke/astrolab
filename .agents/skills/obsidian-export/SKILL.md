@@ -16,7 +16,7 @@ Export chart data to Obsidian notes and Canvas format.
 
 **Input:**
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 export_type: note | canvas | both
 include_phase_analysis: true
 ```
@@ -106,3 +106,4 @@ obsidian/attachments/
 **Forecast note:** `Progressed table with deltas`
 
 **Synastry:** `Two charts, comparison note`
+

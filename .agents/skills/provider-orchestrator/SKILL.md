@@ -18,9 +18,9 @@ Manage MCP provider calls with automatic failover, cross-provider quality contro
 ```yaml
 method: natal | houses | progressions | solar_arc | synastry
 params:
-  datetime_utc: 1982-06-13T09:39:10Z
-  latitude: 44.100833
-  longitude: 39.083333
+  datetime_utc: 1946-06-14T14:54:00Z
+  latitude: 40.700000
+  longitude: -73.816400
 require_qc: true
 ```
 
@@ -96,3 +96,4 @@ In `artifacts/results/<run_name>/`:
 | All providers down | Check network |
 | QC fails consistently | Increase threshold |
 | Auth error | Fix credentials (no failover) |
+

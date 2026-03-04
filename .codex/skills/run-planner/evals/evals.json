@@ -4,14 +4,14 @@
     {
       "id": 1,
       "eval_name": "natal-plus-forecast",
-      "prompt": "Натал + прогноз для tuapse_19820613_133910",
+      "prompt": "Натал + прогноз для trump_19460614_105400_jamaica_ny",
       "expected_output": "Run plan with 4 methods in correct dependency order, parallel groups identified",
       "files": []
     },
     {
       "id": 2,
       "eval_name": "new-chart-request",
-      "prompt": "Calculate natal for June 13, 1982, 13:39, Tuapse",
+      "prompt": "Calculate natal for June 13, 1982, 13:39, Jamaica Queens NY",
       "expected_output": "chart_id generated, birth_data extracted, 2 methods planned",
       "files": []
     },
@@ -31,3 +31,4 @@
     }
   ]
 }
+

@@ -98,7 +98,7 @@ Summary should include:
 Run recipe:
 
 ```powershell
-pwsh artifacts/mcp-recipes/run_natal_with_failover.ps1 -CaseId demo -Latitude 44.1 -Longitude 39.07 -DateTimeUtc 1982-06-13T09:39:10Z
+pwsh artifacts/mcp-recipes/run_natal_with_failover.ps1 -CaseId demo -Latitude 44.1 -Longitude 39.07 -DateTimeUtc 1946-06-14T14:54:00Z
 ```
 
 Read latest result folder:
@@ -113,3 +113,4 @@ Validate built chart:
 pwsh artifacts/mcp-recipes/check_chart_provenance.ps1 -ChartId <chart_id>
 pwsh artifacts/mcp-recipes/validate_chart_project.ps1 -ChartId <chart_id>
 ```
+

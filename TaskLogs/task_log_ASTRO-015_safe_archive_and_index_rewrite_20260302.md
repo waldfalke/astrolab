@@ -57,19 +57,20 @@ Archive run folders without breaking chart-level discoverability and index links
 ## Verification
 
 1. Dry-run on real chart:
-   - `archive_runs.ps1 -Filter "provider_probe_20260302_130604" -ChartId "tuapse_19820613_133910"`
+   - `archive_runs.ps1 -Filter "provider_probe_20260302_130604" -ChartId "trump_19460614_105400_jamaica_ny"`
    - Result: `CANDIDATE_RUNS=1`, `AFFECTED_CHARTS=0`, `VERIFICATION_FAIL_CHARTS=0`
 2. Execute on real chart:
-   - `archive_runs.ps1 -Filter "provider_probe_20260302_130604" -ChartId "tuapse_19820613_133910" -Execute`
+   - `archive_runs.ps1 -Filter "provider_probe_20260302_130604" -ChartId "trump_19460614_105400_jamaica_ny" -Execute`
    - Result: run moved to archive batch, zero missing external refs.
 3. Rewrite integration check (isolated test chart root):
    - `archive_runs.ps1 -Filter "provider_probe_20260301_164009" -ChartsRoot "...\\artifacts\\tmp\\astro015_chart_test" -ChartId "rewrite_case" -Execute`
    - Result: `AFFECTED_CHARTS=1`, `changed_lines=3`, `external_refs_missing=0`
 4. Regression checks:
-   - `check_chart_provenance.ps1 -ChartId "tuapse_19820613_133910"` -> PASS
-   - `validate_chart_project.ps1 -ChartId "tuapse_19820613_133910"` -> PASS
+   - `check_chart_provenance.ps1 -ChartId "trump_19460614_105400_jamaica_ny"` -> PASS
+   - `validate_chart_project.ps1 -ChartId "trump_19460614_105400_jamaica_ny"` -> PASS
 
 ## Artifacts
 
 1. `artifacts/results/_archive/archive_batch_20260302_144104/archive_report.json`
 2. `artifacts/results/_archive/archive_batch_20260302_144218/archive_report.json`
+

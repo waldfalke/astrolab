@@ -62,14 +62,14 @@ if not validation_result['valid']:
 Generate manifest with delivery status:
 
 ```yaml
-pack_id: tuapse_19820613_133910_natal_20260304
-chart_id: tuapse_19820613_133910
+pack_id: trump_19460614_105400_jamaica_ny_natal_20260304
+chart_id: trump_19460614_105400_jamaica_ny
 created_at: 2026-03-04T14:30:00Z
 pack_type: natal | forecast | synastry | full_workbench
 
 methods_included:
   - method: natal_failover
-    run_name: natal_failover_tuapse_19820613_133910_20260304_141520
+    run_name: natal_failover_trump_19460614_105400_jamaica_ny_20260304_141520
     status: READY | INCOMPLETE | MISSING
     files:
       - file: outputs/natal_longitudes.csv
@@ -77,7 +77,7 @@ methods_included:
       - file: outputs/natal_aspects.json
         included: true
   - method: house_placidus
-    run_name: house_placidus_tuapse_19820613_133910_20260304_142030
+    run_name: house_placidus_trump_19460614_105400_jamaica_ny_20260304_142030
     status: READY
     files:
       - file: outputs/houses_placidus.csv
@@ -131,8 +131,8 @@ Map from chart-project outputs to pack structure:
 Create `00_summary.txt`:
 
 ```
-CHART: Tuapse Natal 1982-06-13 13:39:10
-PACK: tuapse_19820613_133910_natal_20260304
+CHART: Trump Natal 1946-06-14 10:54:00
+PACK: trump_19460614_105400_jamaica_ny_natal_20260304
 CREATED: 2026-03-04 14:30:00
 
 METHODS INCLUDED:
@@ -191,12 +191,12 @@ def archive_runs(chart_id, older_than_days=30):
 
 ```json
 {
-  "archive_batch": "tuapse_19820613_20260304_143000_archive",
+  "archive_batch": "trump_19460614_20260304_143000_archive",
   "archived_at": "2026-03-04T14:30:00Z",
   "runs_archived": 4,
-  "archive_location": "artifacts/results/_archive/tuapse_19820613_20260304_143000_archive/",
+  "archive_location": "artifacts/results/_archive/trump_19460614_20260304_143000_archive/",
   "index_rewrite": {
-    "chart_id": "tuapse_19820613_133910",
+    "chart_id": "trump_19460614_105400_jamaica_ny",
     "external_sources_updated": 16,
     "all_paths_valid": true
   },
@@ -254,7 +254,7 @@ After archive, verify:
 
 ### Example 1: Build Natal Delivery Pack
 
-**User says:** "Prepare delivery pack for tuapse_19820613_133910 natal"
+**User says:** "Prepare delivery pack for trump_19460614_105400_jamaica_ny natal"
 
 **Actions:**
 1. Validate chart.yaml and INDEX.yaml
@@ -266,7 +266,7 @@ After archive, verify:
 
 **Result:**
 ```
-packs/tuapse_19820613_133910_natal_20260304/
+packs/trump_19460614_105400_jamaica_ny_natal_20260304/
 ├── PACK_MANIFEST.yaml (READY)
 ├── 00_summary.txt
 ├── 01_natal/positions.csv
@@ -276,7 +276,7 @@ packs/tuapse_19820613_133910_natal_20260304/
 
 ### Example 2: Archive Old Runs
 
-**User says:** "Archive runs older than 30 days for tuapse_19820613_133910"
+**User says:** "Archive runs older than 30 days for trump_19460614_105400_jamaica_ny"
 
 **Actions:**
 1. Find runs in methods/ older than 30 days
@@ -370,3 +370,4 @@ PACK_MANIFEST.yaml:
 - [ ] Archive operation rewrites INDEX.yaml external paths
 - [ ] Archive verification report generated
 - [ ] Idempotent: building twice produces same result
+

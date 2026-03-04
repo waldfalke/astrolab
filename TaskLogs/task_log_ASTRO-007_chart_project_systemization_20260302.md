@@ -44,10 +44,10 @@ Turn "one chart = one project" into an operational artifact model with:
    - `artifacts/mcp-recipes/README.md`
 4. Confirmed secondary progressions and solar arc method outputs are available for chart-project ingestion.
 5. Built chart project for:
-   - `charts/tuapse_19820613_133910`
+   - `charts/trump_19460614_105400_jamaica_ny`
 6. Generated chart metadata and provenance index:
-   - `charts/tuapse_19820613_133910/chart.yaml`
-   - `charts/tuapse_19820613_133910/INDEX.yaml`
+   - `charts/trump_19460614_105400_jamaica_ny/chart.yaml`
+   - `charts/trump_19460614_105400_jamaica_ny/INDEX.yaml`
 7. Materialized method raw folders and curated outputs:
    - `methods/natal_failover/*`
    - `methods/house_placidus/*`
@@ -57,7 +57,7 @@ Turn "one chart = one project" into an operational artifact model with:
 
 ## Runtime Validation
 
-1. `build_chart_project.ps1` executed successfully for Tuapse chart.
+1. `build_chart_project.ps1` executed successfully for Jamaica Queens NY chart.
 2. Chart project directory contains:
    - `chart.yaml`
    - `INDEX.yaml`
@@ -77,3 +77,4 @@ Turn "one chart = one project" into an operational artifact model with:
    - Preserve immutable raw runs, stable outputs, and explicit output-to-source links.
 5. How to improve further?
    - Add machine-readable schema validation for `chart.yaml` and `INDEX.yaml`.
+

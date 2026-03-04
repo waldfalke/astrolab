@@ -3,7 +3,7 @@
 Generate Obsidian note from chart data.
 
 Usage:
-    python generate_note.py --chart-id tuapse_19820613_133910 --output obsidian/
+    python generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output obsidian/
 """
 
 import yaml
@@ -215,3 +215,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     generate_note(args.chart_id, args.output)
+

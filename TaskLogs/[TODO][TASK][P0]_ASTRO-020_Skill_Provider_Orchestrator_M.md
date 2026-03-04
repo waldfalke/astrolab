@@ -104,7 +104,7 @@ failover:
     "output_dir": "artifacts/results/<run_name>/",
     "files": ["00_summary.txt", "06_backup_longitudes.csv", ...],
     "provenance": {
-        "run_name": "natal_tuapse_19820613_133910_20260304_141520",
+        "run_name": "natal_trump_19460614_105400_jamaica_ny_20260304_141520",
         "started_at": "2026-03-04T14:15:20Z",
         "completed_at": "2026-03-04T14:15:35Z",
         "provider_calls": [
@@ -165,14 +165,14 @@ Record every provider call:
 provenance:
   run_name: <method>_<chart_id>_<timestamp>
   method: natal_failover
-  chart_id: tuapse_19820613_133910
+  chart_id: trump_19460614_105400_jamaica_ny
   started_at: 2026-03-04T14:15:20Z
   completed_at: 2026-03-04T14:15:35Z
   provider_calls:
     - sequence: 1
       provider: swissremote
       tool: get_planet_positions
-      params: { datetime: "1982-06-13T09:39:10Z", lat: 44.100833, lon: 39.083333 }
+      params: { datetime: "1946-06-14T14:54:00Z", lat: 40.700000, lon: -73.816400 }
       status: OK
       duration_ms: 1250
       response_hash: sha256:abc123...
@@ -289,7 +289,7 @@ RUN STATUS: FULL (primary available, QC passed)
 
 ### Example 1: Normal Natal Calculation
 
-**User says:** "Calculate natal positions for June 13, 1982, 13:39, Tuapse"
+**User says:** "Calculate natal positions for June 13, 1982, 13:39, Jamaica Queens NY"
 
 **Actions:**
 1. Parse birth data
@@ -303,7 +303,7 @@ RUN STATUS: FULL (primary available, QC passed)
 STATUS: SUCCESS
 PROVIDER: swissremote
 QC: PASS (max delta 0.009°)
-OUTPUT: artifacts/results/natal_tuapse_19820613_133910_20260304_141520/
+OUTPUT: artifacts/results/natal_trump_19460614_105400_jamaica_ny_20260304_141520/
 ```
 
 ### Example 2: Primary Unavailable
@@ -405,3 +405,4 @@ ACTION: Review Mercury calculation manually
 - [ ] Output files generated in standard format
 - [ ] Provider status reported clearly (FULL/DEGRADED/FAILED)
 - [ ] Auth errors handled separately from provider failures
+

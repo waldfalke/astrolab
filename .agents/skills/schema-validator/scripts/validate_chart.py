@@ -3,8 +3,8 @@
 Validate chart project files against JSON schemas.
 
 Usage:
-    python validate_chart.py --chart-id tuapse_19820613_133910
-    python validate_chart.py --chart-dir charts/tuapse_19820613_133910
+    python validate_chart.py --chart-id trump_19460614_105400_jamaica_ny
+    python validate_chart.py --chart-dir charts/trump_19460614_105400_jamaica_ny
 """
 
 import json
@@ -189,3 +189,4 @@ if __name__ == '__main__':
                 print(f"  - {err['path']}: {err['message']}")
     
     sys.exit(0 if result['valid'] else 1)
+

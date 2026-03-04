@@ -16,12 +16,13 @@ Harden chart-project provenance so output-to-source mapping remains valid after 
 3. Added provenance validator:
    - `artifacts/mcp-recipes/check_chart_provenance.ps1`
 4. Migrated active chart project index by rebuild from archived sources:
-   - `charts/tuapse_19820613_133910/INDEX.yaml`
+   - `charts/trump_19460614_105400_jamaica_ny/INDEX.yaml`
 5. Validation report:
-   - `charts/tuapse_19820613_133910/provenance_check.csv`
+   - `charts/trump_19460614_105400_jamaica_ny/provenance_check.csv`
 
 ## Done Definition Check
 
 1. Canonical provenance model implemented - achieved.
 2. Existing chart project migrated - achieved.
 3. Integrity checker reports no broken canonical references - achieved.
+

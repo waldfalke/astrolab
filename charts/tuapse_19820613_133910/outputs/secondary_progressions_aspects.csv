@@ -1,8 +1,0 @@
-﻿"from_set","from_body","to_set","to_body","aspect","actual_angle","exact_angle","orb","orb_limit","is_exact"
-"progressed","pluto","natal","pluto","conjunction","0,019591","0","0,019591","1","True"
-"progressed","mars","natal","neptune","sextile","59,884115","60","0,115885","1","True"
-"progressed","mercury","natal","mars","sextile","60,410212","60","0,410212","1","False"
-"progressed","neptune","natal","pluto","sextile","60,454197","60","0,454197","1","False"
-"progressed","moon","natal","neptune","sextile","59,503194","60","0,496806","1","False"
-"progressed","mercury","natal","mercury","sextile","59,166966","60","0,833034","1","False"
-"progressed","jupiter","natal","jupiter","conjunction","0,943125","0","0,943125","1","False"

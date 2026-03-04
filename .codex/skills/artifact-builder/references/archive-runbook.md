@@ -52,7 +52,7 @@ external_source: D:\Dev\CATMEastrolab\artifacts\results\_archive\batch_...\natal
 
 ```json
 {
-  "archive_batch": "tuapse_19820613_20260304_143000_archive",
+  "archive_batch": "trump_19460614_20260304_143000_archive",
   "archived_at": "2026-03-04T14:30:00Z",
   "runs_archived": 4,
   "archive_location": "artifacts/results/_archive/...",
@@ -102,3 +102,4 @@ If archive breaks something:
 | > 365 days | Delete if no client access needed |
 
 **Note:** `canonical_source` files in `methods/` are NEVER archived — they stay with chart project.
+

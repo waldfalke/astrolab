@@ -16,7 +16,7 @@ Analyze chart data with phase analysis methodology.
 
 **Input:**
 ```yaml
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 analysis_type: natal | forecast | synastry
 include_phase_analysis: true
 synthesis: false
@@ -101,3 +101,4 @@ Only after `SYNTHESIS` or `СИНТЕЗ`:
 **Full chart:** `10 planets, no synthesis`
 
 **Synthesis command:** `Summary table + interpretation`
+

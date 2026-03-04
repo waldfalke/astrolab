@@ -36,13 +36,13 @@ python -m pip install pyyaml
 1. Validate existing chart project:
 
 ```powershell
-python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id tuapse_19820613_133910 --json
+python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id trump_19460614_105400_jamaica_ny --json
 ```
 
 2. Generate Obsidian note from chart outputs:
 
 ```powershell
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id tuapse_19820613_133910 --output artifacts/skill-smoke/obsidian
+python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
 ```
 
 3. Explore MCP recipes:
@@ -62,3 +62,4 @@ python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id tuapse_
 1. ASTRO-016 - serialization and observability standards
 2. ASTRO-008/011/012 - modular architecture and orchestrator backbone
 3. ASTRO-009/010 - renderer and Obsidian product modules on hardened backbone
+

@@ -72,14 +72,14 @@ Create structured markdown note:
 ```markdown
 ---
 tags: [chart, natal]
-chart_id: tuapse_19820613_133910
+chart_id: trump_19460614_105400_jamaica_ny
 birth_date: 1982-06-13
 birth_time: 13:39
-birth_place: Tuapse
+birth_place: Jamaica Queens NY
 created: 2026-03-04
 ---
 
-# Natal Chart: Tuapse 1982-06-13 13:39
+# Natal Chart: Jamaica Queens NY 1982-06-13 13:39
 
 ## Birth Data
 
@@ -87,8 +87,8 @@ created: 2026-03-04
 |---|---|
 | Date | 1982-06-13 |
 | Time | 13:39:10 (UTC+4) |
-| UTC | 1982-06-13T09:39:10Z |
-| Location | Tuapse (44.100833, 39.083333) |
+| UTC | 1946-06-14T14:54:00Z |
+| Location | Jamaica Queens NY (40.700000, -73.816400) |
 
 ## Planetary Positions
 
@@ -152,7 +152,7 @@ Create JSON canvas file:
       "y": 300,
       "width": 200,
       "height": 100,
-      "text": "# Chart: tuapse_19820613_133910\n\n1982-06-13 13:39\nTuapse"
+      "text": "# Chart: trump_19460614_105400_jamaica_ny\n\n1982-06-13 13:39\nJamaica Queens NY"
     },
     {
       "id": "sun_node",
@@ -214,9 +214,9 @@ Create bidirectional links:
 ```markdown
 ## Related Charts
 
-- Parent chart: [[tuapse_19820613_133910_natal]]
-- Solar return: [[tuapse_19820613_solar_return_2026]]
-- Progressed: [[tuapse_19820613_progressed_2026]]
+- Parent chart: [[trump_19460614_105400_jamaica_ny_natal]]
+- Solar return: [[trump_19460614_solar_return_2026]]
+- Progressed: [[trump_19460614_progressed_2026]]
 
 ## Client Notes
 
@@ -262,15 +262,15 @@ Create vault-level index:
 
 | Chart ID | Birth Date | Name | Created |
 |---|---|---|---|
-| [[tuapse_19820613_133910_natal]] | 1982-06-13 | Tuapse Natal | 2026-03-04 |
+| [[trump_19460614_105400_jamaica_ny_natal]] | 1982-06-13 | Jamaica Queens NY Natal | 2026-03-04 |
 | [[moscow_19900515_083000_natal]] | 1990-05-15 | Moscow Natal | 2026-03-01 |
 
 ## Forecast Charts
 
 | Chart ID | Type | Target Date | Created |
 |---|---|---|---|
-| [[tuapse_19820613_progressed_2026]] | Progressed | 2026-03-04 | 2026-03-04 |
-| [[tuapse_19820613_solar_2026]] | Solar Return | 2026-06-13 | 2026-03-04 |
+| [[trump_19460614_progressed_2026]] | Progressed | 2026-03-04 | 2026-03-04 |
+| [[trump_19460614_solar_2026]] | Solar Return | 2026-06-13 | 2026-03-04 |
 
 ## Synastry Charts
 
@@ -286,7 +286,7 @@ Create vault-level index:
 Use Obsidian URI for deep links:
 
 ```
-obsidian://open?vault=MyVault&file=charts/tuapse_19820613_133910_natal
+obsidian://open?vault=MyVault&file=charts/trump_19460614_105400_jamaica_ny_natal
 ```
 
 ### 2. Canvas File Format
@@ -302,8 +302,8 @@ Use consistent frontmatter:
 ```yaml
 ---
 tags: [chart, natal, forecast]
-aliases: ["Tuapse Natal", "Натал Туапсе"]
-chart_id: tuapse_19820613_133910
+aliases: ["Jamaica Queens NY Natal", "Натал Туапсе"]
+chart_id: trump_19460614_105400_jamaica_ny
 created: 2026-03-04
 updated: 2026-03-04
 ---
@@ -315,8 +315,8 @@ updated: 2026-03-04
 <chart_id>_<type>.md
 
 Examples:
-- tuapse_19820613_133910_natal.md
-- tuapse_19820613_133910_forecast.md
+- trump_19460614_105400_jamaica_ny_natal.md
+- trump_19460614_105400_jamaica_ny_forecast.md
 - synastry_tuapse_moscow.md
 ```
 
@@ -340,7 +340,7 @@ def load_template(template_name):
 
 ### Example 1: Export Natal Chart
 
-**User says:** "Export tuapse_19820613_133910 to Obsidian"
+**User says:** "Export trump_19460614_105400_jamaica_ny to Obsidian"
 
 **Actions:**
 1. Load chart data
@@ -351,9 +351,9 @@ def load_template(template_name):
 
 **Result:**
 ```
-charts/tuapse_19820613_133910/obsidian/
-├── tuapse_19820613_133910_natal.md
-├── tuapse_19820613_133910_canvas.json
+charts/trump_19460614_105400_jamaica_ny/obsidian/
+├── trump_19460614_105400_jamaica_ny_natal.md
+├── trump_19460614_105400_jamaica_ny_canvas.json
 └── attachments/
     ├── chart_wheel.svg
     └── aspect_grid.svg
@@ -371,7 +371,7 @@ charts/tuapse_19820613_133910/obsidian/
 
 **Result:**
 ```markdown
-# Forecast: Tuapse 1982-06-13
+# Forecast: Jamaica Queens NY 1982-06-13
 
 ## Secondary Progressions (2026-03-04)
 
@@ -394,9 +394,9 @@ charts/tuapse_19820613_133910/obsidian/
 
 **Result:**
 ```markdown
-# Synastry: Tuapse & Moscow
+# Synastry: Jamaica Queens NY & Moscow
 
-## Chart A: Tuapse Natal
+## Chart A: Jamaica Queens NY Natal
 - Sun: 22° Gemini
 - Moon: 6° Virgo
 - ASC: 16° Sagittarius
@@ -472,3 +472,4 @@ charts/tuapse_19820613_133910/obsidian/
 - [ ] Bidirectional links created between related notes
 - [ ] Phase analysis included in notes
 - [ ] Index note updated with new chart entry
+
