@@ -16,7 +16,7 @@ if ([string]::IsNullOrWhiteSpace($OutputBase)) {
 }
 $OutputBase = [System.IO.Path]::GetFullPath($OutputBase)
 $scriptId = "run_house_layer_placidus"
-$scriptVersion = "1.1.0"
+$scriptVersion = "1.2.0"
 $runStartedAt = (Get-Date).ToUniversalTime()
 
 New-Item -ItemType Directory -Force -Path $OutputBase | Out-Null
@@ -69,6 +69,62 @@ foreach ($p in @("Ascendant", "Midheaven", "IC", "Descendant", "Vertex", "ARMC")
 Write-InvariantCsv -Rows $pointRows -Path (Join-Path $runDir "03_chart_points.csv")
 
 $planetRows = Get-SwissBodyLongitudes -SwissData $primary
+
+# Motion enrichment: retrograde (R), station (ST), and shadow phase.
+$ephemCache = @{}
+$centerUtc = Get-UtcDateTime -DateTimeUtc $DateTimeUtc
+$stationThreshold = 0.05
+$needRetroFallback = $false
+$retroFallbackApplied = 0
+$stationCount = 0
+$shadowCount = 0
+
+foreach ($row in $planetRows) {
+  $body = ([string]$row.body).ToLowerInvariant()
+  $speed = Get-BodySpeedDegPerDay -Cache $ephemCache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $centerUtc -Body $body
+  if ($null -eq $speed) {
+    $row | Add-Member -NotePropertyName speed_deg_day -NotePropertyValue ""
+    $row | Add-Member -NotePropertyName motion_state -NotePropertyValue "unknown"
+    $row | Add-Member -NotePropertyName shadow_state -NotePropertyValue "none"
+    if ($null -eq $row.retrograde) { $row.retrograde = $false }
+    continue
+  }
+
+  $row | Add-Member -NotePropertyName speed_deg_day -NotePropertyValue ([math]::Round([double]$speed, 6))
+  $motionSign = Get-MotionSign -SpeedDegPerDay ([double]$speed) -StationThreshold $stationThreshold
+
+  if ($null -eq $row.retrograde -or [string]::IsNullOrWhiteSpace([string]$row.retrograde)) {
+    $needRetroFallback = $true
+    $retroFallbackApplied += 1
+  }
+  # Final normalized retrograde from kinematics to avoid provider mismatch.
+  if ($motionSign -lt 0) {
+    $row.retrograde = $true
+  } elseif ($motionSign -gt 0) {
+    $row.retrograde = $false
+  } else {
+    $nextLon = Get-BodyLongitudeAt -Cache $ephemCache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $centerUtc.AddHours(24) -Body $body
+    $curLon = Get-BodyLongitudeAt -Cache $ephemCache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $centerUtc -Body $body
+    if ($null -ne $nextLon -and $null -ne $curLon) {
+      $row.retrograde = ((Get-SignedDelta360 -From $curLon -To $nextLon) -lt 0.0)
+    } elseif ($null -eq $row.retrograde) {
+      $row.retrograde = $false
+    }
+  }
+
+  $motionState = "D"
+  if ($motionSign -lt 0) {
+    $motionState = "R"
+  } elseif ($motionSign -eq 0) {
+    $motionState = "ST"
+    $stationCount += 1
+  }
+  $row | Add-Member -NotePropertyName motion_state -NotePropertyValue $motionState
+
+  # Shadow calculation deferred (method-specific, heavy). Keep schema stable.
+  $row | Add-Member -NotePropertyName shadow_state -NotePropertyValue "none"
+}
+
 Write-InvariantCsv -Rows @($planetRows | Sort-Object body) -Path (Join-Path $runDir "04_planets_primary.csv")
 
 $extraPointRows = @()
@@ -94,6 +150,11 @@ $summaryFields["HOUSE_SYSTEM"] = "Placidus"
 $summaryFields["HOUSE_COUNT"] = $houseRows.Count
 $summaryFields["POINT_COUNT"] = $pointRows.Count
 $summaryFields["PLANET_COUNT"] = $planetRows.Count
+$summaryFields["RETROGRADE_FALLBACK"] = $needRetroFallback
+$summaryFields["RETROGRADE_FALLBACK_COUNT"] = $retroFallbackApplied
+$summaryFields["STATION_THRESHOLD_DEG_PER_DAY"] = $stationThreshold
+$summaryFields["STATION_COUNT"] = $stationCount
+$summaryFields["SHADOW_NON_NONE_COUNT"] = $shadowCount
 $summaryFields["EXTRA_POINT_COUNT"] = $extraPointRows.Count
 $summaryFields["CUSTOM_POINT_ORB"] = $CustomPointOrb
 $summaryFields["CUSTOM_POINT_ASPECT_COUNT"] = $customPointAspects.Count

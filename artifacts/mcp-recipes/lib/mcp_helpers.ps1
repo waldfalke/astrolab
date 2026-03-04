@@ -185,17 +185,364 @@ function Get-SwissBodyLongitudes {
   foreach ($body in $Bodies) {
     if ($SwissData.planets.PSObject.Properties.Name -contains $body) {
       $node = $SwissData.planets.$body
+      $retro = Get-SwissRetrogradeFromNode -Node $node
       if ($null -ne $node.longitude) {
         $rows += [pscustomobject]@{
           body = $body.ToLowerInvariant()
           longitude = [double]$node.longitude
           sign = [string]$node.sign
           degree = [double]$node.degree
+          retrograde = $retro
         }
       }
     }
   }
   return $rows
+}
+
+function Get-SwissRetrogradeFromNode {
+  param(
+    [Parameter(Mandatory = $true)]$Node
+  )
+
+  if ($null -eq $Node) { return $null }
+
+  $boolKeys = @("retrograde", "isRetrograde", "is_retrograde")
+  foreach ($k in $boolKeys) {
+    if ($Node.PSObject.Properties.Name -contains $k) {
+      $v = $Node.$k
+      if ($null -eq $v) { return $null }
+      if ($v -is [bool]) { return [bool]$v }
+      $s = ([string]$v).Trim().ToLowerInvariant()
+      if ($s -in @("true", "1", "yes", "y", "r", "retrograde", "backward")) { return $true }
+      if ($s -in @("false", "0", "no", "n", "d", "direct", "forward")) { return $false }
+    }
+  }
+
+  $dirKeys = @("direction", "motion", "state")
+  foreach ($k in $dirKeys) {
+    if ($Node.PSObject.Properties.Name -contains $k) {
+      $s = ([string]$Node.$k).Trim().ToLowerInvariant()
+      if ($s -match "retro|back") { return $true }
+      if ($s -match "direct|forward") { return $false }
+    }
+  }
+
+  $speedKeys = @("speed", "longitudeSpeed", "longitude_speed", "speed_longitude")
+  foreach ($k in $speedKeys) {
+    if ($Node.PSObject.Properties.Name -contains $k) {
+      try {
+        $n = [double]$Node.$k
+        if ($n -lt 0) { return $true }
+        if ($n -gt 0) { return $false }
+      } catch {
+        continue
+      }
+    }
+  }
+
+  return $null
+}
+
+function Get-SignedDelta360 {
+  param(
+    [Parameter(Mandatory = $true)][double]$From,
+    [Parameter(Mandatory = $true)][double]$To
+  )
+
+  $a = Normalize-Longitude -Longitude $From
+  $b = Normalize-Longitude -Longitude $To
+  $d = $b - $a
+  if ($d -gt 180.0) { $d -= 360.0 }
+  if ($d -le -180.0) { $d += 360.0 }
+  return $d
+}
+
+function Get-RetrogradeMapFromEphemerisWindow {
+  param(
+    [Parameter(Mandatory = $true)]$PrevEphemeris,
+    [Parameter(Mandatory = $true)]$NextEphemeris,
+    [string[]]$Bodies = @("sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto")
+  )
+
+  $result = @{}
+  foreach ($body in $Bodies) {
+    if (-not ($PrevEphemeris.PSObject.Properties.Name -contains $body)) { continue }
+    if (-not ($NextEphemeris.PSObject.Properties.Name -contains $body)) { continue }
+
+    $prev = $PrevEphemeris.$body
+    $next = $NextEphemeris.$body
+    if ($null -eq $prev -or $null -eq $next) { continue }
+    if ($null -eq $prev.apparentLongitude -or $null -eq $next.apparentLongitude) { continue }
+
+    $delta = Get-SignedDelta360 -From ([double]$prev.apparentLongitude) -To ([double]$next.apparentLongitude)
+    $speedDegDay = $delta / 2.0
+    $result[$body.ToLowerInvariant()] = ($speedDegDay -lt 0.0)
+  }
+  return $result
+}
+
+function Shift-UtcIsoDateTime {
+  param(
+    [Parameter(Mandatory = $true)][string]$DateTimeUtc,
+    [Parameter(Mandatory = $true)][double]$Hours
+  )
+
+  $dt = [datetime]::Parse(
+    $DateTimeUtc,
+    [CultureInfo]::InvariantCulture,
+    [DateTimeStyles]::AssumeUniversal -bor [DateTimeStyles]::AdjustToUniversal
+  )
+  return $dt.AddHours($Hours).ToString("yyyy-MM-ddTHH:mm:ssZ", [CultureInfo]::InvariantCulture)
+}
+
+function Get-UtcDateTime {
+  param(
+    [Parameter(Mandatory = $true)][string]$DateTimeUtc
+  )
+
+  return [datetime]::Parse(
+    $DateTimeUtc,
+    [CultureInfo]::InvariantCulture,
+    [DateTimeStyles]::AssumeUniversal -bor [DateTimeStyles]::AdjustToUniversal
+  )
+}
+
+function Convert-UtcDateTimeToIso {
+  param(
+    [Parameter(Mandatory = $true)][datetime]$DateTimeUtc
+  )
+
+  return $DateTimeUtc.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ", [CultureInfo]::InvariantCulture)
+}
+
+function Get-EphemSnapshotAt {
+  param(
+    [Parameter(Mandatory = $true)][hashtable]$Cache,
+    [Parameter(Mandatory = $true)][double]$Latitude,
+    [Parameter(Mandatory = $true)][double]$Longitude,
+    [Parameter(Mandatory = $true)][datetime]$DateTimeUtc
+  )
+
+  $key = Convert-UtcDateTimeToIso -DateTimeUtc $DateTimeUtc
+  if (-not $Cache.ContainsKey($key)) {
+    $Cache[$key] = Invoke-EphemToolJson -Tool "get_ephemeris_data" -Args @{
+      latitude = $Latitude
+      longitude = $Longitude
+      datetime = $key
+    }
+  }
+  return $Cache[$key]
+}
+
+function Get-BodyLongitudeAt {
+  param(
+    [Parameter(Mandatory = $true)][hashtable]$Cache,
+    [Parameter(Mandatory = $true)][double]$Latitude,
+    [Parameter(Mandatory = $true)][double]$Longitude,
+    [Parameter(Mandatory = $true)][datetime]$DateTimeUtc,
+    [Parameter(Mandatory = $true)][string]$Body
+  )
+
+  $snap = Get-EphemSnapshotAt -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $DateTimeUtc
+  $k = $Body.ToLowerInvariant()
+  if (-not ($snap.PSObject.Properties.Name -contains $k)) { return $null }
+  $node = $snap.$k
+  if ($null -eq $node -or $null -eq $node.apparentLongitude) { return $null }
+  return [double]$node.apparentLongitude
+}
+
+function Get-BodySpeedDegPerDay {
+  param(
+    [Parameter(Mandatory = $true)][hashtable]$Cache,
+    [Parameter(Mandatory = $true)][double]$Latitude,
+    [Parameter(Mandatory = $true)][double]$Longitude,
+    [Parameter(Mandatory = $true)][datetime]$DateTimeUtc,
+    [Parameter(Mandatory = $true)][string]$Body
+  )
+
+  $a = Get-BodyLongitudeAt -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $DateTimeUtc.AddHours(-12) -Body $Body
+  $b = Get-BodyLongitudeAt -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $DateTimeUtc.AddHours(12) -Body $Body
+  if ($null -eq $a -or $null -eq $b) { return $null }
+  return (Get-SignedDelta360 -From $a -To $b)
+}
+
+function Get-MotionSign {
+  param(
+    [Parameter(Mandatory = $false)][double]$SpeedDegPerDay = 0.0,
+    [double]$StationThreshold = 0.05
+  )
+
+  if ([math]::Abs($SpeedDegPerDay) -le $StationThreshold) { return 0 }
+  if ($SpeedDegPerDay -gt 0) { return 1 }
+  return -1
+}
+
+function Find-StationTimeBetween {
+  param(
+    [Parameter(Mandatory = $true)][hashtable]$Cache,
+    [Parameter(Mandatory = $true)][double]$Latitude,
+    [Parameter(Mandatory = $true)][double]$Longitude,
+    [Parameter(Mandatory = $true)][string]$Body,
+    [Parameter(Mandatory = $true)][datetime]$StartUtc,
+    [Parameter(Mandatory = $true)][datetime]$EndUtc,
+    [double]$StationThreshold = 0.05
+  )
+
+  $a = $StartUtc
+  $b = $EndUtc
+  $sa = Get-BodySpeedDegPerDay -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $a -Body $Body
+  $sb = Get-BodySpeedDegPerDay -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $b -Body $Body
+  if ($null -eq $sa -or $null -eq $sb) { return $null }
+  $signA = Get-MotionSign -SpeedDegPerDay $sa -StationThreshold $StationThreshold
+  $signB = Get-MotionSign -SpeedDegPerDay $sb -StationThreshold $StationThreshold
+  if ($signA -eq $signB) { return $null }
+
+  for ($i = 0; $i -lt 25; $i++) {
+    $midTicks = [long](($a.Ticks + $b.Ticks) / 2)
+    $mid = [datetime]::SpecifyKind([datetime]::new($midTicks), [DateTimeKind]::Utc)
+    $sm = Get-BodySpeedDegPerDay -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $mid -Body $Body
+    if ($null -eq $sm) { break }
+    $signM = Get-MotionSign -SpeedDegPerDay $sm -StationThreshold $StationThreshold
+    if ($signM -eq 0) {
+      return $mid
+    }
+    if ($signA -eq $signM) {
+      $a = $mid
+      $sa = $sm
+      $signA = $signM
+    } else {
+      $b = $mid
+      $sb = $sm
+      $signB = $signM
+    }
+  }
+
+  $t = [datetime]::SpecifyKind([datetime]::new([long](($a.Ticks + $b.Ticks) / 2)), [DateTimeKind]::Utc)
+  return $t
+}
+
+function Get-RetrogradeLoops {
+  param(
+    [Parameter(Mandatory = $true)][hashtable]$Cache,
+    [Parameter(Mandatory = $true)][double]$Latitude,
+    [Parameter(Mandatory = $true)][double]$Longitude,
+    [Parameter(Mandatory = $true)][datetime]$CenterUtc,
+    [Parameter(Mandatory = $true)][string]$Body,
+    [int]$WindowDays = 120,
+    [int]$StepDays = 5,
+    [double]$StationThreshold = 0.05
+  )
+
+  $stations = @()
+  $start = $CenterUtc.AddDays(-$WindowDays)
+  $end = $CenterUtc.AddDays($WindowDays)
+  $cursor = $start
+  while ($cursor -lt $end) {
+    $next = $cursor.AddDays($StepDays)
+    if ($next -gt $end) { $next = $end }
+    $s1 = Get-BodySpeedDegPerDay -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $cursor -Body $Body
+    $s2 = Get-BodySpeedDegPerDay -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $next -Body $Body
+    if ($null -eq $s1 -or $null -eq $s2) {
+      $cursor = $next
+      continue
+    }
+    $m1 = Get-MotionSign -SpeedDegPerDay $s1 -StationThreshold $StationThreshold
+    $m2 = Get-MotionSign -SpeedDegPerDay $s2 -StationThreshold $StationThreshold
+    if ($m1 -ne $m2) {
+      $st = Find-StationTimeBetween -Cache $Cache -Latitude $Latitude -Longitude $Longitude -Body $Body -StartUtc $cursor -EndUtc $next -StationThreshold $StationThreshold
+      if ($null -ne $st) {
+        $lonSt = Get-BodyLongitudeAt -Cache $Cache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $st -Body $Body
+        if ($null -ne $lonSt) {
+          $stations += [pscustomobject]@{
+            time = $st
+            lon = [double]$lonSt
+            from_sign = $m1
+            to_sign = $m2
+            type = ($(if ($m1 -ge 0 -and $m2 -le 0) { "SRx" } else { "SD" }))
+          }
+        }
+      }
+    }
+    $cursor = $next
+  }
+
+  $stations = @($stations | Sort-Object time)
+  $loops = @()
+  for ($i = 0; $i -lt $stations.Count; $i++) {
+    $a = $stations[$i]
+    if ($a.type -ne "SRx") { continue }
+    for ($j = $i + 1; $j -lt $stations.Count; $j++) {
+      $b = $stations[$j]
+      if ($b.type -ne "SD") { continue }
+      $loops += [pscustomobject]@{
+        srx_time = $a.time
+        srx_lon = [double]$a.lon
+        sd_time = $b.time
+        sd_lon = [double]$b.lon
+      }
+      break
+    }
+  }
+  return $loops
+}
+
+function Test-LongitudeInForwardArc {
+  param(
+    [Parameter(Mandatory = $true)][double]$StartLon,
+    [Parameter(Mandatory = $true)][double]$EndLon,
+    [Parameter(Mandatory = $true)][double]$Lon
+  )
+
+  $start = Normalize-Longitude -Longitude $StartLon
+  $end = Normalize-Longitude -Longitude $EndLon
+  $x = Normalize-Longitude -Longitude $Lon
+  $arc = ($end - $start + 360.0) % 360.0
+  $p = ($x - $start + 360.0) % 360.0
+  return ($p -le $arc)
+}
+
+function Get-ShadowStateForBody {
+  param(
+    [Parameter(Mandatory = $true)][array]$Loops,
+    [Parameter(Mandatory = $true)][datetime]$AtUtc,
+    [Parameter(Mandatory = $true)][double]$Longitude,
+    [Parameter(Mandatory = $true)][int]$MotionSign
+  )
+
+  if ($Loops.Count -eq 0) { return "none" }
+  $lon = Normalize-Longitude -Longitude $Longitude
+
+  $best = $null
+  $bestDist = [double]::PositiveInfinity
+  foreach ($loop in $Loops) {
+    $start = [datetime]$loop.srx_time
+    $end = [datetime]$loop.sd_time
+    $dist = 0.0
+    if ($AtUtc -lt $start) {
+      $dist = ($start - $AtUtc).TotalDays
+    } elseif ($AtUtc -gt $end) {
+      $dist = ($AtUtc - $end).TotalDays
+    } else {
+      $dist = 0.0
+    }
+    if ($dist -lt $bestDist) {
+      $bestDist = $dist
+      $best = $loop
+    }
+  }
+  if ($null -eq $best) { return "none" }
+
+  if ($AtUtc -ge [datetime]$best.srx_time -and $AtUtc -le [datetime]$best.sd_time) {
+    return "retro"
+  }
+
+  $inZone = Test-LongitudeInForwardArc -StartLon ([double]$best.sd_lon) -EndLon ([double]$best.srx_lon) -Lon $lon
+  if (-not $inZone) { return "none" }
+
+  if ($AtUtc -lt [datetime]$best.srx_time -and $MotionSign -ge 0) { return "pre" }
+  if ($AtUtc -gt [datetime]$best.sd_time -and $MotionSign -ge 0) { return "post" }
+  return "none"
 }
 
 function Normalize-Longitude {

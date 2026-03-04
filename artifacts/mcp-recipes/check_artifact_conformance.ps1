@@ -80,7 +80,7 @@ function Get-Profile {
       csv_headers = @{
         "02_houses_placidus.csv" = '"house","longitude","sign","degree"'
         "03_chart_points.csv" = '"point","longitude","sign","degree"'
-        "04_planets_primary.csv" = '"body","longitude","sign","degree"'
+        "04_planets_primary.csv" = '"body","longitude","sign","degree","retrograde","speed_deg_day","motion_state","shadow_state"'
         "05_additional_points.csv" = '"point","longitude","sign","degree"'
         "06_custom_point_aspects.csv" = '"point","body","aspect","actual_angle","exact_angle","orb","orb_limit","is_exact"'
       }
@@ -220,4 +220,3 @@ Write-Output ("REPORT_PATH=" + $OutputCsv)
 if ($FailOnViolation -and $failed -gt 0) {
   throw "Artifact conformance violations detected."
 }
-

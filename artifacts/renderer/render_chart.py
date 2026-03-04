@@ -60,6 +60,17 @@ def is_retrograde(row):
     return val in {"true", "1", "yes", "r", "retrograde"}
 
 
+def motion_suffix(row):
+    state = str(row.get("motion_state", "")).strip().upper()
+    if state == "ST":
+        return " ST"
+    if state == "R":
+        return " R"
+    if is_retrograde(row):
+        return " R"
+    return ""
+
+
 def cluster_planets_by_longitude(rows, threshold_deg=7.0):
     if not rows:
         return []
@@ -202,10 +213,15 @@ def text_width_px(text, font_size):
     return max(font_size * 0.9, len(text) * font_size * 0.74)
 
 
+def text_width_px_bg(text, font_size):
+    # Slightly tighter width for the visual badge box.
+    return max(font_size * 0.9, len(text) * font_size * 0.62)
+
+
 def add_text_with_bg(lines, text, x, y, cls, anchor="middle", baseline="middle", font_size=13, pad=2, layer=None):
     target = layer if layer is not None else lines
     safe = html.escape(text)
-    w = text_width_px(text, font_size)
+    w = text_width_px_bg(text, font_size)
     h = font_size * 1.28
     # Badge-like layout: text is always centered in the rounded rect.
     rx = x - w / 2 - pad
@@ -364,6 +380,7 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
                 "sign": str(p.get("sign", "")).strip(),
                 "degree": p.get("degree", 0.0),
                 "retro": is_retrograde(p),
+                "motion_state": str(p.get("motion_state", "")).strip(),
             }
         )
 
@@ -390,8 +407,7 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
         symbol = PLANET_GLYPHS.get(body, body[:2].title())
         sign_glyph = SIGN_SYMBOLS.get(row["sign"], row["sign"][:2])
         deg_min = format_deg_min(row["degree"])
-        retro = " R" if row["retro"] else ""
-        label = f"{symbol} {sign_glyph} {deg_min}{retro}"
+        label = f"{symbol} {sign_glyph} {deg_min}{motion_suffix(row)}"
 
         dx = ex - c
         dy = ey - c
