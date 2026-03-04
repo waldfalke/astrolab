@@ -1,5 +1,5 @@
 chart_id: trump_19460614_105400_jamaica_ny_renderer
-generated_at: 2026-03-04T15:26:38+03:00
+generated_at: 2026-03-04T15:51:44+03:00
 chart_file: chart.yaml
 provenance_model: canonical_source_v1
 raw_methods:
@@ -29,14 +29,14 @@ raw_methods:
       SCRIPT_ID: run_natal_with_failover
       SCRIPT_VERSION: 1.1.0
   - method: house_placidus
-    run_name: house_placidus_trump_19460614_1054_motion_20260304_152534
-    project_run_dir: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534
-    canonical_run_dir: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534
-    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534
-    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534
+    run_name: house_placidus_trump_19460614_1054_motion2_20260304_154904
+    project_run_dir: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904
+    canonical_run_dir: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904
+    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904
+    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904
     external_source_run_exists: True
     summary:
-      CASE_ID: trump_19460614_1054_motion
+      CASE_ID: trump_19460614_1054_motion2
       CUSTOM_POINT_ASPECT_COUNT: 3
       CUSTOM_POINT_ORB: 2
       DATETIME_UTC: 1946-06-14T14:54:00Z
@@ -44,23 +44,25 @@ raw_methods:
       GALACTIC_CENTER_MODEL: TROPICAL_APPROX_PRECESSION
       HOUSE_COUNT: 12
       HOUSE_SYSTEM: Placidus
-      INPUT_HASH: 66c6a0203f2dbfdfb77f8ac0ccae3bda38a48a913169638f01ca0f14c2e51234
+      INPUT_HASH: 71f5bf4b78d3775e48404776c1eb3d537883851e53035611ecc2b6766eb6ff19
       LATITUDE: 40.7
       LONGITUDE: -73.8164
-      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534
-      OUTPUT_HASH: a0e83666a221a5005abeb1b6108f98d16554ccda7d721b7caff58c885a0ece88
+      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904
+      OUTPUT_HASH: fd0daa22f254da6e3eac4a118786835fb99b20da60b4720854dd1ee3aee208c3
       PLANET_COUNT: 10
       POINT_COUNT: 6
       PROVIDER: swissremote
       RETROGRADE_FALLBACK: TRUE
       RETROGRADE_FALLBACK_COUNT: 10
-      RUN_FINISHED_AT: 2026-03-04T12:25:52.841Z
-      RUN_STARTED_AT: 2026-03-04T12:25:34.210Z
+      RUN_FINISHED_AT: 2026-03-04T12:51:13.028Z
+      RUN_STARTED_AT: 2026-03-04T12:49:04.719Z
       SCRIPT_ID: run_house_layer_placidus
       SCRIPT_VERSION: 1.2.0
       SHADOW_NON_NONE_COUNT: 0
-      STATION_COUNT: 3
+      STATION_COUNT: 1
+      STATION_ORB_DAYS: 2
       STATION_THRESHOLD_DEG_PER_DAY: 0.05
+      STATION_WINDOW_DAYS: 15
   - method: secondary_progressions
     run_name: secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
     project_run_dir: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
@@ -120,11 +122,11 @@ raw_methods:
       SOLAR_ARC_DEG: 76.324799056
       TARGET_UTC: 2026-03-04T06:29:42Z
   - method: renderer
-    run_name: renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618
-    project_run_dir: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618
-    canonical_run_dir: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618
-    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618
-    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618
+    run_name: renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128
+    project_run_dir: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128
+    canonical_run_dir: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128
+    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128
+    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128
     external_source_run_exists: True
     summary:
       ASPECT_COUNT: 16
@@ -133,12 +135,12 @@ raw_methods:
       HOUSE_COUNT: 12
       INPUT_HASH: 982b2b5cdc6b65efd50ae60580c50d3d97d0d3bb72bb56af64a16ceb4d397f85
       METHOD: RENDERER_SVG_MVP
-      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618
+      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128
       OUTPUT_HASH: dd0bded7b868f330298560632824190a4ea0f6984645dd53bba8befc6c066e11
       PLANET_COUNT: 10
       POINT_COUNT: 6
-      RUN_FINISHED_AT: 2026-03-04T12:26:18.405Z
-      RUN_STARTED_AT: 2026-03-04T12:26:18.032Z
+      RUN_FINISHED_AT: 2026-03-04T12:51:28.957Z
+      RUN_STARTED_AT: 2026-03-04T12:51:28.665Z
       SCRIPT_ID: run_renderer
       SCRIPT_VERSION: 0.1.0
 outputs:
@@ -162,39 +164,39 @@ outputs:
     external_source_exists: True
   - label: House layer summary
     file: outputs/house_summary.txt
-    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/00_summary.txt
-    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/00_summary.txt
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534\00_summary.txt
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/00_summary.txt
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/00_summary.txt
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904\00_summary.txt
     external_source_exists: True
   - label: House cusps
     file: outputs/houses_placidus.csv
-    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/02_houses_placidus.csv
-    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/02_houses_placidus.csv
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534\02_houses_placidus.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/02_houses_placidus.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/02_houses_placidus.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904\02_houses_placidus.csv
     external_source_exists: True
   - label: Chart points
     file: outputs/chart_points.csv
-    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/03_chart_points.csv
-    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/03_chart_points.csv
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534\03_chart_points.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/03_chart_points.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/03_chart_points.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904\03_chart_points.csv
     external_source_exists: True
   - label: Primary planets
     file: outputs/planets_primary.csv
-    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/04_planets_primary.csv
-    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/04_planets_primary.csv
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534\04_planets_primary.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/04_planets_primary.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/04_planets_primary.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904\04_planets_primary.csv
     external_source_exists: True
   - label: Additional points
     file: outputs/additional_points.csv
-    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/05_additional_points.csv
-    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/05_additional_points.csv
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534\05_additional_points.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/05_additional_points.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/05_additional_points.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904\05_additional_points.csv
     external_source_exists: True
   - label: Custom point aspects
     file: outputs/custom_point_aspects.csv
-    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/06_custom_point_aspects.csv
-    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion_20260304_152534/06_custom_point_aspects.csv
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion_20260304_152534\06_custom_point_aspects.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/06_custom_point_aspects.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_motion2_20260304_154904/06_custom_point_aspects.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_motion2_20260304_154904\06_custom_point_aspects.csv
     external_source_exists: True
   - label: Secondary progressions summary
     file: outputs/secondary_progressions_summary.txt
@@ -240,25 +242,25 @@ outputs:
     external_source_exists: True
   - label: Renderer summary
     file: outputs/renderer_summary.txt
-    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/00_summary.txt
-    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/00_summary.txt
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618\00_summary.txt
+    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/00_summary.txt
+    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/00_summary.txt
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128\00_summary.txt
     external_source_exists: True
   - label: Chart wheel SVG
     file: outputs/chart_wheel.svg
-    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/01_chart_wheel.svg
-    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/01_chart_wheel.svg
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618\01_chart_wheel.svg
+    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/01_chart_wheel.svg
+    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/01_chart_wheel.svg
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128\01_chart_wheel.svg
     external_source_exists: True
   - label: Aspect grid SVG
     file: outputs/aspect_grid.svg
-    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/02_aspect_grid.svg
-    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/02_aspect_grid.svg
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618\02_aspect_grid.svg
+    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/02_aspect_grid.svg
+    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/02_aspect_grid.svg
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128\02_aspect_grid.svg
     external_source_exists: True
   - label: Renderer manifest
     file: outputs/render_manifest.json
-    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/03_render_manifest.json
-    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618/03_render_manifest.json
-    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_152618\03_render_manifest.json
+    source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/03_render_manifest.json
+    canonical_source: methods/renderer/renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128/03_render_manifest.json
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_renderer_20260304_155128\03_render_manifest.json
     external_source_exists: True

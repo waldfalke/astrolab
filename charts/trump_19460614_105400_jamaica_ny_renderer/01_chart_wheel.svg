@@ -136,16 +136,16 @@
 <text class="plabel" x="140.00" y="564.00" text-anchor="middle" dominant-baseline="middle">♇ ♌ 10°02&#x27;</text>
 <rect class="txtbg" x="97.70" y="709.36" width="84.60" height="20.64" rx="8" ry="8"/>
 <text class="plabel" x="140.00" y="719.68" text-anchor="middle" dominant-baseline="middle">♂ ♌ 26°47&#x27;</text>
-<rect class="txtbg" x="97.70" y="1059.71" width="84.60" height="20.64" rx="8" ry="8"/>
-<text class="plabel" x="140.00" y="1070.03" text-anchor="middle" dominant-baseline="middle">♆ ♎ 05°50&#x27;</text>
+<rect class="txtbg" x="89.64" y="1059.71" width="100.72" height="20.64" rx="8" ry="8"/>
+<text class="plabel" x="140.00" y="1070.03" text-anchor="middle" dominant-baseline="middle">♆ ♎ 05°50&#x27; R</text>
 <rect class="txtbg" x="364.83" y="129.68" width="84.60" height="20.64" rx="8" ry="8"/>
 <text class="plabel" x="407.13" y="140.00" text-anchor="middle" dominant-baseline="middle">☿ ♋ 08°52&#x27;</text>
 <rect class="txtbg" x="494.63" y="129.68" width="84.60" height="20.64" rx="8" ry="8"/>
 <text class="plabel" x="536.93" y="140.00" text-anchor="middle" dominant-baseline="middle">☉ ♊ 22°56&#x27;</text>
 <rect class="txtbg" x="598.83" y="129.68" width="84.60" height="20.64" rx="8" ry="8"/>
 <text class="plabel" x="641.13" y="140.00" text-anchor="middle" dominant-baseline="middle">♅ ♊ 17°53&#x27;</text>
-<rect class="txtbg" x="338.78" y="1349.68" width="84.60" height="20.64" rx="8" ry="8"/>
-<text class="plabel" x="381.08" y="1360.00" text-anchor="middle" dominant-baseline="middle">♃ ♎ 17°27&#x27;</text>
+<rect class="txtbg" x="326.69" y="1349.68" width="108.78" height="20.64" rx="8" ry="8"/>
+<text class="plabel" x="381.08" y="1360.00" text-anchor="middle" dominant-baseline="middle">♃ ♎ 17°27&#x27; ST</text>
 <rect class="txtbg" x="905.55" y="1349.68" width="84.60" height="20.64" rx="8" ry="8"/>
 <text class="plabel" x="947.85" y="1360.00" text-anchor="middle" dominant-baseline="middle">☽ ♐ 21°12&#x27;</text>
 <text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>

@@ -74,6 +74,8 @@ $planetRows = Get-SwissBodyLongitudes -SwissData $primary
 $ephemCache = @{}
 $centerUtc = Get-UtcDateTime -DateTimeUtc $DateTimeUtc
 $stationThreshold = 0.05
+$stationWindowDays = 15
+$stationOrbDays = 2
 $needRetroFallback = $false
 $retroFallbackApplied = 0
 $stationCount = 0
@@ -92,6 +94,35 @@ foreach ($row in $planetRows) {
 
   $row | Add-Member -NotePropertyName speed_deg_day -NotePropertyValue ([math]::Round([double]$speed, 6))
   $motionSign = Get-MotionSign -SpeedDegPerDay ([double]$speed) -StationThreshold $stationThreshold
+
+  # Robust station detection: look for daily-motion sign flip near target datetime.
+  $nearestStationDeltaDays = $null
+  $dailyDeltas = @()
+  for ($d = -$stationWindowDays; $d -lt $stationWindowDays; $d++) {
+    $t1 = $centerUtc.AddDays($d)
+    $t2 = $centerUtc.AddDays($d + 1)
+    $lon1 = Get-BodyLongitudeAt -Cache $ephemCache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $t1 -Body $body
+    $lon2 = Get-BodyLongitudeAt -Cache $ephemCache -Latitude $Latitude -Longitude $Longitude -DateTimeUtc $t2 -Body $body
+    if ($null -eq $lon1 -or $null -eq $lon2) { continue }
+    $dd = Get-SignedDelta360 -From $lon1 -To $lon2
+    $dailyDeltas += [pscustomobject]@{
+      day_offset = $d
+      delta = [double]$dd
+      sign = ($(if ($dd -gt 0) { 1 } elseif ($dd -lt 0) { -1 } else { 0 }))
+    }
+  }
+  for ($i = 0; $i -lt ($dailyDeltas.Count - 1); $i++) {
+    $a = $dailyDeltas[$i]
+    $b = $dailyDeltas[$i + 1]
+    if ($a.sign -eq 0 -or $b.sign -eq 0 -or $a.sign -ne $b.sign) {
+      $stationAt = ([double]$a.day_offset) + 0.5
+      $absDist = [math]::Abs($stationAt)
+      if ($null -eq $nearestStationDeltaDays -or $absDist -lt $nearestStationDeltaDays) {
+        $nearestStationDeltaDays = $absDist
+      }
+    }
+  }
+  $isStation = ($null -ne $nearestStationDeltaDays -and $nearestStationDeltaDays -le $stationOrbDays)
 
   if ($null -eq $row.retrograde -or [string]::IsNullOrWhiteSpace([string]$row.retrograde)) {
     $needRetroFallback = $true
@@ -113,11 +144,11 @@ foreach ($row in $planetRows) {
   }
 
   $motionState = "D"
-  if ($motionSign -lt 0) {
-    $motionState = "R"
-  } elseif ($motionSign -eq 0) {
+  if ($isStation) {
     $motionState = "ST"
     $stationCount += 1
+  } elseif ($row.retrograde) {
+    $motionState = "R"
   }
   $row | Add-Member -NotePropertyName motion_state -NotePropertyValue $motionState
 
@@ -153,6 +184,8 @@ $summaryFields["PLANET_COUNT"] = $planetRows.Count
 $summaryFields["RETROGRADE_FALLBACK"] = $needRetroFallback
 $summaryFields["RETROGRADE_FALLBACK_COUNT"] = $retroFallbackApplied
 $summaryFields["STATION_THRESHOLD_DEG_PER_DAY"] = $stationThreshold
+$summaryFields["STATION_WINDOW_DAYS"] = $stationWindowDays
+$summaryFields["STATION_ORB_DAYS"] = $stationOrbDays
 $summaryFields["STATION_COUNT"] = $stationCount
 $summaryFields["SHADOW_NON_NONE_COUNT"] = $shadowCount
 $summaryFields["EXTRA_POINT_COUNT"] = $extraPointRows.Count

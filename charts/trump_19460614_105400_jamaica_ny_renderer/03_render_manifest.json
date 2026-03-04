@@ -1,11 +1,11 @@
 {
   "renderer": "catme-svg-mvp",
-  "chart_dir": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny",
+  "chart_dir": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny_renderer",
   "inputs": {
-    "planets": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\planets_primary.csv",
-    "houses": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\houses_placidus.csv",
-    "points": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\chart_points.csv",
-    "aspects": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\natal_aspects.json"
+    "planets": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny_renderer\\outputs\\planets_primary.csv",
+    "houses": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny_renderer\\outputs\\houses_placidus.csv",
+    "points": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny_renderer\\outputs\\chart_points.csv",
+    "aspects": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny_renderer\\outputs\\natal_aspects.json"
   },
   "outputs": {
     "chart_wheel_svg": "01_chart_wheel.svg",
