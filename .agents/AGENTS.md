@@ -9,6 +9,10 @@ Machine-oriented entrypoint for AI agents working in this repository.
 3. `.agents/docs/02-workflows.md`
 4. `.agents/docs/03-skills-map.md`
 5. `.agents/docs/04-troubleshooting.md`
+6. `.agents/docs/05-smoke-tests.md`
+7. `.agents/docs/06-tasklog-template.md`
+8. `.agents/docs/07-fail-fast-rules.md`
+9. `.agents/docs/08-known-issues.md`
 
 If a step conflicts with ad-hoc reasoning, follow docs first.
 
