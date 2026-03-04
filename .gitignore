@@ -1,5 +1,4 @@
 node_modules/
-artifacts/
 *.log
 .DS_Store
 Thumbs.db
@@ -7,3 +6,8 @@ Thumbs.db
 .codex/skills/astro-engineering-scanner/
 __pycache__/
 *.pyc
+.tools/
+artifacts/result-packs/
+artifacts/results/
+artifacts/skill-smoke/
+artifacts/tmp/

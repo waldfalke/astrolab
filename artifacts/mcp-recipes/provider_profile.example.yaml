@@ -1,0 +1,34 @@
+version: 1
+providers:
+  primary:
+    name: "<provider-with-houses>"
+    mode: http
+    url: "<https://.../mcp>"
+    auth:
+      type: bearer
+      token_env: "<PRIMARY_MCP_TOKEN>"
+    required_capabilities:
+      - houses
+      - placidus
+      - transits
+      - progressions
+  backup:
+    name: ephemeris-fyi
+    mode: http
+    url: "https://ephemeris.fyi/mcp"
+    auth:
+      type: none
+    capabilities:
+      - planetary_positions
+      - aspects
+      - moon_phase
+      - daily_events
+failover_policy:
+  trigger:
+    - primary_unavailable
+    - timeout_over_30s
+    - auth_failure
+  action:
+    - route_to_backup
+    - set_run_status_degraded
+    - require_followup_house_layer

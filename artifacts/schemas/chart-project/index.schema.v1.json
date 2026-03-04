@@ -1,0 +1,26 @@
+{
+  "schema_id": "chart_project/index.v1",
+  "description": "Required structure for charts/<chart_id>/INDEX.yaml under canonical_source_v1 model",
+  "required_top_level_keys": [
+    "chart_id",
+    "generated_at",
+    "chart_file",
+    "provenance_model",
+    "raw_methods",
+    "outputs"
+  ],
+  "required_top_level_values": {
+    "provenance_model": "canonical_source_v1"
+  },
+  "required_raw_method_item_keys": [
+    "method",
+    "run_name",
+    "project_run_dir",
+    "canonical_run_dir"
+  ],
+  "required_output_item_keys": [
+    "label",
+    "file",
+    "canonical_source"
+  ]
+}

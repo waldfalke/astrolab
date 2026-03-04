@@ -1,0 +1,48 @@
+version: 1
+profile_name: "astro-workbench-default"
+providers:
+  primary:
+    name: "swissremote"
+    mode: "http"
+    url: "https://www.theme-astral.me/mcp"
+    auth:
+      type: "none"
+    capabilities:
+      - natal_positions
+      - houses_placidus
+      - chart_points
+      - transits
+      - solar_revolution
+      - synastry
+    tested:
+      status: "ok"
+      date_utc: "2026-03-01"
+      tool: "calculate_planetary_positions"
+  backup:
+    name: "ephem"
+    mode: "http"
+    url: "https://ephemeris.fyi/mcp"
+    auth:
+      type: "none"
+    capabilities:
+      - planetary_positions
+      - aspects
+      - moon_phase
+      - daily_events
+      - delta_compare
+    tested:
+      status: "ok"
+      date_utc: "2026-03-01"
+      tool: "get_ephemeris_data"
+failover_policy:
+  trigger:
+    - primary_timeout
+    - primary_transport_error
+    - primary_tool_error
+  action:
+    - route_to_backup
+    - mark_status_degraded
+    - require_house_layer_followup
+quality_gates:
+  cross_provider_longitude_max_delta_deg: 1.0
+  required_primary_for_house_layer: true
