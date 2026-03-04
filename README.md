@@ -1,65 +1,121 @@
 # CATMEastrolab
 
-Astrology engineering workspace with chart-as-project structure, reproducible artifacts, and agent-oriented skills.
+CATMEastrolab is an open engineering platform for astrology computation.
 
-## Current Scope
+Old astrology processors were often expensive and monolithic desktop tools.  
+This project takes another approach: API-first, artifact-first, agent-friendly.
 
-- Stable chart-project layout (`charts/<chart_id>/...`)
-- Provider failover runbooks and recipes
-- Schema/provenance validation
-- Initial Codex skills set in `.codex/skills`
+You can run standard techniques out of the box and quickly add new techniques as reproducible pipelines.
 
-## Repository Layout
+## What The Platform Solves
 
-- `charts/` - source chart projects and produced outputs
-- `artifacts/mcp-recipes/` - operational PowerShell recipes
-- `artifacts/schemas/` - JSON schemas for chart project validation
-- `.codex/skills/` - agent skills used in this project
-- `Tasks/`, `TaskLogs/`, `BACKLOG.md`, `CURRENT_WORK.md` - planning and execution history
-- `docs/` - methodology and operational docs
+1. Reproducible calculations instead of black-box UI flows.
+2. Fast experimentation with new techniques using script recipes.
+3. Provider flexibility (primary/backup MCP providers with retry/failover).
+4. Agent-native workflows (`.agents`) for modern AI assistants.
 
-## Prerequisites
+## Built-In Techniques
 
-- Windows + PowerShell 7
+- Natal snapshot with failover
+- House layer (Placidus + chart points + additional points)
+- Secondary progressions
+- Solar arc directions
+- Transit-to-natal aspect matrix
+- Cross-provider QC
+- Chart project build + provenance/schema validation
+
+## Core Architecture
+
+- `artifacts/mcp-recipes/` - operational PowerShell recipes (main execution layer)
+- `artifacts/schemas/` - chart project contracts
+- `charts/<chart_id>/` - chart-as-project outputs with method folders and `INDEX.yaml`
+- `.agents/` - canonical machine playbook and skill layer
+- `.codex/skills/` - runtime skill path (synced from `.agents/skills`)
+- `docs/` - public docs (`docs/public/` contains public-safe redacted copies for sensitive docs)
+
+## Requirements
+
+- Windows + PowerShell 7 (`pwsh`)
 - Python 3.11+
-- Node.js (for MCP-related tooling)
-- Python package: `pyyaml`
-
-Install Python dependency:
+- Node.js 18+ (for `npx mcporter`)
+- Python dependency: `pyyaml`
 
 ```powershell
 python -m pip install pyyaml
+npm install
 ```
 
 ## Quick Start
 
-1. Validate existing chart project:
+1. Sync canonical agent skills:
+
+```powershell
+pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents
+```
+
+2. Validate sample chart project:
 
 ```powershell
 python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id trump_19460614_105400_jamaica_ny --json
 ```
 
-2. Generate Obsidian note from chart outputs:
+3. Run transit-to-natal example:
 
 ```powershell
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
+pwsh artifacts/mcp-recipes/run_transits_to_natal.ps1 -CaseId demo_transit -Latitude 40.7 -Longitude -73.8164 -BirthDateTimeUtc 1946-06-14T14:54:00Z -TransitDateTimeUtc 2026-03-04T06:29:42Z -Orb 1
 ```
 
-3. Explore MCP recipes:
+4. Validate chart integrity:
 
-- `artifacts/mcp-recipes/run_full_workbench.ps1`
-- `artifacts/mcp-recipes/run_natal_with_failover.ps1`
-- `artifacts/mcp-recipes/validate_chart_project.ps1`
+```powershell
+pwsh artifacts/mcp-recipes/check_chart_provenance.ps1 -ChartId trump_19460614_105400_jamaica_ny
+pwsh artifacts/mcp-recipes/validate_chart_project.ps1 -ChartId trump_19460614_105400_jamaica_ny
+```
 
-## Notes for Public Repository
+## How To Add A New Technique
 
-- Private skill `.codex/skills/astro-engineering-scanner/` is intentionally excluded.
-- Tool sandboxes (`.tools/`), local experiment outputs, and temporary artifacts are ignored.
-- Repository contains real sample chart data in `charts/`; review before broad public distribution.
+Use this minimal extension pattern:
 
-## Next Priority (from current backlog)
+1. Create a new recipe script in `artifacts/mcp-recipes/`:
+   - example: `run_<technique_name>.ps1`
+2. Reuse helper primitives from `artifacts/mcp-recipes/lib/mcp_helpers.ps1`:
+   - MCP calls
+   - invariant CSV writing
+   - summary generation
+3. Write output contract:
+   - `00_summary.txt`
+   - raw JSON source responses
+   - normalized CSV tables
+4. Add recipe docs:
+   - update `artifacts/mcp-recipes/README.md`
+5. Wire technique into chart project assembly:
+   - extend `build_chart_project.ps1` mappings if technique should be included in `charts/<chart_id>/outputs`
+6. Validate:
+   - provenance check
+   - schema check
+7. Add agent-facing usage in `.agents/docs/` (smoke command + known caveats)
 
-1. ASTRO-016 - serialization and observability standards
-2. ASTRO-008/011/012 - modular architecture and orchestrator backbone
-3. ASTRO-009/010 - renderer and Obsidian product modules on hardened backbone
+## Agent-First Documentation
+
+Main machine entrypoint:
+
+- `.agents/AGENTS.md`
+
+Read order and operational guides are in:
+
+- `.agents/docs/00..11`
+
+This includes smoke tests, fail-fast rules, known issues (including provider 500/400 transients), PowerShell style, MCPorter usage, and anti-patterns.
+
+## Public/Private Data Policy
+
+- Public-safe docs: `docs/public/`
+- Private docs (ignored): `docs/private/`
+- Private task management (ignored): `.private/pm/`
+- Private chart data (ignored): `.private/charts/`
+
+## License
+
+Apache License 2.0.  
+See [LICENSE](LICENSE).
 
