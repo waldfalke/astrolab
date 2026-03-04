@@ -16,6 +16,7 @@ Machine-oriented entrypoint for AI agents working in this repository.
 10. `.agents/docs/09-powershell-style.md`
 11. `.agents/docs/10-mcporter-usage.md`
 12. `.agents/docs/11-antipatterns.md`
+13. `.agents/docs/12-external-capabilities-map.md`
 
 If a step conflicts with ad-hoc reasoning, follow docs first.
 
