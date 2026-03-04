@@ -11,7 +11,7 @@ Primary machine entrypoint:
 - `.agents/skills/` - canonical shared skills (tracked)
 - `.agents/scripts/sync-skills.ps1` - sync utility for `.codex/skills` and optional `.qwen/skills`
 - `.agents/docs/` - agent-facing documentation (to be filled next)
-- `.agents/docs/` - machine-oriented guides (`00..08`)
+- `.agents/docs/` - machine-oriented guides (`00..11`)
 
 ## Current Canonical Skills
 

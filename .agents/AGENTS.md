@@ -13,6 +13,9 @@ Machine-oriented entrypoint for AI agents working in this repository.
 7. `.agents/docs/06-tasklog-template.md`
 8. `.agents/docs/07-fail-fast-rules.md`
 9. `.agents/docs/08-known-issues.md`
+10. `.agents/docs/09-powershell-style.md`
+11. `.agents/docs/10-mcporter-usage.md`
+12. `.agents/docs/11-antipatterns.md`
 
 If a step conflicts with ad-hoc reasoning, follow docs first.
 
