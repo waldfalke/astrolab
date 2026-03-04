@@ -78,6 +78,26 @@ npx -y mcporter call --http-url https://ephemeris.fyi/mcp --name ephem get_ephem
 pwsh artifacts/mcp-recipes/run_mcp_provider_probe.ps1
 ```
 
+## Obsidian via MCPorter (stdio)
+
+Preferred probe wrapper:
+
+```powershell
+pwsh artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1 -StdioCommand "npx -y mcp-obsidian" -ServerName "obsidian"
+```
+
+Direct manual probe:
+
+```powershell
+npx -y mcporter list --stdio "npx -y mcp-obsidian" --name obsidian --schema
+```
+
+Guidance:
+
+1. Keep file-based canvas loop as fallback (`run_canvas_do_extract.ps1`, `run_canvas_ai_update.ps1`).
+2. Use MCP mode when interactive note/canvas operations are required.
+3. Scope operations to the intended vault path and avoid broad write patterns.
+
 ## Agent do/don't for MCPorter
 
 Do:

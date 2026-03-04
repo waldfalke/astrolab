@@ -61,3 +61,15 @@ pwsh artifacts/mcp-recipes/run_canvas_ai_update.ps1 `
   -CanvasPath D:\AstrolabVault\Astrolab\exports\<chart_id>\<chart_id>_canvas.canvas `
   -TargetNodeId <node_id> -Status in_progress -Message "Started" -Label "ai-status"
 ```
+
+## G. Mode selection (recommended)
+
+1. `file-based` (default): fastest onboarding, no plugin dependency.
+2. `mcporter + Obsidian MCP` (recommended next): better interactive operations, probe first.
+3. `REST bridge MCP` (advanced): only when stricter auth/transport controls are required.
+
+Probe command for mode 2:
+
+```powershell
+pwsh artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1 -StdioCommand "npx -y mcp-obsidian" -ServerName "obsidian"
+```

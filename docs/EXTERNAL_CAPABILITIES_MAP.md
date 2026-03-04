@@ -22,6 +22,7 @@ Notes:
 |---|---|---|---|
 | MCPorter | `npx -y mcporter call` and `list` | Uniform MCP call envelope for HTTP/stdio servers; JSON output mode | `artifacts/mcp-recipes/lib/mcp_helpers.ps1` |
 | npm/npx | Runtime delivery for MCPorter | No global install required | `package.json` (`mcporter` dependency) |
+| Obsidian MCP (stdio, optional) | Probed via MCPorter stdio mode | Note/canvas/vault operations (server-dependent) | `artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1` |
 
 Operational behavior already implemented:
 
@@ -58,6 +59,7 @@ Known gaps:
 
 1. Declination + parallel/contraparallel
 2. Native chart wheel image rendering from external providers (handled internally by renderer roadmap)
+3. Unified production profile for Obsidian MCP provider selection (currently optional, user-chosen server)
 
 ## 5) How To Refresh This Map
 
@@ -76,6 +78,7 @@ pwsh artifacts/mcp-recipes/run_mcp_provider_probe.ps1
 - health status
 - tool counts and key tool names
 - role changes (primary/backup/probe-only)
+- Obsidian MCP probe outcome (if enabled)
 
 ## 6) Decision Guidance
 

@@ -35,6 +35,7 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 2. Keep chart outputs reproducible and attached to run folders/chart projects.
 3. Run provenance/schema validation before finalizing chart projects.
 4. For Obsidian: use recipe wrappers (`run_obsidian_export.ps1`, `init_obsidian_vault.ps1`), not ad-hoc manual file moves.
+5. For Obsidian MCP integration, use MCPorter CLI patterns and probe first (`run_obsidian_mcp_probe.ps1`).
 
 ## 3) Quick Start Commands
 

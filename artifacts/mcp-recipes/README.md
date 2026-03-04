@@ -55,6 +55,8 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: extracted `[DO]` task nodes from `.canvas` plus linked edges/context.
 20. `run_canvas_ai_update.ps1`
    - Produces: safe AI status upsert (`[AI] in_progress|done|blocked`) for a target canvas node.
+21. `run_obsidian_mcp_probe.ps1`
+   - Produces: stdio MCP probe report for Obsidian MCP server (tool list + health).
 
 ## Quick Run Examples
 
@@ -161,6 +163,10 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_canvas_do_e
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_canvas_ai_update.ps1 `
   -CanvasPath "D:\AstrolabVault\Astrolab\exports\trump_19460614_105400_jamaica_ny_renderer\trump_19460614_105400_jamaica_ny_renderer_canvas.canvas" `
   -TargetNodeId "<node_id>" -Status in_progress -Message "Started" -Label "ai-status"
+
+# Probe Obsidian MCP over stdio via MCPorter
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_obsidian_mcp_probe.ps1 `
+  -StdioCommand "npx -y mcp-obsidian" -ServerName "obsidian"
 ```
 
 ## Output Location
