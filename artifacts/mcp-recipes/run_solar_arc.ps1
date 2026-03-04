@@ -19,6 +19,7 @@ $OutputBase = [System.IO.Path]::GetFullPath($OutputBase)
 $scriptId = "run_solar_arc"
 $scriptVersion = "1.1.0"
 $runStartedAt = (Get-Date).ToUniversalTime()
+Reset-SwissRetryTelemetry
 
 function Parse-UtcDateTime {
   param([Parameter(Mandatory = $true)][string]$Value)
@@ -238,6 +239,9 @@ $summaryFields["ORB"] = $Orb
 $summaryFields["DIRECTED_OBJECT_COUNT"] = $directedRows.Count
 $summaryFields["DIRECTED_TO_NATAL_PLANET_ASPECT_COUNT"] = $aspectPlanets.Count
 $summaryFields["DIRECTED_TO_NATAL_POINT_ASPECT_COUNT"] = $aspectPoints.Count
+$retryTelemetry = Get-SwissRetryTelemetry
+$summaryFields["SWISS_RETRY_TOTAL"] = $retryTelemetry.total_retries
+$summaryFields["SWISS_RETRY_BY_TOOL"] = $retryTelemetry.by_tool
 $summaryFields["OUTPUT_DIR"] = $runDir
 
 $runFinishedAt = (Get-Date).ToUniversalTime()

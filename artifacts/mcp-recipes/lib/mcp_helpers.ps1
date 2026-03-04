@@ -1,5 +1,10 @@
 using namespace System.Globalization
 
+$script:SwissRetryTelemetry = [ordered]@{
+  total_retries = 0
+  by_tool = @{}
+}
+
 function Invoke-McpToolJson {
   param(
     [Parameter(Mandatory = $true)][ValidateSet("http", "stdio")][string]$Mode,
@@ -93,9 +98,33 @@ function Invoke-SwissPrimaryToolJson {
     try {
       return Invoke-McpToolJson -Mode "http" -Url "https://www.theme-astral.me/mcp" -ServerName "swissremote" -Tool $Tool -Args $Args
     } catch {
+      if (-not $script:SwissRetryTelemetry.by_tool.ContainsKey($Tool)) {
+        $script:SwissRetryTelemetry.by_tool[$Tool] = 0
+      }
+      $script:SwissRetryTelemetry.total_retries += 1
+      $script:SwissRetryTelemetry.by_tool[$Tool] = [int]$script:SwissRetryTelemetry.by_tool[$Tool] + 1
       if ($attempt -ge $MaxAttempts) { throw }
       Start-Sleep -Seconds (2 * $attempt)
     }
+  }
+}
+
+function Reset-SwissRetryTelemetry {
+  $script:SwissRetryTelemetry = [ordered]@{
+    total_retries = 0
+    by_tool = @{}
+  }
+}
+
+function Get-SwissRetryTelemetry {
+  $toolParts = @()
+  foreach ($k in ($script:SwissRetryTelemetry.by_tool.Keys | Sort-Object)) {
+    $toolParts += ("{0}:{1}" -f $k, [int]$script:SwissRetryTelemetry.by_tool[$k])
+  }
+
+  return [pscustomobject]@{
+    total_retries = [int]$script:SwissRetryTelemetry.total_retries
+    by_tool = ($toolParts -join ",")
   }
 }
 

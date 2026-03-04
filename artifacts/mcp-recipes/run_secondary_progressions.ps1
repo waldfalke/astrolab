@@ -19,6 +19,7 @@ $OutputBase = [System.IO.Path]::GetFullPath($OutputBase)
 $scriptId = "run_secondary_progressions"
 $scriptVersion = "1.1.0"
 $runStartedAt = (Get-Date).ToUniversalTime()
+Reset-SwissRetryTelemetry
 
 function Parse-UtcDateTime {
   param([Parameter(Mandatory = $true)][string]$Value)
@@ -201,6 +202,9 @@ $summaryFields["PROGRESSED_HOUSE_COUNT"] = $progressedHouses.Count
 $summaryFields["PROGRESSED_POINT_COUNT"] = $progressedPoints.Count
 $summaryFields["PROGRESSED_EXTRA_POINT_COUNT"] = $progressedExtraPoints.Count
 $summaryFields["PROGRESSED_TO_NATAL_ASPECT_COUNT"] = $p2nAspects.Count
+$retryTelemetry = Get-SwissRetryTelemetry
+$summaryFields["SWISS_RETRY_TOTAL"] = $retryTelemetry.total_retries
+$summaryFields["SWISS_RETRY_BY_TOOL"] = $retryTelemetry.by_tool
 $summaryFields["OUTPUT_DIR"] = $runDir
 
 $runFinishedAt = (Get-Date).ToUniversalTime()

@@ -1,0 +1,13 @@
+chart_id: trump_19460614_105400_jamaica_ny
+display_name: trump_19460614_105400_jamaica_ny
+birth:
+  local_datetime: 1946-06-14 10:54:00
+  timezone: -04:00
+  utc_datetime: 1946-06-14T14:54:00Z
+location:
+  latitude: 40.7
+  longitude: -73.8164
+structure:
+  methods_dir: methods
+  outputs_dir: outputs
+  packs_dir: packs

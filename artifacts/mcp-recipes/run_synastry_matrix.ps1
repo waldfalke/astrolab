@@ -90,7 +90,12 @@ foreach ($a in $bodies) {
   }
 }
 
-$matches | Sort-Object orb | Export-Csv -NoTypeInformation -Encoding UTF8 -Path (Join-Path $runDir "03_synastry_aspect_matrix.csv")
+$sortedMatches = @($matches | Sort-Object orb)
+if ($sortedMatches.Count -gt 0) {
+  Write-InvariantCsv -Rows $sortedMatches -Path (Join-Path $runDir "03_synastry_aspect_matrix.csv")
+} else {
+  Write-InvariantCsv -Rows @() -Path (Join-Path $runDir "03_synastry_aspect_matrix.csv") -Columns @("body_a", "body_b", "longitude_a", "longitude_b", "delta", "aspect", "target_deg", "orb")
+}
 Write-JsonFile -Data $matches -Path (Join-Path $runDir "04_synastry_aspect_matrix.json")
 
 $summary = @()

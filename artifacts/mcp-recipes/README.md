@@ -35,13 +35,15 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: secondary progressed chart (`1 day after birth = 1 year`) and progressed-vs-natal deltas/aspects.
 10. `run_solar_arc.ps1`
    - Produces: solar-arc directed positions and directed-vs-natal aspects.
-11. `build_chart_project.ps1`
+11. `run_transits_to_natal.ps1`
+   - Produces: current transit-to-natal aspect matrix with explicit transit semantics.
+12. `build_chart_project.ps1`
    - Produces: chart-as-project structure with per-method raw folders, top-level outputs, and `INDEX.yaml` provenance map.
-12. `check_chart_provenance.ps1`
+13. `check_chart_provenance.ps1`
    - Validates canonical provenance links in chart projects (`canonical_run_dir` / `canonical_source`) and reports missing references.
-13. `validate_chart_project.ps1`
+14. `validate_chart_project.ps1`
    - Validates `chart.yaml` and `INDEX.yaml` against schema contracts and file-link consistency checks.
-14. `archive_runs.ps1`
+15. `archive_runs.ps1`
    - Safely archives run folders from `artifacts/results`, rewrites affected chart index external links, and emits verification report.
 
 ## Quick Run Examples
@@ -94,6 +96,11 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_secondary_p
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_solar_arc.ps1 `
   -CaseId "demo_solar_arc" -Latitude 44.1 -Longitude 39.07 `
   -BirthDateTimeUtc "1982-06-13T09:39:10Z" -TargetDateUtc "2026-03-02T00:00:00Z" -Orb 1
+
+# Transits to natal (explicit transit recipe)
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_transits_to_natal.ps1 `
+  -CaseId "demo_transits_now" -Latitude 44.1 -Longitude 39.07 `
+  -BirthDateTimeUtc "1982-06-13T09:39:10Z" -TransitDateTimeUtc "2026-03-02T00:00:00Z" -Orb 1
 
 # Build chart project from method runs
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\build_chart_project.ps1 `

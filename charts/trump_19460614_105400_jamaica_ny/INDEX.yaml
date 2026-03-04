@@ -1,0 +1,213 @@
+chart_id: trump_19460614_105400_jamaica_ny
+generated_at: 2026-03-04T09:35:22+03:00
+chart_file: chart.yaml
+provenance_model: canonical_source_v1
+raw_methods:
+  - method: natal_failover
+    run_name: natal_failover_trump_19460614_1054_20260304_092952
+    project_run_dir: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952
+    canonical_run_dir: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952
+    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_1054_20260304_092952
+    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_1054_20260304_092952
+    external_source_run_exists: True
+    summary:
+      ASPECT_COUNT: 16
+      BACKUP_AVAILABLE: TRUE
+      CASE_ID: trump_19460614_1054
+      DATETIME_UTC: 1946-06-14T14:54:00Z
+      INPUT_HASH: acf52a837bb8bf086fbc164ad8927137470b02ef9bd198441ab68f87b47354df
+      LATITUDE: 40.7
+      LONGITUDE: -73.8164
+      ORB: 6
+      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_1054_20260304_092952
+      OUTPUT_HASH: aa1a703777e0802dcafd245202f617d0d03d7d208b43dd4de09175099b32a7fb
+      PRIMARY_AVAILABLE: TRUE
+      PROVIDER_USED: swissremote
+      RUN_FINISHED_AT: 2026-03-04T06:30:04.228Z
+      RUN_STARTED_AT: 2026-03-04T06:29:52.498Z
+      RUN_STATUS: FULL
+      SCRIPT_ID: run_natal_with_failover
+      SCRIPT_VERSION: 1.1.0
+  - method: house_placidus
+    run_name: house_placidus_trump_19460614_1054_20260304_093011
+    project_run_dir: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011
+    canonical_run_dir: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011
+    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011
+    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011
+    external_source_run_exists: True
+    summary:
+      CASE_ID: trump_19460614_1054
+      CUSTOM_POINT_ASPECT_COUNT: 3
+      CUSTOM_POINT_ORB: 2
+      DATETIME_UTC: 1946-06-14T14:54:00Z
+      EXTRA_POINT_COUNT: 3
+      GALACTIC_CENTER_MODEL: TROPICAL_APPROX_PRECESSION
+      HOUSE_COUNT: 12
+      HOUSE_SYSTEM: Placidus
+      INPUT_HASH: c54c8084794a8749f840ac9f0f3508284233fd0156f19c21936deb3f69487d37
+      LATITUDE: 40.7
+      LONGITUDE: -73.8164
+      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011
+      OUTPUT_HASH: 2ab616d88ba4051131ae59539c09095429e52caa969f777a1761d301ec940f45
+      PLANET_COUNT: 10
+      POINT_COUNT: 6
+      PROVIDER: swissremote
+      RUN_FINISHED_AT: 2026-03-04T06:30:14.044Z
+      RUN_STARTED_AT: 2026-03-04T06:30:11.093Z
+      SCRIPT_ID: run_house_layer_placidus
+      SCRIPT_VERSION: 1.1.0
+  - method: secondary_progressions
+    run_name: secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
+    project_run_dir: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
+    canonical_run_dir: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
+    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
+    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
+    external_source_run_exists: True
+    summary:
+      AGE_YEARS: 79.721482873
+      BIRTH_UTC: 1946-06-14T14:54:00Z
+      CASE_ID: trump_19460614_1054_progressions_now
+      INPUT_HASH: 408d49a4f1d4f48e6da1ff3582ee42cfd9d508d330e0b42acb50103163f8f0e5
+      LATITUDE: 40.7
+      LONGITUDE: -73.8164
+      METHOD: SECONDARY_PROGRESSIONS_1DAY_PER_1YEAR
+      ORB: 1
+      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022
+      OUTPUT_HASH: 817070e075e3bf6286e771be678297529330a9a42281cc5f881d5a58e6967cd7
+      PLANET_DELTA_COUNT: 10
+      PROGRESSED_DAYS: 79.721482873
+      PROGRESSED_EXTRA_POINT_COUNT: 3
+      PROGRESSED_HOUSE_COUNT: 12
+      PROGRESSED_POINT_COUNT: 6
+      PROGRESSED_TO_NATAL_ASPECT_COUNT: 6
+      PROGRESSED_UTC: 1946-09-02T08:12:56Z
+      RUN_FINISHED_AT: 2026-03-04T06:32:25.200Z
+      RUN_STARTED_AT: 2026-03-04T06:30:22.166Z
+      SCRIPT_ID: run_secondary_progressions
+      SCRIPT_VERSION: 1.1.0
+      TARGET_UTC: 2026-03-04T06:29:42Z
+  - method: solar_arc
+    run_name: solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238
+    project_run_dir: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238
+    canonical_run_dir: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238
+    source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238
+    external_source_run_dir: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238
+    external_source_run_exists: True
+    summary:
+      AGE_YEARS: 79.721482873
+      BIRTH_UTC: 1946-06-14T14:54:00Z
+      CASE_ID: trump_19460614_1054_solar_arc_now
+      DIRECTED_OBJECT_COUNT: 18
+      DIRECTED_TO_NATAL_PLANET_ASPECT_COUNT: 11
+      DIRECTED_TO_NATAL_POINT_ASPECT_COUNT: 2
+      INPUT_HASH: 52293a3ca7517cf543b948691b937da76748e73e2bbb4f4239d88a8fe9882dbe
+      LATITUDE: 40.7
+      LONGITUDE: -73.8164
+      METHOD: SOLAR_ARC_DIRECTIONS
+      ORB: 1
+      OUTPUT_DIR: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238
+      OUTPUT_HASH: 38209c96cbb7d5dc93e6e8f46f4c901a013c6de087ef30ed49ebf77e116a8338
+      PROGRESSED_REFERENCE_UTC: 1946-09-02T08:12:56Z
+      RUN_FINISHED_AT: 2026-03-04T06:34:42.079Z
+      RUN_STARTED_AT: 2026-03-04T06:32:38.355Z
+      SCRIPT_ID: run_solar_arc
+      SCRIPT_VERSION: 1.1.0
+      SOLAR_ARC_DEG: 76.324799056
+      TARGET_UTC: 2026-03-04T06:29:42Z
+outputs:
+  - label: Natal failover summary
+    file: outputs/natal_failover_summary.txt
+    source: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952/00_summary.txt
+    canonical_source: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952/00_summary.txt
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_1054_20260304_092952\00_summary.txt
+    external_source_exists: True
+  - label: Natal longitudes
+    file: outputs/natal_longitudes.csv
+    source: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952/06_backup_longitudes.csv
+    canonical_source: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952/06_backup_longitudes.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_1054_20260304_092952\06_backup_longitudes.csv
+    external_source_exists: True
+  - label: Natal aspects
+    file: outputs/natal_aspects.json
+    source: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952/04_backup_aspects.json
+    canonical_source: methods/natal_failover/natal_failover_trump_19460614_1054_20260304_092952/04_backup_aspects.json
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_1054_20260304_092952\04_backup_aspects.json
+    external_source_exists: True
+  - label: House layer summary
+    file: outputs/house_summary.txt
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/00_summary.txt
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/00_summary.txt
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011\00_summary.txt
+    external_source_exists: True
+  - label: House cusps
+    file: outputs/houses_placidus.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/02_houses_placidus.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/02_houses_placidus.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011\02_houses_placidus.csv
+    external_source_exists: True
+  - label: Chart points
+    file: outputs/chart_points.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/03_chart_points.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/03_chart_points.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011\03_chart_points.csv
+    external_source_exists: True
+  - label: Primary planets
+    file: outputs/planets_primary.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/04_planets_primary.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/04_planets_primary.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011\04_planets_primary.csv
+    external_source_exists: True
+  - label: Additional points
+    file: outputs/additional_points.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/05_additional_points.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/05_additional_points.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011\05_additional_points.csv
+    external_source_exists: True
+  - label: Custom point aspects
+    file: outputs/custom_point_aspects.csv
+    source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/06_custom_point_aspects.csv
+    canonical_source: methods/house_placidus/house_placidus_trump_19460614_1054_20260304_093011/06_custom_point_aspects.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_1054_20260304_093011\06_custom_point_aspects.csv
+    external_source_exists: True
+  - label: Secondary progressions summary
+    file: outputs/secondary_progressions_summary.txt
+    source: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022/00_summary.txt
+    canonical_source: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022/00_summary.txt
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022\00_summary.txt
+    external_source_exists: True
+  - label: Secondary progressed planet deltas
+    file: outputs/secondary_progressions_planet_deltas.csv
+    source: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022/03_progressed_planet_deltas.csv
+    canonical_source: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022/03_progressed_planet_deltas.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022\03_progressed_planet_deltas.csv
+    external_source_exists: True
+  - label: Secondary progressed to natal aspects
+    file: outputs/secondary_progressions_aspects.csv
+    source: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022/07_progressed_to_natal_aspects.csv
+    canonical_source: methods/secondary_progressions/secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022/07_progressed_to_natal_aspects.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_1054_progressions_now_20260304_093022\07_progressed_to_natal_aspects.csv
+    external_source_exists: True
+  - label: Solar arc summary
+    file: outputs/solar_arc_summary.txt
+    source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/00_summary.txt
+    canonical_source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/00_summary.txt
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238\00_summary.txt
+    external_source_exists: True
+  - label: Solar arc directed positions
+    file: outputs/solar_arc_directed_positions.csv
+    source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/03_solar_arc_directed_positions.csv
+    canonical_source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/03_solar_arc_directed_positions.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238\03_solar_arc_directed_positions.csv
+    external_source_exists: True
+  - label: Solar arc to natal planets
+    file: outputs/solar_arc_planet_aspects.csv
+    source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/04_directed_to_natal_planets_aspects.csv
+    canonical_source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/04_directed_to_natal_planets_aspects.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238\04_directed_to_natal_planets_aspects.csv
+    external_source_exists: True
+  - label: Solar arc to natal points
+    file: outputs/solar_arc_point_aspects.csv
+    source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/05_directed_to_natal_points_aspects.csv
+    canonical_source: methods/solar_arc/solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238/05_directed_to_natal_points_aspects.csv
+    external_source: D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_1054_solar_arc_now_20260304_093238\05_directed_to_natal_points_aspects.csv
+    external_source_exists: True

@@ -1,7 +1,7 @@
 param(
   [Parameter(Mandatory = $true)][string]$ChartId,
   [Parameter(Mandatory = $true)][string]$BirthDateTimeLocal,
-  [Parameter(Mandatory = $true)][string]$BirthTimezone,
+  [string]$BirthTimezone = "",
   [Parameter(Mandatory = $true)][string]$BirthDateTimeUtc,
   [Parameter(Mandatory = $true)][double]$Latitude,
   [Parameter(Mandatory = $true)][double]$Longitude,
@@ -14,6 +14,39 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+function Resolve-BirthTimezone {
+  param(
+    [Parameter(Mandatory = $true)][string]$LocalValue,
+    [Parameter(Mandatory = $true)][string]$UtcValue,
+    [string]$ProvidedTimezone = ""
+  )
+
+  if (-not [string]::IsNullOrWhiteSpace($ProvidedTimezone)) {
+    return $ProvidedTimezone
+  }
+
+  $localDt = [datetime]::Parse(
+    $LocalValue,
+    [System.Globalization.CultureInfo]::InvariantCulture,
+    [System.Globalization.DateTimeStyles]::AllowWhiteSpaces
+  )
+  $utcDt = [datetime]::Parse(
+    $UtcValue,
+    [System.Globalization.CultureInfo]::InvariantCulture,
+    [System.Globalization.DateTimeStyles]::AssumeUniversal -bor [System.Globalization.DateTimeStyles]::AdjustToUniversal
+  )
+
+  $offset = $localDt - $utcDt
+  $totalMinutes = [int][math]::Round($offset.TotalMinutes, 0)
+  $sign = if ($totalMinutes -ge 0) { "+" } else { "-" }
+  $absMinutes = [math]::Abs($totalMinutes)
+  $hours = [int][math]::Floor($absMinutes / 60)
+  $minutes = $absMinutes % 60
+  return ("{0}{1:00}:{2:00}" -f $sign, $hours, $minutes)
+}
+
+$BirthTimezone = Resolve-BirthTimezone -LocalValue $BirthDateTimeLocal -UtcValue $BirthDateTimeUtc -ProvidedTimezone $BirthTimezone
 
 if ([string]::IsNullOrWhiteSpace($ChartsRoot)) {
   $ChartsRoot = Join-Path $PSScriptRoot "..\..\charts"

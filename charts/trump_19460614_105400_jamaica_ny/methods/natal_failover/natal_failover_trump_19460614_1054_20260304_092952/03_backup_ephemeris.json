@@ -1,0 +1,1867 @@
+﻿{
+    "mercury":  {
+                    "rect":  [
+                                 -0.31009936758978063,
+                                 0.13146783486927371,
+                                 0.10242243876698187
+                             ],
+                    "polar":  [
+                                  2.6623805200550317,
+                                  0.11864321068291929,
+                                  0.35208364064527886
+                              ],
+                    "trueGeocentricDistance":  1.1882250380392014,
+                    "equatorialDiameter":  5.654831615842318,
+                    "approxVisual":  {
+                                         "magnitude":  -2.0747928147980983,
+                                         "phase":  0.801427347889861
+                                     },
+                    "astrometricJ2000":  {
+                                             "dRA":  1.7562190348220268,
+                                             "dDec":  0.43809552014675424,
+                                             "ra":  {
+                                                        "hours":  6,
+                                                        "minutes":  42,
+                                                        "seconds":  29,
+                                                        "milliseconds":  745
+                                                    },
+                                             "dec":  {
+                                                         "degree":  25,
+                                                         "minutes":  6,
+                                                         "seconds":  3.6875807911664538
+                                                     }
+                                         },
+                    "astrometricB1950":  {
+                                             "dRA":  1.7427980628179969,
+                                             "dDec":  0.4389592923800588,
+                                             "ra":  {
+                                                        "hours":  6,
+                                                        "minutes":  39,
+                                                        "seconds":  25,
+                                                        "milliseconds":  194
+                                                    },
+                                             "dec":  {
+                                                         "degree":  25,
+                                                         "minutes":  9,
+                                                         "seconds":  1.853393135356498
+                                                     }
+                                         },
+                    "deflection":  {
+                                       "sunElongation":  16.05303704965641,
+                                       "lightDeflection":  {
+                                                               "dRA":  0.00042904791534883514,
+                                                               "dDec":  0.00028423271667882494
+                                                           }
+                                   },
+                    "aberration":  {
+                                       "dRA":  -1.4202410580367686,
+                                       "dDec":  1.618720383833139
+                                   },
+                    "nutation":  {
+                                     "dRA":  -1.2632878644219343,
+                                     "dDec":  2.0796728774108586
+                                 },
+                    "constellation":  "Gem Geminorum",
+                    "apparent":  {
+                                     "dRA":  1.741649927997067,
+                                     "dDec":  0.4390355731110863,
+                                     "ra":  {
+                                                "hours":  6,
+                                                "minutes":  39,
+                                                "seconds":  9,
+                                                "milliseconds":  406
+                                            },
+                                     "dec":  {
+                                                 "degree":  25,
+                                                 "minutes":  9,
+                                                 "seconds":  17.587423341125543
+                                             }
+                                 },
+                    "apparentGeocentric":  {
+                                               "0":  1.7254051196253741,
+                                               "1":  0.03506799139198071,
+                                               "2":  1.1883642973866024,
+                                               "3":  {
+                                                         "degree":  98,
+                                                         "minutes":  51,
+                                                         "seconds":  30.352697275932314
+                                                     },
+                                               "4":  {
+                                                         "degree":  2,
+                                                         "minutes":  0,
+                                                         "seconds":  33.29244994174374
+                                                     }
+                                           },
+                    "apparentLongitude":  98.85843130479887,
+                    "apparentLongitudeString":  "98°51\u002730\"",
+                    "apparentLongitude30String":  "8°51\u002730\"",
+                    "geocentricDistance":  1.188364297386602,
+                    "altaz":  {
+                                  "dLocalApparentSiderialTime":  0.9072610949605472,
+                                  "localApparentSiderialTime":  {
+                                                                    "hours":  3,
+                                                                    "minutes":  27,
+                                                                    "seconds":  55,
+                                                                    "milliseconds":  736
+                                                                },
+                                  "diurnalAberation":  {
+                                                           "ra":  1.7416507995942263,
+                                                           "dec":  0.43903520318051503,
+                                                           "dRA":  0.011985321278280744,
+                                                           "dDec":  -0.0763036576099436
+                                                       },
+                                  "transit":  {
+                                                  "approxLocalMeridian":  {
+                                                                              "hours":  18,
+                                                                              "minutes":  5,
+                                                                              "seconds":  20,
+                                                                              "milliseconds":  418
+                                                                          },
+                                                  "UTdate":  0.7537085373369952,
+                                                  "dApproxRiseUT":  2.726855308607327,
+                                                  "dApproxSetUT":  6.7429744714188615,
+                                                  "approxRiseUT":  {
+                                                                       "hours":  10,
+                                                                       "minutes":  24,
+                                                                       "seconds":  56,
+                                                                       "milliseconds":  952
+                                                                   },
+                                                  "approxSetUT":  {
+                                                                      "hours":  25,
+                                                                      "minutes":  45,
+                                                                      "seconds":  22,
+                                                                      "milliseconds":  555
+                                                                  }
+                                              },
+                                  "diurnalParallax":  {
+                                                          "ra":  1.7416730951465824,
+                                                          "dec":  0.43902191405114116,
+                                                          "dRA":  0.3065796561070806,
+                                                          "dDec":  -2.741088248413098
+                                                      },
+                                  "atmosphericRefraction":  {
+                                                                "deg":  0.014643698982667729,
+                                                                "dRA":  -3.232499253278598,
+                                                                "dDec":  29.205676452100445
+                                                            },
+                                  "topocentric":  {
+                                                      "altitude":  47.58144199696851,
+                                                      "azimuth":  96.31163665385718,
+                                                      "ra":  -4.5417472860123285,
+                                                      "dec":  0.43916350716624153,
+                                                      "dRA":  {
+                                                                  "hours":  6,
+                                                                  "minutes":  39,
+                                                                  "seconds":  6,
+                                                                  "milliseconds":  492
+                                                              },
+                                                      "dDec":  {
+                                                                   "degree":  25,
+                                                                   "minutes":  9,
+                                                                   "seconds":  43.97571644012203
+                                                               }
+                                                  }
+                              }
+                },
+    "venus":  {
+                  "rect":  [
+                               -0.6982800621529133,
+                               0.13642107509234003,
+                               0.10557248886619919
+                           ],
+                  "polar":  [
+                                2.9068439058968654,
+                                0.059255373853212334,
+                                0.7192719723791999
+                            ],
+                  "trueGeocentricDistance":  1.3154090732158825,
+                  "equatorialDiameter":  12.679328421747883,
+                  "approxVisual":  {
+                                       "magnitude":  -4.30884882698845,
+                                       "phase":  0.8213401996953467
+                                   },
+                  "astrometricJ2000":  {
+                                           "dRA":  2.0751740245829167,
+                                           "dDec":  0.39586254916954866,
+                                           "ra":  {
+                                                      "hours":  7,
+                                                      "minutes":  55,
+                                                      "seconds":  35,
+                                                      "milliseconds":  691
+                                                  },
+                                           "dec":  {
+                                                       "degree":  22,
+                                                       "minutes":  40,
+                                                       "seconds":  52.51200493860608
+                                                   }
+                                       },
+                  "astrometricB1950":  {
+                                           "dRA":  2.0622055654670506,
+                                           "dDec":  0.3981830541713619,
+                                           "ra":  {
+                                                      "hours":  7,
+                                                      "minutes":  52,
+                                                      "seconds":  37,
+                                                      "milliseconds":  362
+                                                  },
+                                           "dec":  {
+                                                       "degree":  22,
+                                                       "minutes":  48,
+                                                       "seconds":  51.15051953303691
+                                                   }
+                                       },
+                  "deflection":  {
+                                     "sunElongation":  32.855307180141295,
+                                     "lightDeflection":  {
+                                                             "dRA":  0.00032479363599081153,
+                                                             "dDec":  -0.000649208105863458
+                                                         }
+                                 },
+                  "aberration":  {
+                                     "dRA":  -1.1923677655461506,
+                                     "dDec":  3.5993847290278262
+                                 },
+                  "nutation":  {
+                                   "dRA":  -1.2140865194694812,
+                                   "dDec":  4.051574129698309
+                               },
+                  "constellation":  "Gem Geminorum",
+                  "apparent":  {
+                                   "dRA":  2.061109077642772,
+                                   "dDec":  0.3983823707480651,
+                                   "ra":  {
+                                              "hours":  7,
+                                              "minutes":  52,
+                                              "seconds":  22,
+                                              "milliseconds":  284
+                                          },
+                                   "dec":  {
+                                               "degree":  22,
+                                               "minutes":  49,
+                                               "seconds":  32.26251460855764
+                                           }
+                               },
+                  "apparentGeocentric":  {
+                                             "0":  2.020005160588672,
+                                             "1":  0.03238008992789671,
+                                             "2":  1.3155270882793817,
+                                             "3":  {
+                                                       "degree":  115,
+                                                       "minutes":  44,
+                                                       "seconds":  15.973066957176343
+                                                   },
+                                             "4":  {
+                                                       "degree":  1,
+                                                       "minutes":  51,
+                                                       "seconds":  18.872975241171872
+                                                   }
+                                         },
+                  "apparentLongitude":  115.737770296377,
+                  "apparentLongitudeString":  "115°44\u002715\"",
+                  "apparentLongitude30String":  "25°44\u002715\"",
+                  "geocentricDistance":  1.3155270882793817,
+                  "altaz":  {
+                                "dLocalApparentSiderialTime":  0.9072610949605472,
+                                "localApparentSiderialTime":  {
+                                                                  "hours":  3,
+                                                                  "minutes":  27,
+                                                                  "seconds":  55,
+                                                                  "milliseconds":  736
+                                                              },
+                                "diurnalAberation":  {
+                                                         "ra":  2.061109593764374,
+                                                         "dec":  0.39838195410402527,
+                                                         "dRA":  0.00709718148636064,
+                                                         "dDec":  -0.08593900214394694
+                                                     },
+                                "transit":  {
+                                                "approxLocalMeridian":  {
+                                                                            "hours":  19,
+                                                                            "minutes":  18,
+                                                                            "seconds":  11,
+                                                                            "milliseconds":  433
+                                                                        },
+                                                "UTdate":  0.804298989876858,
+                                                "dApproxRiseUT":  3.09504084211651,
+                                                "dApproxSetUT":  7.0094844943378085,
+                                                "approxRiseUT":  {
+                                                                     "hours":  11,
+                                                                     "minutes":  49,
+                                                                     "seconds":  19,
+                                                                     "milliseconds":  867
+                                                                 },
+                                                "approxSetUT":  {
+                                                                    "hours":  26,
+                                                                    "minutes":  46,
+                                                                    "seconds":  27,
+                                                                    "milliseconds":  331
+                                                                }
+                                            },
+                                "diurnalParallax":  {
+                                                        "ra":  2.061134003119888,
+                                                        "dec":  0.39836644306266705,
+                                                        "dRA":  0.33564910363841455,
+                                                        "dDec":  -3.199392383722376
+                                                    },
+                                "atmosphericRefraction":  {
+                                                              "deg":  0.025234310075726515,
+                                                              "dRA":  -5.395540485883765,
+                                                              "dDec":  51.85183563955773
+                                                          },
+                                "topocentric":  {
+                                                    "altitude":  32.431814427629895,
+                                                    "azimuth":  86.55712471206576,
+                                                    "ra":  -4.222443678836378,
+                                                    "dec":  0.39861782785575406,
+                                                    "dRA":  {
+                                                                "hours":  7,
+                                                                "minutes":  52,
+                                                                "seconds":  17,
+                                                                "milliseconds":  232
+                                                            },
+                                                    "dDec":  {
+                                                                 "degree":  22,
+                                                                 "minutes":  50,
+                                                                 "seconds":  20.82902930551711
+                                                             }
+                                                }
+                            }
+              },
+    "mars":  {
+                 "rect":  [
+                              -1.6489343884872425,
+                              -0.04476790102557254,
+                              0.024255498892956036
+                          ],
+                 "polar":  [
+                               3.1607301665082934,
+                               0.02428452885650788,
+                               1.6497144415576273
+                           ],
+                 "trueGeocentricDistance":  1.8224153741677174,
+                 "equatorialDiameter":  5.135817096357308,
+                 "approxVisual":  {
+                                      "magnitude":  0.9638031971343279,
+                                      "phase":  0.9166937555275213
+                                  },
+                 "astrometricJ2000":  {
+                                          "dRA":  2.6209595116775866,
+                                          "dDec":  0.23590317474387956,
+                                          "ra":  {
+                                                     "hours":  10,
+                                                     "minutes":  0,
+                                                     "seconds":  40,
+                                                     "milliseconds":  780
+                                                 },
+                                          "dec":  {
+                                                      "degree":  13,
+                                                      "minutes":  30,
+                                                      "seconds":  58.52263162123421
+                                                  }
+                                      },
+                 "astrometricB1950":  {
+                                          "dRA":  2.6091886013717964,
+                                          "dDec":  0.24010394796607043,
+                                          "ra":  {
+                                                     "hours":  9,
+                                                     "minutes":  57,
+                                                     "seconds":  58,
+                                                     "milliseconds":  919
+                                                 },
+                                          "dec":  {
+                                                      "degree":  13,
+                                                      "minutes":  45,
+                                                      "seconds":  24.994306384424902
+                                                  }
+                                      },
+                 "deflection":  {
+                                    "sunElongation":  63.85132544372377,
+                                    "lightDeflection":  {
+                                                            "dRA":  0.00022748914175539954,
+                                                            "dDec":  -0.0011800377063753166
+                                                        }
+                                },
+                 "aberration":  {
+                                    "dRA":  -0.5560139190050211,
+                                    "dDec":  3.4092884773852443
+                                },
+                 "nutation":  {
+                                  "dRA":  -1.100310906778554,
+                                  "dDec":  6.387071784545464
+                              },
+                 "constellation":  "Leo Leonis",
+                 "apparent":  {
+                                  "dRA":  2.6082318131964244,
+                                  "dDec":  0.24044844425623457,
+                                  "ra":  {
+                                             "hours":  9,
+                                             "minutes":  57,
+                                             "seconds":  45,
+                                             "milliseconds":  762
+                                         },
+                                  "dec":  {
+                                              "degree":  13,
+                                              "minutes":  46,
+                                              "seconds":  36.05176692797528
+                                          }
+                              },
+                 "apparentGeocentric":  {
+                                            "0":  2.561720607266163,
+                                            "1":  0.021999111095555184,
+                                            "2":  1.8224948093729403,
+                                            "3":  {
+                                                      "degree":  146,
+                                                      "minutes":  46,
+                                                      "seconds":  32.80471694910375
+                                                  },
+                                            "4":  {
+                                                      "degree":  1,
+                                                      "minutes":  15,
+                                                      "seconds":  37.64238773303802
+                                                  }
+                                        },
+                 "apparentLongitude":  146.77577908804142,
+                 "apparentLongitudeString":  "146°46\u002732\"",
+                 "apparentLongitude30String":  "26°46\u002732\"",
+                 "geocentricDistance":  1.8224948093729403,
+                 "altaz":  {
+                               "dLocalApparentSiderialTime":  0.9072610949605472,
+                               "localApparentSiderialTime":  {
+                                                                 "hours":  3,
+                                                                 "minutes":  27,
+                                                                 "seconds":  55,
+                                                                 "milliseconds":  736
+                                                             },
+                               "diurnalAberation":  {
+                                                        "ra":  2.6082316562008883,
+                                                        "dec":  0.24044816689189405,
+                                                        "dRA":  -0.002158843591408141,
+                                                        "dDec":  -0.0572105019568059
+                                                    },
+                               "transit":  {
+                                               "approxLocalMeridian":  {
+                                                                           "hours":  21,
+                                                                           "minutes":  22,
+                                                                           "seconds":  53,
+                                                                           "milliseconds":  179
+                                                                       },
+                                               "UTdate":  0.890893270850834,
+                                               "dApproxRiseUT":  3.802798690781535,
+                                               "dApproxSetUT":  7.390580364302662,
+                                               "approxRiseUT":  {
+                                                                    "hours":  14,
+                                                                    "minutes":  31,
+                                                                    "seconds":  32,
+                                                                    "milliseconds":  236
+                                                                },
+                                               "approxSetUT":  {
+                                                                   "hours":  28,
+                                                                   "minutes":  13,
+                                                                   "seconds":  47,
+                                                                   "milliseconds":  775
+                                                               }
+                                           },
+                               "diurnalParallax":  {
+                                                       "ra":  2.6082497885274467,
+                                                       "dec":  0.24043287976084482,
+                                                       "dRA":  0.249337980198648,
+                                                       "dDec":  -3.1532030333674843
+                                                   },
+                               "atmosphericRefraction":  {
+                                                             "deg":  0.2081640765754235,
+                                                             "dRA":  -38.75949341739659,
+                                                             "dDec":  492.87232406332424
+                                                         },
+                               "topocentric":  {
+                                                   "altitude":  3.6299630789085007,
+                                                   "azimuth":  74.73867256645232,
+                                                   "ra":  -3.677754188554384,
+                                                   "dec":  0.24282239221830634,
+                                                   "dRA":  {
+                                                               "hours":  9,
+                                                               "minutes":  57,
+                                                               "seconds":  7,
+                                                               "milliseconds":  250
+                                                           },
+                                                   "dDec":  {
+                                                                "degree":  13,
+                                                                "minutes":  54,
+                                                                "seconds":  45.713683365396065
+                                                            }
+                                               }
+                           }
+             },
+    "jupiter":  {
+                    "rect":  [
+                                 -4.811444650752799,
+                                 -2.391239699467676,
+                                 -0.9077760386839724
+                             ],
+                    "polar":  [
+                                  3.62979124778072,
+                                  0.02171383682098145,
+                                  5.449041886232888
+                              ],
+                    "trueGeocentricDistance":  4.948698187662966,
+                    "equatorialDiameter":  39.783900447337466,
+                    "approxVisual":  {
+                                         "magnitude":  -2.238026452095448,
+                                         "phase":  0.9927554880991523
+                                     },
+                    "astrometricJ2000":  {
+                                             "dRA":  3.4437693608422544,
+                                             "dDec":  -0.10244274433324123,
+                                             "ra":  {
+                                                        "hours":  13,
+                                                        "minutes":  9,
+                                                        "seconds":  15,
+                                                        "milliseconds":  228
+                                                    },
+                                             "dec":  {
+                                                         "degree":  5,
+                                                         "minutes":  52,
+                                                         "seconds":  10.332811316831965
+                                                     }
+                                         },
+                    "astrometricB1950":  {
+                                             "dRA":  3.4324481742200357,
+                                             "dDec":  -0.09779598642308455,
+                                             "ra":  {
+                                                        "hours":  13,
+                                                        "minutes":  6,
+                                                        "seconds":  39,
+                                                        "milliseconds":  551
+                                                    },
+                                             "dec":  {
+                                                         "degree":  5,
+                                                         "minutes":  36,
+                                                         "seconds":  11.870191301202624
+                                                     }
+                                         },
+                    "deflection":  {
+                                       "sunElongation":  114.50849673966648,
+                                       "lightDeflection":  {
+                                                               "dRA":  0.00013077041168373628,
+                                                               "dDec":  -0.0008265846672234554
+                                                           }
+                                   },
+                    "aberration":  {
+                                       "dRA":  0.5362322245864642,
+                                       "dDec":  -2.811487382624268
+                                   },
+                    "nutation":  {
+                                     "dRA":  -1.074821045048659,
+                                     "dDec":  6.319888692943006
+                                 },
+                    "constellation":  "Vir Virginis",
+                    "apparent":  {
+                                     "dRA":  3.431605961216354,
+                                     "dDec":  -0.0974485630181136,
+                                     "ra":  {
+                                                "hours":  13,
+                                                "minutes":  6,
+                                                "seconds":  27,
+                                                "milliseconds":  969
+                                            },
+                                     "dec":  {
+                                                 "degree":  5,
+                                                 "minutes":  35,
+                                                 "seconds":  0.2089699891612895
+                                             }
+                                 },
+                    "apparentGeocentric":  {
+                                               "0":  3.446188661649134,
+                                               "1":  0.023983485494610237,
+                                               "2":  4.948735488130757,
+                                               "3":  {
+                                                         "degree":  197,
+                                                         "minutes":  27,
+                                                         "seconds":  7.436585998964347
+                                                     },
+                                               "4":  {
+                                                         "degree":  1,
+                                                         "minutes":  22,
+                                                         "seconds":  26.948988675826797
+                                                     }
+                                           },
+                    "apparentLongitude":  197.45206571833305,
+                    "apparentLongitudeString":  "197°27\u00277\"",
+                    "apparentLongitude30String":  "17°27\u00277\"",
+                    "geocentricDistance":  4.948735488130756,
+                    "altaz":  {
+                                  "dLocalApparentSiderialTime":  0.9072610949605472,
+                                  "localApparentSiderialTime":  {
+                                                                    "hours":  3,
+                                                                    "minutes":  27,
+                                                                    "seconds":  55,
+                                                                    "milliseconds":  736
+                                                                },
+                                  "diurnalAberation":  {
+                                                           "ra":  3.4316049987459394,
+                                                           "dec":  -0.09744849686919026,
+                                                           "dRA":  -0.01323491823732861,
+                                                           "dDec":  0.013644194857093657
+                                                       },
+                                  "transit":  {
+                                                  "approxLocalMeridian":  {
+                                                                              "hours":  24,
+                                                                              "minutes":  30,
+                                                                              "seconds":  29,
+                                                                              "milliseconds":  734
+                                                                          },
+                                                  "UTdate":  1.0211774720792437,
+                                                  "dApproxRiseUT":  4.920602074257211,
+                                                  "dApproxSetUT":  7.911863446018359,
+                                                  "approxRiseUT":  {
+                                                                       "hours":  18,
+                                                                       "minutes":  47,
+                                                                       "seconds":  43,
+                                                                       "milliseconds":  136
+                                                                   },
+                                                  "approxSetUT":  {
+                                                                      "hours":  30,
+                                                                      "minutes":  13,
+                                                                      "seconds":  15,
+                                                                      "milliseconds":  932
+                                                                  }
+                                              },
+                                  "diurnalParallax":  {
+                                                          "ra":  3.4316088026211427,
+                                                          "dec":  -0.09745353978446902,
+                                                          "dRA":  0.05230731912069724,
+                                                          "dDec":  -1.040175686495648
+                                                      },
+                                  "atmosphericRefraction":  {
+                                                                "deg":  0,
+                                                                "dRA":  0,
+                                                                "dDec":  2.8624992133171651E-12
+                                                            },
+                                  "topocentric":  {
+                                                      "altitude":  -42.74649109320208,
+                                                      "azimuth":  51.66638023151724,
+                                                      "ra":  -2.8515765045584436,
+                                                      "dec":  -0.09745353978446901,
+                                                      "dRA":  {
+                                                                  "hours":  13,
+                                                                  "minutes":  6,
+                                                                  "seconds":  28,
+                                                                  "milliseconds":  8
+                                                              },
+                                                      "dDec":  {
+                                                                   "degree":  5,
+                                                                   "minutes":  35,
+                                                                   "seconds":  1.2355017371982058
+                                                               }
+                                                  }
+                              }
+                },
+    "saturn":  {
+                   "rect":  [
+                                -4.239602864961258,
+                                7.345032653564105,
+                                3.2148932399771053
+                            ],
+                   "polar":  [
+                                 2.057236874600184,
+                                 0.0030802451082897007,
+                                 9.069697085640204
+                             ],
+                   "trueGeocentricDistance":  9.92636583895449,
+                   "equatorialDiameter":  16.66871844793193,
+                   "approxVisual":  {
+                                        "magnitude":  0.8929290843566864,
+                                        "phase":  0.9991730095318181
+                                    },
+                   "astrometricJ2000":  {
+                                            "dRA":  2.033696475196037,
+                                            "dDec":  0.37292582360213405,
+                                            "ra":  {
+                                                       "hours":  7,
+                                                       "minutes":  46,
+                                                       "seconds":  5,
+                                                       "milliseconds":  334
+                                                   },
+                                            "dec":  {
+                                                        "degree":  21,
+                                                        "minutes":  22,
+                                                        "seconds":  1.472749833013438
+                                                    }
+                                        },
+                   "astrometricB1950":  {
+                                            "dRA":  2.0208062177077224,
+                                            "dDec":  0.3750674912257827,
+                                            "ra":  {
+                                                       "hours":  7,
+                                                       "minutes":  43,
+                                                       "seconds":  8,
+                                                       "milliseconds":  80
+                                                   },
+                                            "dec":  {
+                                                        "degree":  21,
+                                                        "minutes":  29,
+                                                        "seconds":  23.223407270581333
+                                                    }
+                                        },
+                   "deflection":  {
+                                      "sunElongation":  30.88699118960739,
+                                      "lightDeflection":  {
+                                                              "dRA":  0.0009191779297991359,
+                                                              "dDec":  -0.0022581209956228023
+                                                          }
+                                  },
+                   "aberration":  {
+                                      "dRA":  -1.2146243634327476,
+                                      "dDec":  3.0928987673498995
+                                  },
+                   "nutation":  {
+                                    "dRA":  -1.208247861025021,
+                                    "dDec":  3.8152745338992435
+                                },
+                   "constellation":  "Gem Geminorum",
+                   "apparent":  {
+                                    "dRA":  2.0197142558029193,
+                                    "dDec":  0.3752504550822351,
+                                    "ra":  {
+                                               "hours":  7,
+                                               "minutes":  42,
+                                               "seconds":  53,
+                                               "milliseconds":  65
+                                           },
+                                    "dec":  {
+                                                "degree":  21,
+                                                "minutes":  30,
+                                                "seconds":  0.9624116719564313
+                                            }
+                                },
+                   "apparentGeocentric":  {
+                                              "0":  1.986456024515316,
+                                              "1":  0.0027234158861906264,
+                                              "2":  9.926377994615946,
+                                              "3":  {
+                                                        "degree":  113,
+                                                        "minutes":  48,
+                                                        "seconds":  55.967015028955984
+                                                    },
+                                              "4":  {
+                                                        "degree":  0,
+                                                        "minutes":  9,
+                                                        "seconds":  21.744850095373884
+                                                    }
+                                          },
+                   "apparentLongitude":  113.8155463930636,
+                   "apparentLongitudeString":  "113°48\u002755\"",
+                   "apparentLongitude30String":  "23°48\u002755\"",
+                   "geocentricDistance":  9.926377994615924,
+                   "altaz":  {
+                                 "dLocalApparentSiderialTime":  0.9072610949605472,
+                                 "localApparentSiderialTime":  {
+                                                                   "hours":  3,
+                                                                   "minutes":  27,
+                                                                   "seconds":  55,
+                                                                   "milliseconds":  736
+                                                               },
+                                 "diurnalAberation":  {
+                                                          "ra":  2.0197148144163797,
+                                                          "dec":  0.3752500689985569,
+                                                          "dRA":  0.007681486480207138,
+                                                          "dDec":  -0.079635475083038
+                                                      },
+                                 "transit":  {
+                                                 "approxLocalMeridian":  {
+                                                                             "hours":  19,
+                                                                             "minutes":  7,
+                                                                             "seconds":  53,
+                                                                             "milliseconds":  312
+                                                                         },
+                                                 "UTdate":  0.7971448203002368,
+                                                 "dApproxRiseUT":  3.081769662987726,
+                                                 "dApproxSetUT":  6.935226730397291,
+                                                 "approxRiseUT":  {
+                                                                      "hours":  11,
+                                                                      "minutes":  46,
+                                                                      "seconds":  17,
+                                                                      "milliseconds":  375
+                                                                  },
+                                                 "approxSetUT":  {
+                                                                     "hours":  26,
+                                                                     "minutes":  29,
+                                                                     "seconds":  26,
+                                                                     "milliseconds":  213
+                                                                 }
+                                             },
+                                 "diurnalParallax":  {
+                                                         "ra":  2.0197179574979653,
+                                                         "dec":  0.3752480055935717,
+                                                         "dRA":  0.04322040726212302,
+                                                         "dDec":  -0.42560800245113445
+                                                     },
+                                 "atmosphericRefraction":  {
+                                                               "deg":  0.024253849172397198,
+                                                               "dRA":  -5.097971721629722,
+                                                               "dDec":  50.61698722261158
+                                                           },
+                                 "topocentric":  {
+                                                     "altitude":  33.466677229474044,
+                                                     "azimuth":  89.35398360717461,
+                                                     "ra":  -4.263838084647104,
+                                                     "dec":  0.3754934036725924,
+                                                     "dRA":  {
+                                                                 "hours":  7,
+                                                                 "minutes":  42,
+                                                                 "seconds":  48,
+                                                                 "milliseconds":  18
+                                                             },
+                                                     "dDec":  {
+                                                                  "degree":  21,
+                                                                  "minutes":  30,
+                                                                  "seconds":  51.07415559001254
+                                                              }
+                                                 }
+                             }
+               },
+    "uranus":  {
+                   "rect":  [
+                                3.862859058745921,
+                                17.234874133686365,
+                                7.493809632626257
+                            ],
+                   "polar":  [
+                                 1.368101781167742,
+                                 0.0010323267785934589,
+                                 19.186424746343036
+                             ],
+                   "trueGeocentricDistance":  20.198039587160643,
+                   "equatorialDiameter":  3.46765981050946,
+                   "approxVisual":  {
+                                        "magnitude":  5.751691287174248,
+                                        "phase":  0.9999946022137456
+                                    },
+                   "astrometricJ2000":  {
+                                            "dRA":  1.3553429957084338,
+                                            "dDec":  0.40161394170209475,
+                                            "ra":  {
+                                                       "hours":  5,
+                                                       "minutes":  10,
+                                                       "seconds":  37,
+                                                       "milliseconds":  304
+                                                   },
+                                            "dec":  {
+                                                        "degree":  23,
+                                                        "minutes":  0,
+                                                        "seconds":  38.8218713152213
+                                                    }
+                                        },
+                   "astrometricB1950":  {
+                                            "dRA":  1.3421545536405126,
+                                            "dDec":  0.4005439514006085,
+                                            "ra":  {
+                                                       "hours":  5,
+                                                       "minutes":  7,
+                                                       "seconds":  35,
+                                                       "milliseconds":  950
+                                                   },
+                                            "dec":  {
+                                                        "degree":  22,
+                                                        "minutes":  56,
+                                                        "seconds":  58.12052909289861
+                                                    }
+                                        },
+                   "deflection":  {
+                                      "sunElongation":  5.035360270201446,
+                                      "lightDeflection":  {
+                                                              "dRA":  -0.006253311474493073,
+                                                              "dDec":  -0.006515884917148657
+                                                          }
+                                  },
+                   "aberration":  {
+                                      "dRA":  -1.4502318018555853,
+                                      "dDec":  -1.7103032674913878
+                                  },
+                   "nutation":  {
+                                    "dRA":  -1.251004473635735,
+                                    "dDec":  -0.664433976918005
+                                },
+                   "constellation":  "Tau Tauri",
+                   "apparent":  {
+                                    "dRA":  1.3410222011484592,
+                                    "dDec":  0.40045353718977234,
+                                    "ra":  {
+                                               "hours":  5,
+                                               "minutes":  7,
+                                               "seconds":  20,
+                                               "milliseconds":  379
+                                           },
+                                    "dec":  {
+                                                "degree":  22,
+                                                "minutes":  56,
+                                                "seconds":  39.4712594127833
+                                            }
+                                },
+                   "apparentGeocentric":  {
+                                              "0":  1.359488858499445,
+                                              "1":  0.0008694804828718664,
+                                              "2":  20.1980597369256,
+                                              "3":  {
+                                                        "degree":  77,
+                                                        "minutes":  53,
+                                                        "seconds":  34.70599347420034
+                                                    },
+                                              "4":  {
+                                                        "degree":  0,
+                                                        "minutes":  2,
+                                                        "seconds":  59.34322333519731
+                                                    }
+                                          },
+                   "apparentLongitude":  77.89297388707617,
+                   "apparentLongitudeString":  "77°53\u002734\"",
+                   "apparentLongitude30String":  "17°53\u002734\"",
+                   "geocentricDistance":  20.19805973692382,
+                   "altaz":  {
+                                 "dLocalApparentSiderialTime":  0.9072610949605472,
+                                 "localApparentSiderialTime":  {
+                                                                   "hours":  3,
+                                                                   "minutes":  27,
+                                                                   "seconds":  55,
+                                                                   "milliseconds":  736
+                                                               },
+                                 "diurnalAberation":  {
+                                                          "ra":  1.341023358595855,
+                                                          "dec":  0.400453344730367,
+                                                          "dRA":  0.015916044189643798,
+                                                          "dDec":  -0.03969760195827027
+                                                      },
+                                 "transit":  {
+                                                 "approxLocalMeridian":  {
+                                                                             "hours":  16,
+                                                                             "minutes":  32,
+                                                                             "seconds":  41,
+                                                                             "milliseconds":  917
+                                                                         },
+                                                 "UTdate":  0.6893740423392883,
+                                                 "dApproxRiseUT":  2.3777518585302353,
+                                                 "dApproxSetUT":  6.2852389521214,
+                                                 "approxRiseUT":  {
+                                                                      "hours":  9,
+                                                                      "minutes":  4,
+                                                                      "seconds":  56,
+                                                                      "milliseconds":  435
+                                                                  },
+                                                 "approxSetUT":  {
+                                                                     "hours":  24,
+                                                                     "minutes":  0,
+                                                                     "seconds":  28,
+                                                                     "milliseconds":  240
+                                                                 }
+                                             },
+                                 "diurnalParallax":  {
+                                                         "ra":  1.3410240900147115,
+                                                         "dec":  0.40045265072577346,
+                                                         "dRA":  0.010057715363672488,
+                                                         "dDec":  -0.14314874404511738
+                                                     },
+                                 "atmosphericRefraction":  {
+                                                               "deg":  0.008307742565223498,
+                                                               "dRA":  -1.498520730787305,
+                                                               "dDec":  21.587769291306685
+                                                           },
+                                 "topocentric":  {
+                                                     "altitude":  62.595135258364664,
+                                                     "azimuth":  122.79152555449133,
+                                                     "ra":  -4.942270192667632,
+                                                     "dec":  0.4005573111847441,
+                                                     "dRA":  {
+                                                                 "hours":  5,
+                                                                 "minutes":  7,
+                                                                 "seconds":  18,
+                                                                 "milliseconds":  906
+                                                             },
+                                                     "dDec":  {
+                                                                  "degree":  22,
+                                                                  "minutes":  57,
+                                                                  "seconds":  0.8761823791277834
+                                                              }
+                                                 }
+                             }
+               },
+    "neptune":  {
+                    "rect":  [
+                                 -29.94173934512424,
+                                 -4.400660932207817,
+                                 -1.0560724826383248
+                             ],
+                    "polar":  [
+                                  3.2894011488770047,
+                                  0.02581251066827348,
+                                  30.281826594074243
+                              ],
+                    "trueGeocentricDistance":  30.0388120894662,
+                    "equatorialDiameter":  2.230446603854359,
+                    "approxVisual":  {
+                                         "magnitude":  7.924800173203117,
+                                         "phase":  0.9997326716534503
+                                     },
+                    "astrometricJ2000":  {
+                                             "dRA":  3.2575446902357723,
+                                             "dDec":  -0.02178593713733444,
+                                             "ra":  {
+                                                        "hours":  12,
+                                                        "minutes":  26,
+                                                        "seconds":  34,
+                                                        "milliseconds":  455
+                                                    },
+                                             "dec":  {
+                                                         "degree":  1,
+                                                         "minutes":  14,
+                                                         "seconds":  53.672102543709634
+                                                     }
+                                         },
+                    "astrometricB1950":  {
+                                             "dRA":  3.2463557569529975,
+                                             "dDec":  -0.016956689470598932,
+                                             "ra":  {
+                                                        "hours":  12,
+                                                        "minutes":  24,
+                                                        "seconds":  0,
+                                                        "milliseconds":  596
+                                                    },
+                                             "dec":  {
+                                                         "degree":  0,
+                                                         "minutes":  58,
+                                                         "seconds":  17.56826824526769
+                                                     }
+                                         },
+                    "deflection":  {
+                                       "sunElongation":  102.90245134473854,
+                                       "lightDeflection":  {
+                                                               "dRA":  0.00018867176049099324,
+                                                               "dDec":  -0.0012378841571026643
+                                                           }
+                                   },
+                    "aberration":  {
+                                       "dRA":  0.2960890197745453,
+                                       "dDec":  -1.3537006876104074
+                                   },
+                    "nutation":  {
+                                     "dRA":  -1.0580412328438702,
+                                     "dDec":  6.738298494150997
+                                 },
+                    "constellation":  "Vir Virginis",
+                    "apparent":  {
+                                     "dRA":  3.2455064110831526,
+                                     "dDec":  -0.016587553508332506,
+                                     "ra":  {
+                                                "hours":  12,
+                                                "minutes":  23,
+                                                "seconds":  48,
+                                                "milliseconds":  917
+                                            },
+                                     "dec":  {
+                                                 "degree":  0,
+                                                 "minutes":  57,
+                                                 "seconds":  1.4285105095478912
+                                             }
+                                 },
+                    "apparentGeocentric":  {
+                                               "0":  3.243552876349818,
+                                               "1":  0.026051706721971286,
+                                               "2":  30.038827149782286,
+                                               "3":  {
+                                                         "degree":  185,
+                                                         "minutes":  50,
+                                                         "seconds":  30.805592507294932
+                                                     },
+                                               "4":  {
+                                                         "degree":  1,
+                                                         "minutes":  29,
+                                                         "seconds":  33.550239413585246
+                                                     }
+                                           },
+                    "apparentLongitude":  185.84189044236314,
+                    "apparentLongitudeString":  "185°50\u002730\"",
+                    "apparentLongitude30String":  "5°50\u002730\"",
+                    "geocentricDistance":  30.03882714978228,
+                    "altaz":  {
+                                  "dLocalApparentSiderialTime":  0.9072610949605472,
+                                  "localApparentSiderialTime":  {
+                                                                    "hours":  3,
+                                                                    "minutes":  27,
+                                                                    "seconds":  55,
+                                                                    "milliseconds":  736
+                                                                },
+                                  "diurnalAberation":  {
+                                                           "ra":  3.245505595403643,
+                                                           "dec":  -0.01658753948613669,
+                                                           "dRA":  -0.01121639840394948,
+                                                           "dDec":  0.002892285503424227
+                                                       },
+                                  "transit":  {
+                                                  "approxLocalMeridian":  {
+                                                                              "hours":  23,
+                                                                              "minutes":  47,
+                                                                              "seconds":  57,
+                                                                              "milliseconds":  728
+                                                                          },
+                                                  "UTdate":  0.9916403711883761,
+                                                  "dApproxRiseUT":  4.665378406897949,
+                                                  "dApproxSetUT":  7.795941344188776,
+                                                  "approxRiseUT":  {
+                                                                       "hours":  17,
+                                                                       "minutes":  49,
+                                                                       "seconds":  13,
+                                                                       "milliseconds":  558
+                                                                   },
+                                                  "approxSetUT":  {
+                                                                      "hours":  29,
+                                                                      "minutes":  46,
+                                                                      "seconds":  41,
+                                                                      "milliseconds":  889
+                                                                  }
+                                              },
+                                  "diurnalParallax":  {
+                                                          "ra":  3.2455063710296743,
+                                                          "dec":  -0.01658844761173846,
+                                                          "dRA":  0.010665631523510072,
+                                                          "dDec":  -0.1873143498865476
+                                                      },
+                                  "atmosphericRefraction":  {
+                                                                "deg":  0,
+                                                                "dRA":  0,
+                                                                "dDec":  -2.8624992133171651E-12
+                                                            },
+                                  "topocentric":  {
+                                                      "altitude":  -32.48767869147523,
+                                                      "azimuth":  58.54907971224262,
+                                                      "ra":  -3.0376789361499124,
+                                                      "dec":  -0.016588447611738475,
+                                                      "dRA":  {
+                                                                  "hours":  12,
+                                                                  "minutes":  23,
+                                                                  "seconds":  48,
+                                                                  "milliseconds":  916
+                                                              },
+                                                      "dDec":  {
+                                                                   "degree":  0,
+                                                                   "minutes":  57,
+                                                                   "seconds":  1.6129325753449564
+                                                               }
+                                                  }
+                              }
+                },
+    "pluto":  {
+                  "rect":  [
+                               -24.737972803611378,
+                               23.576549252786418,
+                               14.807023867902124
+                           ],
+                  "polar":  [
+                                2.3030070449384623,
+                                0.11320507613582535,
+                                37.243218872215756
+                            ],
+                  "trueGeocentricDistance":  37.922706409238955,
+                  "equatorialDiameter":  0.10916894114883438,
+                  "approxVisual":  {
+                                       "magnitude":  14.750059820586403,
+                                       "phase":  0.9998991048213761
+                                   },
+                  "astrometricJ2000":  {
+                                           "dRA":  2.3587082893609397,
+                                           "dDec":  0.41265573868202376,
+                                           "ra":  {
+                                                      "hours":  9,
+                                                      "minutes":  0,
+                                                      "seconds":  34,
+                                                      "milliseconds":  567
+                                                  },
+                                           "dec":  {
+                                                       "degree":  23,
+                                                       "minutes":  38,
+                                                       "seconds":  36.355986000054656
+                                                   }
+                                       },
+                  "astrometricB1950":  {
+                                           "dRA":  2.346012822746019,
+                                           "dDec":  0.41607828412390185,
+                                           "ra":  {
+                                                      "hours":  8,
+                                                      "minutes":  57,
+                                                      "seconds":  39,
+                                                      "milliseconds":  992
+                                                  },
+                                           "dec":  {
+                                                       "degree":  23,
+                                                       "minutes":  50,
+                                                       "seconds":  22.30665844093096
+                                                   }
+                                       },
+                  "deflection":  {
+                                     "sunElongation":  47.43944098566448,
+                                     "lightDeflection":  {
+                                                             "dRA":  0.0006351978088189844,
+                                                             "dDec":  -0.0016348463908058886
+                                                         }
+                                 },
+                  "aberration":  {
+                                     "dRA":  -0.9178641094270542,
+                                     "dDec":  5.450449521485115
+                                 },
+                  "nutation":  {
+                                   "dRA":  -1.1819979590725664,
+                                   "dDec":  5.465068135830164
+                               },
+                  "constellation":  "Cnc Cancri",
+                  "apparent":  {
+                                   "dRA":  2.3449576497377076,
+                                   "dDec":  0.41637224513834153,
+                                   "ra":  {
+                                              "hours":  8,
+                                              "minutes":  57,
+                                              "seconds":  25,
+                                              "milliseconds":  482
+                                          },
+                                   "dec":  {
+                                               "degree":  23,
+                                               "minutes":  51,
+                                               "seconds":  22.940470128528432
+                                           }
+                               },
+                  "apparentGeocentric":  {
+                                             "0":  2.2696645101783797,
+                                             "1":  0.11109332843161449,
+                                             "2":  37.92287400090999,
+                                             "3":  {
+                                                       "degree":  130,
+                                                       "minutes":  2,
+                                                       "seconds":  31.91043785439433
+                                                   },
+                                             "4":  {
+                                                       "degree":  6,
+                                                       "minutes":  21,
+                                                       "seconds":  54.64386429200495
+                                                   }
+                                         },
+                  "apparentLongitude":  130.04219734384844,
+                  "apparentLongitudeString":  "130°2\u002731\"",
+                  "apparentLongitude30String":  "10°2\u002731\"",
+                  "geocentricDistance":  37.92287400090995,
+                  "altaz":  {
+                                "dLocalApparentSiderialTime":  0.9072610949605472,
+                                "localApparentSiderialTime":  {
+                                                                  "hours":  3,
+                                                                  "minutes":  27,
+                                                                  "seconds":  55,
+                                                                  "milliseconds":  736
+                                                              },
+                                "diurnalAberation":  {
+                                                         "ra":  2.344957820186006,
+                                                         "dec":  0.41637177425517646,
+                                                         "dRA":  0.0023438323503453887,
+                                                         "dDec":  -0.09712662481184937
+                                                     },
+                                "transit":  {
+                                                "approxLocalMeridian":  {
+                                                                            "hours":  20,
+                                                                            "minutes":  22,
+                                                                            "seconds":  9,
+                                                                            "milliseconds":  467
+                                                                        },
+                                                "UTdate":  0.8487206883455995,
+                                                "dApproxRiseUT":  3.361461731763053,
+                                                "dApproxSetUT":  7.303792414286789,
+                                                "approxRiseUT":  {
+                                                                     "hours":  12,
+                                                                     "minutes":  50,
+                                                                     "seconds":  23,
+                                                                     "milliseconds":  417
+                                                                 },
+                                                "approxSetUT":  {
+                                                                    "hours":  27,
+                                                                    "minutes":  53,
+                                                                    "seconds":  54,
+                                                                    "milliseconds":  355
+                                                                }
+                                            },
+                                "diurnalParallax":  {
+                                                        "ra":  2.3449587452266627,
+                                                        "dec":  0.41637115311389244,
+                                                        "dRA":  0.012720220543049266,
+                                                        "dDec":  -0.1281196041915657
+                                                    },
+                                "atmosphericRefraction":  {
+                                                              "deg":  0.042080998528576885,
+                                                              "dRA":  -8.880527638960846,
+                                                              "dDec":  90.05974109537217
+                                                          },
+                                "topocentric":  {
+                                                    "altitude":  20.881543034697973,
+                                                    "azimuth":  75.91255841150311,
+                                                    "ra":  -3.9388723721471495,
+                                                    "dec":  0.41680777505989464,
+                                                    "dRA":  {
+                                                                "hours":  8,
+                                                                "minutes":  57,
+                                                                "seconds":  16,
+                                                                "milliseconds":  617
+                                                            },
+                                                    "dDec":  {
+                                                                 "degree":  23,
+                                                                 "minutes":  52,
+                                                                 "seconds":  52.77496501249203
+                                                             }
+                                                }
+                            }
+              },
+    "sun":  {
+                "equinoxEclipticLonLat":  {
+                                              "0":  1.4475497884106703,
+                                              "1":  -9.4205820357348953E-07,
+                                              "2":  1.0157398683856396,
+                                              "3":  {
+                                                        "degree":  82,
+                                                        "minutes":  56,
+                                                        "seconds":  18.57663955223302
+                                                    },
+                                              "4":  {
+                                                        "degree":  0,
+                                                        "minutes":  0,
+                                                        "seconds":  0.19431345283357349
+                                                    }
+                                          },
+                "lightTime":  8.447646317578,
+                "aberration":  {
+                                   "dRA":  1.461881728667597,
+                                   "dDec":  0.9600333454217969
+                               },
+                "constellation":  "Tau Tauri",
+                "apparent":  {
+                                 "dRA":  1.4363878564154158,
+                                 "dDec":  0.4059206601283118,
+                                 "ra":  {
+                                            "hours":  5,
+                                            "minutes":  29,
+                                            "seconds":  11,
+                                            "milliseconds":  751
+                                        },
+                                 "dec":  {
+                                             "degree":  23,
+                                             "minutes":  15,
+                                             "seconds":  27.14631305969135
+                                         }
+                             },
+                "apparentLongitude":  82.92809549378828,
+                "apparentLongitudeString":  "82°55\u002741\"",
+                "apparentLongitude30String":  "22°55\u002741\"",
+                "geocentricDistance":  -1,
+                "altaz":  {
+                              "dLocalApparentSiderialTime":  0.9072610949605472,
+                              "localApparentSiderialTime":  {
+                                                                "hours":  3,
+                                                                "minutes":  27,
+                                                                "seconds":  55,
+                                                                "milliseconds":  736
+                                                            },
+                              "diurnalAberation":  {
+                                                       "ra":  1.4363889601256197,
+                                                       "dec":  0.4059204259956868,
+                                                       "dRA":  0.01517710475636052,
+                                                       "dDec":  -0.04829332053652243
+                                                   },
+                              "transit":  {
+                                              "approxLocalMeridian":  {
+                                                                          "hours":  16,
+                                                                          "minutes":  54,
+                                                                          "seconds":  49,
+                                                                          "milliseconds":  587
+                                                                      },
+                                              "UTdate":  0.7047405910728163,
+                                              "dApproxRiseUT":  2.4558938338503165,
+                                              "dApproxSetUT":  6.4006856815336,
+                                              "approxRiseUT":  {
+                                                                   "hours":  9,
+                                                                   "minutes":  22,
+                                                                   "seconds":  50,
+                                                                   "milliseconds":  964
+                                                               },
+                                              "approxSetUT":  {
+                                                                  "hours":  24,
+                                                                  "minutes":  26,
+                                                                  "seconds":  55,
+                                                                  "milliseconds":  746
+                                                              }
+                                          },
+                              "diurnalParallax":  {
+                                                      "ra":  1.4364064696666565,
+                                                      "dec":  0.40590627345977465,
+                                                      "dRA":  0.24076626318824942,
+                                                      "dDec":  -2.9191789558190617
+                                                  },
+                              "atmosphericRefraction":  {
+                                                            "deg":  0.009557452820812069,
+                                                            "dRA":  -1.864851468617896,
+                                                            "dDec":  22.877489869004812
+                                                        },
+                              "topocentric":  {
+                                                  "altitude":  59.186703116229666,
+                                                  "azimuth":  115.15838110218715,
+                                                  "ra":  -4.846914453338713,
+                                                  "dec":  0.40601718666055403,
+                                                  "dRA":  {
+                                                              "hours":  5,
+                                                              "minutes":  29,
+                                                              "seconds":  10,
+                                                              "milliseconds":  142
+                                                          },
+                                                  "dDec":  {
+                                                               "degree":  23,
+                                                               "minutes":  15,
+                                                               "seconds":  47.05633953033157
+                                                           }
+                                              }
+                          }
+            },
+    "moon":  {
+                 "polar":  [
+                               -1.7242985520278655,
+                               -0.000640958236475306,
+                               0.0027078008694365868
+                           ],
+                 "rect":  [
+
+                          ],
+                 "nutation":  {
+                                  "dRA":  -1.2541435030581196,
+                                  "dDec":  0.2316553876651132
+                              },
+                 "geometric":  {
+                                   "longitude":  -98.7950296517157,
+                                   "latitude":  -0.03672420179418321,
+                                   "distance":  0.1551455615805713
+                               },
+                 "annualAberration":  {
+                                          "dRA":  1.4618863972729415,
+                                          "dDec":  -0.95918630172176
+                                      },
+                 "apparentGeocentric":  {
+                                            "longitude":  4.558799788084073,
+                                            "dLongitude":  261.19998750235146,
+                                            "latitude":  -0.0006409582364753435,
+                                            "dLatitude":  -0.03672420179418536,
+                                            "distance":  63.51090362639623
+                                        },
+                 "apparentLongitude":  261.19998750235146,
+                 "apparentLongitudeString":  "261°11\u002759\"",
+                 "apparentLongitude30String":  "21°11\u002759\"",
+                 "geocentricDistance":  63.51090362639623,
+                 "dHorizontalParallax":  0.01574597851288605,
+                 "horizontalParallax":  {
+                                            "degree":  0,
+                                            "minutes":  54,
+                                            "seconds":  7.841207131383641
+                                        },
+                 "dSemidiameter":  0.004290249176360022,
+                 "Semidiameter":  {
+                                      "degree":  0,
+                                      "minutes":  14,
+                                      "seconds":  44.92741511366486
+                                  },
+                 "sunElongation":  178.2603013935051,
+                 "illuminatedFraction":  0.9997707562523023,
+                 "phaseDecimal":  0.4951685835496278,
+                 "phaseDaysBefore":  0.14795875866246805,
+                 "phaseDaysDistance":  0.14795875866246805,
+                 "phaseQuarter":  1,
+                 "phaseQuarterString":  "First Quarter",
+                 "shapeString":  "Gibbous",
+                 "shapeDirectionString":  "Waxing",
+                 "withinQuarterApproximation":  true,
+                 "quarterApproximationString":  "Full Moon",
+                 "quarterApproximationDirectionString":  "Entering",
+                 "apparent":  {
+                                  "dRA":  4.545176537330611,
+                                  "dDec":  -0.40475844305359593,
+                                  "ra":  {
+                                             "hours":  17,
+                                             "minutes":  21,
+                                             "seconds":  40,
+                                             "milliseconds":  664
+                                         },
+                                  "dec":  {
+                                              "degree":  23,
+                                              "minutes":  11,
+                                              "seconds":  27.42183332635136
+                                          }
+                              },
+                 "altaz":  {
+                               "dLocalApparentSiderialTime":  0.9072610949605472,
+                               "localApparentSiderialTime":  {
+                                                                 "hours":  3,
+                                                                 "minutes":  27,
+                                                                 "seconds":  55,
+                                                                 "milliseconds":  736
+                                                             },
+                               "diurnalAberation":  {
+                                                        "ra":  4.545175413607244,
+                                                        "dec":  -0.4047586633304255,
+                                                        "dRA":  -0.015452305501142856,
+                                                        "dDec":  -0.04543535756346701
+                                                    },
+                               "transit":  {
+                                               "approxLocalMeridian":  {
+                                                                           "hours":  4,
+                                                                           "minutes":  26,
+                                                                           "seconds":  43,
+                                                                           "milliseconds":  624
+                                                                       },
+                                               "UTdate":  0.18522712727112944,
+                                               "dApproxRiseUT":  -0.09043852094153237,
+                                               "dApproxSetUT":  2.4038729517096455,
+                                               "approxRiseUT":  {
+                                                                    "hours":  23,
+                                                                    "minutes":  39,
+                                                                    "seconds":  16,
+                                                                    "milliseconds":  381
+                                                                },
+                                               "approxSetUT":  {
+                                                                   "hours":  9,
+                                                                   "minutes":  10,
+                                                                   "seconds":  55,
+                                                                   "milliseconds":  626
+                                                               }
+                                           },
+                               "diurnalParallax":  {
+                                                       "ra":  4.539052635636263,
+                                                       "dec":  -0.40992948289310344,
+                                                       "dRA":  -84.19424079189753,
+                                                       "dDec":  -1066.5580952344635
+                                                   },
+                               "atmosphericRefraction":  {
+                                                             "deg":  0,
+                                                             "dRA":  0,
+                                                             "dDec":  6.8699981119611959E-11
+                                                         },
+                               "topocentric":  {
+                                                   "altitude":  -60.848034096892945,
+                                                   "azimuth":  297.5744286151793,
+                                                   "ra":  -1.7441326715433236,
+                                                   "dec":  -0.4099294828931031,
+                                                   "dRA":  {
+                                                               "hours":  17,
+                                                               "minutes":  20,
+                                                               "seconds":  16,
+                                                               "milliseconds":  454
+                                                           },
+                                                   "dDec":  {
+                                                                "degree":  23,
+                                                                "minutes":  29,
+                                                                "seconds":  14.025363918312053
+                                                            }
+                                               }
+                           }
+             },
+    "sirius":  {
+                   "approxVisualMagnitude":  -1.46,
+                   "astrimetricJ2000":  {
+                                            "dRA":  1.7679402056192859,
+                                            "dDec":  -0.291437098510929,
+                                            "ra":  {
+                                                       "hours":  6,
+                                                       "minutes":  45,
+                                                       "seconds":  10,
+                                                       "milliseconds":  923
+                                                   },
+                                            "dec":  {
+                                                        "degree":  16,
+                                                        "minutes":  41,
+                                                        "seconds":  53.21665757271404
+                                                    }
+                                        },
+                   "astrimetricB1950":  {
+                                            "dRA":  1.758189908582214,
+                                            "dDec":  -0.29050858850965533,
+                                            "ra":  {
+                                                       "hours":  6,
+                                                       "minutes":  42,
+                                                       "seconds":  56,
+                                                       "milliseconds":  847
+                                                   },
+                                            "dec":  {
+                                                        "degree":  16,
+                                                        "minutes":  38,
+                                                        "seconds":  41.69772206149787
+                                                    }
+                                        },
+                   "astrimetricDate":  {
+                                           "dRA":  1.7574978795637002,
+                                           "dDec":  -0.29044444232384514,
+                                           "ra":  {
+                                                      "hours":  6,
+                                                      "minutes":  42,
+                                                      "seconds":  47,
+                                                      "milliseconds":  331
+                                                  },
+                                           "dec":  {
+                                                       "degree":  16,
+                                                       "minutes":  38,
+                                                       "seconds":  28.466621473878888
+                                                   }
+                                       },
+                   "deflection":  {
+                                      "sunElongation":  43.76055821412854,
+                                      "lightDeflection":  {
+                                                              "dRA":  0.00028772538142554654,
+                                                              "dDec":  -0.009085295323626223
+                                                          }
+                                  },
+                   "aberration":  {
+                                      "dRA":  -1.3379170197108048,
+                                      "dDec":  -2.615977707887277
+                                  },
+                   "apparent":  {
+                                    "dRA":  1.757333429859325,
+                                    "dDec":  -0.29044708185133333,
+                                    "ra":  {
+                                               "hours":  6,
+                                               "minutes":  42,
+                                               "seconds":  45,
+                                               "milliseconds":  69
+                                           },
+                                    "dec":  {
+                                                "degree":  16,
+                                                "minutes":  38,
+                                                "seconds":  29.011063099805483
+                                            }
+                                },
+                   "apparentLongitude":  1.757333429859325,
+                   "apparentLongitudeString":  "100°41\u002716\"",
+                   "apparentLongitude30String":  "10°41\u002716\"",
+                   "geocentricDistance":  7777,
+                   "altaz":  {
+                                 "dLocalApparentSiderialTime":  0.9072610949605472,
+                                 "localApparentSiderialTime":  {
+                                                                   "hours":  3,
+                                                                   "minutes":  27,
+                                                                   "seconds":  55,
+                                                                   "milliseconds":  736
+                                                               },
+                                 "diurnalAberation":  {
+                                                          "ra":  1.7573342389378408,
+                                                          "dec":  -0.29044682910496905,
+                                                          "dRA":  0.011125628219077529,
+                                                          "dDec":  0.05213267986185665
+                                                      },
+                                 "transit":  {
+                                                 "approxLocalMeridian":  {
+                                                                             "hours":  18,
+                                                                             "minutes":  7,
+                                                                             "seconds":  49,
+                                                                             "milliseconds":  920
+                                                                         },
+                                                 "UTdate":  0.7554388877966247,
+                                                 "dApproxRiseUT":  3.425334375038995,
+                                                 "dApproxSetUT":  6.0677906655126845,
+                                                 "approxRiseUT":  {
+                                                                      "hours":  13,
+                                                                      "minutes":  5,
+                                                                      "seconds":  1,
+                                                                      "milliseconds":  729
+                                                                  },
+                                                 "approxSetUT":  {
+                                                                     "hours":  23,
+                                                                     "minutes":  10,
+                                                                     "seconds":  38,
+                                                                     "milliseconds":  111
+                                                                 }
+                                             },
+                                 "diurnalParallax":  {
+                                                         "ra":  1.7573342389378408,
+                                                         "dec":  -0.29044682910496905
+                                                     },
+                                 "atmosphericRefraction":  {
+                                                               "deg":  0.05234648954652286,
+                                                               "dRA":  -7.809056652011985,
+                                                               "dDec":  151.37415510438245
+                                                           },
+                                 "topocentric":  {
+                                                     "altitude":  17.066677193597656,
+                                                     "azimuth":  131.16568304383577,
+                                                     "ra":  -4.526418958866964,
+                                                     "dec":  -0.28971294649135904,
+                                                     "dRA":  {
+                                                                 "hours":  6,
+                                                                 "minutes":  42,
+                                                                 "seconds":  37,
+                                                                 "milliseconds":  271
+                                                             },
+                                                     "dDec":  {
+                                                                  "degree":  16,
+                                                                  "minutes":  35,
+                                                                  "seconds":  57.58477531556423
+                                                              }
+                                                 }
+                             }
+               },
+    "chiron":  {
+                   "rect":  [
+                                -7.791966252937213,
+                                -3.2486466270666647,
+                                -1.5029772303850033
+                            ],
+                   "polar":  [
+                                 3.572145608936136,
+                                 -0.010108777536552442,
+                                 8.574835175627703
+                             ],
+                   "trueGeocentricDistance":  8.098936989012502,
+                   "equatorialDiameter":  0,
+                   "approxVisual":  {
+                                        "magnitude":  15.71150096675764,
+                                        "phase":  0.9971010920427466
+                                    },
+                   "astrometricJ2000":  {
+                                            "dRA":  3.4352393546536546,
+                                            "dDec":  -0.1364003570126717,
+                                            "ra":  {
+                                                       "hours":  13,
+                                                       "minutes":  7,
+                                                       "seconds":  17,
+                                                       "milliseconds":  932
+                                                   },
+                                            "dec":  {
+                                                        "degree":  7,
+                                                        "minutes":  48,
+                                                        "seconds":  54.59321125349959
+                                                    }
+                                        },
+                   "astrometricB1950":  {
+                                            "dRA":  3.4238746599859406,
+                                            "dDec":  -0.1317416278272975,
+                                            "ra":  {
+                                                       "hours":  13,
+                                                       "minutes":  4,
+                                                       "seconds":  41,
+                                                       "milliseconds":  656
+                                                   },
+                                            "dec":  {
+                                                        "degree":  7,
+                                                        "minutes":  32,
+                                                        "seconds":  53.66133847459935
+                                                    }
+                                        },
+                   "deflection":  {
+                                      "sunElongation":  114.80586441384283,
+                                      "lightDeflection":  {
+                                                              "dRA":  0.0001414563913578759,
+                                                              "dDec":  -0.0008538452513172893
+                                                          }
+                                  },
+                   "aberration":  {
+                                      "dRA":  0.5277913535430991,
+                                      "dDec":  -3.4401672101900567
+                                  },
+                   "nutation":  {
+                                    "dRA":  -1.0808822147426886,
+                                    "dDec":  6.3441146924273095
+                                },
+                   "constellation":  "Vir Virginis",
+                   "apparent":  {
+                                    "dRA":  3.4230283601844924,
+                                    "dDec":  -0.13139629754480472,
+                                    "ra":  {
+                                               "hours":  13,
+                                               "minutes":  4,
+                                               "seconds":  30,
+                                               "milliseconds":  19
+                                           },
+                                    "dec":  {
+                                                "degree":  7,
+                                                "minutes":  31,
+                                                "seconds":  42.43185466496918
+                                            }
+                                },
+                   "apparentGeocentric":  {
+                                              "0":  3.4512740711287835,
+                                              "1":  -0.010645980590413159,
+                                              "2":  8.098947239135393,
+                                              "3":  {
+                                                        "degree":  197,
+                                                        "minutes":  44,
+                                                        "seconds":  36.37758700595896
+                                                    },
+                                              "4":  {
+                                                        "degree":  0,
+                                                        "minutes":  36,
+                                                        "seconds":  35.891123791918886
+                                                    }
+                                          },
+                   "apparentLongitude":  197.74343821861277,
+                   "apparentLongitudeString":  "197°44\u002736\"",
+                   "apparentLongitude30String":  "17°44\u002736\"",
+                   "geocentricDistance":  8.098947239135391,
+                   "altaz":  {
+                                 "dLocalApparentSiderialTime":  0.9072610949605472,
+                                 "localApparentSiderialTime":  {
+                                                                   "hours":  3,
+                                                                   "minutes":  27,
+                                                                   "seconds":  55,
+                                                                   "milliseconds":  736
+                                                               },
+                                 "diurnalAberation":  {
+                                                          "ra":  3.4230273998693272,
+                                                          "dec":  -0.13139620739415558,
+                                                          "dRA":  -0.013205281430562925,
+                                                          "dDec":  0.018594906175391116
+                                                      },
+                                 "transit":  {
+                                                 "approxLocalMeridian":  {
+                                                                             "hours":  24,
+                                                                             "minutes":  28,
+                                                                             "seconds":  32,
+                                                                             "milliseconds":  334
+                                                                         },
+                                                 "UTdate":  1.019818680531409,
+                                                 "dApproxRiseUT":  4.941592266186556,
+                                                 "dApproxSetUT":  7.873880186304638,
+                                                 "approxRiseUT":  {
+                                                                      "hours":  18,
+                                                                      "minutes":  52,
+                                                                      "seconds":  31,
+                                                                      "milliseconds":  771
+                                                                  },
+                                                 "approxSetUT":  {
+                                                                     "hours":  30,
+                                                                     "minutes":  4,
+                                                                     "seconds":  33,
+                                                                     "milliseconds":  625
+                                                                 }
+                                             },
+                                 "diurnalParallax":  {
+                                                         "ra":  3.4230297613727076,
+                                                         "dec":  -0.13139916826246978,
+                                                         "dRA":  0.032473108583629076,
+                                                         "dDec":  -0.6107228096584175
+                                                     },
+                                 "atmosphericRefraction":  {
+                                                               "deg":  0,
+                                                               "dRA":  0,
+                                                               "dDec":  0
+                                                           },
+                                 "topocentric":  {
+                                                     "altitude":  -43.99497140451362,
+                                                     "azimuth":  53.82534176614805,
+                                                     "ra":  -2.8601555458068786,
+                                                     "dec":  -0.13139916826246978,
+                                                     "dRA":  {
+                                                                 "hours":  13,
+                                                                 "minutes":  4,
+                                                                 "seconds":  30,
+                                                                 "milliseconds":  38
+                                                             },
+                                                     "dDec":  {
+                                                                  "degree":  7,
+                                                                  "minutes":  31,
+                                                                  "seconds":  43.023982687941285
+                                                              }
+                                                 }
+                             }
+               }
+}
