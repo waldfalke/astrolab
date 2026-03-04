@@ -7,10 +7,61 @@ from pathlib import Path
 
 PLANET_ORDER = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"]
 
-SIGN_SYMBOLS = {
-    "Aries": "Ar", "Taurus": "Ta", "Gemini": "Ge", "Cancer": "Ca", "Leo": "Le", "Virgo": "Vi",
-    "Libra": "Li", "Scorpio": "Sc", "Sagittarius": "Sg", "Capricorn": "Cp", "Aquarius": "Aq", "Pisces": "Pi",
+PLANET_GLYPHS = {
+    "sun": "☉",
+    "moon": "☽",
+    "mercury": "☿",
+    "venus": "♀",
+    "mars": "♂",
+    "jupiter": "♃",
+    "saturn": "♄",
+    "uranus": "♅",
+    "neptune": "♆",
+    "pluto": "♇",
 }
+
+SIGN_SYMBOLS = {
+    "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
+    "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓",
+}
+
+
+def format_deg_min(value):
+    d = float(value)
+    deg = int(math.floor(d))
+    minutes = int(round((d - deg) * 60.0))
+    if minutes == 60:
+        deg += 1
+        minutes = 0
+    return f"{deg:02d}°{minutes:02d}'"
+
+
+def is_retrograde(row):
+    val = str(row.get("retrograde", "")).strip().lower()
+    return val in {"true", "1", "yes", "r", "retrograde"}
+
+
+def cluster_planets_by_longitude(rows, threshold_deg=7.0):
+    if not rows:
+        return []
+    sorted_rows = sorted(rows, key=lambda x: x["lon"])
+    clusters = [[sorted_rows[0]]]
+    for row in sorted_rows[1:]:
+        prev = clusters[-1][-1]
+        diff = (row["lon"] - prev["lon"]) % 360.0
+        if diff <= threshold_deg:
+            clusters[-1].append(row)
+        else:
+            clusters.append([row])
+
+    if len(clusters) > 1:
+        first = clusters[0]
+        last = clusters[-1]
+        wrap_diff = ((first[0]["lon"] + 360.0) - last[-1]["lon"]) % 360.0
+        if wrap_diff <= threshold_deg:
+            merged = last + first
+            clusters = [merged] + clusters[1:-1]
+    return clusters
 
 
 def load_csv(path: Path):
@@ -32,8 +83,11 @@ def load_aspects(path: Path):
     return []
 
 
-def lon_to_xy(center, radius, lon):
-    ang = math.radians((90.0 - lon) % 360.0)
+def lon_to_xy(center, radius, lon, asc_lon=0.0):
+    # Angle-anchored orientation:
+    # Ascendant is fixed to the left (9 o'clock); wheel rotates with chart angles.
+    # Longitudes increase clockwise from Asc.
+    ang = math.radians((180.0 + (lon - asc_lon)) % 360.0)
     return center + radius * math.cos(ang), center - radius * math.sin(ang)
 
 
@@ -53,7 +107,13 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
     aspect_r = 320
 
     lines = svg_header(size)
-    lines.append('<style>text{font-family:Consolas,Menlo,monospace;fill:#1f2937} .small{font-size:14px} .mid{font-size:18px} .bold{font-weight:700}</style>')
+    lines.append('<style>text{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Noto Sans Symbols","DejaVu Sans",Consolas,Menlo,monospace;fill:#1f2937} .small{font-size:14px} .mid{font-size:18px} .bold{font-weight:700} .plabel{font-size:13px;font-weight:700;paint-order:stroke;stroke:#ffffff;stroke-width:3;stroke-linejoin:round;}</style>')
+
+    asc_lon = 0.0
+    for p in points:
+        if str(p.get("point", "")).strip().lower() == "ascendant" and p.get("longitude"):
+            asc_lon = float(p["longitude"])
+            break
 
     lines.append(f'<circle cx="{c}" cy="{c}" r="{outer}" fill="none" stroke="#111827" stroke-width="3"/>')
     lines.append(f'<circle cx="{c}" cy="{c}" r="{sign_ring}" fill="none" stroke="#6b7280" stroke-width="1.5"/>')
@@ -62,21 +122,21 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
 
     for i in range(12):
         lon = i * 30.0
-        x1, y1 = lon_to_xy(c, sign_ring, lon)
-        x2, y2 = lon_to_xy(c, outer, lon)
+        x1, y1 = lon_to_xy(c, sign_ring, lon, asc_lon=asc_lon)
+        x2, y2 = lon_to_xy(c, outer, lon, asc_lon=asc_lon)
         lines.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="#9ca3af" stroke-width="1"/>')
         mid = lon + 15.0
-        tx, ty = lon_to_xy(c, (outer + sign_ring) / 2, mid)
+        tx, ty = lon_to_xy(c, (outer + sign_ring) / 2, mid, asc_lon=asc_lon)
         sign = list(SIGN_SYMBOLS.keys())[i]
-        lines.append(f'<text class="small" x="{tx:.2f}" y="{ty:.2f}" text-anchor="middle" dominant-baseline="middle">{SIGN_SYMBOLS[sign]}</text>')
+        lines.append(f'<text class="mid" x="{tx:.2f}" y="{ty:.2f}" text-anchor="middle" dominant-baseline="middle">{SIGN_SYMBOLS[sign]}</text>')
 
     house_rows = sorted((h for h in houses if h.get("longitude")), key=lambda x: int(float(x.get("house", 0))))
     for h in house_rows:
         lon = float(h["longitude"])
-        x1, y1 = lon_to_xy(c, planet_r - 30, lon)
-        x2, y2 = lon_to_xy(c, outer, lon)
+        x1, y1 = lon_to_xy(c, planet_r - 30, lon, asc_lon=asc_lon)
+        x2, y2 = lon_to_xy(c, outer, lon, asc_lon=asc_lon)
         lines.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="#4b5563" stroke-width="1.2"/>')
-        tx, ty = lon_to_xy(c, outer + 18, lon)
+        tx, ty = lon_to_xy(c, outer + 18, lon, asc_lon=asc_lon)
         lines.append(f'<text class="small" x="{tx:.2f}" y="{ty:.2f}" text-anchor="middle" dominant-baseline="middle">H{int(float(h["house"]))}</text>')
 
     pmap = {}
@@ -84,8 +144,7 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
         if not p.get("body") or not p.get("longitude"):
             continue
         body = p["body"].strip().lower()
-        lon = float(p["longitude"])
-        pmap[body] = lon
+        pmap[body] = float(p["longitude"])
 
     aspect_colors = {
         "conjunction": "#111827",
@@ -99,19 +158,63 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
         b2 = str(a.get("body2", "")).lower()
         if b1 not in pmap or b2 not in pmap:
             continue
-        x1, y1 = lon_to_xy(c, aspect_r, pmap[b1])
-        x2, y2 = lon_to_xy(c, aspect_r, pmap[b2])
+        x1, y1 = lon_to_xy(c, aspect_r, pmap[b1], asc_lon=asc_lon)
+        x2, y2 = lon_to_xy(c, aspect_r, pmap[b2], asc_lon=asc_lon)
         col = aspect_colors.get(str(a.get("aspect", "")).lower(), "#6b7280")
         lines.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="{col}" stroke-width="1.2" opacity="0.9"/>')
 
-    for idx, body in enumerate(PLANET_ORDER):
-        if body not in pmap:
+    planet_rows = []
+    for p in planets:
+        body = str(p.get("body", "")).strip().lower()
+        if body not in PLANET_ORDER:
             continue
-        lon = pmap[body]
-        r = planet_r + (idx % 3) * 10
-        x, y = lon_to_xy(c, r, lon)
-        lines.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="10" fill="#111827"/>')
-        lines.append(f'<text class="small bold" x="{x:.2f}" y="{y+0.5:.2f}" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">{body[:2].upper()}</text>')
+        if not p.get("longitude"):
+            continue
+        planet_rows.append(
+            {
+                "body": body,
+                "lon": float(p["longitude"]),
+                "sign": str(p.get("sign", "")).strip(),
+                "degree": p.get("degree", 0.0),
+                "retro": is_retrograde(p),
+            }
+        )
+
+    clusters = cluster_planets_by_longitude(planet_rows, threshold_deg=7.0)
+    for cluster in clusters:
+        n = len(cluster)
+        for i, row in enumerate(cluster):
+            body = row["body"]
+            lon = row["lon"]
+
+            ring_offset = i * 18
+            mark_r = planet_r + ring_offset
+            label_r = mark_r + 28
+
+            mx, my = lon_to_xy(c, mark_r, lon, asc_lon=asc_lon)
+            lx, ly = lon_to_xy(c, label_r, lon, asc_lon=asc_lon)
+
+            # Tangential spread for conjunction/stellium readability.
+            tx = -(ly - c)
+            ty = (lx - c)
+            norm = math.hypot(tx, ty) or 1.0
+            tx /= norm
+            ty /= norm
+            spread = (i - (n - 1) / 2.0) * 12.0
+            lx += tx * spread
+            ly += ty * spread
+
+            symbol = PLANET_GLYPHS.get(body, body[:2].title())
+            sign_glyph = SIGN_SYMBOLS.get(row["sign"], row["sign"][:2])
+            deg_min = format_deg_min(row["degree"])
+            retro = " R" if row["retro"] else ""
+            label = f"{symbol} {sign_glyph} {deg_min}{retro}"
+
+            lines.append(f'<line x1="{mx:.2f}" y1="{my:.2f}" x2="{lx:.2f}" y2="{ly:.2f}" stroke="#9ca3af" stroke-width="1"/>')
+            lines.append(f'<circle cx="{mx:.2f}" cy="{my:.2f}" r="7" fill="#111827"/>')
+            anchor = "start" if lx >= c else "end"
+            xpad = 6 if anchor == "start" else -6
+            lines.append(f'<text class="plabel" x="{(lx + xpad):.2f}" y="{ly:.2f}" text-anchor="{anchor}" dominant-baseline="middle" fill="#111827">{label}</text>')
 
     angle_map = {"ascendant": "ASC", "midheaven": "MC", "descendant": "DSC", "ic": "IC"}
     for p in points:
@@ -119,7 +222,7 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
         if name not in angle_map or not p.get("longitude"):
             continue
         lon = float(p["longitude"])
-        x, y = lon_to_xy(c, outer + 40, lon)
+        x, y = lon_to_xy(c, outer + 40, lon, asc_lon=asc_lon)
         lines.append(f'<text class="mid bold" x="{x:.2f}" y="{y:.2f}" text-anchor="middle" dominant-baseline="middle">{angle_map[name]}</text>')
 
     lines.append('<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>')
@@ -148,14 +251,14 @@ def draw_aspect_grid(planets, aspects, out_path: Path):
     color = {"conjunction": "#111827", "sextile": "#2563eb", "square": "#dc2626", "trine": "#16a34a", "opposition": "#7c3aed"}
 
     lines = svg_header(size)
-    lines.append('<style>text{font-family:Consolas,Menlo,monospace;fill:#111827} .lbl{font-size:14px} .val{font-size:13px;font-weight:700}</style>')
-    lines.append(f'<text x="30" y="40" font-size="22" font-family="Consolas,Menlo,monospace" fill="#111827">Aspect Grid</text>')
+    lines.append('<style>text{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Noto Sans Symbols","DejaVu Sans",Consolas,Menlo,monospace;fill:#111827} .lbl{font-size:14px} .val{font-size:13px;font-weight:700}</style>')
+    lines.append(f'<text x="30" y="40" font-size="22" font-family="Segoe UI Symbol,Consolas,Menlo,monospace" fill="#111827">Aspect Grid</text>')
 
     for i, b in enumerate(order):
         x = margin + i * cell + cell / 2
-        lines.append(f'<text class="lbl" x="{x:.2f}" y="85" text-anchor="middle">{b[:3].upper()}</text>')
+        lines.append(f'<text class="lbl" x="{x:.2f}" y="85" text-anchor="middle">{PLANET_GLYPHS.get(b, b[:3].upper())}</text>')
         y = margin + i * cell + cell / 2
-        lines.append(f'<text class="lbl" x="85" y="{y:.2f}" text-anchor="middle" dominant-baseline="middle">{b[:3].upper()}</text>')
+        lines.append(f'<text class="lbl" x="85" y="{y:.2f}" text-anchor="middle" dominant-baseline="middle">{PLANET_GLYPHS.get(b, b[:3].upper())}</text>')
 
     for i, bi in enumerate(order):
         for j, bj in enumerate(order):

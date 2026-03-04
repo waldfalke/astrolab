@@ -1,0 +1,20 @@
+{
+  "renderer": "catme-svg-mvp",
+  "chart_dir": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny",
+  "inputs": {
+    "planets": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\planets_primary.csv",
+    "houses": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\houses_placidus.csv",
+    "points": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\chart_points.csv",
+    "aspects": "D:\\Dev\\CATMEastrolab\\charts\\trump_19460614_105400_jamaica_ny\\outputs\\natal_aspects.json"
+  },
+  "outputs": {
+    "chart_wheel_svg": "01_chart_wheel.svg",
+    "aspect_grid_svg": "02_aspect_grid.svg"
+  },
+  "counts": {
+    "planets": 10,
+    "houses": 12,
+    "points": 6,
+    "aspects": 16
+  }
+}

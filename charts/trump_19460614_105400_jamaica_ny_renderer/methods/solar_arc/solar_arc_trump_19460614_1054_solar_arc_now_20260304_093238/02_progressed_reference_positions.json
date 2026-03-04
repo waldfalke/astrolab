@@ -1,0 +1,200 @@
+﻿{
+    "planets":  {
+                    "Sun":  {
+                                "longitude":  159.25320108333332,
+                                "sign":  "Virgo",
+                                "degree":  9.25
+                            },
+                    "Moon":  {
+                                 "longitude":  235.3981032222222,
+                                 "sign":  "Scorpio",
+                                 "degree":  25.4
+                             },
+                    "Mercury":  {
+                                    "longitude":  147.46509891666665,
+                                    "sign":  "Leo",
+                                    "degree":  27.47
+                                },
+                    "Venus":  {
+                                  "longitude":  205.3680918611111,
+                                  "sign":  "Libra",
+                                  "degree":  25.37
+                              },
+                    "Mars":  {
+                                 "longitude":  195.19113105555556,
+                                 "sign":  "Libra",
+                                 "degree":  15.19
+                             },
+                    "Jupiter":  {
+                                    "longitude":  205.55154566666667,
+                                    "sign":  "Libra",
+                                    "degree":  25.55
+                                },
+                    "Saturn":  {
+                                   "longitude":  123.75672775,
+                                   "sign":  "Leo",
+                                   "degree":  3.76
+                               },
+                    "Uranus":  {
+                                   "longitude":  81.51681727777778,
+                                   "sign":  "Gemini",
+                                   "degree":  21.52
+                               },
+                    "Neptune":  {
+                                    "longitude":  187.28722633333334,
+                                    "sign":  "Libra",
+                                    "degree":  7.29
+                                },
+                    "Pluto":  {
+                                  "longitude":  132.24214980555556,
+                                  "sign":  "Leo",
+                                  "degree":  12.24
+                              },
+                    "North Node":  {
+                                       "longitude":  76.90321758333334,
+                                       "sign":  "Gemini",
+                                       "degree":  16.9
+                                   },
+                    "Lilith":  {
+                                   "longitude":  253.31214644444447,
+                                   "sign":  "Sagittarius",
+                                   "degree":  13.31
+                               },
+                    "Chiron":  {
+                                   "longitude":  200.45861794444443,
+                                   "sign":  "Libra",
+                                   "degree":  20.46
+                               },
+                    "Ceres":  {
+                                  "longitude":  299.9675178611111,
+                                  "sign":  "Capricorn",
+                                  "degree":  29.97
+                              },
+                    "Pallas":  {
+                                   "longitude":  268.3347528611111,
+                                   "sign":  "Sagittarius",
+                                   "degree":  28.33
+                               },
+                    "Juno":  {
+                                 "longitude":  209.53488419444443,
+                                 "sign":  "Libra",
+                                 "degree":  29.53
+                             },
+                    "Vesta":  {
+                                  "longitude":  4.189130861111112,
+                                  "sign":  "Aries",
+                                  "degree":  4.19
+                              }
+                },
+    "houses":  {
+                   "1":  {
+                             "longitude":  132.99415405555555,
+                             "sign":  "Leo",
+                             "degree":  12.99
+                         },
+                   "2":  {
+                             "longitude":  154.20843383333332,
+                             "sign":  "Virgo",
+                             "degree":  4.21
+                         },
+                   "3":  {
+                             "longitude":  180.2841762777778,
+                             "sign":  "Libra",
+                             "degree":  0.28
+                         },
+                   "4":  {
+                             "longitude":  212.48779805555554,
+                             "sign":  "Scorpio",
+                             "degree":  2.49
+                         },
+                   "5":  {
+                             "longitude":  248.7106546111111,
+                             "sign":  "Sagittarius",
+                             "degree":  8.71
+                         },
+                   "6":  {
+                             "longitude":  283.26726441666665,
+                             "sign":  "Capricorn",
+                             "degree":  13.27
+                         },
+                   "7":  {
+                             "longitude":  312.99415405555555,
+                             "sign":  "Aquarius",
+                             "degree":  12.99
+                         },
+                   "8":  {
+                             "longitude":  334.20843383333334,
+                             "sign":  "Pisces",
+                             "degree":  4.21
+                         },
+                   "9":  {
+                             "longitude":  0.28417627777777776,
+                             "sign":  "Aries",
+                             "degree":  0.28
+                         },
+                   "10":  {
+                              "longitude":  32.48779805555556,
+                              "sign":  "Taurus",
+                              "degree":  2.49
+                          },
+                   "11":  {
+                              "longitude":  68.71065461111111,
+                              "sign":  "Gemini",
+                              "degree":  8.71
+                          },
+                   "12":  {
+                              "longitude":  103.26726441666666,
+                              "sign":  "Cancer",
+                              "degree":  13.27
+                          }
+               },
+    "chart_points":  {
+                         "Ascendant":  {
+                                           "longitude":  132.99415405555555,
+                                           "sign":  "Leo",
+                                           "degree":  12.99
+                                       },
+                         "Midheaven":  {
+                                           "longitude":  32.48779805555556,
+                                           "sign":  "Taurus",
+                                           "degree":  2.49
+                                       },
+                         "ARMC":  {
+                                      "longitude":  30.29313136111111,
+                                      "sign":  "Taurus",
+                                      "degree":  0.29
+                                  },
+                         "Vertex":  {
+                                        "longitude":  270.01141619444445,
+                                        "sign":  "Capricorn",
+                                        "degree":  0.01
+                                    },
+                         "Descendant":  {
+                                            "longitude":  312.99415405555555,
+                                            "sign":  "Aquarius",
+                                            "degree":  12.99
+                                        },
+                         "IC":  {
+                                    "longitude":  212.48779805555557,
+                                    "sign":  "Scorpio",
+                                    "degree":  2.49
+                                }
+                     },
+    "additional_points":  {
+                              "South Node":  {
+                                                 "longitude":  256.90321758333334,
+                                                 "sign":  "Sagittarius",
+                                                 "degree":  16.9
+                                             },
+                              "Part of Fortune":  {
+                                                      "longitude":  209.1390561944444,
+                                                      "sign":  "Libra",
+                                                      "degree":  29.14
+                                                  }
+                          },
+    "datetime":  "1946-09-02T08:12:56Z",
+    "coordinates":  {
+                        "latitude":  40.7,
+                        "longitude":  -73.8164
+                    }
+}

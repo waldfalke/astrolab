@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Consolas,Menlo,monospace;fill:#1f2937} .small{font-size:14px} .mid{font-size:18px} .bold{font-weight:700}</style>
+<circle cx="600.0" cy="600.0" r="520" fill="none" stroke="#111827" stroke-width="3"/>
+<circle cx="600.0" cy="600.0" r="470" fill="none" stroke="#6b7280" stroke-width="1.5"/>
+<circle cx="600.0" cy="600.0" r="385" fill="none" stroke="#d1d5db" stroke-width="1"/>
+<circle cx="600.0" cy="600.0" r="320" fill="none" stroke="#d1d5db" stroke-width="1"/>
+<line x1="600.00" y1="130.00" x2="600.00" y2="80.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="728.12" y="121.87" text-anchor="middle" dominant-baseline="middle">Ar</text>
+<line x1="835.00" y1="192.97" x2="860.00" y2="149.67" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="950.02" y="249.98" text-anchor="middle" dominant-baseline="middle">Ta</text>
+<line x1="1007.03" y1="365.00" x2="1050.33" y2="340.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="1078.13" y="471.88" text-anchor="middle" dominant-baseline="middle">Ge</text>
+<line x1="1070.00" y1="600.00" x2="1120.00" y2="600.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="1078.13" y="728.12" text-anchor="middle" dominant-baseline="middle">Ca</text>
+<line x1="1007.03" y1="835.00" x2="1050.33" y2="860.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="950.02" y="950.02" text-anchor="middle" dominant-baseline="middle">Le</text>
+<line x1="835.00" y1="1007.03" x2="860.00" y2="1050.33" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="728.12" y="1078.13" text-anchor="middle" dominant-baseline="middle">Vi</text>
+<line x1="600.00" y1="1070.00" x2="600.00" y2="1120.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="471.88" y="1078.13" text-anchor="middle" dominant-baseline="middle">Li</text>
+<line x1="365.00" y1="1007.03" x2="340.00" y2="1050.33" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="249.98" y="950.02" text-anchor="middle" dominant-baseline="middle">Sc</text>
+<line x1="192.97" y1="835.00" x2="149.67" y2="860.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="121.87" y="728.12" text-anchor="middle" dominant-baseline="middle">Sg</text>
+<line x1="130.00" y1="600.00" x2="80.00" y2="600.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="121.87" y="471.88" text-anchor="middle" dominant-baseline="middle">Cp</text>
+<line x1="192.97" y1="365.00" x2="149.67" y2="340.00" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="249.98" y="249.98" text-anchor="middle" dominant-baseline="middle">Aq</text>
+<line x1="365.00" y1="192.97" x2="340.00" y2="149.67" stroke="#9ca3af" stroke-width="1"/>
+<text class="small" x="471.88" y="121.87" text-anchor="middle" dominant-baseline="middle">Pi</text>
+<line x1="787.73" y1="924.62" x2="860.32" y2="1050.15" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="869.33" y="1065.73" text-anchor="middle" dominant-baseline="middle">H1</text>
+<line x1="645.67" y1="972.21" x2="663.33" y2="1116.13" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="665.53" y="1133.99" text-anchor="middle" dominant-baseline="middle">H2</text>
+<line x1="464.39" y1="949.62" x2="411.96" y2="1084.81" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="405.45" y="1101.59" text-anchor="middle" dominant-baseline="middle">H3</text>
+<line x1="295.28" y1="818.56" x2="177.45" y2="903.07" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="162.82" y="913.56" text-anchor="middle" dominant-baseline="middle">H4</text>
+<line x1="225.02" y1="604.31" x2="80.03" y2="605.97" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="62.04" y="606.18" text-anchor="middle" dominant-baseline="middle">H5</text>
+<line x1="281.10" y1="402.71" x2="157.79" y2="326.42" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="142.48" y="316.95" text-anchor="middle" dominant-baseline="middle">H6</text>
+<line x1="412.27" y1="275.38" x2="339.68" y2="149.85" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="330.67" y="134.27" text-anchor="middle" dominant-baseline="middle">H7</text>
+<line x1="554.33" y1="227.79" x2="536.67" y2="83.87" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="534.47" y="66.01" text-anchor="middle" dominant-baseline="middle">H8</text>
+<line x1="735.61" y1="250.38" x2="788.04" y2="115.19" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="794.55" y="98.41" text-anchor="middle" dominant-baseline="middle">H9</text>
+<line x1="904.72" y1="381.44" x2="1022.55" y2="296.93" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="1037.18" y="286.44" text-anchor="middle" dominant-baseline="middle">H10</text>
+<line x1="974.98" y1="595.69" x2="1119.97" y2="594.03" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="1137.96" y="593.82" text-anchor="middle" dominant-baseline="middle">H11</text>
+<line x1="918.90" y1="797.29" x2="1042.21" y2="873.58" stroke="#4b5563" stroke-width="1.2"/>
+<text class="small" x="1057.52" y="883.05" text-anchor="middle" dominant-baseline="middle">H12</text>
+<line x1="916.18" y1="649.28" x2="567.43" y2="918.34" stroke="#dc2626" stroke-width="1.2" opacity="0.9"/>
+<line x1="888.25" y1="738.96" x2="892.75" y2="729.21" stroke="#111827" stroke-width="1.2" opacity="0.9"/>
+<line x1="775.33" y1="867.69" x2="917.57" y2="560.60" stroke="#2563eb" stroke-width="1.2" opacity="0.9"/>
+<line x1="775.33" y1="867.69" x2="283.76" y2="648.93" stroke="#16a34a" stroke-width="1.2" opacity="0.9"/>
+<line x1="504.03" y1="905.27" x2="912.88" y2="532.88" stroke="#16a34a" stroke-width="1.2" opacity="0.9"/>
+<line x1="504.03" y1="905.27" x2="917.57" y2="560.60" stroke="#16a34a" stroke-width="1.2" opacity="0.9"/>
+<line x1="504.03" y1="905.27" x2="283.76" y2="648.93" stroke="#2563eb" stroke-width="1.2" opacity="0.9"/>
+<line x1="912.88" y1="532.88" x2="917.57" y2="560.60" stroke="#111827" stroke-width="1.2" opacity="0.9"/>
+<line x1="912.88" y1="532.88" x2="283.76" y2="648.93" stroke="#7c3aed" stroke-width="1.2" opacity="0.9"/>
+<line x1="567.43" y1="918.34" x2="844.98" y2="805.87" stroke="#2563eb" stroke-width="1.2" opacity="0.9"/>
+<line x1="917.57" y1="560.60" x2="283.76" y2="648.93" stroke="#7c3aed" stroke-width="1.2" opacity="0.9"/>
+<circle cx="1001.92" cy="550.14" r="10" fill="#111827"/>
+<text class="small bold" x="1001.92" y="550.64" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">SU</text>
+<circle cx="189.88" cy="663.46" r="10" fill="#111827"/>
+<text class="small bold" x="189.88" y="663.96" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">MO</text>
+<circle cx="1019.93" cy="665.45" r="10" fill="#111827"/>
+<text class="small bold" x="1019.93" y="665.95" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">ME</text>
+<circle cx="964.82" cy="775.87" r="10" fill="#111827"/>
+<text class="small bold" x="964.82" y="776.37" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">VE</text>
+<circle cx="827.38" cy="947.16" r="10" fill="#111827"/>
+<text class="small bold" x="827.38" y="947.66" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">MA</text>
+<circle cx="472.54" cy="1005.44" r="10" fill="#111827"/>
+<text class="small bold" x="472.54" y="1005.94" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">JU</text>
+<circle cx="970.51" cy="763.54" r="10" fill="#111827"/>
+<text class="small bold" x="970.51" y="764.04" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">SA</text>
+<circle cx="1005.77" cy="512.96" r="10" fill="#111827"/>
+<text class="small bold" x="1005.77" y="513.46" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">UR</text>
+<circle cx="556.74" cy="1022.79" r="10" fill="#111827"/>
+<text class="small bold" x="556.74" y="1023.29" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">NE</text>
+<circle cx="910.06" cy="860.56" r="10" fill="#111827"/>
+<text class="small bold" x="910.06" y="861.06" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">PL</text>
+<text class="mid bold" x="880.35" y="1084.77" text-anchor="middle" dominant-baseline="middle">ASC</text>
+<text class="mid bold" x="1055.06" y="273.62" text-anchor="middle" dominant-baseline="middle">MC</text>
+<text class="mid bold" x="144.94" y="926.38" text-anchor="middle" dominant-baseline="middle">IC</text>
+<text class="mid bold" x="319.65" y="115.23" text-anchor="middle" dominant-baseline="middle">DSC</text>
+<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>
+</svg>

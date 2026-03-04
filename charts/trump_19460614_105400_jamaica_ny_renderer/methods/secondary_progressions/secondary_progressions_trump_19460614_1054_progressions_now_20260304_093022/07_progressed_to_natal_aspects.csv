@@ -1,0 +1,7 @@
+﻿"from_set","from_body","to_set","to_body","aspect","actual_angle","exact_angle","orb","orb_limit","is_exact"
+"progressed","jupiter","natal","venus","square","89.813401","90","0.186599","1","TRUE"
+"progressed","uranus","natal","moon","opposition","179.686997","180","0.313003","1","FALSE"
+"progressed","moon","natal","venus","trine","119.659958","120","0.340042","1","FALSE"
+"progressed","venus","natal","venus","square","89.629947","90","0.370053","1","FALSE"
+"progressed","sun","natal","mercury","sextile","60.394167","60","0.394167","1","FALSE"
+"progressed","mercury","natal","mars","conjunction","0.689154","0","0.689154","1","FALSE"

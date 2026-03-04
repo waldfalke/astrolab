@@ -1,0 +1,4 @@
+﻿"point","body","aspect","actual_angle","exact_angle","orb","orb_limit","is_exact"
+"Galactic Center","mars","trine","119.325981","120","0.674019","2","FALSE"
+"North Node","moon","opposition","179.59992","180","0.40008","2","FALSE"
+"South Node","moon","conjunction","0.40008","0","0.40008","2","FALSE"
