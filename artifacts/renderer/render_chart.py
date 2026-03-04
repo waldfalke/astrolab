@@ -3,6 +3,7 @@ import argparse
 import csv
 import json
 import math
+import html
 from pathlib import Path
 
 PLANET_ORDER = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"]
@@ -24,6 +25,24 @@ SIGN_SYMBOLS = {
     "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
     "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓",
 }
+
+HOUSE_ROMAN = {
+    1: "I",
+    2: "II",
+    3: "III",
+    4: "IV",
+    5: "V",
+    6: "VI",
+    7: "VII",
+    8: "VIII",
+    9: "IX",
+    10: "X",
+    11: "XI",
+    12: "XII",
+}
+
+FONT_STACK_TEXT = '"Noto Sans","Segoe UI","DejaVu Sans",Arial,sans-serif'
+FONT_STACK_SYMBOL = '"Noto Sans Symbols 2","Noto Sans Symbols","Segoe UI Symbol","DejaVu Sans","Noto Sans","Segoe UI",sans-serif'
 
 
 def format_deg_min(value):
@@ -64,6 +83,64 @@ def cluster_planets_by_longitude(rows, threshold_deg=7.0):
     return clusters
 
 
+def distribute_label_positions(nodes, top, bottom, min_gap):
+    if not nodes:
+        return
+    nodes.sort(key=lambda n: n["target_y"])
+    y = top
+    for n in nodes:
+        half_h = n.get("half_h", 0.0)
+        min_center = y + half_h
+        n["y"] = max(n["target_y"], min_center)
+        y = n["y"] + half_h + min_gap
+    y = bottom
+    for n in reversed(nodes):
+        half_h = n.get("half_h", 0.0)
+        max_center = y - half_h
+        n["y"] = min(n["y"], max_center)
+        y = n["y"] - half_h - min_gap
+
+
+def distribute_label_positions_x(nodes, left, right, min_gap):
+    if not nodes:
+        return
+    nodes.sort(key=lambda n: n["target_x"])
+    x = left
+    for n in nodes:
+        n["x"] = max(n["target_x"], x)
+        x = n["x"] + min_gap
+    x = right
+    for n in reversed(nodes):
+        n["x"] = min(n["x"], x)
+        x = n["x"] - min_gap
+
+
+def distribute_label_positions_x_with_width(nodes, left, right, min_gap):
+    if not nodes:
+        return
+    nodes.sort(key=lambda n: n["target_x"])
+    cursor = left
+    for n in nodes:
+        half_w = n.get("half_w", 20.0)
+        min_center = cursor + half_w
+        n["x"] = max(n["target_x"], min_center)
+        cursor = n["x"] + half_w + min_gap
+    cursor = right
+    for n in reversed(nodes):
+        half_w = n.get("half_w", 20.0)
+        max_center = cursor - half_w
+        n["x"] = min(n["x"], max_center)
+        cursor = n["x"] - half_w - min_gap
+    # Final strict spacing pass: preserve at least min_gap between badge boxes.
+    nodes.sort(key=lambda n: n["x"])
+    for i in range(1, len(nodes)):
+        prev = nodes[i - 1]
+        cur = nodes[i]
+        needed = prev["x"] + prev.get("half_w", 20.0) + min_gap + cur.get("half_w", 20.0)
+        if cur["x"] < needed:
+            cur["x"] = needed
+
+
 def load_csv(path: Path):
     rows = []
     with path.open("r", encoding="utf-8-sig", newline="") as f:
@@ -98,8 +175,49 @@ def svg_header(size):
     ]
 
 
+def wheel_style():
+    return (
+        f'<style>'
+        f'text{{font-family:{FONT_STACK_TEXT};fill:#1f2937;font-weight:500}} '
+        f'.txtbg{{fill:#ffffff;opacity:0.98;stroke:#d1d5db;stroke-width:1}} '
+        f'.small{{font-size:13px}} .mid{{font-size:22px;font-family:{FONT_STACK_SYMBOL};font-weight:500}} '
+        f'.bold{{font-weight:600}} '
+        f'.plabel{{font-size:13px;font-weight:600;font-family:{FONT_STACK_SYMBOL};paint-order:stroke;stroke:#ffffff;stroke-width:3;stroke-linejoin:round;}}'
+        f'</style>'
+    )
+
+
+def grid_style():
+    return (
+        f'<style>'
+        f'text{{font-family:{FONT_STACK_TEXT};fill:#111827;font-weight:500}} '
+        f'.lbl{{font-size:14px;font-family:{FONT_STACK_SYMBOL};font-weight:500}} '
+        f'.val{{font-size:13px;font-weight:600}}'
+        f'</style>'
+    )
+
+
+def text_width_px(text, font_size):
+    # Practical approximation for sans fonts in SVG.
+    return max(font_size * 0.9, len(text) * font_size * 0.74)
+
+
+def add_text_with_bg(lines, text, x, y, cls, anchor="middle", baseline="middle", font_size=13, pad=2, layer=None):
+    target = layer if layer is not None else lines
+    safe = html.escape(text)
+    w = text_width_px(text, font_size)
+    h = font_size * 1.28
+    # Badge-like layout: text is always centered in the rounded rect.
+    rx = x - w / 2 - pad
+    ry = y - h / 2 - pad
+    rw = w + pad * 2
+    rh = h + pad * 2
+    target.append(f'<rect class="txtbg" x="{rx:.2f}" y="{ry:.2f}" width="{rw:.2f}" height="{rh:.2f}" rx="8" ry="8"/>')
+    target.append(f'<text class="{cls}" x="{x:.2f}" y="{y:.2f}" text-anchor="middle" dominant-baseline="middle">{safe}</text>')
+
+
 def draw_wheel(planets, houses, points, aspects, out_path: Path):
-    size = 1200
+    size = 1500
     c = size / 2
     outer = 520
     sign_ring = 470
@@ -107,7 +225,8 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
     aspect_r = 320
 
     lines = svg_header(size)
-    lines.append('<style>text{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Noto Sans Symbols","DejaVu Sans",Consolas,Menlo,monospace;fill:#1f2937} .small{font-size:14px} .mid{font-size:18px} .bold{font-weight:700} .plabel{font-size:13px;font-weight:700;paint-order:stroke;stroke:#ffffff;stroke-width:3;stroke-linejoin:round;}</style>')
+    lines.append(wheel_style())
+    badge_layer = []
 
     asc_lon = 0.0
     for p in points:
@@ -120,24 +239,92 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
     lines.append(f'<circle cx="{c}" cy="{c}" r="{planet_r-20}" fill="none" stroke="#d1d5db" stroke-width="1"/>')
     lines.append(f'<circle cx="{c}" cy="{c}" r="{aspect_r}" fill="none" stroke="#d1d5db" stroke-width="1"/>')
 
+    # Keep zodiac signs on the classical sign ring band (between two outer circles).
+    sign_label_r = (outer + sign_ring) / 2.0
     for i in range(12):
         lon = i * 30.0
         x1, y1 = lon_to_xy(c, sign_ring, lon, asc_lon=asc_lon)
         x2, y2 = lon_to_xy(c, outer, lon, asc_lon=asc_lon)
         lines.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="#9ca3af" stroke-width="1"/>')
         mid = lon + 15.0
-        tx, ty = lon_to_xy(c, (outer + sign_ring) / 2, mid, asc_lon=asc_lon)
+        tx, ty = lon_to_xy(c, sign_label_r, mid, asc_lon=asc_lon)
         sign = list(SIGN_SYMBOLS.keys())[i]
         lines.append(f'<text class="mid" x="{tx:.2f}" y="{ty:.2f}" text-anchor="middle" dominant-baseline="middle">{SIGN_SYMBOLS[sign]}</text>')
 
     house_rows = sorted((h for h in houses if h.get("longitude")), key=lambda x: int(float(x.get("house", 0))))
+    angle_house_labels = {1: "ASC", 4: "IC", 7: "DSC", 10: "MC"}
+    sign_order = list(SIGN_SYMBOLS.keys())
+    house_nodes_left = []
+    house_nodes_right = []
+    house_nodes_top = []
+    house_nodes_bottom = []
+    house_badge_font = 13
+    house_badge_pad = 2
+    house_half_h = (house_badge_font * 1.28 + house_badge_pad * 2) / 2.0
+    house_side_x = outer + 34
+    house_side_y = outer + 34
     for h in house_rows:
+        house_num = int(float(h["house"]))
         lon = float(h["longitude"])
         x1, y1 = lon_to_xy(c, planet_r - 30, lon, asc_lon=asc_lon)
         x2, y2 = lon_to_xy(c, outer, lon, asc_lon=asc_lon)
         lines.append(f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="#4b5563" stroke-width="1.2"/>')
-        tx, ty = lon_to_xy(c, outer + 18, lon, asc_lon=asc_lon)
-        lines.append(f'<text class="small" x="{tx:.2f}" y="{ty:.2f}" text-anchor="middle" dominant-baseline="middle">H{int(float(h["house"]))}</text>')
+        tx, ty = lon_to_xy(c, outer + 28, lon, asc_lon=asc_lon)
+        sign_idx = int((lon % 360.0) // 30.0)
+        sign_name = sign_order[sign_idx]
+        sign_glyph = SIGN_SYMBOLS[sign_name]
+        deg_label = format_deg_min(lon % 30.0)
+        house_label = angle_house_labels.get(house_num, HOUSE_ROMAN.get(house_num, str(house_num)))
+        label = f"{house_label} {sign_glyph} {deg_label}"
+        angle_y_shift = {1: 26.0, 4: 14.0, 7: -26.0, 10: -14.0}
+        node = {
+            "label": label,
+            "ax": x2,
+            "ay": y2,
+            "target_x": tx,
+            "target_y": ty + angle_y_shift.get(house_num, 0.0),
+            "x": tx,
+            "y": ty + angle_y_shift.get(house_num, 0.0),
+            "half_w": text_width_px(label, house_badge_font) / 2.0 + house_badge_pad,
+            "half_h": house_half_h,
+            "font_size": house_badge_font,
+            "pad": house_badge_pad,
+        }
+        dx = tx - c
+        dy = ty - c
+        if abs(dx) >= abs(dy) and dx >= 0:
+            node["x"] = c + house_side_x
+            house_nodes_right.append(node)
+        elif abs(dx) >= abs(dy) and dx < 0:
+            node["x"] = c - house_side_x
+            house_nodes_left.append(node)
+        elif dy < 0:
+            node["y"] = c - house_side_y
+            house_nodes_top.append(node)
+        else:
+            node["y"] = c + house_side_y
+            house_nodes_bottom.append(node)
+
+    distribute_label_positions(house_nodes_left, 90, size - 90, 8)
+    distribute_label_positions(house_nodes_right, 90, size - 90, 8)
+    distribute_label_positions_x_with_width(house_nodes_top, 80, size - 80, 8)
+    distribute_label_positions_x_with_width(house_nodes_bottom, 80, size - 80, 8)
+    for node in house_nodes_left + house_nodes_right + house_nodes_top + house_nodes_bottom:
+        lines.append(
+            f'<line x1="{node["ax"]:.2f}" y1="{node["ay"]:.2f}" x2="{node["x"]:.2f}" y2="{node["y"]:.2f}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 4"/>'
+        )
+        add_text_with_bg(
+            lines,
+            node["label"],
+            node["x"],
+            node["y"],
+            cls="small",
+            anchor="middle",
+            baseline="middle",
+            font_size=node["font_size"],
+            pad=node["pad"],
+            layer=badge_layer,
+        )
 
     pmap = {}
     for p in planets:
@@ -180,51 +367,125 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
             }
         )
 
-    clusters = cluster_planets_by_longitude(planet_rows, threshold_deg=7.0)
-    for cluster in clusters:
-        n = len(cluster)
-        for i, row in enumerate(cluster):
-            body = row["body"]
-            lon = row["lon"]
+    # Infographic-style callouts on 4 sides of a frame (not just 2 columns).
+    label_r = outer + 26
+    margin_x = 80
+    margin_y = 60
+    side_x = outer + 90
+    side_y = outer + 90
+    min_gap = 4
+    badge_font = 13
+    badge_pad = 2
+    badge_half_h = (badge_font * 1.28 + badge_pad * 2) / 2.0
+    left_nodes = []
+    right_nodes = []
+    top_nodes = []
+    bottom_nodes = []
+    for row in planet_rows:
+        body = row["body"]
+        lon = row["lon"]
+        mx, my = lon_to_xy(c, planet_r, lon, asc_lon=asc_lon)
+        ex, ey = lon_to_xy(c, label_r, lon, asc_lon=asc_lon)
 
-            ring_offset = i * 18
-            mark_r = planet_r + ring_offset
-            label_r = mark_r + 28
+        symbol = PLANET_GLYPHS.get(body, body[:2].title())
+        sign_glyph = SIGN_SYMBOLS.get(row["sign"], row["sign"][:2])
+        deg_min = format_deg_min(row["degree"])
+        retro = " R" if row["retro"] else ""
+        label = f"{symbol} {sign_glyph} {deg_min}{retro}"
 
-            mx, my = lon_to_xy(c, mark_r, lon, asc_lon=asc_lon)
-            lx, ly = lon_to_xy(c, label_r, lon, asc_lon=asc_lon)
+        dx = ex - c
+        dy = ey - c
+        node = {
+            "mx": mx,
+            "my": my,
+            "ex": ex,
+            "ey": ey,
+            "lon": lon,
+            "target_x": ex,
+            "target_y": ey,
+            "x": ex,
+            "y": ey,
+            "label": label,
+            "half_w": text_width_px(label, 13) / 2.0 + badge_pad,
+            "half_h": badge_half_h,
+        }
+        if abs(dx) >= abs(dy) and dx >= 0:
+            node["side"] = "right"
+            node["x"] = c + side_x
+            right_nodes.append(node)
+        elif abs(dx) >= abs(dy) and dx < 0:
+            node["side"] = "left"
+            node["x"] = c - side_x
+            left_nodes.append(node)
+        elif dy < 0:
+            node["side"] = "top"
+            node["y"] = c - side_y
+            top_nodes.append(node)
+        else:
+            node["side"] = "bottom"
+            node["y"] = c + side_y
+            bottom_nodes.append(node)
 
-            # Tangential spread for conjunction/stellium readability.
-            tx = -(ly - c)
-            ty = (lx - c)
-            norm = math.hypot(tx, ty) or 1.0
-            tx /= norm
-            ty /= norm
-            spread = (i - (n - 1) / 2.0) * 12.0
-            lx += tx * spread
-            ly += ty * spread
+    distribute_label_positions(left_nodes, margin_y, size - margin_y, min_gap)
+    distribute_label_positions(right_nodes, margin_y, size - margin_y, min_gap)
+    distribute_label_positions_x_with_width(top_nodes, margin_x, size - margin_x, min_gap)
+    distribute_label_positions_x_with_width(bottom_nodes, margin_x, size - margin_x, min_gap)
 
-            symbol = PLANET_GLYPHS.get(body, body[:2].title())
-            sign_glyph = SIGN_SYMBOLS.get(row["sign"], row["sign"][:2])
-            deg_min = format_deg_min(row["degree"])
-            retro = " R" if row["retro"] else ""
-            label = f"{symbol} {sign_glyph} {deg_min}{retro}"
+    for node in left_nodes + right_nodes + top_nodes + bottom_nodes:
+        mx, my = node["mx"], node["my"]
+        ex, ey = node["ex"], node["ey"]
+        lx, ly = node["x"], node["y"]
+        ix, iy = lon_to_xy(c, aspect_r, node["lon"], asc_lon=asc_lon)
 
-            lines.append(f'<line x1="{mx:.2f}" y1="{my:.2f}" x2="{lx:.2f}" y2="{ly:.2f}" stroke="#9ca3af" stroke-width="1"/>')
-            lines.append(f'<circle cx="{mx:.2f}" cy="{my:.2f}" r="7" fill="#111827"/>')
-            anchor = "start" if lx >= c else "end"
-            xpad = 6 if anchor == "start" else -6
-            lines.append(f'<text class="plabel" x="{(lx + xpad):.2f}" y="{ly:.2f}" text-anchor="{anchor}" dominant-baseline="middle" fill="#111827">{label}</text>')
+        # Dotted guide from planet marker to exact point on inner planet arc.
+        lines.append(
+            f'<line x1="{mx:.2f}" y1="{my:.2f}" x2="{ix:.2f}" y2="{iy:.2f}" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 4"/>'
+        )
+        if node["side"] == "right":
+            elbow_x = lx - 24
+            elbow_y = ly
+            anchor = "middle"
+            tx = lx
+            ty = ly
+        elif node["side"] == "left":
+            elbow_x = lx + 24
+            elbow_y = ly
+            anchor = "middle"
+            tx = lx
+            ty = ly
+        elif node["side"] == "top":
+            elbow_x = lx
+            elbow_y = ly + 20
+            anchor = "middle"
+            tx = lx
+            ty = ly
+        else:
+            elbow_x = lx
+            elbow_y = ly - 20
+            anchor = "middle"
+            tx = lx
+            ty = ly
 
-    angle_map = {"ascendant": "ASC", "midheaven": "MC", "descendant": "DSC", "ic": "IC"}
-    for p in points:
-        name = str(p.get("point", "")).strip().lower()
-        if name not in angle_map or not p.get("longitude"):
-            continue
-        lon = float(p["longitude"])
-        x, y = lon_to_xy(c, outer + 40, lon, asc_lon=asc_lon)
-        lines.append(f'<text class="mid bold" x="{x:.2f}" y="{y:.2f}" text-anchor="middle" dominant-baseline="middle">{angle_map[name]}</text>')
+        lines.append(f'<line x1="{mx:.2f}" y1="{my:.2f}" x2="{ex:.2f}" y2="{ey:.2f}" stroke="#9ca3af" stroke-width="1"/>')
+        lines.append(
+            f'<polyline points="{ex:.2f},{ey:.2f} {elbow_x:.2f},{elbow_y:.2f} {lx:.2f},{ly:.2f}" fill="none" stroke="#9ca3af" stroke-width="1"/>'
+        )
+        lines.append(f'<circle cx="{mx:.2f}" cy="{my:.2f}" r="7" fill="#111827"/>')
+        add_text_with_bg(
+            lines,
+            node["label"],
+            tx,
+            ty,
+            cls="plabel",
+            anchor=anchor,
+            baseline="middle",
+            font_size=badge_font,
+            pad=badge_pad,
+            layer=badge_layer,
+        )
 
+    # Draw all badges last so lines never cut through badge text blocks.
+    lines.extend(badge_layer)
     lines.append('<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>')
     lines.append('</svg>')
     out_path.write_text("\n".join(lines), encoding="utf-8")
@@ -251,8 +512,8 @@ def draw_aspect_grid(planets, aspects, out_path: Path):
     color = {"conjunction": "#111827", "sextile": "#2563eb", "square": "#dc2626", "trine": "#16a34a", "opposition": "#7c3aed"}
 
     lines = svg_header(size)
-    lines.append('<style>text{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Noto Sans Symbols","DejaVu Sans",Consolas,Menlo,monospace;fill:#111827} .lbl{font-size:14px} .val{font-size:13px;font-weight:700}</style>')
-    lines.append(f'<text x="30" y="40" font-size="22" font-family="Segoe UI Symbol,Consolas,Menlo,monospace" fill="#111827">Aspect Grid</text>')
+    lines.append(grid_style())
+    lines.append(f'<text x="30" y="40" font-size="22" fill="#111827">Aspect Grid</text>')
 
     for i, b in enumerate(order):
         x = margin + i * cell + cell / 2

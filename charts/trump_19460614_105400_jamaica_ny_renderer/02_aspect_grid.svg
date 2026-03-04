@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
 <rect width="100%" height="100%" fill="#ffffff"/>
-<style>text{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Noto Sans Symbols","DejaVu Sans",Consolas,Menlo,monospace;fill:#111827} .lbl{font-size:14px} .val{font-size:13px;font-weight:700}</style>
-<text x="30" y="40" font-size="22" font-family="Segoe UI Symbol,Consolas,Menlo,monospace" fill="#111827">Aspect Grid</text>
+<style>text{font-family:"Noto Sans","Segoe UI","DejaVu Sans",Arial,sans-serif;fill:#111827;font-weight:500} .lbl{font-size:14px;font-family:"Noto Sans Symbols 2","Noto Sans Symbols","Segoe UI Symbol","DejaVu Sans","Noto Sans","Segoe UI",sans-serif;font-weight:500} .val{font-size:13px;font-weight:600}</style>
+<text x="30" y="40" font-size="22" fill="#111827">Aspect Grid</text>
 <text class="lbl" x="157.00" y="85" text-anchor="middle">☉</text>
 <text class="lbl" x="85" y="157.00" text-anchor="middle" dominant-baseline="middle">☉</text>
 <text class="lbl" x="231.00" y="85" text-anchor="middle">☽</text>
