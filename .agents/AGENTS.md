@@ -17,6 +17,7 @@ Machine-oriented entrypoint for AI agents working in this repository.
 11. `.agents/docs/10-mcporter-usage.md`
 12. `.agents/docs/11-antipatterns.md`
 13. `.agents/docs/12-external-capabilities-map.md`
+14. `.agents/docs/13-obsidian-vault-workflow.md`
 
 If a step conflicts with ad-hoc reasoning, follow docs first.
 
@@ -52,6 +53,6 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 
 ```powershell
 python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id trump_19460614_105400_jamaica_ny --json
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
+pwsh artifacts/mcp-recipes/run_obsidian_export.ps1 -ChartId trump_19460614_105400_jamaica_ny_renderer
 ```
 

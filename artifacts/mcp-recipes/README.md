@@ -47,6 +47,10 @@ This folder contains executable artifacts that generate working astrology output
    - Validates `chart.yaml` and `INDEX.yaml` against schema contracts and file-link consistency checks.
 16. `archive_runs.ps1`
    - Safely archives run folders from `artifacts/results`, rewrites affected chart index external links, and emits verification report.
+17. `run_obsidian_export.ps1`
+   - Produces: Obsidian bundle (`.md`, `.canvas`, `attachments/*.svg`) for a chart; supports direct export into a target vault.
+18. `init_obsidian_vault.ps1`
+   - Produces: minimal standalone Obsidian vault and optional chart export in one command.
 
 ## Quick Run Examples
 
@@ -134,6 +138,15 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\archive_runs.ps
 # Execute archive and rewrite only one chart index
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\archive_runs.ps1 `
   -Filter "provider_probe_20260302_130604" -ChartId "trump_19460614_105400_jamaica_ny" -Execute
+
+# Export chart bundle to an existing Obsidian vault
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_obsidian_export.ps1 `
+  -ChartId "trump_19460614_105400_jamaica_ny_renderer" `
+  -VaultRoot "D:\AstrolabVault" -VaultSubdir "Astrolab/exports"
+
+# Initialize standalone vault and export a chart bundle in one step
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\init_obsidian_vault.ps1 `
+  -VaultRoot "D:\AstrolabVault" -ChartId "trump_19460614_105400_jamaica_ny_renderer"
 ```
 
 ## Output Location

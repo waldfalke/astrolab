@@ -5,7 +5,7 @@ Generate Obsidian export bundle from chart project outputs.
 Outputs:
 - <chart_id>_natal.md
 - <chart_id>_planets_table.md
-- <chart_id>_canvas.json
+- <chart_id>_canvas.canvas
 - attachments/chart_wheel.svg (if exists)
 - attachments/aspect_grid.svg (if exists)
 """
@@ -191,7 +191,7 @@ def build_note(chart_id, data):
         "",
         "## Related",
         "",
-        f"- [[{chart_id}_canvas.json]]",
+        f"- [[{chart_id}_canvas.canvas]]",
         f"- [[{chart_id}_planets_table.md]]",
         "- [[attachments/chart_wheel.svg]]",
         "- [[attachments/aspect_grid.svg]]",
@@ -199,7 +199,7 @@ def build_note(chart_id, data):
     return "\n".join(lines) + "\n", planets_table
 
 
-def build_canvas(chart_id, metadata):
+def build_canvas(chart_id, metadata, file_base):
     display_name = metadata.get("display_name", chart_id)
     canvas = {
         "nodes": [
@@ -219,7 +219,7 @@ def build_canvas(chart_id, metadata):
                 "y": 40,
                 "width": 700,
                 "height": 700,
-                "file": "attachments/chart_wheel.svg",
+                "file": f"{file_base}/attachments/chart_wheel.svg",
             },
             {
                 "id": "n_grid",
@@ -228,7 +228,7 @@ def build_canvas(chart_id, metadata):
                 "y": 780,
                 "width": 700,
                 "height": 520,
-                "file": "attachments/aspect_grid.svg",
+                "file": f"{file_base}/attachments/aspect_grid.svg",
             },
             {
                 "id": "n_table",
@@ -237,7 +237,7 @@ def build_canvas(chart_id, metadata):
                 "y": 260,
                 "width": 420,
                 "height": 480,
-                "file": f"{chart_id}_planets_table.md",
+                "file": f"{file_base}/{chart_id}_planets_table.md",
             },
         ],
         "edges": [],
@@ -256,7 +256,7 @@ def copy_attachments(outputs_dir: Path, target_attachments: Path):
     return copied
 
 
-def generate_bundle(chart_id: str, output_root: Path):
+def generate_bundle(chart_id: str, output_root: Path, file_base_override: str | None = None):
     chart_dir = Path("charts") / chart_id
     data = load_chart_data(chart_dir)
 
@@ -267,12 +267,19 @@ def generate_bundle(chart_id: str, output_root: Path):
     note_md, table_md = build_note(chart_id, data)
     note_path = out_dir / f"{chart_id}_natal.md"
     table_path = out_dir / f"{chart_id}_planets_table.md"
-    canvas_path = out_dir / f"{chart_id}_canvas.json"
+    canvas_path = out_dir / f"{chart_id}_canvas.canvas"
     attachments_dir = out_dir / "attachments"
+    if file_base_override:
+        file_base = file_base_override.strip().replace("\\", "/").rstrip("/")
+    else:
+        try:
+            file_base = out_dir.resolve().relative_to(Path.cwd().resolve()).as_posix()
+        except ValueError:
+            file_base = out_dir.as_posix()
 
     note_path.write_text(note_md, encoding="utf-8")
     table_path.write_text(table_md, encoding="utf-8")
-    canvas_path.write_text(json.dumps(build_canvas(chart_id, data["metadata"]), ensure_ascii=False, indent=2), encoding="utf-8")
+    canvas_path.write_text(json.dumps(build_canvas(chart_id, data["metadata"], file_base), ensure_ascii=False, indent=2), encoding="utf-8")
     copied = copy_attachments(data["outputs_dir"], attachments_dir)
 
     print(f"Generated: {note_path}")
@@ -291,9 +298,18 @@ def main():
     parser = argparse.ArgumentParser(description="Generate Obsidian note/canvas/table from chart")
     parser.add_argument("--chart-id", required=True, help="Chart ID")
     parser.add_argument("--output", default="artifacts/skill-smoke/obsidian", help="Output root directory")
+    parser.add_argument("--vault-root", default="", help="Optional Obsidian vault root path for direct export")
+    parser.add_argument("--vault-subdir", default="Astrolab/exports", help="Subfolder inside vault root")
     args = parser.parse_args()
 
-    generate_bundle(args.chart_id, Path(args.output))
+    vault_root = str(args.vault_root or "").strip()
+    if vault_root:
+        subdir = str(args.vault_subdir or "").strip().replace("\\", "/").strip("/")
+        output_root = Path(vault_root) / Path(subdir)
+        file_base = f"{subdir}/{args.chart_id}" if subdir else args.chart_id
+        generate_bundle(args.chart_id, output_root, file_base_override=file_base)
+    else:
+        generate_bundle(args.chart_id, Path(args.output))
 
 
 if __name__ == "__main__":

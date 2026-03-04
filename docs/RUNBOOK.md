@@ -16,17 +16,27 @@ Expected result:
 - `"chart_yaml_valid": true`
 - `"provenance_valid": true`
 
-## 2) Generate Obsidian Note
+## 2) Generate Obsidian Bundle (Note + Canvas + Attachments)
 
 Command:
 
 ```powershell
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
+pwsh artifacts/mcp-recipes/run_obsidian_export.ps1 -ChartId trump_19460614_105400_jamaica_ny_renderer
 ```
 
-Output file:
+Output files:
 
-- `artifacts/skill-smoke/obsidian/trump_19460614_105400_jamaica_ny_natal.md`
+- `artifacts/skill-smoke/obsidian/<chart_id>/<chart_id>_natal.md`
+- `artifacts/skill-smoke/obsidian/<chart_id>/<chart_id>_canvas.canvas`
+- `artifacts/skill-smoke/obsidian/<chart_id>/attachments/chart_wheel.svg`
+
+Standalone vault bootstrap (for users without existing Obsidian vault):
+
+```powershell
+pwsh artifacts/mcp-recipes/init_obsidian_vault.ps1 `
+  -VaultRoot D:\AstrolabVault `
+  -ChartId trump_19460614_105400_jamaica_ny_renderer
+```
 
 ## 3) Run MCP Recipes (manual)
 

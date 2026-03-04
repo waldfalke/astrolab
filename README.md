@@ -72,6 +72,17 @@ pwsh artifacts/mcp-recipes/check_chart_provenance.ps1 -ChartId trump_19460614_10
 pwsh artifacts/mcp-recipes/validate_chart_project.ps1 -ChartId trump_19460614_105400_jamaica_ny
 ```
 
+5. Create a lightweight Obsidian vault and export chart bundle:
+
+```powershell
+pwsh artifacts/mcp-recipes/init_obsidian_vault.ps1 `
+  -VaultRoot D:\AstrolabVault `
+  -ChartId trump_19460614_105400_jamaica_ny_renderer
+```
+
+Open `D:\AstrolabVault` as Obsidian vault, then open:
+`Astrolab/exports/<chart_id>/<chart_id>_canvas.canvas`
+
 ## How To Add A New Technique
 
 Use this minimal extension pattern:

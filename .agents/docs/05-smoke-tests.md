@@ -27,12 +27,12 @@ Expected markers:
 ## C. Obsidian export smoke
 
 ```powershell
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
+pwsh artifacts/mcp-recipes/run_obsidian_export.ps1 -ChartId trump_19460614_105400_jamaica_ny_renderer
 ```
 
 Expected marker:
 
-- `Generated: artifacts\skill-smoke\obsidian\trump_19460614_105400_jamaica_ny_natal.md`
+- `Obsidian export completed: ...\artifacts\skill-smoke\obsidian\trump_19460614_105400_jamaica_ny_renderer`
 
 ## D. Transit recipe smoke
 

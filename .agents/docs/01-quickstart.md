@@ -20,7 +20,15 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents
 
 ```powershell
 python .codex/skills/schema-validator/scripts/validate_chart.py --chart-id trump_19460614_105400_jamaica_ny --json
-python .codex/skills/obsidian-export/scripts/generate_note.py --chart-id trump_19460614_105400_jamaica_ny --output artifacts/skill-smoke/obsidian
+pwsh artifacts/mcp-recipes/run_obsidian_export.ps1 -ChartId trump_19460614_105400_jamaica_ny_renderer
+```
+
+Standalone vault bootstrap:
+
+```powershell
+pwsh artifacts/mcp-recipes/init_obsidian_vault.ps1 `
+  -VaultRoot D:\AstrolabVault `
+  -ChartId trump_19460614_105400_jamaica_ny_renderer
 ```
 
 ## D. Produce chart methods (example)
