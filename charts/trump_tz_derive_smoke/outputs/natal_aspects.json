@@ -1,0 +1,133 @@
+﻿{
+    "aspects":  [
+                    {
+                        "body1":  "mercury",
+                        "body2":  "neptune",
+                        "aspect":  "square",
+                        "angle":  86.98345913756427,
+                        "orb":  3.0165408624357326,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "venus",
+                        "body2":  "saturn",
+                        "aspect":  "conjunction",
+                        "angle":  1.9222239033133945,
+                        "orb":  1.9222239033133945,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "mars",
+                        "body2":  "sun",
+                        "aspect":  "sextile",
+                        "angle":  63.84768359425314,
+                        "orb":  3.847683594253141,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "mars",
+                        "body2":  "moon",
+                        "aspect":  "trine",
+                        "angle":  114.42420841431004,
+                        "orb":  5.575791585689956,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "jupiter",
+                        "body2":  "uranus",
+                        "aspect":  "trine",
+                        "angle":  119.55909183125688,
+                        "orb":  0.4409081687431211,
+                        "exact":  true
+                    },
+                    {
+                        "body1":  "jupiter",
+                        "body2":  "sun",
+                        "aspect":  "trine",
+                        "angle":  114.52397022454477,
+                        "orb":  5.476029775455231,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "jupiter",
+                        "body2":  "moon",
+                        "aspect":  "sextile",
+                        "angle":  63.747921784018416,
+                        "orb":  3.7479217840184162,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "jupiter",
+                        "body2":  "chiron",
+                        "aspect":  "conjunction",
+                        "angle":  0.2913725002797207,
+                        "orb":  0.2913725002797207,
+                        "exact":  true
+                    },
+                    {
+                        "body1":  "uranus",
+                        "body2":  "sun",
+                        "aspect":  "conjunction",
+                        "angle":  5.03512160671211,
+                        "orb":  5.03512160671211,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "uranus",
+                        "body2":  "moon",
+                        "aspect":  "opposition",
+                        "angle":  176.6929863847247,
+                        "orb":  3.3070136152753093,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "uranus",
+                        "body2":  "chiron",
+                        "aspect":  "trine",
+                        "angle":  119.8504643315366,
+                        "orb":  0.14953566846340038,
+                        "exact":  true
+                    },
+                    {
+                        "body1":  "neptune",
+                        "body2":  "pluto",
+                        "aspect":  "sextile",
+                        "angle":  55.799693098514695,
+                        "orb":  4.200306901485305,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "neptune",
+                        "body2":  "sirius",
+                        "aspect":  "opposition",
+                        "angle":  175.9154429874962,
+                        "orb":  4.084557012503808,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "sun",
+                        "body2":  "moon",
+                        "aspect":  "opposition",
+                        "angle":  178.27189200856319,
+                        "orb":  1.728107991436815,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "sun",
+                        "body2":  "chiron",
+                        "aspect":  "trine",
+                        "angle":  114.81534272482449,
+                        "orb":  5.1846572751755104,
+                        "exact":  false
+                    },
+                    {
+                        "body1":  "moon",
+                        "body2":  "chiron",
+                        "aspect":  "sextile",
+                        "angle":  63.456549283738696,
+                        "orb":  3.4565492837386955,
+                        "exact":  false
+                    }
+                ],
+    "orb_used":  6
+}
