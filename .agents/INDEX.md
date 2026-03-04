@@ -2,11 +2,16 @@
 
 Canonical agent layer root for this repository.
 
+Primary machine entrypoint:
+
+- `.agents/AGENTS.md`
+
 ## Structure
 
 - `.agents/skills/` - canonical shared skills (tracked)
 - `.agents/scripts/sync-skills.ps1` - sync utility for `.codex/skills` and optional `.qwen/skills`
 - `.agents/docs/` - agent-facing documentation (to be filled next)
+- `.agents/docs/` - machine-oriented guides (`00..04`)
 
 ## Current Canonical Skills
 
