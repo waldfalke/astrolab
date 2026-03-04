@@ -37,13 +37,15 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: solar-arc directed positions and directed-vs-natal aspects.
 11. `run_transits_to_natal.ps1`
    - Produces: current transit-to-natal aspect matrix with explicit transit semantics.
-12. `build_chart_project.ps1`
+12. `run_renderer.ps1`
+   - Produces: `chart_wheel.svg`, `aspect_grid.svg`, and render manifest from chart outputs.
+13. `build_chart_project.ps1`
    - Produces: chart-as-project structure with per-method raw folders, top-level outputs, and `INDEX.yaml` provenance map.
-13. `check_chart_provenance.ps1`
+14. `check_chart_provenance.ps1`
    - Validates canonical provenance links in chart projects (`canonical_run_dir` / `canonical_source`) and reports missing references.
-14. `validate_chart_project.ps1`
+15. `validate_chart_project.ps1`
    - Validates `chart.yaml` and `INDEX.yaml` against schema contracts and file-link consistency checks.
-15. `archive_runs.ps1`
+16. `archive_runs.ps1`
    - Safely archives run folders from `artifacts/results`, rewrites affected chart index external links, and emits verification report.
 
 ## Quick Run Examples
@@ -102,6 +104,10 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_transits_to
   -CaseId "demo_transits_now" -Latitude 44.1 -Longitude 39.07 `
   -BirthDateTimeUtc "1946-06-14T14:54:00Z" -TransitDateTimeUtc "2026-03-02T00:00:00Z" -Orb 1
 
+# Renderer (SVG wheel + aspect grid)
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_renderer.ps1 `
+  -ChartId "trump_19460614_105400_jamaica_ny"
+
 # Build chart project from method runs
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\build_chart_project.ps1 `
   -ChartId "trump_19460614_105400_jamaica_ny" `
@@ -110,7 +116,8 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\build_chart_pro
   -NatalFailoverRunDir "D:\Dev\CATMEastrolab\artifacts\results\natal_failover_trump_19460614_105400_jamaica_ny_20260302_101307" `
   -HouseRunDir "D:\Dev\CATMEastrolab\artifacts\results\house_placidus_trump_19460614_105400_jamaica_ny_gc_nodes_aspects_orb6_20260302_103757" `
   -SecondaryProgressionsRunDir "D:\Dev\CATMEastrolab\artifacts\results\secondary_progressions_trump_19460614_progressions_now_20260302_110650" `
-  -SolarArcRunDir "D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_solar_arc_20260302_105559"
+  -SolarArcRunDir "D:\Dev\CATMEastrolab\artifacts\results\solar_arc_trump_19460614_solar_arc_20260302_105559" `
+  -RendererRunDir "D:\Dev\CATMEastrolab\artifacts\results\renderer_trump_19460614_105400_jamaica_ny_20260304_000000"
 
 # Validate chart provenance integrity
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\check_chart_provenance.ps1 `

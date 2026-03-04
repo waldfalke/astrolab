@@ -10,6 +10,7 @@ param(
   [string]$HouseRunDir = "",
   [string]$SecondaryProgressionsRunDir = "",
   [string]$SolarArcRunDir = "",
+  [string]$RendererRunDir = "",
   [string]$ChartsRoot = ""
 )
 
@@ -159,7 +160,8 @@ $runNatal = Copy-MethodRun -MethodName "natal_failover" -SourceRunDir $NatalFail
 $runHouse = Copy-MethodRun -MethodName "house_placidus" -SourceRunDir $HouseRunDir
 $runSecondary = Copy-MethodRun -MethodName "secondary_progressions" -SourceRunDir $SecondaryProgressionsRunDir
 $runSolarArc = Copy-MethodRun -MethodName "solar_arc" -SourceRunDir $SolarArcRunDir
-foreach ($r in @($runNatal, $runHouse, $runSecondary, $runSolarArc)) {
+$runRenderer = Copy-MethodRun -MethodName "renderer" -SourceRunDir $RendererRunDir
+foreach ($r in @($runNatal, $runHouse, $runSecondary, $runSolarArc, $runRenderer)) {
   if ($null -ne $r) { $runs += $r }
 }
 
@@ -191,6 +193,13 @@ if ($null -ne $runSolarArc) {
   $outputArtifacts += Copy-OutputArtifact -MethodName "solar_arc" -RunName $runSolarArc.run_name -RunDir $runSolarArc.project_run_dir -ExternalRunDir $runSolarArc.source_run_dir -SourceFileName "03_solar_arc_directed_positions.csv" -OutputFileName "solar_arc_directed_positions.csv" -Label "Solar arc directed positions"
   $outputArtifacts += Copy-OutputArtifact -MethodName "solar_arc" -RunName $runSolarArc.run_name -RunDir $runSolarArc.project_run_dir -ExternalRunDir $runSolarArc.source_run_dir -SourceFileName "04_directed_to_natal_planets_aspects.csv" -OutputFileName "solar_arc_planet_aspects.csv" -Label "Solar arc to natal planets"
   $outputArtifacts += Copy-OutputArtifact -MethodName "solar_arc" -RunName $runSolarArc.run_name -RunDir $runSolarArc.project_run_dir -ExternalRunDir $runSolarArc.source_run_dir -SourceFileName "05_directed_to_natal_points_aspects.csv" -OutputFileName "solar_arc_point_aspects.csv" -Label "Solar arc to natal points"
+}
+
+if ($null -ne $runRenderer) {
+  $outputArtifacts += Copy-OutputArtifact -MethodName "renderer" -RunName $runRenderer.run_name -RunDir $runRenderer.project_run_dir -ExternalRunDir $runRenderer.source_run_dir -SourceFileName "00_summary.txt" -OutputFileName "renderer_summary.txt" -Label "Renderer summary"
+  $outputArtifacts += Copy-OutputArtifact -MethodName "renderer" -RunName $runRenderer.run_name -RunDir $runRenderer.project_run_dir -ExternalRunDir $runRenderer.source_run_dir -SourceFileName "01_chart_wheel.svg" -OutputFileName "chart_wheel.svg" -Label "Chart wheel SVG"
+  $outputArtifacts += Copy-OutputArtifact -MethodName "renderer" -RunName $runRenderer.run_name -RunDir $runRenderer.project_run_dir -ExternalRunDir $runRenderer.source_run_dir -SourceFileName "02_aspect_grid.svg" -OutputFileName "aspect_grid.svg" -Label "Aspect grid SVG"
+  $outputArtifacts += Copy-OutputArtifact -MethodName "renderer" -RunName $runRenderer.run_name -RunDir $runRenderer.project_run_dir -ExternalRunDir $runRenderer.source_run_dir -SourceFileName "03_render_manifest.json" -OutputFileName "render_manifest.json" -Label "Renderer manifest"
 }
 
 $outputArtifacts = @($outputArtifacts | Where-Object { $null -ne $_ })
