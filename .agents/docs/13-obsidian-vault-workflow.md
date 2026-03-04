@@ -43,3 +43,21 @@ pwsh artifacts/mcp-recipes/run_obsidian_export.ps1 `
 1. Do not commit user-local vault content.
 2. Keep export paths deterministic (`Astrolab/exports` default).
 3. Prefer recipe wrappers over direct script invocation for reproducibility.
+
+## F. Canvas task loop (bidirectional, file-based)
+
+Read tasks from canvas:
+
+```powershell
+pwsh artifacts/mcp-recipes/run_canvas_do_extract.ps1 `
+  -CanvasPath D:\AstrolabVault\Astrolab\exports\<chart_id>\<chart_id>_canvas.canvas `
+  -OutJson artifacts/skill-smoke/canvas/do_extract.json
+```
+
+Write AI status back:
+
+```powershell
+pwsh artifacts/mcp-recipes/run_canvas_ai_update.ps1 `
+  -CanvasPath D:\AstrolabVault\Astrolab\exports\<chart_id>\<chart_id>_canvas.canvas `
+  -TargetNodeId <node_id> -Status in_progress -Message "Started" -Label "ai-status"
+```

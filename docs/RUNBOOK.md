@@ -38,7 +38,27 @@ pwsh artifacts/mcp-recipes/init_obsidian_vault.ps1 `
   -ChartId trump_19460614_105400_jamaica_ny_renderer
 ```
 
-## 3) Run MCP Recipes (manual)
+## 3) Canvas Collaboration Loop
+
+Extract `[DO]` tasks from canvas:
+
+```powershell
+pwsh artifacts/mcp-recipes/run_canvas_do_extract.ps1 `
+  -CanvasPath D:\AstrolabVault\Astrolab\exports\trump_19460614_105400_jamaica_ny_renderer\trump_19460614_105400_jamaica_ny_renderer_canvas.canvas `
+  -OutJson artifacts/skill-smoke/canvas/do_extract.json
+```
+
+Write AI status back to canvas:
+
+```powershell
+pwsh artifacts/mcp-recipes/run_canvas_ai_update.ps1 `
+  -CanvasPath D:\AstrolabVault\Astrolab\exports\trump_19460614_105400_jamaica_ny_renderer\trump_19460614_105400_jamaica_ny_renderer_canvas.canvas `
+  -TargetNodeId <node_id> `
+  -Status in_progress `
+  -Message "Started implementation" `
+  -Label "ai-status"
+```
+## 4) Run MCP Recipes (manual)
 
 Examples:
 
@@ -48,7 +68,7 @@ pwsh artifacts/mcp-recipes/run_house_layer_placidus.ps1
 pwsh artifacts/mcp-recipes/check_chart_provenance.ps1 -ChartDir charts/trump_19460614_105400_jamaica_ny
 ```
 
-## 4) Skill Pack Structural Check
+## 5) Skill Pack Structural Check
 
 Check skill folders and metadata:
 
@@ -64,7 +84,7 @@ Get-ChildItem .codex/skills -Recurse -Filter evals.json |
   ForEach-Object { Get-Content -Raw $_.FullName | ConvertFrom-Json | Out-Null; "OK $($_.FullName)" }
 ```
 
-## 5) Public-Ready Check Before Push
+## 6) Public-Ready Check Before Push
 
 ```powershell
 git status -sb --ignored

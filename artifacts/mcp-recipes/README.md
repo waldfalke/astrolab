@@ -51,6 +51,10 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: Obsidian bundle (`.md`, `.canvas`, `attachments/*.svg`) for a chart; supports direct export into a target vault.
 18. `init_obsidian_vault.ps1`
    - Produces: minimal standalone Obsidian vault and optional chart export in one command.
+19. `run_canvas_do_extract.ps1`
+   - Produces: extracted `[DO]` task nodes from `.canvas` plus linked edges/context.
+20. `run_canvas_ai_update.ps1`
+   - Produces: safe AI status upsert (`[AI] in_progress|done|blocked`) for a target canvas node.
 
 ## Quick Run Examples
 
@@ -147,6 +151,16 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_obsidian_ex
 # Initialize standalone vault and export a chart bundle in one step
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\init_obsidian_vault.ps1 `
   -VaultRoot "D:\AstrolabVault" -ChartId "trump_19460614_105400_jamaica_ny_renderer"
+
+# Extract [DO] nodes from canvas
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_canvas_do_extract.ps1 `
+  -CanvasPath "D:\AstrolabVault\Astrolab\exports\trump_19460614_105400_jamaica_ny_renderer\trump_19460614_105400_jamaica_ny_renderer_canvas.canvas" `
+  -OutJson "artifacts\skill-smoke\canvas\do_extract.json"
+
+# Upsert AI status node linked to target node
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_canvas_ai_update.ps1 `
+  -CanvasPath "D:\AstrolabVault\Astrolab\exports\trump_19460614_105400_jamaica_ny_renderer\trump_19460614_105400_jamaica_ny_renderer_canvas.canvas" `
+  -TargetNodeId "<node_id>" -Status in_progress -Message "Started" -Label "ai-status"
 ```
 
 ## Output Location
