@@ -1,0 +1,33 @@
+{
+  "skill_name": "run-planner",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "natal-plus-forecast",
+      "prompt": "Натал + прогноз для tuapse_19820613_133910",
+      "expected_output": "Run plan with 4 methods in correct dependency order, parallel groups identified",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "new-chart-request",
+      "prompt": "Calculate natal for June 13, 1982, 13:39, Tuapse",
+      "expected_output": "chart_id generated, birth_data extracted, 2 methods planned",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "method-failure-handling",
+      "prompt": "Update plan when house_placidus fails with timeout",
+      "expected_output": "house_placidus marked FAILED, secondary_progressions and solar_arc marked SKIPPED",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "handoff-summary",
+      "prompt": "Generate handoff summary after all methods complete",
+      "expected_output": "Execution summary with next_recommended_action (chart-data-preparator, artifact-builder, or chart-analyst)",
+      "files": []
+    }
+  ]
+}

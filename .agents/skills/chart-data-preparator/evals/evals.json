@@ -1,0 +1,33 @@
+{
+  "skill_name": "chart-data-preparator",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "new-natal-chart",
+      "prompt": "Build natal chart for June 13, 1982, 13:39, Tuapse",
+      "expected_output": "Chart project created at charts/tuapse_19820613_133910/ with chart.yaml, INDEX.yaml, methods/, outputs/",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "add-forecast-to-existing",
+      "prompt": "Add progressions and solar arc to tuapse_19820613_133910",
+      "expected_output": "INDEX.yaml updated with secondary_progressions and solar_arc methods, new output files added",
+      "files": ["charts/tuapse_19820613_133910/chart.yaml"]
+    },
+    {
+      "id": 3,
+      "eval_name": "full-workbench",
+      "prompt": "Натал + прогноз для tuapse_19820613_133910",
+      "expected_output": "Complete chart project with natal_failover, house_placidus, secondary_progressions, solar_arc methods",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "provider-failover",
+      "prompt": "Calculate natal positions for test case with primary provider unavailable",
+      "expected_output": "Chart built using backup provider (ephemeris), INDEX.yaml shows DEGRADED status",
+      "files": []
+    }
+  ]
+}

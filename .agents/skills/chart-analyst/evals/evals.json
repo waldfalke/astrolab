@@ -1,0 +1,33 @@
+{
+  "skill_name": "chart-analyst",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "single-planet-analysis",
+      "prompt": "Analyze Sun in chart tuapse_19820613_133910",
+      "expected_output": "State vector P <Z.z : H.h : D> with calculations, aspect network resonance",
+      "files": ["charts/tuapse_19820613_133910/outputs/planets_primary.csv"]
+    },
+    {
+      "id": 2,
+      "eval_name": "full-chart-no-synthesis",
+      "prompt": "Analyze all planets in tuapse_19820613_133910",
+      "expected_output": "Per-planet output for all 10 planets, synthesis_ready: false",
+      "files": ["charts/tuapse_19820613_133910/INDEX.yaml"]
+    },
+    {
+      "id": 3,
+      "eval_name": "synthesis-command",
+      "prompt": "СИНТЕЗ",
+      "expected_output": "Summary table with dominant phases, central planets, interpretation",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "aspect-pattern-detection",
+      "prompt": "Find aspect patterns in tuapse_19820613_133910",
+      "expected_output": "Patterns detected: Stellium, Grand Trine, T-Square, or Yod (if present)",
+      "files": ["charts/tuapse_19820613_133910/outputs/natal_aspects.json"]
+    }
+  ]
+}

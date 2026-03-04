@@ -1,0 +1,33 @@
+{
+  "skill_name": "obsidian-export",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "export-natal-chart",
+      "prompt": "Export tuapse_19820613_133910 to Obsidian",
+      "expected_output": "Note file, Canvas JSON, attachments folder with SVG files",
+      "files": ["charts/tuapse_19820613_133910/chart.yaml"]
+    },
+    {
+      "id": 2,
+      "eval_name": "export-forecast-note",
+      "prompt": "Create forecast note with progressions",
+      "expected_output": "Forecast note with natal→progressed delta table, links to natal note",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "synastry-export",
+      "prompt": "Export synastry for tuapse and moscow",
+      "expected_output": "Comparison note with both charts, synastry aspects, Canvas with two chart nodes",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "phase-analysis-in-note",
+      "prompt": "Export chart with phase analysis included",
+      "expected_output": "Note includes P <Z.z : H.h : D> state vectors for all planets",
+      "files": []
+    }
+  ]
+}
