@@ -334,7 +334,7 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
             node["label"],
             node["x"],
             node["y"],
-            cls="small",
+            cls="plabel",
             anchor="middle",
             baseline="middle",
             font_size=node["font_size"],
