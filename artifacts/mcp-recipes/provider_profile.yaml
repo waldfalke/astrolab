@@ -4,7 +4,10 @@ providers:
   primary:
     name: "swissremote"
     mode: "http"
-    url: "https://www.theme-astral.me/mcp"
+    # Self-hosted dm0lz/swiss-ephemeris-mcp-server (Docker, port 8000).
+    # Public theme-astral.me demo was decommissioned (DNS NXDOMAIN, 2026-06).
+    # Override at runtime with env SWISS_MCP_URL if relocated.
+    url: "http://localhost:8000/mcp"
     auth:
       type: "none"
     capabilities:

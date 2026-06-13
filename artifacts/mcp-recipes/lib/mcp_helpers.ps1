@@ -22,6 +22,7 @@ function Invoke-McpToolJson {
       throw "Invoke-McpToolJson: Url is required for Mode=http"
     }
     $argList += @("--http-url", $Url)
+    if ($Url -like "http://*") { $argList += "--allow-http" }
   } else {
     if ([string]::IsNullOrWhiteSpace($StdioCommand)) {
       throw "Invoke-McpToolJson: StdioCommand is required for Mode=stdio"
@@ -49,31 +50,34 @@ function Invoke-McpToolJson {
   $argList += @("--output", "json")
   $env:MCPORTER_CALL_TIMEOUT = $CallTimeoutMs.ToString([CultureInfo]::InvariantCulture)
   $raw = npx @argList
-  if ($LASTEXITCODE -ne 0) {
-    throw "mcporter call failed for tool: $Tool ($ServerName)"
+  $exitCode = $LASTEXITCODE
+
+  # Parse stdout first, then judge success. On Windows + Node 25 the mcporter StreamableHTTP
+  # client can crash on process teardown (libuv UV_HANDLE_CLOSING -> exit 0xC0000409) AFTER
+  # emitting a complete, valid JSON result. A usable payload must win over a teardown-only
+  # nonzero exit; the exit code is honored only when no parseable JSON came back.
+  $parsed = $null
+  try { $parsed = ($raw | ConvertFrom-Json) } catch { $parsed = $null }
+  if ($null -eq $parsed) {
+    throw "mcporter call failed for tool: $Tool ($ServerName) (exit=$exitCode, no JSON returned)`n$raw"
   }
 
-  try {
-    $parsed = ($raw | ConvertFrom-Json)
-    if ($parsed.PSObject.Properties.Name -contains "error") {
-      throw "MCP tool error: $($parsed.error)"
-    }
-    if (($parsed.PSObject.Properties.Name -contains "isError") -and ($parsed.isError -eq $true)) {
-      $msg = ""
-      if ($parsed.PSObject.Properties.Name -contains "content") {
-        $parts = @()
-        foreach ($c in $parsed.content) {
-          if ($c.PSObject.Properties.Name -contains "text") { $parts += [string]$c.text }
-        }
-        $msg = ($parts -join " | ")
-      }
-      if ([string]::IsNullOrWhiteSpace($msg)) { $msg = "Unknown MCP tool error." }
-      throw $msg
-    }
-    return $parsed
-  } catch {
-    throw "mcporter call/result handling failed for tool: $Tool ($ServerName)`n$($_.Exception.Message)`n$raw"
+  if ($parsed.PSObject.Properties.Name -contains "error") {
+    throw "MCP tool error: $($parsed.error)"
   }
+  if (($parsed.PSObject.Properties.Name -contains "isError") -and ($parsed.isError -eq $true)) {
+    $msg = ""
+    if ($parsed.PSObject.Properties.Name -contains "content") {
+      $parts = @()
+      foreach ($c in $parsed.content) {
+        if ($c.PSObject.Properties.Name -contains "text") { $parts += [string]$c.text }
+      }
+      $msg = ($parts -join " | ")
+    }
+    if ([string]::IsNullOrWhiteSpace($msg)) { $msg = "Unknown MCP tool error." }
+    throw $msg
+  }
+  return $parsed
 }
 
 function Invoke-EphemToolJson {
@@ -96,7 +100,10 @@ function Invoke-SwissPrimaryToolJson {
   while ($attempt -lt $MaxAttempts) {
     $attempt++
     try {
-      return Invoke-McpToolJson -Mode "http" -Url "https://www.theme-astral.me/mcp" -ServerName "swissremote" -Tool $Tool -Args $Args
+      # Primary swiss engine self-hosted from dm0lz/swiss-ephemeris-mcp-server (the public
+      # theme-astral.me demo was decommissioned). Override with $env:SWISS_MCP_URL if relocated.
+      $swissUrl = if ($env:SWISS_MCP_URL) { $env:SWISS_MCP_URL } else { "http://localhost:8000/mcp" }
+      return Invoke-McpToolJson -Mode "http" -Url $swissUrl -ServerName "swissremote" -Tool $Tool -Args $Args
     } catch {
       if (-not $script:SwissRetryTelemetry.by_tool.ContainsKey($Tool)) {
         $script:SwissRetryTelemetry.by_tool[$Tool] = 0

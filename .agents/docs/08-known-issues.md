@@ -76,3 +76,41 @@ Interpretation:
 Action:
 
 - do not treat as failure in public workflows
+
+## KI-006: mcporter crashes on process teardown under Node 25 (Windows)
+
+Symptoms:
+
+- stderr shows `Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\win\async.c`
+- process exits with `0xC0000409` / `-1073740791` **after** printing a complete, valid JSON result
+- only affects the local swiss StreamableHTTP endpoint (`http://localhost:8000/mcp`); `ephem`
+  (https) exits 0 cleanly
+
+Interpretation:
+
+- libuv async-handle teardown crash specific to Node v25.x (non-LTS) + mcporter StreamableHTTP
+  client. The MCP call itself succeeds; only the exit code is poisoned.
+
+Action:
+
+1. Non-blocking. `Invoke-McpToolJson` parses stdout first and trusts a valid payload over a
+   teardown-only nonzero exit, so recipes still succeed.
+2. Real fix: run on Node LTS (20/22). Do not waste time debugging the assertion per call.
+
+## KI-007: swissremote primary is self-hosted on localhost
+
+Symptoms:
+
+- primary URL is `http://localhost:8000/mcp`, not the historical `https://www.theme-astral.me/mcp`
+
+Interpretation:
+
+- the public theme-astral.me demo was decommissioned (DNS NXDOMAIN, 2026-06). swissremote now
+  runs as a local Docker container (`swiss-mcp`, image `swiss-mcp:local`) built from
+  `dm0lz/swiss-ephemeris-mcp-server`. Same 4 tools, full Placidus houses.
+
+Action:
+
+1. Ensure the container is up: `docker start swiss-mcp` (it has `--restart unless-stopped`).
+2. If relocated, override with `$env:SWISS_MCP_URL`.
+3. Engine is built from upstream HEAD and NOT pinned yet — open reproducibility debt.

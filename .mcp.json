@@ -2,7 +2,7 @@
   "mcpServers": {
     "swissremote": {
       "type": "http",
-      "url": "https://www.theme-astral.me/mcp"
+      "url": "http://localhost:8000/mcp"
     },
     "ephem": {
       "type": "http",
