@@ -113,4 +113,6 @@ Action:
 
 1. Ensure the container is up: `docker start swiss-mcp` (it has `--restart unless-stopped`).
 2. If relocated, override with `$env:SWISS_MCP_URL`.
-3. Engine is built from upstream HEAD and NOT pinned yet — open reproducibility debt.
+3. Reproducible build is pinned in `infra/swiss-mcp/Dockerfile`
+   (dm0lz `e164fced…`, swisseph `v2.10.03`); rebuild + verify per `infra/swiss-mcp/README.md`.
+   Never run an unpinned `HEAD` build for chart-project work.
