@@ -9,6 +9,7 @@ Graph-style map of agent instruction files in this repository.
 - `artifacts/AGENTS.md` -> recipe execution policy and output contracts
 - `charts/AGENTS.md` -> chart-project structure and mutation rules
 - `docs/AGENTS.md` -> public/private docs policy and redaction rules
+- `l402-proof-of-vision/AGENTS.md` -> L402/Lightning stack, Phase 2 Aperture integration
 
 ## Edge Map (Inheritance / Navigation)
 

@@ -1,7 +1,7 @@
 # CURRENT_WORK - CATMEastrolab
 
-**Last Updated:** 2026-03-02  
-**Session Goal:** Стабилизировать chart-project контур и перейти к модульной архитектуре без потери воспроизводимости артефактов.
+**Last Updated:** 2026-03-06
+**Session Goal:** L402 Phase 2 — интеграция Aperture как L402 reverse proxy для реального Lightning-платежа.
 
 ## Active Tasks
 
@@ -25,6 +25,42 @@
 | 🟢 | ASTRO-006 | Multilingual knowledge ingestion | RU/EN артефактный канал методик |
 
 **Legend:** 🟢 Ready | 🟡 In Progress | 🔴 Blocked | ✅ Done
+
+## L402 Proof of Vision (subproject)
+
+| Status | ID | Task | Next Action |
+|---|---|---|---|
+| 🟢 | L402-APR-001 | Aperture в docker-compose | Добавить сервис + aperture.yaml |
+| 🟢 | L402-APR-002 | lnd-client + setup-channel | Написать setup-channel.sh |
+| 🟢 | L402-APR-004 | Strip L402 из mock-api | Убрать gRPC, оставить чистый backend |
+| 🔴 | L402-APR-003 | client-agent real payment | Blocked by APR-001 + APR-002 |
+| 🔴 | L402-APR-005 | E2E test | Blocked by ALL |
+
+**Entry:** `l402-proof-of-vision/AGENTS.md` | **BACKLOG:** `l402-proof-of-vision/BACKLOG.md`
+
+**Docker state:** bitcoind + lnd healthy, lnd-client defined, Aperture not yet added.
+
+### Progress Log
+
+#### 2026-03-06 23:50 [Chat-1: Opus]
+
+**Completed:**
+- Fixed 3 LND/bitcoind Docker blockers (rpcbind, tlsextradomain, lightning.proto)
+- bitcoind + lnd + mock-api working with real Lightning invoices
+- Deep research of Lightning MCP ecosystem (6 tools analyzed)
+- Key decision: Aperture for server-side L402, refined-element for client-side
+- Created Phase 2 task specs (APR-001..005) with DAG
+- Created subproject structure: AGENTS.md, docs/architecture.md, docs/docker-gotchas.md
+- Updated global agent docs: `.agents/docs/14-l402-lightning-stack.md`, EXTERNAL_CAPABILITIES_MAP.md §3
+- Created `/save` and `/load` commands
+
+**In Progress:**
+- Phase 2 tasks ready to start (APR-001 + APR-002 + APR-004 parallelizable)
+
+**Next:**
+- Start APR-001 (Aperture), APR-002 (lnd-client channel), APR-004 (clean mock-api) in parallel
+
+---
 
 ## Current State (Audit)
 

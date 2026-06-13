@@ -71,5 +71,5 @@ pwsh artifacts/mcp-recipes/run_canvas_ai_update.ps1 `
 Probe command for mode 2:
 
 ```powershell
-pwsh artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1 -StdioCommand "npx -y mcp-obsidian" -ServerName "obsidian"
+pwsh artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1 -VaultRoot D:\AstrolabVault -ServerName "obsidian"
 ```

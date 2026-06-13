@@ -83,13 +83,13 @@ pwsh artifacts/mcp-recipes/run_mcp_provider_probe.ps1
 Preferred probe wrapper:
 
 ```powershell
-pwsh artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1 -StdioCommand "npx -y mcp-obsidian" -ServerName "obsidian"
+pwsh artifacts/mcp-recipes/run_obsidian_mcp_probe.ps1 -VaultRoot D:\Dev\CATMEastrolab\obsidian-vault -ServerName "obsidian"
 ```
 
 Direct manual probe:
 
 ```powershell
-npx -y mcporter list --stdio "npx -y mcp-obsidian" --name obsidian --schema
+npx -y mcporter list --stdio "npx -y obsidian-mcp" --stdio-arg "D:/Dev/CATMEastrolab/obsidian-vault" --name obsidian --schema
 ```
 
 Guidance:
@@ -97,6 +97,12 @@ Guidance:
 1. Keep file-based canvas loop as fallback (`run_canvas_do_extract.ps1`, `run_canvas_ai_update.ps1`).
 2. Use MCP mode when interactive note/canvas operations are required.
 3. Scope operations to the intended vault path and avoid broad write patterns.
+
+Optional e2e smoke (recommended after probe):
+
+```powershell
+pwsh artifacts/mcp-recipes/run_obsidian_mcp_e2e.ps1 -VaultRoot D:\Dev\CATMEastrolab\obsidian-vault -ServerName "obsidian"
+```
 
 ## Agent do/don't for MCPorter
 

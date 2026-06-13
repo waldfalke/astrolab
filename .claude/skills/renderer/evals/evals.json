@@ -1,0 +1,34 @@
+{
+  "skill_name": "renderer",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "basic-chart-wheel",
+      "prompt": "Generate chart wheel for trump_19460614_105400_jamaica_ny",
+      "expected_output": "SVG file at charts/<id>/outputs/chart_wheel.svg with zodiac ring, houses, planets, aspects",
+      "files": ["charts/trump_19460614_105400_jamaica_ny/outputs/planets_primary.csv"]
+    },
+    {
+      "id": 2,
+      "eval_name": "aspect-grid",
+      "prompt": "Show aspect grid",
+      "expected_output": "SVG table with planet glyphs on axes, aspect symbols in cells, legend",
+      "files": ["charts/trump_19460614_105400_jamaica_ny/outputs/natal_aspects.json"]
+    },
+    {
+      "id": 3,
+      "eval_name": "png-for-delivery",
+      "prompt": "Generate PNG for client delivery",
+      "expected_output": "PNG file 800x800 pixels, ready for pack inclusion",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "house-diagram",
+      "prompt": "Show house diagram with Placidus cusps",
+      "expected_output": "Quadrant view with ASC/MC/DSC/IC labels, house division lines",
+      "files": ["charts/trump_19460614_105400_jamaica_ny/outputs/houses_placidus.csv"]
+    }
+  ]
+}
+

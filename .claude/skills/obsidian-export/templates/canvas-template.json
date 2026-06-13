@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "chart_center",
+      "type": "text",
+      "x": 400,
+      "y": 300,
+      "width": 250,
+      "height": 120,
+      "text": "# Chart: {{chart_id}}\n\n{{birth_date}} {{birth_time}}\n{{location_name}}\n\nASC: {{asc_sign}} {{asc_deg}}°\nMC: {{mc_sign}} {{mc_deg}}°"
+    },
+    {
+      "id": "sun_node",
+      "type": "text",
+      "x": 700,
+      "y": 200,
+      "width": 180,
+      "height": 100,
+      "text": "## ☉ Sun\n\n{{sun_sign}} {{sun_deg}}°\nHouse {{sun_house}}\n\nP <{{sun_Z}}.{{sun_z}} : {{sun_H}}.{{sun_h}} : D={{sun_D}}>"
+    },
+    {
+      "id": "moon_node",
+      "type": "text",
+      "x": 700,
+      "y": 350,
+      "width": 180,
+      "height": 100,
+      "text": "## ☽ Moon\n\n{{moon_sign}} {{moon_deg}}°\nHouse {{moon_house}}\n\nP <{{moon_Z}}.{{moon_z}} : {{moon_H}}.{{moon_h}} : D={{moon_D}}>"
+    },
+    {
+      "id": "asc_node",
+      "type": "text",
+      "x": 200,
+      "y": 300,
+      "width": 150,
+      "height": 80,
+      "text": "## ASC\n\n{{asc_sign}} {{asc_deg}}°\n\nHouse I"
+    },
+    {
+      "id": "mc_node",
+      "type": "text",
+      "x": 400,
+      "y": 100,
+      "width": 120,
+      "height": 80,
+      "text": "## MC\n\n{{mc_sign}} {{mc_deg}}°\n\nHouse X"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge_sun_moon",
+      "fromNode": "sun_node",
+      "toNode": "moon_node",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "{{sun_moon_aspect}} {{sun_moon_angle}}°"
+    },
+    {
+      "id": "edge_sun_asc",
+      "fromNode": "sun_node",
+      "toNode": "asc_node",
+      "fromSide": "left",
+      "toSide": "right",
+      "label": ""
+    }
+  ]
+}

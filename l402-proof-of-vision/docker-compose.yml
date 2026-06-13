@@ -1,0 +1,106 @@
+services:
+  bitcoind:
+    image: lncm/bitcoind:v25.0
+    container_name: bitcoind
+    command:
+      - -regtest=1
+      - -txindex=1
+      - -rpcuser=user
+      - -rpcpassword=pass
+      - -rpcallowip=0.0.0.0/0
+      - -rpcbind=0.0.0.0
+      - -rpcport=18443
+      - -zmqpubrawblock=tcp://0.0.0.0:28332
+      - -zmqpubrawtx=tcp://0.0.0.0:28333
+    volumes:
+      - bitcoin_data:/data/.bitcoin
+    healthcheck:
+      test: ["CMD-SHELL", "bitcoin-cli -rpcuser=user -rpcpassword=pass -regtest getblockchaininfo"]
+      interval: 1s
+      timeout: 10s
+      retries: 60
+
+  lnd:
+    image: lightninglabs/lnd:v0.17.0-beta
+    container_name: lnd
+    command:
+      - --bitcoin.active
+      - --bitcoin.regtest
+      - --bitcoin.node=bitcoind
+      - --bitcoind.rpchost=bitcoind
+      - --bitcoind.rpcuser=user
+      - --bitcoind.rpcpass=pass
+      - --bitcoind.zmqpubrawblock=tcp://bitcoind:28332
+      - --bitcoind.zmqpubrawtx=tcp://bitcoind:28333
+      - --externalip=lnd
+      - --rpclisten=0.0.0.0:10009
+      - --restlisten=0.0.0.0:8081
+      - --tlsextradomain=lnd
+      - --noseedbackup
+    depends_on:
+      bitcoind:
+        condition: service_healthy
+    volumes:
+      - lnd_data:/root/.lnd
+    healthcheck:
+      test: ["CMD-SHELL", "lncli --network=regtest getinfo"]
+      interval: 2s
+      timeout: 10s
+      retries: 30
+
+  lnd-client:
+    image: lightninglabs/lnd:v0.17.0-beta
+    container_name: lnd-client
+    command:
+      - --bitcoin.active
+      - --bitcoin.regtest
+      - --bitcoin.node=bitcoind
+      - --bitcoind.rpchost=bitcoind
+      - --bitcoind.rpcuser=user
+      - --bitcoind.rpcpass=pass
+      - --bitcoind.zmqpubrawblock=tcp://bitcoind:28332
+      - --bitcoind.zmqpubrawtx=tcp://bitcoind:28333
+      - --externalip=lnd-client
+      - --rpclisten=0.0.0.0:10009
+      - --restlisten=0.0.0.0:8081
+      - --tlsextradomain=lnd-client
+      - --noseedbackup
+    depends_on:
+      bitcoind:
+        condition: service_healthy
+    volumes:
+      - lnd_client_data:/root/.lnd
+    healthcheck:
+      test: ["CMD-SHELL", "lncli --network=regtest getinfo"]
+      interval: 2s
+      timeout: 10s
+      retries: 30
+
+  mock-api:
+    build: ./mock-api
+    container_name: mock-api
+    command: npm start
+    ports:
+      - "8080:3000"
+    depends_on:
+      lnd:
+        condition: service_healthy
+    volumes:
+      - lnd_data:/root/.lnd:ro
+
+  client-agent:
+    build: ./client-agent
+    container_name: client-agent
+    command: npm start
+    depends_on:
+      mock-api:
+        condition: service_started
+      lnd-client:
+        condition: service_healthy
+    volumes:
+      - lnd_client_data:/root/.lnd:ro
+
+volumes:
+  bitcoin_data:
+  lnd_data:
+  lnd_client_data:

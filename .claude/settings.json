@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(pwsh artifacts/mcp-recipes/:*)",
+      "Bash(pwsh .agents/scripts/sync-skills.ps1:*)",
+      "Bash(python .agents/skills/schema-validator/scripts/validate_chart.py:*)",
+      "Bash(python .claude/skills/schema-validator/scripts/validate_chart.py:*)",
+      "Bash(python .agents/skills/obsidian-export/scripts/generate_note.py:*)",
+      "Bash(npx -y mcporter list:*)",
+      "Bash(npx -y mcporter call:*)",
+      "mcp__swissremote__*",
+      "mcp__ephem__*",
+      "mcp__vedastro__*"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,31 @@
+# Aperture configuration for L402 smoke test
+
+# Listen on port 8080 inside the container
+listen_addr: 0.0.0.0:8080
+
+# Use a dummy LND for testing purposes. It will generate fake invoices
+# and preimages without needing a real Lightning node.
+lnd:
+  dummy: true
+
+# Define the list of services Aperture can proxy to.
+services:
+  - name: mock-api # A friendly name for our backend
+    # The address of the mock-api service on the Docker network.
+    # Docker compose makes services available by their name.
+    address: http://mock-api:3000
+
+# Define the rules for when to apply L402.
+rules:
+  - name: protect-sun-sign
+    # Match any GET request to the path /sun_sign
+    match:
+      path: /sun_sign
+      method:
+        - GET
+    # The backend service to use for this rule.
+    service: mock-api
+    # The L402 constraint to apply.
+    l402:
+      # Price in millisatoshis. 1000 msat = 1 sat.
+      price_msat: 1000

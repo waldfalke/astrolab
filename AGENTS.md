@@ -25,6 +25,9 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents
 # canonical -> codex + qwen
 pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents -IncludeQwen
 
+# canonical -> codex + claude (Claude Code mirror)
+pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents -IncludeClaude
+
 # codex -> canonical refresh
 pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 ```
@@ -35,7 +38,8 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 2. Keep chart outputs reproducible and attached to run folders/chart projects.
 3. Run provenance/schema validation before finalizing chart projects.
 4. For Obsidian: use recipe wrappers (`run_obsidian_export.ps1`, `init_obsidian_vault.ps1`), not ad-hoc manual file moves.
-5. For Obsidian MCP integration, use MCPorter CLI patterns and probe first (`run_obsidian_mcp_probe.ps1`).
+5. For Obsidian MCP integration, use MCPorter CLI patterns and probe first (`run_obsidian_mcp_probe.ps1 -VaultRoot <vault>`).
+6. For L402/Lightning work, see `.agents/docs/14-l402-lightning-stack.md` and `docs/EXTERNAL_CAPABILITIES_MAP.md` §3.
 
 ## 3) Quick Start Commands
 

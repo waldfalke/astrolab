@@ -1,6 +1,7 @@
 param(
-  [string]$StdioCommand = "npx -y mcp-obsidian",
+  [string]$StdioCommand = "",
   [string]$ServerName = "obsidian",
+  [string]$VaultRoot = "",
   [string]$OutputBase = "",
   [int]$TimeoutMs = 45000
 )
@@ -17,6 +18,16 @@ $ts = (Get-Date).ToString("yyyyMMdd_HHmmss")
 $runDir = Join-Path $OutputBase ("obsidian_mcp_probe_" + $ts)
 New-Item -ItemType Directory -Force -Path $runDir | Out-Null
 
+$vaultPath = $VaultRoot
+if ([string]::IsNullOrWhiteSpace($vaultPath)) {
+  $vaultPath = Join-Path (Get-Location) "obsidian-vault"
+}
+$vaultPath = [System.IO.Path]::GetFullPath($vaultPath)
+
+if ([string]::IsNullOrWhiteSpace($StdioCommand)) {
+  $StdioCommand = "npx -y obsidian-mcp $($vaultPath.Replace('\','/'))"
+}
+
 $env:MCPORTER_CALL_TIMEOUT = $TimeoutMs.ToString()
 $raw = ""
 $exitCode = 1
@@ -32,7 +43,7 @@ try {
 
 $toolNames = @()
 foreach ($line in ($raw -split "`r?`n")) {
-  if ($line -match "function\s+([a-zA-Z0-9_]+)\(") {
+  if ($line -match "function\s+([a-zA-Z0-9_-]+)\(") {
     $toolNames += $Matches[1]
   }
 }

@@ -2,6 +2,7 @@ param(
   [ValidateSet('from-agents','to-agents')]
   [string]$Direction = 'from-agents',
   [switch]$IncludeQwen,
+  [switch]$IncludeClaude,
   [switch]$IncludePrivate,
   [switch]$CleanTarget
 )
@@ -12,6 +13,7 @@ $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $agentsSkills = Join-Path $root '.agents/skills'
 $codexSkills = Join-Path $root '.codex/skills'
 $qwenSkills = Join-Path $root '.qwen/skills'
+$claudeSkills = Join-Path $root '.claude/skills'
 
 if (-not (Test-Path $agentsSkills)) {
   throw "Missing agents skills root: $agentsSkills"
@@ -41,6 +43,9 @@ function Sync-SkillDirs {
       Remove-Item -Recurse -Force $target
     }
     Copy-Item -Recurse -Force $_.FullName $target
+    # Drop build/cache artifacts that must never ship in a mirror.
+    Get-ChildItem $target -Recurse -Directory -Filter '__pycache__' -ErrorAction SilentlyContinue |
+      ForEach-Object { Remove-Item -Recurse -Force $_.FullName }
   }
 }
 
@@ -48,6 +53,10 @@ if ($Direction -eq 'from-agents') {
   Sync-SkillDirs -From $agentsSkills -To $codexSkills -AllowPrivate:$IncludePrivate -Clean:$CleanTarget
   if ($IncludeQwen) {
     Sync-SkillDirs -From $agentsSkills -To $qwenSkills -AllowPrivate:$IncludePrivate -Clean:$CleanTarget
+  }
+  if ($IncludeClaude) {
+    # Claude Code mirror is never allowed to carry the private scanner.
+    Sync-SkillDirs -From $agentsSkills -To $claudeSkills -Clean:$CleanTarget
   }
   Write-Output "Synced skills from .agents to targets."
 } else {

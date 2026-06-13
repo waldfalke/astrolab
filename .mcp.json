@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "swissremote": {
+      "type": "http",
+      "url": "https://www.theme-astral.me/mcp"
+    },
+    "ephem": {
+      "type": "http",
+      "url": "https://ephemeris.fyi/mcp"
+    },
+    "vedastro": {
+      "type": "http",
+      "url": "https://mcp.vedastro.org/api/mcp"
+    }
+  }
+}

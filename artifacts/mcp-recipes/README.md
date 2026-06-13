@@ -57,6 +57,8 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: safe AI status upsert (`[AI] in_progress|done|blocked`) for a target canvas node.
 21. `run_obsidian_mcp_probe.ps1`
    - Produces: stdio MCP probe report for Obsidian MCP server (tool list + health).
+22. `run_obsidian_mcp_e2e.ps1`
+   - Produces: end-to-end Obsidian MCP check (`list -> create -> read -> edit -> read`) with PASS/FAIL summary.
 
 ## Quick Run Examples
 
@@ -166,7 +168,11 @@ powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_canvas_ai_u
 
 # Probe Obsidian MCP over stdio via MCPorter
 powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_obsidian_mcp_probe.ps1 `
-  -StdioCommand "npx -y mcp-obsidian" -ServerName "obsidian"
+  -VaultRoot "D:\Dev\CATMEastrolab\obsidian-vault" -ServerName "obsidian"
+
+# E2E read/write check over Obsidian MCP
+powershell -ExecutionPolicy Bypass -File .\artifacts\mcp-recipes\run_obsidian_mcp_e2e.ps1 `
+  -VaultRoot "D:\Dev\CATMEastrolab\obsidian-vault" -ServerName "obsidian"
 ```
 
 ## Output Location

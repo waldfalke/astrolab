@@ -32,7 +32,53 @@ Operational behavior already implemented:
   - `SWISS_RETRY_TOTAL`
   - `SWISS_RETRY_BY_TOOL`
 
-## 3) Runtime Platforms/Libraries
+## 3) Lightning / L402 Payment Layer
+
+Snapshot date: 2026-03-06
+Source: `l402-proof-of-vision/tasks/research_log_lightning_mcp_ecosystem_20260306.md`
+
+### Server-side (L402 gate in front of our API)
+
+| Component | Role | Docker image | Connects to | Regtest | Status |
+|---|---|---|---|---|---|
+| **Aperture** (Lightning Labs) | L402 reverse proxy — 402 + macaroon + invoice + verify | `lightninglabs/aperture:v0.3-beta` | LND gRPC (tls.cert + macaroon) | YES (`authenticator.network: "regtest"`) | Selected for Phase 2 |
+
+Config: YAML (`aperture.yaml`). Define `services[]` with hostregexp, pathregexp, address, price (sats).
+Repo: https://github.com/lightninglabs/aperture
+
+### Client-side (agent pays for L402-protected API)
+
+| Component | Role | MCP tools | Connects to | Regtest | Status |
+|---|---|---|---|---|---|
+| **refined-element/lightning-enable-mcp** | L402 client for AI agents | 15 (`access_l402_resource`, `pay_invoice`, `create_invoice`, `discover_api`...) | LND REST + macaroon; also Strike, NWC | YES (parses `lnbcrt`) | Selected for Phase 2 |
+| ehallmark/btc-lightning-mcp-server | Direct LND gRPC wrapper | 5 (`pay_invoice`, `create_invoice`, `check_invoice_is_settled`...) | LND gRPC (tls.cert + macaroon) | YES | Fallback |
+
+### Infrastructure (test network)
+
+| Component | Role | Docker image | Notes |
+|---|---|---|---|
+| bitcoind | Regtest blockchain | `lncm/bitcoind:v25.0` | Needs `-rpcbind=0.0.0.0` for cross-container |
+| LND (server) | Invoice generation for Aperture | `lightninglabs/lnd:v0.17.0-beta` | Needs `--tlsextradomain=<service_name>` |
+| LND (client) | Payment wallet for client-agent | `lightninglabs/lnd:v0.17.0-beta` | Separate volume, funded via bitcoind |
+
+### Evaluated but not selected
+
+| Component | Why not |
+|---|---|
+| polar-mcp (jamaljsr) | Requires Polar GUI (Electron). No headless/Docker/CI. Dev-only. |
+| getAlby/mcp | NWC-only (no direct LND gRPC). No regtest support. |
+| PayGated | Credit system + Stripe. Not L402/Lightning. |
+| SatGate MCP Proxy | Client-side budget proxy only. No invoice creation. |
+| lightningfaucet/lightning-wallet-mcp | SaaS only. No self-host, no regtest. |
+
+### Decision guidance
+
+- Need to gate an API with L402 → use **Aperture** as reverse proxy.
+- Need an agent to pay L402 APIs → use **refined-element** MCP.
+- Need low-level LND control from Python → use **ehallmark** client.
+- Need local dev testing with GUI → install Polar + polar-mcp (optional).
+
+## 4) Runtime Platforms/Libraries
 
 | External component | Purpose | Used by |
 |---|---|---|

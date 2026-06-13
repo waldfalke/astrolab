@@ -1,0 +1,14 @@
+{
+  "name": "mock-api-lnd",
+  "version": "1.0.0",
+  "description": "Mock API that connects to LND for real L402 invoice generation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@grpc/grpc-js": "^1.9.0",
+    "@grpc/proto-loader": "^0.7.10"
+  }
+}

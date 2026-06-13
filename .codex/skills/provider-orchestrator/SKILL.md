@@ -12,6 +12,19 @@ metadata:
 
 Manage MCP provider calls with automatic failover, cross-provider quality control, and provenance tracking.
 
+## Production Boundary (read first)
+
+Native MCP tools (`mcp__swissremote__*`, `mcp__ephem__*`, `mcp__vedastro__*` from `.mcp.json`)
+are for **probe / schema-discovery / one-off exploration only**. They carry no failover,
+no retry, no cross-provider QC, and write no provenance.
+
+Any chart-project, delivery pack, or reproducible run MUST go through the recipe wrappers
+(`run_natal_with_failover.ps1`, `run_cross_provider_qc.ps1`, `lib/mcp_helpers.ps1`), which
+enforce swiss→ephem failover (per `provider_profile.yaml`), retry/backoff, and raw-JSON
+persistence into run folders. `vedastro` is probe-only and is NOT part of the production
+failover chain. Do not call native astro MCP tools to produce anything that lands in
+`charts/<chart_id>/` or `artifacts/results/`.
+
 ## Quick Start
 
 **Input:**
