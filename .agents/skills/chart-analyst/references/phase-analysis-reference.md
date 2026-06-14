@@ -42,13 +42,23 @@ Where:
 ### Z-Phase (Sign Vector)
 
 ```
-Z = distance from domicile to current sign (1-12)
+Z = ((sign_index − domicile_index) mod 12) + 1
+  — counted FORWARD through the zodiac; domicile = phase 1 (planet "at rest" / at home).
+
+Why this direction + indexing are fixed: the 12 phase keywords map 1:1 onto the sign
+archetypes counted from Aries (1 Impulse = Aries, 2 Resource = Taurus, … 12 Archive = Pisces).
+So "phase N from domicile" = the archetype of the Nth sign starting at the planet's home.
+Self-check: phase 7 (Mirror) = the sign OPPOSITE the domicile (detriment).
 
 Example:
-  Sun domicile = Leo
-  Sun in Gemini = 7 signs from Leo (counting counter-clockwise)
-  Z = 7 (Mirror)
+  Sun domicile = Leo (5); Sun in Gemini (3): Z = ((3 − 5) mod 12) + 1 = 11 (Optimization)
+  Sun in Aquarius (opposite Leo): Z = ((11 − 5) mod 12) + 1 = 7 (Mirror) — detriment
 ```
+
+> CORRECTION (reconstructed): the prior worked example here was internally inconsistent
+> ("Sun in Gemini → Z = 7" does not satisfy the rule — Z = 7 is Aquarius, Leo's opposite).
+> The convention above is reconstructed from the phase-keyword ↔ sign-archetype isomorphism;
+> treat as **anumita** (inferred), not **pramanita** (verified against the primary source).
 
 ### z-Microphase (Within Sign)
 
@@ -93,13 +103,19 @@ Example:
 ### D-Vector (Dispositor Phase)
 
 ```
-D = phase of dispositor planet from ITS own domicile
+D = the Z-phase of the planet that RULES the current sign, computed from ITS own domicile.
 
 Example:
-  Sun in Gemini → dispositor = Venus
-  Venus in Aries → 5 signs from Libra (Venus domicile)
-  D = 5 (Play)
+  Sun in Gemini → ruler of Gemini = Mercury (NOT Venus).
+  Take Mercury's own sign-phase Z → that value is D for the Sun.
 ```
+
+> CORRECTION: the prior example had two transcription errors — it named Venus as the ruler of
+> Gemini (Gemini is ruled by **Mercury**), and used an inconsistent sign count. Dispositor uses
+> the chosen rulership scheme (traditional | modern); **modern** gives every planet a domicile
+> (outers included: Aquarius→Uranus, Pisces→Neptune, Scorpio→Pluto), so the sign-layer is fully
+> computable. Dual-ruler planets (Mercury: Gemini/Virgo; Venus: Taurus/Libra) — compute both,
+> use nearest domicile as the representative.
 
 ---
 
