@@ -17,7 +17,7 @@ if ([string]::IsNullOrWhiteSpace($OutputBase)) {
 }
 $OutputBase = [System.IO.Path]::GetFullPath($OutputBase)
 $scriptId = "run_solar_arc"
-$scriptVersion = "1.1.0"
+$scriptVersion = "1.2.0"
 $runStartedAt = (Get-Date).ToUniversalTime()
 Reset-SwissRetryTelemetry
 
@@ -48,23 +48,49 @@ function Get-SwissChartPointRows {
 }
 
 function Get-AspectRows {
+  # Solar arc directions are year-resolution (arc ~1deg/year), so the decisive fact is NOT a precise
+  # date but the SIGN: applying (future, not yet perfected) vs separating (past, already perfected).
+  # Arc only ever increases, so the directed longitude moves forward toward the exact aspect point;
+  # signed_offset = directed_lon - nearest_exact_point. Negative => approaching (future); positive =>
+  # passed (past). Perfection year is approximate (mean arc rate), the technique's resolution is +/-~1yr.
   param(
     [Parameter(Mandatory = $true)][array]$FromRows,
     [Parameter(Mandatory = $true)][array]$ToRows,
-    [double]$Orb = 1.0
+    [double]$Orb = 1.0,
+    [double]$MeanRatePerYear = 1.0,
+    [datetime]$TargetDt = ([datetime]::SpecifyKind([datetime]::new(2000, 1, 1), [DateTimeKind]::Utc))
   )
 
   $rows = @()
   foreach ($a in $FromRows) {
     foreach ($b in $ToRows) {
-      $angle = Get-MinDelta360 -A ([double]$a.longitude) -B ([double]$b.longitude)
+      $d = [double]$a.longitude
+      $t = [double]$b.longitude
+      $angle = Get-MinDelta360 -A $d -B $t
       $hit = Get-ClosestMajorAspect -Angle $angle -Orb $Orb
       if ($null -eq $hit) { continue }
+
+      $alpha = [double]$hit.exact_angle
+      $cand = @((Normalize-Longitude -Longitude ($t + $alpha)))
+      if (($alpha -ne 0.0) -and ($alpha -ne 180.0)) { $cand += (Normalize-Longitude -Longitude ($t - $alpha)) }
+      $bestSigned = $null
+      foreach ($e in $cand) {
+        $s = Get-SignedDelta360 -From $e -To $d
+        if (($null -eq $bestSigned) -or ([math]::Abs($s) -lt [math]::Abs($bestSigned))) { $bestSigned = $s }
+      }
+      $applying = ([double]$bestSigned -lt 0.0)
+      $arcToPerfect = -1.0 * [double]$bestSigned
+      $yearsOffset = if ($MeanRatePerYear -gt 0.0) { $arcToPerfect / $MeanRatePerYear } else { 0.0 }
+      $perfDt = $TargetDt.AddDays($yearsOffset * 365.2422)
 
       $rows += [pscustomobject]@{
         from_object = [string]$a.object
         to_object = [string]$b.object
         aspect = [string]$hit.aspect
+        status = $(if ($applying) { "applying" } else { "separating" })
+        tense = $(if ($applying) { "future" } else { "past" })
+        perfection_year = $perfDt.ToString("yyyy-MM")
+        signed_offset_deg = [math]::Round([double]$bestSigned, 4)
         actual_angle = [math]::Round([double]$angle, 6)
         exact_angle = [double]$hit.exact_angle
         orb = [math]::Round([double]$hit.delta, 6)
@@ -73,7 +99,7 @@ function Get-AspectRows {
       }
     }
   }
-  return ($rows | Sort-Object orb, from_object, to_object)
+  return ($rows | Sort-Object perfection_year, orb, from_object, to_object)
 }
 
 New-Item -ItemType Directory -Force -Path $OutputBase | Out-Null
@@ -128,6 +154,9 @@ if (($null -eq $natalSun) -or ($null -eq $progressedSun)) {
 }
 
 $solarArcDeg = Normalize-Longitude -Longitude ([double]$progressedSun.longitude - [double]$natalSun.longitude)
+# Mean arc rate (deg/year) for approximate perfection-year dating. Solar arc is ~1deg/year; this
+# is the average from birth, accurate to <0.1yr here (constant-ish Sun speed across the life span).
+$meanRatePerYear = if ($ageYears -gt 0) { [double]$solarArcDeg / $ageYears } else { 1.0 }
 
 $natalPoints = @(Get-SwissChartPointRows -SwissData $natal)
 $natalNodes = @(Get-SwissNodePoints -SwissData $natal)
@@ -209,20 +238,21 @@ foreach ($p in $natalNodes) {
   }
 }
 
-$aspectPlanets = @(Get-AspectRows -FromRows $fromDirected -ToRows $toNatalPlanets -Orb $Orb)
+$arcAspectCols = @("from_object", "to_object", "aspect", "status", "tense", "perfection_year", "signed_offset_deg", "actual_angle", "exact_angle", "orb", "orb_limit", "is_exact")
+$aspectPlanets = @(Get-AspectRows -FromRows $fromDirected -ToRows $toNatalPlanets -Orb $Orb -MeanRatePerYear $meanRatePerYear -TargetDt $targetDt)
 $aspectPlanetsPath = Join-Path $runDir "04_directed_to_natal_planets_aspects.csv"
 if ($aspectPlanets.Count -gt 0) {
-  Write-InvariantCsv -Rows $aspectPlanets -Path $aspectPlanetsPath
+  Write-InvariantCsv -Rows $aspectPlanets -Path $aspectPlanetsPath -Columns $arcAspectCols
 } else {
-  Write-InvariantCsv -Rows @() -Path $aspectPlanetsPath -Columns @("from_object", "to_object", "aspect", "actual_angle", "exact_angle", "orb", "orb_limit", "is_exact")
+  Write-InvariantCsv -Rows @() -Path $aspectPlanetsPath -Columns $arcAspectCols
 }
 
-$aspectPoints = @(Get-AspectRows -FromRows $fromDirected -ToRows $toNatalPoints -Orb $Orb)
+$aspectPoints = @(Get-AspectRows -FromRows $fromDirected -ToRows $toNatalPoints -Orb $Orb -MeanRatePerYear $meanRatePerYear -TargetDt $targetDt)
 $aspectPointsPath = Join-Path $runDir "05_directed_to_natal_points_aspects.csv"
 if ($aspectPoints.Count -gt 0) {
-  Write-InvariantCsv -Rows $aspectPoints -Path $aspectPointsPath
+  Write-InvariantCsv -Rows $aspectPoints -Path $aspectPointsPath -Columns $arcAspectCols
 } else {
-  Write-InvariantCsv -Rows @() -Path $aspectPointsPath -Columns @("from_object", "to_object", "aspect", "actual_angle", "exact_angle", "orb", "orb_limit", "is_exact")
+  Write-InvariantCsv -Rows @() -Path $aspectPointsPath -Columns $arcAspectCols
 }
 
 $summaryFields = [ordered]@{}
@@ -235,6 +265,8 @@ $summaryFields["LATITUDE"] = $Latitude
 $summaryFields["LONGITUDE"] = $Longitude
 $summaryFields["AGE_YEARS"] = [math]::Round($ageYears, 9)
 $summaryFields["SOLAR_ARC_DEG"] = [math]::Round([double]$solarArcDeg, 9)
+$summaryFields["SOLAR_ARC_RATE_DEG_PER_YEAR"] = [math]::Round([double]$meanRatePerYear, 6)
+$summaryFields["ANGLE_DIRECTION_MODE"] = "ECLIPTIC_LONGITUDE_APPROX"
 $summaryFields["ORB"] = $Orb
 $summaryFields["DIRECTED_OBJECT_COUNT"] = $directedRows.Count
 $summaryFields["DIRECTED_TO_NATAL_PLANET_ASPECT_COUNT"] = $aspectPlanets.Count

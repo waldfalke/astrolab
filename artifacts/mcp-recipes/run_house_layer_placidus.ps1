@@ -16,7 +16,7 @@ if ([string]::IsNullOrWhiteSpace($OutputBase)) {
 }
 $OutputBase = [System.IO.Path]::GetFullPath($OutputBase)
 $scriptId = "run_house_layer_placidus"
-$scriptVersion = "1.2.0"
+$scriptVersion = "1.3.0"
 $runStartedAt = (Get-Date).ToUniversalTime()
 
 New-Item -ItemType Directory -Force -Path $OutputBase | Out-Null
@@ -158,6 +158,22 @@ foreach ($row in $planetRows) {
 
 Write-InvariantCsv -Rows @($planetRows | Sort-Object body) -Path (Join-Path $runDir "04_planets_primary.csv")
 
+# Hellenistic sect (natal structure): day/night chart + in-sect / out-of-sect membership and the
+# four benefic/malefic-of-sect roles. Needs the horizon (ASC), which lives in this house recipe.
+$sectChartSect = ""
+$sectMercuryTeam = ""
+$sectRows = @()
+$ascRow = $pointRows | Where-Object { $_.point -eq "Ascendant" } | Select-Object -First 1
+if ($null -ne $ascRow) {
+  $sect = Get-Sect -Rows $planetRows -AscLongitude ([double]$ascRow.longitude)
+  $sectChartSect = $sect.chart_sect
+  $sectMercuryTeam = $sect.mercury_team
+  $sectRows = @($sect.rows)
+  Write-InvariantCsv -Rows @($sectRows | Sort-Object body) -Path (Join-Path $runDir "07_natal_sect.csv")
+} else {
+  Write-InvariantCsv -Rows @() -Path (Join-Path $runDir "07_natal_sect.csv") -Columns @("body", "sign", "planet_team", "above_horizon", "placement", "role")
+}
+
 $extraPointRows = @()
 $extraPointRows += Get-SwissNodePoints -SwissData $primary
 $extraPointRows += Get-GalacticCenterPoint -DateTimeUtc $DateTimeUtc
@@ -192,6 +208,9 @@ $summaryFields["EXTRA_POINT_COUNT"] = $extraPointRows.Count
 $summaryFields["CUSTOM_POINT_ORB"] = $CustomPointOrb
 $summaryFields["CUSTOM_POINT_ASPECT_COUNT"] = $customPointAspects.Count
 $summaryFields["GALACTIC_CENTER_MODEL"] = "TROPICAL_APPROX_PRECESSION"
+$summaryFields["CHART_SECT"] = $sectChartSect
+$summaryFields["MERCURY_TEAM"] = $sectMercuryTeam
+$summaryFields["SECT_BODY_COUNT"] = $sectRows.Count
 $summaryFields["OUTPUT_DIR"] = $runDir
 
 $runFinishedAt = (Get-Date).ToUniversalTime()

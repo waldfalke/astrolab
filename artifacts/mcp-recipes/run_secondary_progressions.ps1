@@ -5,6 +5,7 @@ param(
   [Parameter(Mandatory = $true)][string]$BirthDateTimeUtc,
   [Parameter(Mandatory = $true)][string]$TargetDateUtc,
   [double]$Orb = 1.0,
+  [string]$DignityScheme = "modern",
   [string]$OutputBase = ""
 )
 
@@ -167,6 +168,11 @@ foreach ($n in $natalPlanets | Sort-Object body) {
 }
 Write-InvariantCsv -Rows $planetDeltaRows -Path (Join-Path $runDir "03_progressed_planet_deltas.csv")
 
+# Dignity of the progressed bodies (tabular). Timing-relevant: the progressed Moon changes sign
+# every ~2.5y, so its dignity shifts (e.g. entering Scorpio = Moon's FALL) — a real year-timer signal.
+$progressedDignities = @(Get-EssentialDignities -Rows $progressedPlanets -Scheme $DignityScheme)
+Write-InvariantCsv -Rows @($progressedDignities | Sort-Object body) -Path (Join-Path $runDir "08_progressed_dignities.csv")
+
 $progressedHouses = @(Get-SwissHouseRows -SwissData $progressed)
 Write-InvariantCsv -Rows $progressedHouses -Path (Join-Path $runDir "04_progressed_houses.csv")
 
@@ -202,6 +208,8 @@ $summaryFields["PROGRESSED_HOUSE_COUNT"] = $progressedHouses.Count
 $summaryFields["PROGRESSED_POINT_COUNT"] = $progressedPoints.Count
 $summaryFields["PROGRESSED_EXTRA_POINT_COUNT"] = $progressedExtraPoints.Count
 $summaryFields["PROGRESSED_TO_NATAL_ASPECT_COUNT"] = $p2nAspects.Count
+$summaryFields["DIGNITY_SCHEME"] = $DignityScheme
+$summaryFields["PROGRESSED_DIGNITY_COUNT"] = $progressedDignities.Count
 $retryTelemetry = Get-SwissRetryTelemetry
 $summaryFields["SWISS_RETRY_TOTAL"] = $retryTelemetry.total_retries
 $summaryFields["SWISS_RETRY_BY_TOOL"] = $retryTelemetry.by_tool

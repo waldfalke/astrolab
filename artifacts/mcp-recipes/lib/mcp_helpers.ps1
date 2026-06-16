@@ -626,6 +626,253 @@ function Get-ClosestMajorAspect {
   return $null
 }
 
+function Get-MeanObliquityDeg {
+  # Mean obliquity of the ecliptic (IAU 1980 / Meeus), degrees. Used as the OOB threshold:
+  # a body is out-of-bounds when |declination| exceeds this value.
+  param(
+    [Parameter(Mandatory = $true)][string]$DateTimeUtc
+  )
+
+  $t = Get-UtcDateTime -DateTimeUtc $DateTimeUtc
+  $j2000 = [datetime]::SpecifyKind([datetime]::new(2000, 1, 1, 12, 0, 0), [DateTimeKind]::Utc)
+  $T = ($t - $j2000).TotalDays / 36525.0
+  $seconds = 84381.448 - (46.8150 * $T) - (0.00059 * $T * $T) + (0.001813 * $T * $T * $T)
+  return ($seconds / 3600.0)
+}
+
+function Get-EphemDeclinations {
+  # Apparent geocentric declination (degrees) per body from an ephem get_ephemeris_data snapshot.
+  # ephem stores it as node.apparent.dDec in RADIANS (signed); we convert to degrees.
+  # Source note: longitude-only engines cannot supply this — declination depends on ecliptic
+  # latitude (why Moon/Pluto go OOB), which ephem carries and the swiss wrapper does not.
+  param(
+    [Parameter(Mandatory = $true)]$Ephemeris,
+    [string[]]$Bodies = @("sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "chiron")
+  )
+
+  $rows = @()
+  foreach ($body in $Bodies) {
+    if ($Ephemeris.PSObject.Properties.Name -contains $body) {
+      $node = $Ephemeris.$body
+      if (($null -ne $node) -and ($null -ne $node.apparent) -and ($null -ne $node.apparent.dDec)) {
+        $decDeg = [double]$node.apparent.dDec * 180.0 / [math]::PI
+        $rows += [pscustomobject]@{
+          body = $body
+          declination_deg = [math]::Round($decDeg, 6)
+        }
+      }
+    }
+  }
+  return $rows
+}
+
+function Get-DeclinationAspects {
+  # Parallels / contraparallels between two declination sets (each row: body, declination_deg).
+  # Parallel  = same hemisphere, |dA - dB| <= orb  (acts like a conjunction).
+  # Contraparallel = opposite hemisphere, |dA + dB| <= orb  (acts like an opposition).
+  # SameSet=$true compares a set with itself (i<j, no self-pairs) for internal aspects.
+  param(
+    [Parameter(Mandatory = $true)][array]$FromRows,
+    [Parameter(Mandatory = $true)][array]$ToRows,
+    [double]$Orb = 1.0,
+    [string]$FromPrefix = "",
+    [string]$ToPrefix = "",
+    [string]$Scope = "",
+    [bool]$SameSet = $false
+  )
+
+  $rows = @()
+  for ($i = 0; $i -lt $FromRows.Count; $i++) {
+    $a = $FromRows[$i]
+    $da = [double]$a.declination_deg
+    $jStart = if ($SameSet) { $i + 1 } else { 0 }
+    for ($j = $jStart; $j -lt $ToRows.Count; $j++) {
+      if ($SameSet -and ($i -eq $j)) { continue }
+      $b = $ToRows[$j]
+      $db = [double]$b.declination_deg
+      $sameSign = (($da -ge 0) -eq ($db -ge 0))
+      if ($sameSign) {
+        $orbDelta = [math]::Abs($da - $db)
+        $type = "parallel"
+      } else {
+        $orbDelta = [math]::Abs($da + $db)
+        $type = "contraparallel"
+      }
+      if ($orbDelta -le $Orb) {
+        $rows += [pscustomobject]@{
+          scope = $Scope
+          from_object = ($FromPrefix + [string]$a.body)
+          to_object = ($ToPrefix + [string]$b.body)
+          type = $type
+          from_decl = [math]::Round($da, 4)
+          to_decl = [math]::Round($db, 4)
+          orb = [math]::Round($orbDelta, 4)
+          orb_limit = [double]$Orb
+          is_exact = ($orbDelta -le 0.2)
+        }
+      }
+    }
+  }
+  return $rows
+}
+
+function Get-EssentialDignities {
+  # Essential dignity per body (domicile / exaltation / detriment / fall / peregrine) by sign.
+  # Domicile/detriment is geometric (covered by the phase layer too); exaltation/fall is tabular.
+  # Scheme: "modern" (outers rule Aqu/Pis/Sco; Mars=Aries, Jupiter=Sag, Saturn=Cap only) or
+  # "traditional" (Mars also Scorpio, Jupiter also Pisces, Saturn also Aquarius; no outers).
+  param(
+    [Parameter(Mandatory = $true)][array]$Rows,
+    [string]$Scheme = "modern"
+  )
+
+  $opposite = @{
+    "Aries" = "Libra"; "Taurus" = "Scorpio"; "Gemini" = "Sagittarius"; "Cancer" = "Capricorn";
+    "Leo" = "Aquarius"; "Virgo" = "Pisces"; "Libra" = "Aries"; "Scorpio" = "Taurus";
+    "Sagittarius" = "Gemini"; "Capricorn" = "Cancer"; "Aquarius" = "Leo"; "Pisces" = "Virgo"
+  }
+  if ($Scheme -eq "traditional") {
+    $domicile = @{
+      sun = @("Leo"); moon = @("Cancer"); mercury = @("Gemini", "Virgo"); venus = @("Taurus", "Libra");
+      mars = @("Aries", "Scorpio"); jupiter = @("Sagittarius", "Pisces"); saturn = @("Capricorn", "Aquarius")
+    }
+  } else {
+    $domicile = @{
+      sun = @("Leo"); moon = @("Cancer"); mercury = @("Gemini", "Virgo"); venus = @("Taurus", "Libra");
+      mars = @("Aries"); jupiter = @("Sagittarius"); saturn = @("Capricorn");
+      uranus = @("Aquarius"); neptune = @("Pisces"); pluto = @("Scorpio")
+    }
+  }
+  $exalt = @{ sun = "Aries"; moon = "Taurus"; mercury = "Virgo"; venus = "Pisces"; mars = "Capricorn"; jupiter = "Cancer"; saturn = "Libra" }
+  $fall = @{ sun = "Libra"; moon = "Scorpio"; mercury = "Pisces"; venus = "Virgo"; mars = "Cancer"; jupiter = "Capricorn"; saturn = "Aries" }
+
+  $rowsOut = @()
+  foreach ($r in $Rows) {
+    $body = ([string]$r.body).ToLowerInvariant()
+    $coord = Convert-LongitudeToSignDegree -Longitude ([double]$r.longitude)
+    $sign = [string]$coord.sign
+    $status = "peregrine"
+
+    if ($domicile.ContainsKey($body) -and ($domicile[$body] -contains $sign)) {
+      $status = "domicile"
+    } elseif ($exalt.ContainsKey($body) -and ($exalt[$body] -eq $sign)) {
+      $status = "exaltation"
+    } elseif ($domicile.ContainsKey($body) -and (@($domicile[$body] | ForEach-Object { $opposite[$_] }) -contains $sign)) {
+      $status = "detriment"
+    } elseif ($fall.ContainsKey($body) -and ($fall[$body] -eq $sign)) {
+      $status = "fall"
+    }
+
+    $rowsOut += [pscustomobject]@{
+      body = $body
+      sign = $sign
+      dignity = $status
+    }
+  }
+  return $rowsOut
+}
+
+function Get-Sect {
+  # Hellenistic sect. Returns the chart sect (day/night) and per-body membership + role.
+  #   - Day chart  = Sun above the horizon; Night chart = Sun below.
+  #   - Above-horizon test via the ASC->DESC arc: whole below-horizon half (houses 1-6) is
+  #     (lon - ASC) mod 360 in [0,180); the above-horizon half (7-12) is [180,360).
+  #   - Diurnal team: Sun, Jupiter, Saturn.  Nocturnal team: Moon, Venus, Mars.
+  #   - Mercury takes sect by ORIENTALITY (oriental/morning-star = diurnal), computed from a
+  #     signed Sun->Mercury angle (NOT a raw longitude compare, which breaks near 0 Aries):
+  #     negative delta => Mercury behind the Sun (lower lon, rises earlier) => oriental => diurnal.
+  #   - in_sect  = planet's team matches the chart sect; out_of_sect otherwise.
+  #   - Roles (by chart sect): sect_light, benefic_of_sect / benefic_contrary,
+  #     malefic_of_sect (constructive) / malefic_contrary (harsh).
+  # Outer planets carry no classical sect (team="none", role="outer").
+  param(
+    [Parameter(Mandatory = $true)][array]$Rows,
+    [Parameter(Mandatory = $true)][double]$AscLongitude
+  )
+
+  $byBody = @{}
+  foreach ($r in $Rows) { $byBody[([string]$r.body).ToLowerInvariant()] = [double]$r.longitude }
+  if (-not $byBody.ContainsKey("sun")) { throw "Get-Sect requires the Sun longitude in -Rows" }
+  $sunLon = $byBody["sun"]
+
+  $sunOff = ((($sunLon - $AscLongitude) % 360.0) + 360.0) % 360.0
+  $sunAbove = ($sunOff -ge 180.0)
+  $chartSect = if ($sunAbove) { "day" } else { "night" }
+  $chartTeam = if ($sunAbove) { "diurnal" } else { "nocturnal" }
+
+  $diurnal = @("sun", "jupiter", "saturn")
+  $nocturnal = @("moon", "venus", "mars")
+
+  $mercuryTeam = "none"
+  if ($byBody.ContainsKey("mercury")) {
+    $d = Get-SignedDelta360 -From $sunLon -To $byBody["mercury"]
+    $mercuryTeam = if ($d -lt 0) { "diurnal" } else { "nocturnal" }
+  }
+
+  if ($chartSect -eq "day") {
+    $roles = @{ sun = "sect_light"; jupiter = "benefic_of_sect"; venus = "benefic_contrary"; saturn = "malefic_of_sect"; mars = "malefic_contrary"; moon = "luminary_out_of_sect" }
+  } else {
+    $roles = @{ moon = "sect_light"; venus = "benefic_of_sect"; jupiter = "benefic_contrary"; mars = "malefic_of_sect"; saturn = "malefic_contrary"; sun = "luminary_out_of_sect" }
+  }
+
+  $rowsOut = @()
+  foreach ($r in $Rows) {
+    $body = ([string]$r.body).ToLowerInvariant()
+    $lon = [double]$r.longitude
+    $team = if ($diurnal -contains $body) { "diurnal" } elseif ($nocturnal -contains $body) { "nocturnal" } elseif ($body -eq "mercury") { $mercuryTeam } else { "none" }
+    $placement = if ($team -eq "none") { "n/a" } elseif ($team -eq $chartTeam) { "in_sect" } else { "out_of_sect" }
+    $role = if ($team -eq "none") { "outer" } elseif ($roles.ContainsKey($body)) { $roles[$body] } else { "neutral" }
+    $off = ((($lon - $AscLongitude) % 360.0) + 360.0) % 360.0
+    $rowsOut += [pscustomobject]@{
+      body = $body
+      sign = [string](Convert-LongitudeToSignDegree -Longitude $lon).sign
+      planet_team = $team
+      above_horizon = ($off -ge 180.0)
+      placement = $placement
+      role = $role
+    }
+  }
+
+  return [pscustomobject]@{
+    chart_sect = $chartSect
+    sun_above_horizon = $sunAbove
+    mercury_team = $mercuryTeam
+    rows = $rowsOut
+  }
+}
+
+function Get-AnnualProfection {
+  # Annual profection (whole-sign): the Ascendant advances one whole sign per completed year.
+  #   profected house = (age mod 12) + 1 ; profected sign = ASC sign advanced by (age mod 12) signs.
+  #   Lord of Year = TRADITIONAL ruler of the profected sign (Hellenistic technique => traditional
+  #   rulerships, no modern outers). Age is completed years at the solar return.
+  param(
+    [Parameter(Mandatory = $true)][double]$AscLongitude,
+    [Parameter(Mandatory = $true)][int]$AgeYears
+  )
+
+  $signs = @("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces")
+  $rulerTrad = @{
+    Aries = "mars"; Taurus = "venus"; Gemini = "mercury"; Cancer = "moon"; Leo = "sun"; Virgo = "mercury";
+    Libra = "venus"; Scorpio = "mars"; Sagittarius = "jupiter"; Capricorn = "saturn"; Aquarius = "saturn"; Pisces = "jupiter"
+  }
+
+  $ascNorm = Normalize-Longitude -Longitude $AscLongitude
+  $ascIdx = [int][math]::Floor($ascNorm / 30.0)
+  $step = $AgeYears % 12
+  $profIdx = ($ascIdx + $step) % 12
+  $profSign = $signs[$profIdx]
+
+  return [pscustomobject]@{
+    age_years = $AgeYears
+    profection_step = $step
+    asc_sign = $signs[$ascIdx]
+    profected_house = $step + 1
+    profected_sign = $profSign
+    lord_of_year = $rulerTrad[$profSign]
+  }
+}
+
 function Get-CustomPointAspects {
   param(
     [Parameter(Mandatory = $true)][array]$PlanetRows,

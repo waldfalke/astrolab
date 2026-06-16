@@ -7,6 +7,8 @@ param(
   [double]$ReturnLatitude = [double]::NaN,
   [double]$ReturnLongitude = [double]::NaN,
   [double]$Orb = 2.0,
+  [double]$DeclinationOrb = 1.0,
+  [string]$DignityScheme = "modern",
   [string]$OutputBase = ""
 )
 
@@ -29,7 +31,7 @@ if ([string]::IsNullOrWhiteSpace($OutputBase)) {
 }
 $OutputBase = [System.IO.Path]::GetFullPath($OutputBase)
 $scriptId = "run_solar_revolution"
-$scriptVersion = "1.0.0"
+$scriptVersion = "1.2.0"
 $runStartedAt = (Get-Date).ToUniversalTime()
 Reset-SwissRetryTelemetry
 
@@ -87,6 +89,8 @@ $inputHash = Get-CanonicalMapHash -Map @{
   return_latitude = $effReturnLat
   return_longitude = $effReturnLon
   orb = $Orb
+  declination_orb = $DeclinationOrb
+  dignity_scheme = $DignityScheme
 }
 
 # 1. Natal chart + natal Sun longitude (the return target).
@@ -138,6 +142,10 @@ Write-JsonFile -Data ([pscustomobject]@{ natal_chart = $natalChart; solar_return
 $returnPlanets = @(Get-SwissBodyLongitudes -SwissData $returnChart)
 Write-InvariantCsv -Rows @($returnPlanets | Sort-Object body) -Path (Join-Path $runDir "02_return_planets.csv")
 
+# Essential dignity of the return planets (tabular).
+$returnDignities = @(Get-EssentialDignities -Rows $returnPlanets -Scheme $DignityScheme)
+Write-InvariantCsv -Rows @($returnDignities | Sort-Object body) -Path (Join-Path $runDir "10_return_dignities.csv")
+
 $returnHouses = @(Get-SwissHouseRows -SwissChart $returnChart)
 Write-InvariantCsv -Rows @($returnHouses | Sort-Object house) -Path (Join-Path $runDir "03_return_houses.csv")
 
@@ -179,6 +187,167 @@ if ($aspectRows.Count -gt 0) {
   Write-InvariantCsv -Rows @() -Path $aspectPath -Columns @("from_object", "to_object", "aspect", "actual_angle", "exact_angle", "orb", "orb_limit", "is_exact")
 }
 
+# 4. Declination layer (parallels / contraparallel / out-of-bounds). The primary swiss engine
+# returns longitude only; declination depends on ecliptic latitude (why Moon/Pluto go OOB), so it
+# is sourced from the ephem backup. Non-fatal: if ephem is unreachable the layer is marked
+# NOT_COMPUTED and the CSVs are emitted empty rather than silently skipped (recipe contract).
+$declinationStatus = "FULL"
+$obliquity = $null
+$returnDeclRows = @()
+$declAspectRows = @()
+$oobBodies = @()
+try {
+  $returnEphem = Invoke-EphemToolJson -Tool "get_ephemeris_data" -Args @{ latitude = $effReturnLat; longitude = $effReturnLon; datetime = $returnInstantIso }
+  $natalEphem = Invoke-EphemToolJson -Tool "get_ephemeris_data" -Args @{ latitude = $BirthLatitude; longitude = $BirthLongitude; datetime = $BirthDateTimeUtc }
+
+  $obliquity = Get-MeanObliquityDeg -DateTimeUtc $returnInstantIso
+  $returnDecl = @(Get-EphemDeclinations -Ephemeris $returnEphem)
+  $natalDecl = @(Get-EphemDeclinations -Ephemeris $natalEphem)
+
+  if ($returnDecl.Count -eq 0) { throw "ephem returned no usable declinations for the return chart" }
+
+  Write-JsonFile -Data ([pscustomobject]@{ return_ephem = $returnEphem; natal_ephem = $natalEphem; mean_obliquity_deg = $obliquity; declination_orb = $DeclinationOrb }) -Path (Join-Path $runDir "09_declination_raw.json")
+
+  foreach ($d in $returnDecl) {
+    $absDec = [math]::Abs([double]$d.declination_deg)
+    $returnDeclRows += [pscustomobject]@{
+      body = [string]$d.body
+      declination_deg = [double]$d.declination_deg
+      abs_declination = [math]::Round($absDec, 6)
+      out_of_bounds = ($absDec -gt $obliquity)
+    }
+  }
+  $oobBodies = @($returnDeclRows | Where-Object { $_.out_of_bounds } | ForEach-Object { $_.body })
+
+  $declInternal = @(Get-DeclinationAspects -FromRows $returnDecl -ToRows $returnDecl -Orb $DeclinationOrb -FromPrefix "return:" -ToPrefix "return:" -Scope "return-internal" -SameSet $true)
+  $declCross = @(Get-DeclinationAspects -FromRows $returnDecl -ToRows $natalDecl -Orb $DeclinationOrb -FromPrefix "return:" -ToPrefix "natal:" -Scope "return-natal" -SameSet $false)
+  # Drop the defining return:sun <-> natal:sun parallel (identical longitude by construction => trivial).
+  $declCross = @($declCross | Where-Object { -not (($_.from_object -eq "return:sun") -and ($_.to_object -eq "natal:sun")) })
+
+  $declAspectRows = @(@($declInternal) + @($declCross) | Sort-Object scope, orb, from_object, to_object)
+} catch {
+  $declinationStatus = "NOT_COMPUTED"
+  Write-Warning "Declination layer not computed: $($_.Exception.Message)"
+  $returnDeclRows = @()
+  $declAspectRows = @()
+  $oobBodies = @()
+}
+
+$declColumns = @("body", "declination_deg", "abs_declination", "out_of_bounds")
+if ($returnDeclRows.Count -gt 0) {
+  Write-InvariantCsv -Rows @($returnDeclRows | Sort-Object body) -Path (Join-Path $runDir "07_return_declinations.csv")
+} else {
+  Write-InvariantCsv -Rows @() -Path (Join-Path $runDir "07_return_declinations.csv") -Columns $declColumns
+}
+
+$declAspectColumns = @("scope", "from_object", "to_object", "type", "from_decl", "to_decl", "orb", "orb_limit", "is_exact")
+if ($declAspectRows.Count -gt 0) {
+  Write-InvariantCsv -Rows $declAspectRows -Path (Join-Path $runDir "08_declination_aspects.csv")
+} else {
+  Write-InvariantCsv -Rows @() -Path (Join-Path $runDir "08_declination_aspects.csv") -Columns $declAspectColumns
+}
+
+# 5. Timing layer of the solar year (recipe step 11):
+#   (a) 12 monthly phase windows from the birthday — segment N is colored by phase N
+#       (1 Impulse at the start ... 12 Archive at the close);
+#   (b) Sun-activation dates — the calendar date when the transiting Sun reaches each SR planet's
+#       longitude = the trigger of that planet's theme (stable year-to-year +/-1-2 days). Solved by
+#       mean Sun motion + a few Newton refinements against the engine (cheap, sub-0.1-day accuracy).
+$yearDays = 365.2422
+$segLen = $yearDays / 12.0
+$phaseNames = @("Импульс", "Ресурс", "Связь", "Основа", "Игра", "Служение", "Зеркало", "Превращение", "Стратегия", "Результат", "Оптимизация", "Архив")
+$windowRows = @()
+for ($k = 0; $k -lt 12; $k++) {
+  $ws = $returnInstant.AddDays($k * $segLen)
+  $we = $returnInstant.AddDays(($k + 1) * $segLen)
+  $windowRows += [pscustomobject]@{
+    segment = $k + 1
+    phase = $k + 1
+    phase_name = $phaseNames[$k]
+    start_date = $ws.ToString("yyyy-MM-dd")
+    end_date = $we.ToString("yyyy-MM-dd")
+  }
+}
+Write-InvariantCsv -Rows $windowRows -Path (Join-Path $runDir "12_monthly_phase_windows.csv")
+
+$angleLons = @()
+foreach ($pt in $returnPoints) {
+  if ([string]$pt.point -in @("Ascendant", "Midheaven", "IC", "Descendant")) { $angleLons += [double]$pt.longitude }
+}
+$meanSpeed = 360.0 / $yearDays
+$activationRows = @()
+foreach ($pl in $returnPlanets) {
+  $L = [double]$pl.longitude
+  $approxDays = (((($L - $returnSunLon) % 360.0) + 360.0) % 360.0) / $meanSpeed
+  $t = $returnInstant.AddDays($approxDays)
+  for ($it = 0; $it -lt 3; $it++) {
+    $sunLon = Get-SunLonAtUtc -T $t
+    $err = Get-SignedDelta360 -From $sunLon -To $L
+    $t = $t.AddDays($err / $meanSpeed)
+  }
+  $isAngular = $false
+  foreach ($al in $angleLons) { if ((Get-MinDelta360 -A $L -B $al) -le 5.0) { $isAngular = $true; break } }
+  $activationRows += [pscustomobject]@{
+    body = [string]$pl.body
+    sr_sign = [string]$pl.sign
+    sr_longitude = [math]::Round($L, 4)
+    activation_date = $t.ToString("yyyy-MM-dd")
+    days_from_return = [math]::Round((($t - $returnInstant).TotalDays), 1)
+    near_angle = $isAngular
+  }
+}
+$activationRows = @($activationRows | Sort-Object days_from_return)
+Write-InvariantCsv -Rows $activationRows -Path (Join-Path $runDir "11_sun_activation_dates.csv")
+
+# 6. Annual profection (whole-sign timelord for the solar year). The profected sign/house and the
+#    Lord of Year are pure arithmetic from the natal ASC + age; we also locate the Lord natally
+#    (sign + whole-sign house) so the reading can foreground its condition. Whole-sign frame =>
+#    house numbers here are NOT the Placidus houses (the reading must flag the divergence).
+$profectionRows = @()
+$profSign = ""
+$profHouse = ""
+$lordOfYear = ""
+$ageYears = $ReturnYear - $birthDt.Year
+$natalAsc = $null
+if ($null -ne $natalChart.chart_points -and ($natalChart.chart_points.PSObject.Properties.Name -contains "Ascendant")) {
+  $natalAsc = [double]$natalChart.chart_points.Ascendant.longitude
+}
+if ($null -ne $natalAsc) {
+  $prof = Get-AnnualProfection -AscLongitude $natalAsc -AgeYears $ageYears
+  $profSign = $prof.profected_sign
+  $profHouse = $prof.profected_house
+  $lordOfYear = $prof.lord_of_year
+  $ascSignIdx = [int][math]::Floor((Normalize-Longitude -Longitude $natalAsc) / 30.0)
+
+  # Locate the Lord of Year natally (sign + whole-sign house from the natal ASC).
+  $lordRow = $natalPlanets | Where-Object { ([string]$_.body).ToLowerInvariant() -eq $lordOfYear } | Select-Object -First 1
+  $lordNatalSign = ""
+  $lordNatalWsHouse = ""
+  if ($null -ne $lordRow) {
+    $lordCoord = Convert-LongitudeToSignDegree -Longitude ([double]$lordRow.longitude)
+    $lordNatalSign = [string]$lordCoord.sign
+    $lordSignIdx = [int][math]::Floor((Normalize-Longitude -Longitude ([double]$lordRow.longitude)) / 30.0)
+    $lordNatalWsHouse = ((($lordSignIdx - $ascSignIdx) % 12) + 12) % 12 + 1
+  }
+
+  $profectionRows += [pscustomobject]@{
+    age_years = $prof.age_years
+    asc_sign = $prof.asc_sign
+    profected_house = $prof.profected_house
+    profected_sign = $profSign
+    lord_of_year = $lordOfYear
+    lord_natal_sign = $lordNatalSign
+    lord_natal_wholesign_house = $lordNatalWsHouse
+    house_frame = "whole_sign"
+  }
+}
+$profectionCols = @("age_years", "asc_sign", "profected_house", "profected_sign", "lord_of_year", "lord_natal_sign", "lord_natal_wholesign_house", "house_frame")
+if ($profectionRows.Count -gt 0) {
+  Write-InvariantCsv -Rows $profectionRows -Path (Join-Path $runDir "13_annual_profection.csv")
+} else {
+  Write-InvariantCsv -Rows @() -Path (Join-Path $runDir "13_annual_profection.csv") -Columns $profectionCols
+}
+
 $sunMatchDelta = Get-MinDelta360 -A $natalSunLon -B $returnSunLon
 
 $summaryFields = [ordered]@{}
@@ -200,6 +369,20 @@ $summaryFields["RETURN_PLANET_COUNT"] = $returnPlanets.Count
 $summaryFields["RETURN_HOUSE_COUNT"] = $returnHouses.Count
 $summaryFields["RETURN_TO_NATAL_ASPECT_COUNT"] = $aspectRows.Count
 $summaryFields["ORB"] = $Orb
+$summaryFields["DECLINATION_STATUS"] = $declinationStatus
+$summaryFields["DECLINATION_ORB"] = $DeclinationOrb
+$summaryFields["MEAN_OBLIQUITY_DEG"] = if ($null -ne $obliquity) { [math]::Round([double]$obliquity, 6) } else { "" }
+$summaryFields["RETURN_DECLINATION_COUNT"] = $returnDeclRows.Count
+$summaryFields["RETURN_OOB_BODIES"] = ($oobBodies -join ",")
+$summaryFields["DECLINATION_ASPECT_COUNT"] = $declAspectRows.Count
+$summaryFields["DIGNITY_SCHEME"] = $DignityScheme
+$summaryFields["RETURN_DIGNITY_COUNT"] = $returnDignities.Count
+$summaryFields["SUN_ACTIVATION_COUNT"] = $activationRows.Count
+$summaryFields["PHASE_WINDOW_COUNT"] = $windowRows.Count
+$summaryFields["PROFECTION_AGE_YEARS"] = $ageYears
+$summaryFields["PROFECTED_SIGN"] = $profSign
+$summaryFields["PROFECTED_HOUSE_WHOLESIGN"] = $profHouse
+$summaryFields["LORD_OF_YEAR"] = $lordOfYear
 $retryTelemetry = Get-SwissRetryTelemetry
 $summaryFields["SWISS_RETRY_TOTAL"] = $retryTelemetry.total_retries
 $summaryFields["SWISS_RETRY_BY_TOOL"] = $retryTelemetry.by_tool
