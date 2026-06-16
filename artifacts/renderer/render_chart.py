@@ -232,13 +232,22 @@ def add_text_with_bg(lines, text, x, y, cls, anchor="middle", baseline="middle",
     target.append(f'<text class="{cls}" x="{x:.2f}" y="{y:.2f}" text-anchor="middle" dominant-baseline="middle">{safe}</text>')
 
 
-def draw_wheel(planets, houses, points, aspects, out_path: Path):
+def lon_to_sign_deg(lon):
+    lon = float(lon) % 360.0
+    idx = int(lon // 30.0)
+    sign = list(SIGN_SYMBOLS.keys())[idx]
+    return sign, lon % 30.0
+
+
+def draw_wheel(planets, houses, points, aspects, out_path: Path,
+               outer_planets=None, outer_aspects=None, outer_label=""):
     size = 1500
     c = size / 2
     outer = 520
     sign_ring = 470
     planet_r = 405
     aspect_r = 320
+    transit_r = 450  # outer (transit) ring for biwheel; sits between natal planet ring and sign band
 
     lines = svg_header(size)
     lines.append(wheel_style())
@@ -500,9 +509,67 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path):
             layer=badge_layer,
         )
 
+    # ---- OUTER RING (transits) — biwheel ----
+    if outer_planets:
+        tmap = {}
+        trows = []
+        for p in outer_planets:
+            body = str(p.get("body", "")).strip().lower()
+            if body not in PLANET_ORDER or not p.get("longitude"):
+                continue
+            lon = float(p["longitude"])
+            tmap[body] = lon
+            sign = str(p.get("sign", "")).strip() or lon_to_sign_deg(lon)[0]
+            trows.append({"body": body, "lon": lon, "sign": sign, "retro": is_retrograde(p)})
+        # transit ring guide circle
+        lines.append(f'<circle cx="{c}" cy="{c}" r="{transit_r + 16}" fill="none" stroke="#e7d8c4" stroke-width="1"/>')
+        # transit -> natal aspect chords (dashed, colored by aspect; exact = bolder)
+        if outer_aspects:
+            for a in outer_aspects:
+                tb = str(a.get("transit_body", a.get("body1", ""))).lower()
+                nb = str(a.get("natal_body", a.get("body2", ""))).lower()
+                asp = str(a.get("aspect", "")).lower()
+                if tb not in tmap or nb not in pmap:
+                    continue
+                try:
+                    orb = float(a.get("orb", 9))
+                except (TypeError, ValueError):
+                    orb = 9.0
+                exact = str(a.get("is_exact", "")).strip().upper() == "TRUE" or orb <= 1.0
+                x1, y1 = lon_to_xy(c, transit_r - 8, tmap[tb], asc_lon=asc_lon)
+                x2, y2 = lon_to_xy(c, planet_r, pmap[nb], asc_lon=asc_lon)
+                col = aspect_colors.get(asp, "#9ca3af")
+                w = 1.9 if exact else 1.0
+                op = 0.9 if exact else 0.42
+                lines.append(
+                    f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="{col}" stroke-width="{w}" opacity="{op}" stroke-dasharray="5 5"/>'
+                )
+        # transit planet glyphs on the outer ring (amber), with inward nudge for clusters
+        placed = []
+        for row in sorted(trows, key=lambda r: r["lon"]):
+            rr = transit_r
+            changed = True
+            while changed:
+                changed = False
+                for plon, pr in placed:
+                    if abs(((row["lon"] - plon + 180) % 360) - 180) < 6 and abs(pr - rr) < 22:
+                        rr -= 26
+                        changed = True
+            placed.append((row["lon"], rr))
+            gx, gy = lon_to_xy(c, rr, row["lon"], asc_lon=asc_lon)
+            glyph = PLANET_GLYPHS.get(row["body"], row["body"][:2].title())
+            lines.append(f'<circle cx="{gx:.2f}" cy="{gy:.2f}" r="14" fill="#fff7ed" stroke="#b45309" stroke-width="1.6"/>')
+            lines.append(f'<text class="mid" x="{gx:.2f}" y="{gy:.2f}" text-anchor="middle" dominant-baseline="middle" fill="#b45309" font-size="18">{glyph}</text>')
+            if row["retro"]:
+                lines.append(f'<text class="small" x="{gx + 13:.2f}" y="{gy - 10:.2f}" fill="#b45309" font-size="11">R</text>')
+
     # Draw all badges last so lines never cut through badge text blocks.
     lines.extend(badge_layer)
-    lines.append('<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>')
+    if outer_planets:
+        lbl = html.escape(f"внешнее кольцо — транзит {outer_label}".strip())
+        lines.append(f'<text class="small bold" x="40" y="44" fill="#b45309">{lbl}</text>')
+    else:
+        lines.append('<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>')
     lines.append('</svg>')
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -562,6 +629,9 @@ def main():
     parser = argparse.ArgumentParser(description="Render chart wheel and aspect grid from chart outputs")
     parser.add_argument("--chart-dir", required=True, help="Path to charts/<chart_id>")
     parser.add_argument("--output-dir", required=True, help="Renderer run output dir")
+    parser.add_argument("--outer-planets", default="", help="Optional CSV of outer-ring (transit) planets: body,longitude,sign,degree")
+    parser.add_argument("--outer-aspects", default="", help="Optional CSV of transit->natal aspects: transit_body,natal_body,aspect,orb,is_exact")
+    parser.add_argument("--outer-label", default="", help="Label for the outer (transit) ring")
     args = parser.parse_args()
 
     chart_dir = Path(args.chart_dir)
@@ -574,11 +644,15 @@ def main():
     points = load_csv(out / "chart_points.csv")
     aspects = load_aspects(out / "natal_aspects.json")
 
+    outer_planets = load_csv(Path(args.outer_planets)) if args.outer_planets else None
+    outer_aspects = load_csv(Path(args.outer_aspects)) if args.outer_aspects else None
+
     wheel_path = output_dir / "01_chart_wheel.svg"
     grid_path = output_dir / "02_aspect_grid.svg"
     manifest_path = output_dir / "03_render_manifest.json"
 
-    draw_wheel(planets, houses, points, aspects, wheel_path)
+    draw_wheel(planets, houses, points, aspects, wheel_path,
+               outer_planets=outer_planets, outer_aspects=outer_aspects, outer_label=args.outer_label)
     draw_aspect_grid(planets, aspects, grid_path)
 
     manifest = {
