@@ -1,188 +1,195 @@
 <!DOCTYPE html>
 <html lang="ru">
 <!--
-  CATMEastrolab — GRAND CLIENT REPORT (canonical format) · v2
-  ===========================================================
-  Self-contained, print-to-PDF (A4) client deliverable. Russian-facing copy; English scaffolding.
-  Standard & rationale: docs/report-standards.md (canonical — this file is its implementation).
+  CATMEastrolab — GRAND CLIENT REPORT · SCAFFOLD v3
+  ================================================================================================
+  Self-contained print-to-PDF (A4) client deliverable. Russian-facing copy; English scaffolding.
+
+  ⚠ THIS FILE IS A POINTER, NOT A RULEBOOK. The rules live in ONE place — do not copy them here
+     (a copy goes stale and lies, как случилось с v2). This file = STRUCTURE (slots) + BINDINGS
+     (what data fills each slot). For WHAT/WHY read the standard; for HOW-it-sounds read prose-style.
+
+     • docs/report-standards.md   — what must be in the report and why (§1 ethics, §3 spheres,
+                                     §3.1 negatives-required, §4.1 skeleton, §4.4 techblock-under-wheel)
+     • docs/prose-style-ru.md     — how the Russian prose sounds (human meaning, no slop, no chrome)
+     • docs/semantic-base.md      — the reading discipline that PRODUCED the reading (we only present it)
+
+  GENERATIVE — the scaffold drives ANY chart, it is not a copy of one report:
+     • NO slot may contain a fact of a specific chart (no "Mercury-stem", no "Saturn июль 2026")
+       except clearly-marked illustration. After filling, grep the FILLED copy for naked chart facts.
+     • Encode DECISIONS, not counts. Number of window-chapters = number of carrier rows in
+       03_carrier_windows.csv (differs per chart — never hardcode "5"). Spheres: all 7 present,
+       length ∝ how lit the chart makes each (lead loud, keep quiet short). NOT a fixed block.
 
   PIPELINE
-  1. run_renderer.ps1 -ChartId <id> -ChartsRoot .private/charts → 01_chart_wheel.svg.
-     Clean it: remove "<text ...>CATMEastrolab Renderer MVP</text>"; root tag → keep viewBox,
-     drop width/height, add preserveAspectRatio="xMidYMid meet".
-  2. Fill {{TOKENS}} (inline cleaned SVG into {{WHEEL_SVG}}).
-  3. Render: chrome --headless=new --print-to-pdf=... file:///...  (use ABSOLUTE paths).
-  4. Save filled HTML+PDF to .private/charts/<id>/packs/ (PII). Never commit a filled copy.
+    1. Wheels via run_renderer.ps1 / render_chart.py:
+         - cover: natal wheel;  year: solar-return wheel;
+         - per window: biwheel (natal+transit) via build_window_biwheels.py (decoration over text).
+       Clean each SVG: drop the "CATMEastrolab Renderer MVP" text; root tag keep viewBox, drop
+       width/height, add preserveAspectRatio="xMidYMid meet".
+    2. Fill {{TOKENS}}. Window chapters and spheres are REPEATED blocks — duplicate the marked
+       template block per item; do not force a fixed count.
+    3. chrome --headless --no-pdf-header-footer --print-to-pdf=...  (ABSOLUTE file:/// paths).
+    4. Save filled HTML+PDF to .private/charts/<id>/packs/ (PII). NEVER commit a filled copy,
+       and NEVER commit biwheels of a real chart (they are PII too — keep under .private/).
 
-  CONTENT DISCIPLINE (docs/report-standards.md §1–§4)
-  - Re-present validated working reading (reading_full_*.md). No fresh delineation while rewriting.
-  - Tendencies & invitations, not verdicts & events (valence open).
-  - Words, not glyphs, in body prose (the wheel carries symbols).
-  - CHALLENGES, NOT DANGERS (§3.1): name hard things as "точка внимания" + how-to-meet, never threats.
-  - Calibration (§4.2): ● robust (sign/planet/sect) · ◐ soft (exact houses/angles at approx time; authorial).
-  - WINDOWS = periods (§4.1): a window's length is set by the slow CARRIER (open → exact pass(es) →
-    close), NOT a single peak; fast bodies inside are point-triggers. Carrier spans come from
-    run_transits_to_natal.ps1 range-scan → 03_carrier_windows.csv.
-  - PROSE register (docs/prose-style-ru.md): SHOW the derivation, don't CERTIFY it. Kill method-epistemic
-    meta ("сходящийся факт, а не толкование", "по построению", "свидетельства сходятся"); confidence lives
-    in tone + the ●/◐ tag only. No "X, а не Y" antithesis as a crutch.
-  - 7 spheres (§3): chart-driven weighting — lead with lit-up spheres, keep quiet ones short (avoid Barnum).
-    Canonical 7: 1 Ум·слово·обучение · 2 Я·тело · 3 Любовь·близость · 4 Дело·призвание ·
-    5 Дом·род · 6 Деньги·опора · 7 Смысл·внутреннее. (Order them by what the chart emphasizes.)
-  - Appendix tiers (§4.3, THREE): full footnote trace lives in the MD reading · the client PRESENTATION
-    carries the MIDDLE tier (worked delineations — WHY/HOW each conclusion holds, not a restatement of the
-    body) + compact data tables. No prose-stub "опорные факторы", no big trace here.
+  CONTENT DISCIPLINE — pointers only (full text in the standard):
+    • Negatives REQUIRED, plain word, graded by words, asymmetric (report-standards §3.1). NOT
+      "точка внимания / приглашение" (that euphemism is banned). Risk = probability-word +
+      concrete consequence + what-to-do. No colored risk boxes, no ●●● risk grades.
+    • Windows = periods, one CHAPTER each (§4.1); chronological run of chapters IS the year-plan.
+    • Techblock UNDER EACH WHEEL (§4.4): formula / orb in arc-min / date / house / dignity /
+      dispositor / sect. Outer planets (♅♆♇) get NO dignity. ALL numbers from compute, not memory.
+    • Body is AUDITED against the techblocks — if prose and dispositor/dignity disagree, fix the PROSE.
+    • Calibration (§4.2): ● robust (sign/planet/sect) · ◐ soft (exact houses/angles at approx time).
+    • Prose register (prose-style-ru.md): continuous prose, SHOW don't CERTIFY, no chrome
+      (no colored boxes, no "Label:" bold tags, no glyphs in prose — the wheel carries symbols).
+    • Phase layer (Zakharian) — OPTIONAL, SECOND layer, AFTER the traditional read, marked as a less-
+      verified (anumita) note; name + kitchen (phase-ruler, P⟨⟩ notation) NEVER printed; only the
+      stage QUALITY in plain words. ⛔ PHASES FOR TRANSITS / ASPECT-CYCLES: do NOT build without the
+      primary-source screenshot — it is a PENDING slot, not fillable (report-standards §4.1, NKS #65).
 
-  TOKENS: {{CLIENT_NAME}} {{BIRTH_LINE}} {{FORECAST_LINE}} {{WHEEL_SVG}} {{TLDR}} {{TIME_NOTE}}
-  {{PORTRAIT_H}} {{PORTRAIT_LEAD}} {{PORTRAIT_BODY}} {{PORTRAIT_PULL}} {{STRENGTHS_LIST}}
-  {{GROWTH_H}} {{GROWTH_BODY}} {{SPHERES}} {{YEAR_H}} {{YEAR_LEAD}} {{YEAR_THEME}} {{YEAR_SPINE}}
-  {{YEAR_TABLE_ROWS}} {{SUPPORTS_LIST}} {{QUESTIONS}} {{APPENDIX}}
+  TOKENS
+    cover/intro: {{COVER_KICKER}} {{TITLE}} {{NATAL_WHEEL_SVG}} {{BIRTH_LINE}} {{FORECAST_LINE}}
+                 {{TLDR}} {{HOW_TO_READ}}
+    portrait:    {{PORTRAIT_H}} {{PORTRAIT_BODY}}            (strengths woven into portrait, not a list)
+    year:        {{YEAR_H}} {{YEAR_LEAD}} {{SR_WHEEL_SVG}} {{SR_TECHBLOCK}} {{YEAR_THEME}}
+    windows:     repeat the WINDOW-CHAPTER block per carrier row →
+                 {{WIN_DATES}} {{WIN_TITLE}} {{WIN_BIWHEEL_SVG}} {{WIN_TECHBLOCK}} {{WIN_PROSE}}
+    spheres:     repeat the SPHERE block per canonical sphere (all 7) →
+                 {{SPH_KICKER}} {{SPH_TITLE}} {{SPH_BODY}}
+    phase (opt): {{PHASE_NOTE}}   (natal-phase, plain quality only, marked anumita; omit if not used)
+    close:       {{SUPPORTS_BODY}} {{NOTE_METHOD}}
 -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Астрологический разбор</title>
+<title>{{TITLE}}</title>
 <style>
-  :root{ --ink:#23283a; --soft:#55607a; --paper:#faf8f3; --panel:#ffffff;
-    --accent:#6d5b97; --accent-soft:#efe9f6; --gold:#b08d4f; --line:#e4ded3; }
+  :root{ --ink:#23283a; --soft:#55607a; --paper:#ffffff; --accent:#6d5b97; --gold:#b08d4f; --line:#e4ded3; }
   *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; box-sizing:border-box; }
   html,body{ margin:0; padding:0; background:var(--paper); color:var(--ink);
-    font-family:"Georgia","Noto Serif","DejaVu Serif",serif; font-size:15px; line-height:1.62; }
-  .wrap{ max-width:820px; margin:0 auto; padding:0 38px; }
-  h1,h2,h3,h4,.kicker{ font-family:"Georgia","Noto Serif",serif; }
-  .kicker{ letter-spacing:.22em; text-transform:uppercase; font-size:12px; color:var(--accent); font-weight:600; }
-  h2{ font-size:23px; margin:0 0 4px; }
-  h3{ font-size:16px; margin:18px 0 4px; color:var(--accent); }
-  p{ margin:9px 0; } em{ color:var(--soft); font-style:italic; }
-  .cover{ text-align:center; padding:54px 0 24px; page-break-after:always; }
-  .cover .kicker{ font-size:13px; }
-  .cover h1{ font-size:38px; margin:6px 0 2px; font-weight:600; letter-spacing:.02em; }
-  .cover .sub{ color:var(--soft); font-size:16px; font-style:italic; margin-bottom:16px; }
-  /* Wheels as large as fit one A4 page (print content width ~718px). Per-technique wheels and
-     biwheels use .wheel-two / .wheel-grid (single-column, big). */
-  .wheelbox{ width:700px; max-width:100%; margin:16px auto 8px; page-break-inside:avoid; }
+    font-family:"Georgia","Noto Serif","DejaVu Serif",serif; font-size:15px; line-height:1.6; }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 6px; }
+  h1,h2,h3,.kicker{ font-family:"Georgia","Noto Serif",serif; }
+  .kicker{ letter-spacing:.2em; text-transform:uppercase; font-size:12.5px; color:var(--accent); font-weight:600; margin-bottom:6px; }
+  .kicker span{ color:var(--gold); }
+  h1{ font-size:46px; } h2{ font-size:28px; margin:0 0 18px; line-height:1.22; }
+  h3{ font-size:19px; margin:24px 0 8px; color:var(--accent); font-weight:600; }
+  p{ margin:0 0 14px; } em{ color:var(--soft); font-style:italic; }
+  @page{ size:A4; margin:12mm 14mm; }
+  section{ page-break-before:always; padding:2mm 0 4mm; }
+  h2,h3{ page-break-after:avoid; break-after:avoid; break-inside:avoid; }
+  .cover{ text-align:center; padding:10mm 0 10mm; page-break-after:always; }
+  .cover h1{ margin:8px 0 4px; font-weight:600; letter-spacing:.02em; }
+  .id-line{ font-size:16px; margin-top:14px; } .id-line b{ color:var(--accent); }
+  .id-sub{ font-size:13.5px; color:var(--soft); }
+  .wheelbox{ width:680px; max-width:100%; margin:12px auto 4px; page-break-inside:avoid; }
   .wheelbox svg{ width:100%; height:auto; display:block; }
-  .wheel-cap{ font-size:12.5px; color:var(--soft); text-align:center; margin:2px 0 0; }
-  .wheel-two{ display:flex; flex-direction:column; align-items:center; gap:18px; margin:14px 0; }
-  .wheel-two figure{ margin:0; width:680px; max-width:100%; page-break-inside:avoid; }
-  .wheel-two svg{ width:100%; height:auto; display:block; }
-  .wheel-grid{ display:flex; flex-direction:column; align-items:center; gap:22px; margin:14px 0; }
-  .wheel-grid figure{ margin:0; width:712px; max-width:100%; page-break-inside:avoid; }
-  .wheel-grid svg{ width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:6px; }
-  .id-line{ font-size:15px; margin-top:12px; } .id-line b{ color:var(--accent); }
-  .id-sub{ font-size:13px; color:var(--soft); }
-  .note{ background:var(--accent-soft); border:1px solid #e0d6ee; border-radius:12px;
-    padding:14px 20px; margin:16px 0; font-size:14px; color:#463a5e; } .note b{ color:var(--accent); }
-  .tldr{ background:#fff; border:1px solid var(--line); border-left:4px solid var(--gold);
-    border-radius:10px; padding:16px 22px; margin:18px 0; font-size:15.5px; }
-  .legend{ font-size:12.5px; color:var(--soft); margin:6px 0 0; } .legend b{ color:var(--ink); }
-  section{ padding-top:8px; } .major{ page-break-before:always; }
-  .secnum{ color:var(--gold); font-weight:600; }
-  .lead{ font-size:16px; color:var(--soft); font-style:italic; margin:2px 0 10px; }
-  .pull{ border-left:3px solid var(--gold); padding:4px 0 4px 16px; margin:14px 0; font-style:italic; color:var(--soft); }
-  ul.clean{ list-style:none; padding:0; margin:8px 0; }
-  ul.clean li{ padding:6px 0 6px 26px; position:relative; border-bottom:1px dotted var(--line); }
-  ul.clean li:last-child{ border-bottom:none; }
-  ul.clean li::before{ content:"✦"; color:var(--gold); position:absolute; left:4px; top:6px; font-size:12px; }
-  ul.clean li b{ color:var(--ink); }
-  .sphere{ margin:12px 0; padding:11px 0; border-bottom:1px solid var(--line); page-break-inside:avoid; }
-  .sphere:last-child{ border-bottom:none; }
-  .sphere h4{ margin:0 0 3px; font-size:15.5px; }
-  .sphere h4 .mk{ font-size:12px; color:var(--soft); font-weight:400; }
-  table{ width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; page-break-inside:avoid; }
-  th{ text-align:left; background:var(--accent); color:#fff; padding:9px 12px; font-weight:600; font-family:"Georgia",serif; }
-  td{ padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
-  tr:nth-child(even) td{ background:#fbfaf7; }
-  td.when{ white-space:nowrap; font-weight:600; color:var(--accent); width:34%; }
-  .appx{ font-size:13px; color:var(--soft); background:#fbfaf7; border:1px solid var(--line);
-    border-radius:10px; padding:14px 20px; margin:14px 0; } .appx b{ color:var(--ink); }
-  .foot{ margin-top:22px; padding-top:12px; border-top:1px solid var(--line); font-size:12px; color:var(--soft); }
-  @page{ size:A4; margin:18mm 0; }
+  .wheelbox.bordered svg{ border:1px solid var(--line); border-radius:6px; }
+  .wheel-cap{ font-size:12.5px; color:var(--soft); text-align:center; margin:2px 0 12px; }
+  .bar{ border-left:3px solid var(--gold); padding:2px 0 2px 20px; margin:16px 0; }
+  .bar.big{ font-size:16.5px; }
+  .lead{ font-size:16px; color:var(--soft); font-style:italic; margin:2px 0 14px; }
+  .foot{ margin-top:26px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--soft); }
   @media print{ .wrap{ max-width:100%; } body{ font-size:12.5pt; } }
 </style>
 </head>
 <body>
 
+<!-- ================= COVER — natal wheel ================= -->
 <div class="cover wrap">
-  <div class="kicker">Натальная карта · Прогноз на год</div>
-  <h1>Астрологический разбор</h1>
-  <div class="sub">портрет личности и год впереди</div>
-  <div class="wheelbox">{{WHEEL_SVG}}</div>
-  <div class="id-line"><b>{{CLIENT_NAME}}</b></div>
-  <div class="id-line">{{BIRTH_LINE}}</div>
-  <div class="id-sub">{{FORECAST_LINE}}</div>
+  <div class="kicker">{{COVER_KICKER}}</div>     <!-- e.g. "Соляр года · Натальная карта" -->
+  <h1>{{TITLE}}</h1>
+  <div class="wheelbox">{{NATAL_WHEEL_SVG}}</div> <!-- cleaned natal SVG inline -->
+  <div class="id-line"><b>{{BIRTH_LINE}}</b></div>   <!-- place · date · time (PII — filled copy only) -->
+  <div class="id-sub">{{FORECAST_LINE}}</div>        <!-- forecast span · relocation -->
 </div>
 
 <div class="wrap">
 
-  <div class="tldr"><b>Если коротко.</b> {{TLDR}}</div>
+  <!-- ===== TL;DR + how-to-read (answer-first, §4.1·§4.2). Plain prose, no chrome. ===== -->
+  <div class="bar big"><p><b>Если коротко.</b> {{TLDR}}</p></div>
+  <div class="bar"><p><b>Как читать.</b> {{HOW_TO_READ}}</p></div>
+  <!-- HOW_TO_READ states: tendencies/probabilities not verdict; negatives named plainly (§3.1);
+       what ● / ◐ mean; reading order; that birth time is exact/approx (→ houses reliability). -->
 
-  <div class="note">
-    <b>Как читать.</b> Карта описывает <b>склонности, ресурсы и приглашения</b>, а не события и не
-    приговор; куда повернётся — решают выборы, а не звёзды. {{TIME_NOTE}}
-    <div class="legend"><b>Калибровка надёжности:</b> ● надёжно (знак, планета, секта — не зависит от
-    минут) · ◐ зыбко (точные дома/углы при примерном времени; авторские слои).</div>
-  </div>
-
+  <!-- ===== PORTRAIT — one portrait, strengths woven in (§4.1). Named negative склонности
+            plainly inside the prose, not a colored box (§3.1, prose-style-ru). ===== -->
   <section>
-    <div class="kicker"><span class="secnum">01</span> &nbsp;Портрет личности</div>
+    <div class="kicker"><span>Портрет личности</span></div>
     <h2>{{PORTRAIT_H}}</h2>
-    <p class="lead">{{PORTRAIT_LEAD}}</p>
     {{PORTRAIT_BODY}}
-    <div class="pull">{{PORTRAIT_PULL}}</div>
   </section>
 
+  <!-- ===== YEAR — solar return as its own chart (§4.1 "соляр не лысый") ===== -->
   <section>
-    <div class="kicker"><span class="secnum">02</span> &nbsp;Сильные стороны и ресурсы</div>
-    <h2>На что можно опираться</h2>
-    <ul class="clean">{{STRENGTHS_LIST}}</ul>
-  </section>
-
-  <section>
-    <div class="kicker"><span class="secnum">03</span> &nbsp;Точки роста</div>
-    <h2>{{GROWTH_H}}</h2>
-    {{GROWTH_BODY}}
-  </section>
-
-  <section class="major">
-    <div class="kicker"><span class="secnum">04</span> &nbsp;Сферы жизни</div>
-    <h2>Семь зон — где чем живёт карта</h2>
-    <p class="lead">Веду сильными сторонами карты; тихие сферы — коротко (карта их меньше подсвечивает).</p>
-    {{SPHERES}}
-  </section>
-
-  <section class="major">
-    <div class="kicker"><span class="secnum">05</span> &nbsp;Год впереди</div>
+    <div class="kicker"><span>Карта года</span></div>
     <h2>{{YEAR_H}}</h2>
     <p class="lead">{{YEAR_LEAD}}</p>
-    <h3>Тема года и её «ведущий»</h3>
-    {{YEAR_THEME}}
-    <h3>Главный сюжет и его противовес</h3>
-    {{YEAR_SPINE}}
-    <h3>Карта года по окнам</h3>
-    <table>
-      <tr><th>Окно (период)</th><th>Точные удары</th><th>Что разворачивается · на что смотреть</th></tr>
-      {{YEAR_TABLE_ROWS}}
-    </table>
-    <p><em>Длину окна задаёт медленный несущий транзит (открытие → точные удары → закрытие); быстрые тела
-      внутри лишь датируют моменты. Поэтому окна честнее читать как периоды, а не как конкретные дни.</em></p>
+    <div class="wheelbox bordered">{{SR_WHEEL_SVG}}</div>
+    <p class="wheel-cap">Карта года — соляр (релокат)</p>
+    <p><b>Техника.</b> {{SR_TECHBLOCK}}</p>  <!-- §4.4: angles, year-ruler+house, SR→natal, profection -->
+    {{YEAR_THEME}}                            <!-- carriers NAMED (planet+aspect+peak), theme of year -->
   </section>
 
+  <!-- =====================================================================================
+       WINDOW CHAPTERS — REPEAT THIS <section> ONCE PER CARRIER ROW (03_carrier_windows.csv).
+       Count is data-driven; never hardcode. Order chronologically; the run IS the year-plan.
+       ===================================================================================== -->
   <section>
-    <div class="kicker"><span class="secnum">06</span> &nbsp;Опоры на год</div>
-    <h2>Что поддержит — как приглашение, не предписание</h2>
-    <ul class="clean">{{SUPPORTS_LIST}}</ul>
-    <h3>Ваши вопросы</h3>
-    {{QUESTIONS}}
+    <div class="kicker"><span>Окно года</span> &nbsp;·&nbsp; {{WIN_DATES}}</div>  <!-- open–close, peak -->
+    <h2>{{WIN_TITLE}}</h2>
+    <div class="wheelbox bordered">{{WIN_BIWHEEL_SVG}}</div>
+    <p class="wheel-cap">Натал (внутри) и транзит (внешнее кольцо) — {{WIN_DATES}}</p>
+    <p><b>Техника окна.</b> {{WIN_TECHBLOCK}}</p>
+    <!-- §4.4: carrier transit pos + aspect to natal target, orb in arc-min, open→peak(s)→close,
+         target house, essential dignity (NONE for ♅♆♇), dispositor, sect. Numbers from compute. -->
+    {{WIN_PROSE}}
+    <!-- §3.1 plain-word prose: what unfolds · что можно сделать · что под риском (probability-word
+         + concrete consequence + what-to-do). Concrete transits woven into prose, not an appendix. -->
+  </section>
+  <!-- /repeat WINDOW CHAPTER -->
+
+  <!-- =====================================================================================
+       SPHERES — REPEAT THIS <section> for ALL 7 canonical spheres (§3). Length ∝ how lit each
+       is (lead loud, keep quiet short) — NOT a fixed block. Each: what the area is this year,
+       что на столе (possibility) AND что под риском (negative, §3.1). Spheres carry the WHAT
+       (area of life); windows carry the WHEN — do not re-narrate window dates here, refer back.
+       ===================================================================================== -->
+  <section>
+    <div class="kicker"><span>Сфера жизни</span> &nbsp;·&nbsp; {{SPH_KICKER}}</div>  <!-- e.g. "ум, голос, обучение" -->
+    <h2>{{SPH_TITLE}}</h2>
+    {{SPH_BODY}}
+  </section>
+  <!-- /repeat SPHERE.  Canonical 7 (report-standards §3): я·тело · ум·слово·обучение ·
+       любовь·близость · дело·призвание · деньги·опора · дом·род · смысл·внутреннее. -->
+
+  <!-- ===== PHASE LAYER (OPTIONAL) — natal-phase only, plain stage-QUALITY, marked anumita,
+            AFTER the traditional read. NO author name, NO phase-ruler, NO notation (§4.1).
+            ⛔ Transit/aspect-cycle phases: PENDING primary source — do NOT build (NKS #65).
+            Omit this whole block if the phase layer is not used. ===== -->
+  <section>
+    <div class="kicker"><span>Дополнительный слой</span> &nbsp;·&nbsp; фазовая картина</div>
+    <h2>На какой стадии стоит каждая планета</h2>
+    {{PHASE_NOTE}}
   </section>
 
-  <div class="appx"><b>Приложение — данные и методы.</b> {{APPENDIX}}</div>
+  <!-- ===== SUPPORTS (no "приглашения" slop — plain "опоры на год") ===== -->
+  <section>
+    <div class="kicker"><span>Опоры на год</span></div>
+    <h2>Что поддержит</h2>
+    {{SUPPORTS_BODY}}
+  </section>
 
-  <div class="foot">
-    <p>Этот документ описывает тенденции и возможности, а не события, и не заменяет консультацию врача,
-      юриста или психотерапевта. Любой вывод имеет смысл сверить с реальной биографией — как проверку,
-      не подгонку.</p>
-  </div>
+  <!-- ===== METHOD NOTE — normal prose size, NOT fine grey (data lives in techblocks, §4.3/§4.4) ===== -->
+  <section>
+    <div class="kicker"><span>Примечание</span></div>
+    <h2>Как это посчитано и как читать</h2>
+    {{NOTE_METHOD}}
+    <!-- ephemeris/houses/sect; SR true return + relocation; windows = carrier period; numbers from
+         compute not memory; ● / ◐ meaning; non-determinism + не заменяет врача/юриста/психотерапевта. -->
+  </section>
 
 </div>
 </body>
