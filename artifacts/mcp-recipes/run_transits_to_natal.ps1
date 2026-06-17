@@ -31,6 +31,11 @@ New-Item -ItemType Directory -Force -Path $OutputBase | Out-Null
 # (transit body × natal target × major aspect) detects each exact pass as a local minimum of the
 # orb series and refines the date by parabolic interpolation (no extra engine calls). Retrograde
 # triple-passes surface as separate minima. Natal targets = natal planets + ASC/MC/IC/DSC.
+# Orb-ingress/egress per pass are refined to sub-step precision by linear interpolation.
+# Two artifacts: 01_transit_timeline.csv = every pass (carriers AND fast triggers, as points);
+# 03_carrier_windows.csv = slow carriers only, with retrograde passes merged into ONE
+# open->exact(s)->close span (the window's real length; see docs/report-standards.md §4.1).
+# Use a fine $StepDays (≈2–3) for clean carrier windows; the slow movers barely move per day.
 # ---------------------------------------------------------------------------------------------
 $scanMode = (-not [string]::IsNullOrWhiteSpace($RangeStartUtc)) -and (-not [string]::IsNullOrWhiteSpace($RangeEndUtc))
 if ($scanMode) {
@@ -104,14 +109,28 @@ if ($scanMode) {
             if ($minOrb -lt 0.0) { $minOrb = 0.0 }
             $L = $i; while (($L - 1 -ge 0) -and ($g[$L - 1] -le $Orb)) { $L-- }
             $R = $i; while (($R + 1 -lt $nSamples) -and ($g[$R + 1] -le $Orb)) { $R++ }
+            # Refine orb-ingress/egress to sub-step precision by linear interpolation across the
+            # bracketing samples where the orb series crosses $Orb (no extra engine calls).
+            $openT = $times[$L]
+            if (($L - 1 -ge 0) -and ($g[$L - 1] -gt $Orb)) {
+              $den = ($g[$L - 1] - $g[$L]); $f = if ([math]::Abs($den) -gt 1e-9) { ($g[$L - 1] - $Orb) / $den } else { 0.0 }
+              if ($f -lt 0.0) { $f = 0.0 }; if ($f -gt 1.0) { $f = 1.0 }
+              $openT = $times[$L - 1].AddDays($f * $StepDays)
+            }
+            $closeT = $times[$R]
+            if (($R + 1 -lt $nSamples) -and ($g[$R + 1] -gt $Orb)) {
+              $den = ($g[$R + 1] - $g[$R]); $f = if ([math]::Abs($den) -gt 1e-9) { ($Orb - $g[$R]) / $den } else { 0.0 }
+              if ($f -lt 0.0) { $f = 0.0 }; if ($f -gt 1.0) { $f = 1.0 }
+              $closeT = $times[$R].AddDays($f * $StepDays)
+            }
             $events += [pscustomobject]@{
               transit_body = $b
               natal_target = $tn
               aspect = [string]$asp.name
               exact_date = $exactT.ToString("yyyy-MM-dd")
               min_orb_deg = [math]::Round($minOrb, 3)
-              window_start = $times[$L].ToString("yyyy-MM-dd")
-              window_end = $times[$R].ToString("yyyy-MM-dd")
+              window_start = $openT.ToString("yyyy-MM-dd")
+              window_end = $closeT.ToString("yyyy-MM-dd")
             }
           }
         }
@@ -124,6 +143,56 @@ if ($scanMode) {
   $tlPath = Join-Path $runDir "01_transit_timeline.csv"
   if ($events.Count -gt 0) { Write-InvariantCsv -Rows $events -Path $tlPath -Columns $eventCols }
   else { Write-InvariantCsv -Rows @() -Path $tlPath -Columns $eventCols }
+
+  # ---- Carrier windows: a slow mover's window is ONE span, not a set of points -----------------
+  # Methodology (docs/report-standards.md §4.1): the length of a transit window is set by the slow
+  # CARRIER — its orb-period, with retrograde multi-passes merged into a single open->exact(s)->close
+  # span. Fast movers (Sun/Moon/Mercury/Venus/Mars) are point-triggers inside the window, not spans,
+  # so they stay in the timeline and are deliberately NOT aggregated here.
+  $slowCarriers = @("jupiter", "saturn", "uranus", "neptune", "pluto")
+  $carrierWindows = @()
+  function New-CarrierWindowRow($grp, $cur) {
+    [pscustomobject]@{
+      window_open = $cur.open.ToString("yyyy-MM-dd")
+      window_close = $cur.close.ToString("yyyy-MM-dd")
+      transit_body = $grp.Group[0].transit_body
+      aspect = $grp.Group[0].aspect
+      natal_target = $grp.Group[0].natal_target
+      passes = $cur.exacts.Count
+      exact_dates = [string]::Join("; ", $cur.exacts)
+      tightest_orb_deg = [math]::Round([double]$cur.tight, 3)
+    }
+  }
+  foreach ($grp in ($events | Where-Object { $slowCarriers -contains $_.transit_body } | Group-Object transit_body, natal_target, aspect)) {
+    # Merge passes into MAXIMAL CONTIGUOUS in-orb spans: a retrograde wobble (overlapping passes) is one
+    # window, but two passes split by a long out-of-orb gap (e.g. Saturn opp: Jul 2026 vs Mar 2027) are
+    # TWO windows. Contiguous = next open <= current close + one sampling step.
+    $passes = @($grp.Group | Sort-Object { Get-UtcDateTime -DateTimeUtc ($_.window_start + "T00:00:00Z") })
+    $cur = $null
+    foreach ($p in $passes) {
+      $pOpen = Get-UtcDateTime -DateTimeUtc ($p.window_start + "T00:00:00Z")
+      $pClose = Get-UtcDateTime -DateTimeUtc ($p.window_end + "T00:00:00Z")
+      $pOrb = [double]$p.min_orb_deg
+      if ($null -eq $cur) {
+        $cur = @{ open = $pOpen; close = $pClose; exacts = @($p.exact_date); tight = $pOrb }
+      }
+      elseif ($pOpen -le $cur.close.AddDays($StepDays)) {
+        if ($pClose -gt $cur.close) { $cur.close = $pClose }
+        $cur.exacts += $p.exact_date
+        if ($pOrb -lt $cur.tight) { $cur.tight = $pOrb }
+      }
+      else {
+        $carrierWindows += (New-CarrierWindowRow $grp $cur)
+        $cur = @{ open = $pOpen; close = $pClose; exacts = @($p.exact_date); tight = $pOrb }
+      }
+    }
+    if ($null -ne $cur) { $carrierWindows += (New-CarrierWindowRow $grp $cur) }
+  }
+  $carrierWindows = @($carrierWindows | Sort-Object window_open, transit_body, natal_target)
+  $cwCols = @("window_open", "window_close", "transit_body", "aspect", "natal_target", "passes", "exact_dates", "tightest_orb_deg")
+  $cwPath = Join-Path $runDir "03_carrier_windows.csv"
+  if ($carrierWindows.Count -gt 0) { Write-InvariantCsv -Rows $carrierWindows -Path $cwPath -Columns $cwCols }
+  else { Write-InvariantCsv -Rows @() -Path $cwPath -Columns $cwCols }
 
   $natalTargetRows = @()
   foreach ($k in $natalTargets.Keys) { $natalTargetRows += [pscustomobject]@{ target = $k; longitude = [math]::Round([double]$natalTargets[$k], 6) } }
@@ -142,6 +211,8 @@ if ($scanMode) {
   $scanSummary += "NATAL_TARGET_COUNT=$($natalTargets.Count)"
   $scanSummary += "ORB=$Orb"
   $scanSummary += "EVENT_COUNT=$($events.Count)"
+  $scanSummary += "CARRIER_WINDOW_COUNT=$($carrierWindows.Count)"
+  $scanSummary += "SLOW_CARRIERS=$([string]::Join(',', $slowCarriers))"
   $scanSummary += "SWISS_RETRY_TOTAL=$($retry.total_retries)"
   $scanSummary += "OUTPUT_DIR=$runDir"
   Set-Content -Path (Join-Path $runDir "00_summary.txt") -Encoding UTF8 -Value $scanSummary

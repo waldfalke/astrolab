@@ -5,6 +5,7 @@ Graph-style map of agent instruction files in this repository.
 ## Node Map
 
 - `AGENTS.md` -> root entrypoint and global defaults
+- `REGISTRIES.md` -> index of all registries (sources, recipes, external capabilities, methodology, graph)
 - `.agents/AGENTS.md` -> canonical playbook, read order, hard constraints
 - `artifacts/AGENTS.md` -> recipe execution policy and output contracts
 - `charts/AGENTS.md` -> chart-project structure and mutation rules

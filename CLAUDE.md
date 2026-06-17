@@ -7,9 +7,10 @@ this file only records Claude-specific deltas on top of it. Do not duplicate the
 
 1. `AGENTS.md` → `.agents/AGENTS.md` (canonical machine playbook)
 2. `AGENTS_INDEX.md` (graph of local AGENTS files)
-3. `.agents/docs/00-mission.md` … `14-l402-lightning-stack.md` (full read order in `.agents/AGENTS.md`)
-4. Nearest local `AGENTS.md` in the directory you are editing (adds local constraints)
-5. `CURRENT_WORK.md` (active WIP; restore via `/load`)
+3. `REGISTRIES.md` (index of all registries — sources, recipes, capabilities, methodology, graph)
+4. `.agents/docs/00-mission.md` … `14-l402-lightning-stack.md` (full read order in `.agents/AGENTS.md`)
+5. Nearest local `AGENTS.md` in the directory you are editing (adds local constraints)
+6. `CURRENT_WORK.md` (active WIP; restore via `/load`)
 
 ## Claude-specific deltas
 

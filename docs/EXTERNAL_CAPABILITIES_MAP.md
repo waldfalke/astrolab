@@ -1,5 +1,11 @@
 # External Capabilities Map
 
+> ⚠️ **STALE (as of 2026-06-17) — refresh pending.** This snapshot is from March and no longer matches
+> reality. Key drift: **`swissremote` at `https://www.theme-astral.me/mcp` is DEAD** — the engine moved
+> to a **self-hosted Docker container** `swiss-mcp` on `http://localhost:8000` (start: Docker Desktop →
+> `docker start swiss-mcp`; a Node-25 libuv teardown crash is non-fatal). Treat the provider table below
+> as historical until a fresh `run_mcp_provider_probe.ps1` regenerates it. Tracked in `REGISTRIES.md`.
+
 Snapshot date: 2026-03-04
 Source snapshot run: `artifacts/results/provider_probe_20260304_110257`
 

@@ -5,6 +5,7 @@ param(
   [string]$TransitTimelineCsv = "",
   [string]$FactorsPath = "",
   [string]$DispositionsPath = "",
+  [string]$VersionsPath = "",
   [string]$ReportPath = ""
 )
 
@@ -16,6 +17,12 @@ param(
 #   2. dispositions.csv  — SEMANTIC. factor_id → salience / valence_resolved / basis / note. The MODEL owns it.
 #                          The script NEVER rewrites existing rows — it only APPENDS rows for factor_ids it has
 #                          not seen before (auto-quiet rows seeded with salience=тихий). Hand edits survive regen.
+#   2b.versions.csv      — VERSION LOG. factor_id → pole / status(taken|parked|dropped) / basis / note. MODEL owns it
+#                          (append-only; the script only creates the header if absent, never rewrites rows). Makes the
+#                          discarding of interpretive branches VISIBLE: a collapsed fan must log each genuinely-afforded
+#                          pole as taken / parked(live) / dropped(+basis). Silent disappearance = anti-pattern #2/#14 at
+#                          the branch level — previously the model's invisible burden, now auditable. (Cannot catch a
+#                          pole that NEVER surfaced; that is mitigated by reading the fan from the operator tables.)
 #   3. coverage_report.md— VERIFIER (read-only). JOINs the two by factor_id and runs the structural checks:
 #                            • completeness  — every factor has a non-blank salience (else: hole / «лысый соляр»)
 #                            • orphans       — disposition whose factor vanished from the data
@@ -30,6 +37,7 @@ param(
 # Stability comes from deterministic enumeration over the same source file, not from sorting.
 
 $ErrorActionPreference = "Stop"
+. "$PSScriptRoot\lib\mcp_helpers.ps1"   # for Get-ZakharianDignity / Resolve-SignIndex (phase-model dignity)
 
 if ([string]::IsNullOrWhiteSpace($ChartsRoot)) {
   $ChartsRoot = Join-Path $PSScriptRoot "..\..\charts"
@@ -44,6 +52,7 @@ $packDir    = Join-Path $chartDir "packs"
 
 if ([string]::IsNullOrWhiteSpace($FactorsPath))      { $FactorsPath      = Join-Path $packDir "coverage_factors.csv" }
 if ([string]::IsNullOrWhiteSpace($DispositionsPath)) { $DispositionsPath = Join-Path $packDir "coverage_dispositions.csv" }
+if ([string]::IsNullOrWhiteSpace($VersionsPath))     { $VersionsPath     = Join-Path $packDir "coverage_versions.csv" }
 if ([string]::IsNullOrWhiteSpace($ReportPath))       { $ReportPath       = Join-Path $packDir "coverage_report.md" }
 
 # Resolve a data file: prefer outputs/, else search methods/** for the basename.
@@ -104,16 +113,29 @@ $houses       = Import-CsvSafe (Resolve-ChartFile @("houses_placidus.csv","02_ho
 $points       = Import-CsvSafe (Resolve-ChartFile @("chart_points.csv","03_chart_points.csv"))
 $addPoints    = Import-CsvSafe (Resolve-ChartFile @("additional_points.csv","05_additional_points.csv"))
 
-$dignMap = @{}; foreach ($d in $dignities) { $dignMap[$d.body] = $d.dignity }
+# Dignity comes from ZAKHARIAN's verified table (lib Get-ZakharianDignity), computed from the object's
+# sign — uniformly for natal AND solar-return — NOT the engine's generic scheme. The engine's dignity
+# rows are used only as a sign source / fallback. (Phase model: outers exalt/fall, ☿↑Aquarius… — differs.)
+$dignMap = @{}
+foreach ($d in $dignities) {
+  $z = Get-ZakharianDignity -Body $d.body -Sign $d.sign
+  $dignMap[("$($d.body)").ToLower()] = if ($z) { $z } else { $d.dignity }
+}
 $sectMap = @{}; foreach ($s in $sect) { $sectMap[$s.body] = "$($s.planet_team)/$($s.placement)/$($s.role)" }
 $declMap = @{}; foreach ($d in $decl) { $oob = if ($d.out_of_bounds -eq "TRUE") { " OOB!" } else { "" }; $declMap[$d.body] = "$($d.declination_deg)$oob" }
+# Phase vector (Zakharian) — base object property like dignity/sect. Z is grounded (book Table 2.2);
+# z/H/h/D ride along but are anumita (operator+attested, source-unverifiable). Authorial → working layer only.
+$phaseLayer = Import-CsvSafe (Resolve-ChartFile @("phase_vectors.csv"))
+$phaseMap = @{}; foreach ($pv in $phaseLayer) { $phaseMap[("$($pv.body)").ToLower()] = $pv }
 
 $bodyList = if ($natalPlanets.Count) { $natalPlanets } else { $natalLong }
 foreach ($p in $bodyList) {
   $b = $p.body
   $sd = if ($p.PSObject.Properties['sign']) { "$($p.sign) $([math]::Round([double]($p.degree -replace ',','.'),1))" } else { $p.longitude }
   $dg = $dignMap[$b]; $sc = $sectMap[$b]; $dc = $declMap[$b]
-  Add-Row "натал" @("natal","obj",$b) "объект: $b" "$sd · dign=$dg · sect=$sc · decl=$dc" ""
+  $ph = $phaseMap[("$b").ToLower()]
+  $phStr = if ($ph) { " · фаза=$($ph.vector) [Z сверено; z/H/h/D anumita]" } else { "" }
+  Add-Row "натал" @("natal","obj",$b) "объект: $b" "$sd · dign=$dg · sect=$sc · decl=$dc$phStr" ""
 }
 foreach ($d in $decl) { if ($d.out_of_bounds -eq "TRUE") { Add-Row "натал" @("natal","oob",$d.body) "OOB: $($d.body)" "δ=$($d.declination_deg)" "флаг: вне границ" } }
 
@@ -170,7 +192,8 @@ if (-not [string]::IsNullOrWhiteSpace($SolarReturnRunDir) -and (Test-Path $Solar
   $srD = Import-CsvSafe (Join-Path $SolarReturnRunDir "10_return_dignities.csv")
   $srPts = Import-CsvSafe (Join-Path $SolarReturnRunDir "04_return_chart_points.csv")
   $srProf = Import-CsvSafe (Join-Path $SolarReturnRunDir "13_annual_profection.csv")
-  $srDignMap = @{}; foreach ($d in $srD) { $srDignMap[$d.body] = $d.dignity }
+  # SR dignity from Zakharian's table too (sign-based), uniform with natal — not the engine's scheme.
+  $srDignMap = @{}; foreach ($d in $srD) { $z = Get-ZakharianDignity -Body $d.body -Sign $d.sign; $srDignMap[$d.body] = if ($z) { $z } else { $d.dignity } }
   # SR house of each SR planet
   $srOcc = @{}
   foreach ($p in $srP) {
@@ -209,10 +232,24 @@ foreach ($a in @($saP) + @($saPt)) {
   Add-Row "дирекции→натал" @("dir2n","$($a.from_object)-$($a.to_object)",$a.aspect) "$($a.from_object) $($a.aspect) натал $($a.to_object)" "орб $([math]::Round([double]($a.orb -replace ',','.'),2))° · $st · перф $($a.perfection_year)" ""
 }
 
-# ---------- TRANSITS ----------
+# ---------- TRANSITS — TWO LAYERS, not a filter (balloon is a sin of PROSE, not registry size) ----
+# Walk ALL transit passes (slow carriers + fast triggers); never drop a real pass from the registry —
+# that would break completeness and hide chains/atypical couplings (a fast trigger closing a charged
+# slow point). Split by speed onto the tech field, and AUTO-QUIET the trigger layer (like empty houses):
+#   транзиты-несущие  (slow: jupiter…pluto) — the year's themes; judged like any factor.
+#   транзиты-триггеры (fast: sun/moon/mercury/venus/mars) — daters; seeded тихий, promoted to несущий
+#     ONLY by corroboration (lands on a carrier-charged point / is a chain link) — dynamic salience,
+#     not a guess. Prose narrates only the promoted ones; the rest stay walked-but-quiet.
+# Completeness here is SCOPE-RELATIVE (depends on orb/bodies/range) — the timeline summary declares it.
+$slowTransit = @("jupiter", "saturn", "uranus", "neptune", "pluto")
 if (-not [string]::IsNullOrWhiteSpace($TransitTimelineCsv) -and (Test-Path $TransitTimelineCsv)) {
   $tr = Import-CsvSafe $TransitTimelineCsv
-  foreach ($t in $tr) { Add-Row "транзиты" @("transit","$($t.transit_body)-$($t.natal_target)",$t.aspect) "$($t.transit_body) $($t.aspect) натал $($t.natal_target)" "точно $($t.exact_date) · орб $($t.min_orb_deg)° · окно $($t.window_start)…$($t.window_end)" "" }
+  foreach ($t in $tr) {
+    $isSlow = $slowTransit -contains ("$($t.transit_body)").ToLower()
+    $tech = if ($isSlow) { "транзиты-несущие" } else { "транзиты-триггеры" }
+    $auto = if ($isSlow) { "" } else { "тихий (триггер — поднять по корроборации)" }
+    Add-Row $tech @("transit","$($t.transit_body)-$($t.natal_target)",$t.aspect) "$($t.transit_body) $($t.aspect) натал $($t.natal_target)" "точно $($t.exact_date) · орб $($t.min_orb_deg)° · окно $($t.window_start)…$($t.window_end)" $auto
+  }
 }
 
 # ---------- ARTIFACT 1: factors.csv (machine, regenerated freely) ----------
@@ -237,8 +274,16 @@ if (-not (Test-Path $DispositionsPath)) {
   Add-Content -Path $DispositionsPath -Value $lines -Encoding UTF8
 }
 
+# ---------- ARTIFACT 2b: versions.csv (version log — model-owned, append-only; script only seeds the header) ----------
+# status ∈ {taken, parked, dropped}. The script does NOT enumerate poles (the fan is model judgment, read from the
+# operator tables, not the data) — it only guarantees the file exists so the model has a keyed place to log branches.
+if (-not (Test-Path $VersionsPath)) {
+  "factor_id,pole,status,basis,note" | Set-Content -Path $VersionsPath -Encoding UTF8
+}
+
 # ---------- ARTIFACT 3: coverage_report.md (verifier — read-only JOIN + structural checks) ----------
 $dispNow = Import-CsvSafe $DispositionsPath
+$versNow = Import-CsvSafe $VersionsPath
 $dispMap = @{}; foreach ($r in $dispNow) { $dispMap[$r.factor_id] = $r }
 $factorIds = @{}; foreach ($r in $rows) { $factorIds[$r.id] = $true }
 
@@ -259,7 +304,29 @@ foreach ($r in $dispNow) {
   if ($resolved -and $basisIds.Count -eq 0) { $unsupported += $r.factor_id }
 }
 
-$techOrder = @("натал","натал-производное","соляр","соляр→натал","профекция","прогрессии","прогрессии→натал","дирекции→натал","транзиты")
+# ---- VERSION LOG checks (gate 3 — no silent branch-collapse) ----
+$verOrphans = @(); $verDropNoBasis = @(); $verDangling = @(); $resolvedNoVersion = @()
+$versByFactor = @{}
+foreach ($v in $versNow) {
+  if (-not $factorIds.ContainsKey($v.factor_id)) { $verOrphans += $v.factor_id; continue }
+  $st = "$($v.status)".Trim().ToLower()
+  if (-not [string]::IsNullOrWhiteSpace($st)) {
+    if (-not $versByFactor.ContainsKey($v.factor_id)) { $versByFactor[$v.factor_id] = 0 }
+    $versByFactor[$v.factor_id]++
+  }
+  $vbasis = @(); if (-not [string]::IsNullOrWhiteSpace($v.basis)) { $vbasis = @($v.basis -split '\s*;\s*' | Where-Object { $_ }) }
+  foreach ($bid in $vbasis) { if (-not $factorIds.ContainsKey($bid)) { $verDangling += "$($v.factor_id)/$($v.pole) → $bid" } }
+  if ($st -eq "dropped" -and $vbasis.Count -eq 0) { $verDropNoBasis += "$($v.factor_id)/$($v.pole)" }
+}
+# a collapsed pole must show its branch work: valence_resolved=yes ⇒ ≥1 non-blank version row for that factor
+foreach ($r in $dispNow) {
+  $resolved = ("$($r.valence_resolved)".Trim().ToLower() -in @("yes","да","true","1"))
+  if ($resolved -and $factorIds.ContainsKey($r.factor_id) -and -not $versByFactor.ContainsKey($r.factor_id)) {
+    $resolvedNoVersion += $r.factor_id
+  }
+}
+
+$techOrder = @("натал","натал-производное","соляр","соляр→натал","профекция","прогрессии","прогрессии→натал","дирекции→натал","транзиты-несущие","транзиты-триггеры")
 $total = $rows.Count
 $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine("# Coverage report — $ChartId")
@@ -279,10 +346,26 @@ $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine("> Structural net = completeness + basis integrity + pole⇒basis. NOTE: none of these catch *selective demotion*")
 [void]$sb.AppendLine("> (a real factor quietly made тихий to dodge it) — that stays the model's burden, not the script's.")
 [void]$sb.AppendLine("")
+[void]$sb.AppendLine("## Acceptance checks (gate 3 — version log: no silent branch-collapse)")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("| Check | Count | Verdict |")
+[void]$sb.AppendLine("|---|---|---|")
+[void]$sb.AppendLine("| Resolved pole without a logged version (silent collapse) | $($resolvedNoVersion.Count) | $(if($resolvedNoVersion.Count){'❌ LOG'}else{'✅'}) |")
+[void]$sb.AppendLine("| Dropped version without basis | $($verDropNoBasis.Count) | $(if($verDropNoBasis.Count){'❌ JUSTIFY'}else{'✅'}) |")
+[void]$sb.AppendLine("| Version basis cites a factor not in data | $($verDangling.Count) | $(if($verDangling.Count){'❌ FIX'}else{'✅'}) |")
+[void]$sb.AppendLine("| Version rows whose factor vanished | $($verOrphans.Count) | $(if($verOrphans.Count){'⚠ review'}else{'✅'}) |")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("> Catches the visible part: a resolved pole must show logged branch work, a dropped branch must cite a basis.")
+[void]$sb.AppendLine("> It still cannot catch a pole that NEVER surfaced — read the fan from the operator tables, not from fluency.")
+[void]$sb.AppendLine("")
 if ($holes.Count)       { [void]$sb.AppendLine("**Holes:** $([string]::Join(', ', $holes))"); [void]$sb.AppendLine("") }
 if ($orphans.Count)     { [void]$sb.AppendLine("**Orphans:** $([string]::Join(', ', $orphans))"); [void]$sb.AppendLine("") }
 if ($dangling.Count)    { [void]$sb.AppendLine("**Dangling basis:** $([string]::Join('; ', $dangling))"); [void]$sb.AppendLine("") }
 if ($unsupported.Count) { [void]$sb.AppendLine("**Pole resolved, basis empty:** $([string]::Join(', ', $unsupported))"); [void]$sb.AppendLine("") }
+if ($resolvedNoVersion.Count) { [void]$sb.AppendLine("**Resolved without version log:** $([string]::Join(', ', $resolvedNoVersion))"); [void]$sb.AppendLine("") }
+if ($verDropNoBasis.Count)    { [void]$sb.AppendLine("**Dropped without basis:** $([string]::Join(', ', $verDropNoBasis))"); [void]$sb.AppendLine("") }
+if ($verDangling.Count)       { [void]$sb.AppendLine("**Version dangling basis:** $([string]::Join('; ', $verDangling))"); [void]$sb.AppendLine("") }
+if ($verOrphans.Count)        { [void]$sb.AppendLine("**Version orphans:** $([string]::Join(', ', $verOrphans))"); [void]$sb.AppendLine("") }
 
 # Tally by salience
 $salTally = @{}; foreach ($r in $dispNow) { if ($factorIds.ContainsKey($r.factor_id)) { $k = if([string]::IsNullOrWhiteSpace($r.salience)){"(пусто)"}else{$r.salience}; $salTally[$k] = 1 + [int]$salTally[$k] } }
@@ -315,10 +398,16 @@ foreach ($tech in $techOrder) {
 [void]$sb.AppendLine("ORPHANS=$($orphans.Count)")
 [void]$sb.AppendLine("DANGLING_BASIS=$($dangling.Count)")
 [void]$sb.AppendLine("UNSUPPORTED_POLE=$($unsupported.Count)")
+[void]$sb.AppendLine("RESOLVED_NO_VERSION=$($resolvedNoVersion.Count)")
+[void]$sb.AppendLine("VERSION_DROP_NO_BASIS=$($verDropNoBasis.Count)")
+[void]$sb.AppendLine("VERSION_DANGLING_BASIS=$($verDangling.Count)")
+[void]$sb.AppendLine("VERSION_ORPHANS=$($verOrphans.Count)")
 
 Set-Content -Path $ReportPath -Value $sb.ToString() -Encoding UTF8
 
 Write-Host "factors      → $FactorsPath  ($total factors)"
 Write-Host "dispositions → $DispositionsPath  (+$($newRows.Count) new keys appended)"
+Write-Host "versions     → $VersionsPath"
 Write-Host "report       → $ReportPath"
 Write-Host "HOLES=$($holes.Count)  ORPHANS=$($orphans.Count)  DANGLING_BASIS=$($dangling.Count)  UNSUPPORTED_POLE=$($unsupported.Count)"
+Write-Host "RESOLVED_NO_VERSION=$($resolvedNoVersion.Count)  VERSION_DROP_NO_BASIS=$($verDropNoBasis.Count)  VERSION_DANGLING_BASIS=$($verDangling.Count)  VERSION_ORPHANS=$($verOrphans.Count)"

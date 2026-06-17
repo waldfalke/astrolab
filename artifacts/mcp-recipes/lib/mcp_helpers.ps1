@@ -5,6 +5,42 @@ $script:SwissRetryTelemetry = [ordered]@{
   by_tool = @{}
 }
 
+# ============================================================================================
+# ZAKHARIAN dignity table (single source) — verified 2026-06-17 vs docs/sources/zakharian-dignities-table1.*
+# The phase model has its OWN dignities (outers exalt/fall, ☿↑Aquarius/↓Leo, ♇↑Leo, ♆↑Scorpio, ♅↑Virgo);
+# it DIFFERS from generic engine dignities. For phase-consistent reading, dignity comes from HERE.
+# Domicile/detriment are geometric (sign ruler / opposite-sign ruler); exalt/fall are tabular (anti-#11).
+# Structure is closed: each of 10 bodies exalts exactly once, falls in the opposite sign (Gemini/Sagittarius empty).
+$script:ZSignRuler = @("mars","venus","mercury","moon","sun","mercury","venus","pluto","jupiter","saturn","uranus","neptune")
+$script:ZExalt     = @("sun","moon","","jupiter","pluto","uranus","saturn","neptune","","mars","mercury","venus")
+$script:ZFall      = @("saturn","neptune","","mars","mercury","venus","sun","moon","","jupiter","pluto","uranus")
+$script:ZSignNamesEn = @("aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces")
+$script:ZSignNamesRu = @("овен","телец","близнецы","рак","лев","дева","весы","скорпион","стрелец","козерог","водолей","рыбы")
+
+function Resolve-SignIndex {
+  # Accept a sign as 1..12, an English name, or a Russian name → return 1..12 (or 0 if unknown).
+  param([string]$Sign)
+  $s = ("$Sign").Trim().ToLower()
+  if ($s -match '^\d+$') { $n = [int]$s; if ($n -ge 1 -and $n -le 12) { return $n } }
+  $i = [array]::IndexOf($script:ZSignNamesEn, $s); if ($i -ge 0) { return $i + 1 }
+  $i = [array]::IndexOf($script:ZSignNamesRu, $s); if ($i -ge 0) { return $i + 1 }
+  return 0
+}
+
+function Get-ZakharianDignity {
+  # Dignity of $Body in a sign (1..12 index, or name via Resolve-SignIndex). Returns Russian dignity word.
+  param([string]$Body, $Sign)
+  $idx = if ($Sign -is [int]) { [int]$Sign } else { Resolve-SignIndex -Sign ([string]$Sign) }
+  if ($idx -lt 1 -or $idx -gt 12) { return "" }
+  $b = ("$Body").ToLower()
+  $oppIdx = (($idx + 5) % 12) + 1
+  if ($script:ZSignRuler[$idx-1]    -eq $b) { return "домицил" }
+  if ($script:ZSignRuler[$oppIdx-1] -eq $b) { return "изгнание" }
+  if ($script:ZExalt[$idx-1]        -eq $b) { return "экзальтация" }
+  if ($script:ZFall[$idx-1]         -eq $b) { return "падение" }
+  return "перегрин"
+}
+
 function Invoke-McpToolJson {
   param(
     [Parameter(Mandatory = $true)][ValidateSet("http", "stdio")][string]$Mode,

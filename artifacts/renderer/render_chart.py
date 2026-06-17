@@ -544,7 +544,7 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path,
                 lines.append(
                     f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="{col}" stroke-width="{w}" opacity="{op}" stroke-dasharray="5 5"/>'
                 )
-        # transit planet glyphs on the outer ring (amber), with inward nudge for clusters
+        # transit planet glyphs on the outer ring (cool slate, not amber), with inward nudge for clusters
         placed = []
         for row in sorted(trows, key=lambda r: r["lon"]):
             rr = transit_r
@@ -558,16 +558,16 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path,
             placed.append((row["lon"], rr))
             gx, gy = lon_to_xy(c, rr, row["lon"], asc_lon=asc_lon)
             glyph = PLANET_GLYPHS.get(row["body"], row["body"][:2].title())
-            lines.append(f'<circle cx="{gx:.2f}" cy="{gy:.2f}" r="14" fill="#fff7ed" stroke="#b45309" stroke-width="1.6"/>')
-            lines.append(f'<text class="mid" x="{gx:.2f}" y="{gy:.2f}" text-anchor="middle" dominant-baseline="middle" fill="#b45309" font-size="18">{glyph}</text>')
+            lines.append(f'<circle cx="{gx:.2f}" cy="{gy:.2f}" r="14" fill="#eef1f8" stroke="#3d5a8a" stroke-width="1.6"/>')
+            lines.append(f'<text class="mid" x="{gx:.2f}" y="{gy:.2f}" text-anchor="middle" dominant-baseline="middle" fill="#3d5a8a" font-size="18">{glyph}</text>')
             if row["retro"]:
-                lines.append(f'<text class="small" x="{gx + 13:.2f}" y="{gy - 10:.2f}" fill="#b45309" font-size="11">R</text>')
+                lines.append(f'<text class="small" x="{gx + 13:.2f}" y="{gy - 10:.2f}" fill="#3d5a8a" font-size="11">R</text>')
 
     # Draw all badges last so lines never cut through badge text blocks.
     lines.extend(badge_layer)
     if outer_planets:
         lbl = html.escape(f"внешнее кольцо — транзит {outer_label}".strip())
-        lines.append(f'<text class="small bold" x="40" y="44" fill="#b45309">{lbl}</text>')
+        lines.append(f'<text class="small bold" x="40" y="44" fill="#3d5a8a">{lbl}</text>')
     else:
         lines.append('<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>')
     lines.append('</svg>')

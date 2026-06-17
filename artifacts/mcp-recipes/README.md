@@ -59,6 +59,31 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: stdio MCP probe report for Obsidian MCP server (tool list + health).
 22. `run_obsidian_mcp_e2e.ps1`
    - Produces: end-to-end Obsidian MCP check (`list -> create -> read -> edit -> read`) with PASS/FAIL summary.
+23. `run_solar_revolution.ps1`
+   - Produces: solar return for `ReturnYear`, cast at the TRUE Sun-return instant (bisection, not naive birthday cast), with relocation (`ReturnLatitude/ReturnLongitude`), SR→natal aspects, SR dignities, and annual profection.
+24. `run_phase_vectors.ps1`
+   - Produces: Zakharian phase vector `P⟨Z.z:H.h:D⟩` for all 10 bodies, built FROM the operator (book Table 2.2 embedded as a self-test, throws on mismatch). Tiers: Z,H grounded · z,h,D anumita. Working layer only (copyright).
+25. `build_coverage_ledger.ps1`
+   - Produces: keyed-contract coverage ledger (factors / dispositions / versions / report) over the chart project + SR + transit timeline. Transits split into `транзиты-несущие` (slow) and `транзиты-триггеры` (fast, auto-quiet). Runs gate-2/gate-3 structural checks.
+
+## Full chart rebuild (orchestration)
+
+Rebuild a chart-as-project from scratch, in order. Engine = self-hosted swiss (`swiss-mcp` Docker on
+`:8000`); a Node-25 libuv teardown crash (exit 9) is non-fatal — trust the written files, not the exit code.
+
+1. `run_natal_with_failover.ps1` — natal longitudes / aspects (failover swiss→ephem).
+2. `run_house_layer_placidus.ps1` — Placidus cusps, chart points, sect, dignities, declinations.
+3. `run_secondary_progressions.ps1` · `run_solar_arc.ps1` — `-TargetDateUtc` = the forecast year's anchor.
+4. `run_solar_revolution.ps1` — `-ReturnYear` + relocation coords; true-instant + profection.
+5. `run_transits_to_natal.ps1` (range-scan) — **ALL bodies** for the forecast year (`-RangeStart/-RangeEnd -StepDays 4 -Orb 1`). Emits the full timeline + `03_carrier_windows.csv`. Do NOT pre-filter to slow movers: the ledger needs every pass for the two-layer walk and chain analysis (see semantic-base «Полнота обхода»).
+6. `build_chart_project.ps1` — assemble methods/ + outputs/ + INDEX from the run-dirs.
+7. `run_renderer.ps1` — wheel; then re-run `build_chart_project.ps1` with `-RendererRunDir` to fold the wheel into outputs.
+8. `run_phase_vectors.ps1` — phase layer (join copy → outputs/, run-dir in results/).
+9. `build_coverage_ledger.ps1` — coverage ledger with `-SolarReturnRunDir` + `-TransitTimelineCsv` (full timeline). Transits auto-split slow/fast; fast auto-quiet.
+10. `validate_chart_project.ps1` · `check_chart_provenance.ps1` — both must PASS before reading.
+
+Then interpretation (not orchestrated here): walk → dispositions + version log → reading → report.
+Personal charts live ONLY in `.private/charts/<id>/` (gitignored); never commit a filled chart.
 
 ## Quick Run Examples
 

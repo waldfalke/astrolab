@@ -4,7 +4,7 @@ description: Interpretation discipline for chart reading — semantic compositio
 license: Apache-2.0
 metadata:
   author: CATMEastrolab Team
-  version: 0.3.0
+  version: 0.5.0
   canonical: docs/semantic-base.md
 ---
 
@@ -100,6 +100,14 @@ the prose selective, the gap explicit. Factor set is **bounded** (cardinality of
 product — else anti-pattern #4): objects + states (sign · house · dignity · sect · retro · decl/OOB),
 aspects (**from the list, not memory**), configurations, derived (chart ruler · sect light ·
 dispositor sinks · balances), and **per technique the same walk again** + cross-links to natal.
+- **Balloon (#4) = a sin of PROSE, not registry size.** Dropping real factors from the *walk* to stay
+  short breaks completeness (silent cherry-pick); the guard governs the *text*, not the опись. Test:
+  does the factor flood prose, or just sit in the registry for analysis? Latter → keep it тихий.
+- **Continuous layers = two sub-layers, not a filter.** Hundreds of real transit passes/year: split by
+  speed (slow carriers = themes, judged; fast triggers = daters, **auto-quiet**, promoted to несущий
+  only by corroboration — charged point / chain link). Keeps chains + atypical couplings walkable; prose
+  stays clean. Never pre-pick "only fast ones on a charged point" — atypical surfaces from the walk.
+  Continuous-layer completeness is **scope-relative** (orb·bodies·range) — declare scope in the summary.
 
 - **Salience is dynamic — set by corroboration**, not by a factor in isolation. Disposition is **not
   write-once**: each new instrument may raise / lower / re-open it. One **shared living ledger** over
@@ -121,12 +129,50 @@ dispositor sinks · balances), and **per technique the same walk again** + cross
   selective demotion stays the model's burden) · **pole⇒basis** (`valence_resolved` ⇒ `basis` non-empty).
   Quiet & excluded kept **visible**; a blank disposition = a silent hole, fix before ship.
 
-## Acceptance check (two independent gates)
+## Version log (visible branch-discarding)
+Coverage audits *factors*; the fan-collapse to a pole happens **inside** a factor and is silently
+fluency-driven (the convenient pole surfaces, the real alternatives often don't) — #2/#14 at the **branch**
+level, which the ledger's structural checks can't see. So a collapsed fan **logs each genuinely-afforded
+pole**: `taken` · `parked` (left **live**, legitimate) · `dropped` (**basis required**). Read the fan
+**from the operator tables, not fluency** (ties to gate 1). Artifact: **`coverage_versions.csv`** — 4th
+keyed-contract file, **model-owned, append-only** (script only seeds the header). Gate-3 checks:
+`valence_resolved=yes` ⇒ a version is logged · `dropped` ⇒ basis non-empty · version-basis integrity ·
+orphans. Honest ceiling: cannot catch a pole that **never surfaced** — paired with the reproducibility gate.
+
+## Sphere × lens reading (year forecast)
+The year reading composes on **two axes**: *spheres* (life-domains = houses folded into recognizable
+areas) × *lenses* (instruments). Synthesize down each sphere column; **the solar return is the assembly
+frame** (no new plumbing — the year layer already leads with the SR).
+- **Lens roles:** natal = baseline (what the area *is*) · profection = year's spotlight (profected house
+  **+ its lord's placement** → links 2–3 spheres = the year's rhymes) · solar return = charge
+  distribution across spheres + nodes (SR→natal hard aspects) · progressions = slow sign-change shift ·
+  solar-arc = point perfection (dated node) · transit windows = timing (*when* the node fires).
+- **Sparse, weighted matrix** — a lens speaks to a sphere only where it lights it; filling all cells =
+  Barnum (domain-projection of #4/#14).
+- **Per-sphere checklist (domain-axis completeness):** baseline → year-charge → slow-shift →
+  **tension-node** → **what's-on-offer**. Second cut of the same mass: the ledger cuts by *factor*, this
+  by *area*; the domain cut is the **model's burden** (no tooling).
+- **Sphere membership = disposition, not a machine factor** (many-to-many, interpretive) — model-side,
+  never a `coverage_factors.csv` tag.
+- **Axis separation (no double-coverage):** windows own time+astrology (when, transit, dates); spheres
+  own the domain (area · node · on-offer) — **no dates, no planet names** in sphere prose. Test: strip
+  planet names — if it still works, it's a real sphere sentence.
+- **Delivery bar = named pressure + open outcome** (concrete node, probabilistic, never foreclosing).
+  Not vague "domain-meaning", not event-prediction.
+- **Count = checklist, not quota:** keep the 7 backstage for completeness; **present by the chart** —
+  lead with lit, **merge rhyming spheres into themes**, quiet ones a line. Themes presented follow the
+  chart (3–5), not the grid.
+- Full process: `semantic-base.md` § "Чтение по сферам".
+
+## Acceptance check (three independent gates)
 1. **Reproducible:** the reading can be **re-derived from the doc alone** (operators + tables in
    `semantic-base.md`). Where it can't, a gap was silently filled from memory — fix the operator/table.
 2. **Complete:** the coverage ledger is **closed** — every factor has a non-blank disposition, quiet
    marked quiet (not dropped), ranks stabilized. A blank = silent skip; fix before ship.
-   Gate 1 catches "filled from memory"; gate 2 catches "skipped / cherry-picked".
+3. **Versions visible:** a collapsed pole shows its branch work in the version log
+   (`taken`/`parked`/`dropped`+basis); no silent collapse. (See Version log.)
+   Gate 1 catches "filled from memory"; gate 2 catches "skipped / cherry-picked a **factor**"; gate 3
+   catches "silently collapsed a **branch** inside a factor".
 
 ## Pointers (canonical sources — read these, don't restate them)
 - `docs/semantic-base.md` — **full** roles / operators / non-commutativity / value tables / anti-patterns / ritual / acceptance check.
