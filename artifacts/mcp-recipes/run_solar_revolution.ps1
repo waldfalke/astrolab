@@ -150,6 +150,9 @@ $returnHouses = @(Get-SwissHouseRows -SwissChart $returnChart)
 Write-InvariantCsv -Rows @($returnHouses | Sort-Object house) -Path (Join-Path $runDir "03_return_houses.csv")
 
 $returnPoints = @(Get-SwissChartPointRows -SwissChart $returnChart)
+# SR nodal axis — BOTH ends as positions (they fall in opposite SR houses: where the year pulls
+# toward vs releases). These are positions, not aspects, so listing both is not duplication.
+$returnPoints += @(Get-SwissNodePoints -SwissData $returnChart)
 Write-InvariantCsv -Rows @($returnPoints) -Path (Join-Path $runDir "04_return_chart_points.csv")
 
 # Natal planets (reference) + return->natal aspects
