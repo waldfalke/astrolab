@@ -212,6 +212,11 @@ if (-not [string]::IsNullOrWhiteSpace($SolarReturnRunDir) -and (Test-Path $Solar
   foreach ($pt in $srPts) { if ($pt.point -in @("Ascendant","Midheaven")) { Add-Row "соляр" @("sr","angle",$pt.point) "угол соляра: $($pt.point)" "$($pt.sign) $([math]::Round([double]($pt.degree -replace ',','.'),1))" "" } }
   foreach ($a in $srA) { $ex= if($a.is_exact -eq "TRUE"){" ТОЧНО"}else{""}; Add-Row "соляр→натал" @("sr2n","$($a.from_object)-$($a.to_object)",$a.aspect) "$($a.from_object) $($a.aspect) $($a.to_object)" "орб $([math]::Round([double]($a.orb -replace ',','.'),2))°$ex" "" }
   foreach ($pr in $srProf) { Add-Row "профекция" @("profection","lord-of-year") "хозяин года" "возраст $($pr.age_years) · дом $($pr.profected_house) · $($pr.profected_sign) · lord=$($pr.lord_of_year)" "несущий?" }
+  # SR declination layer (parallels/contraparallels + OOB) — first-class, same as natal, so it isn't lost.
+  $srDeclPath = Join-Path $SolarReturnRunDir "07_return_declinations.csv"
+  if (Test-Path $srDeclPath) { foreach ($d in (Import-CsvSafe $srDeclPath)) { if ($d.out_of_bounds -eq "TRUE") { Add-Row "соляр" @("sr","oob",$d.body) "OOB соляра: $($d.body)" "δ=$($d.declination_deg)" "флаг: вне границ" } } }
+  $srDeclAspPath = Join-Path $SolarReturnRunDir "08_declination_aspects.csv"
+  if (Test-Path $srDeclAspPath) { foreach ($a in (Import-CsvSafe $srDeclAspPath)) { Add-Row "соляр-склонение" @("sr","declasp","$($a.from_object)-$($a.to_object)",$a.type) "склон.аспект соляра: $($a.from_object) $($a.type) $($a.to_object)" "орб $($a.orb)°" "" } }
 }
 
 # ---------- PROGRESSIONS ----------
