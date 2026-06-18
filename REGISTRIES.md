@@ -7,7 +7,7 @@
 |---|---|---|
 | **Источники** (Захарян и смежное) | `docs/sources/REGISTRY.md` | материалы метода: где лежат, тир доверия, что извлечено/заражено/не открыто |
 | **Скрипты / рецепты** | `artifacts/mcp-recipes/README.md` | каталог 25 рецептов + оркестрация полной пересборки карты |
-| **Внешние возможности** (MCP-провайдеры, движок) | `docs/EXTERNAL_CAPABILITIES_MAP.md` ⚠️ устарел | провайдеры, транспорт, домификация — **нужен рефреш** (swissremote → self-hosted Docker :8000) |
+| **Внешние возможности** (MCP-провайдеры, движок) | `docs/EXTERNAL_CAPABILITIES_MAP.md` (URL-рефреш 2026-06-18) | провайдеры, транспорт, домификация — URLs/роли актуальны (swiss → Docker :8000); **метрики health/tool-count ждут пробы** |
 | **Методология / инструменты** | `docs/methodology-roadmap.md` + skill `reading-discipline` | что построено, что в очереди, уровни, горизонт |
 | **Канон смыслов чтения** | `docs/semantic-base.md` | операторы, антипаттерны, полнота обхода, фазовый слой, лог версий |
 | **Стандарт отчёта** | `docs/report-standards.md` + `prose-style-ru.md` | структура клиентского отчёта + русскость текста |
@@ -16,8 +16,9 @@
 
 ## Известные долги реестров (на ревью)
 
-- `EXTERNAL_CAPABILITIES_MAP.md` — **протух** (март): называет мёртвый theme-astral.me «здоровым основным».
-  Движок переехал в локальный Docker `swiss-mcp` :8000. Рефрешнуть.
+- `EXTERNAL_CAPABILITIES_MAP.md` — **URLs/роли поправлены 2026-06-18** (swiss = Docker `swiss-mcp` :8000,
+  совпадает с `.mcp.json`). Остаётся долг: **health/tool-count — мартовский снимок**; прогнать
+  `run_mcp_provider_probe.ps1` для свежих метрик.
 - **Агентные файлы давно не ревьюились** — отдельный проход: сверить каждый AGENTS с текущей реальностью
   (self-hosted swiss, новые рецепты `run_solar_revolution`/`run_phase_vectors`/`build_coverage_ledger`,
   методология-слой). См. `AGENTS_INDEX.md`.

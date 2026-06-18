@@ -94,7 +94,7 @@ def run_snapshot(recipe, case_id, lat, lon, dt_utc, results_root):
     subprocess.run(
         ["pwsh", "-NoProfile", "-File", str(recipe),
          "-CaseId", case_id, "-Latitude", str(lat), "-Longitude", str(lon),
-         "-DateTimeUtc", dt_utc],
+         "-DateTimeUtc", dt_utc, "-OutputBase", str(results_root)],
         capture_output=True, text=True, check=True)
     g = sorted(glob.glob(str(results_root / f"natal_{case_id}_*")))
     if not g:
@@ -118,11 +118,14 @@ def main():
     ap.add_argument("--renderer", default=str(Path(__file__).resolve().parent / "render_chart.py"))
     ap.add_argument("--results-root",
                     default=str(Path(__file__).resolve().parents[1] / "results"))
+    ap.add_argument("--gap-days", type=int, default=35,
+                    help="Peak-date gap (days) above which a new window starts; lower = finer split "
+                         "for dense slow-mover cadences (default 35)")
     args = ap.parse_args()
 
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
     results_root = Path(args.results_root)
-    groups = group_windows(load_carrier(args.carrier_csv))
+    groups = group_windows(load_carrier(args.carrier_csv), gap_days=args.gap_days)
     print(f"{len(groups)} carrier windows found")
 
     for i, g in enumerate(groups, 1):

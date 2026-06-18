@@ -28,6 +28,15 @@ If a step conflicts with ad-hoc reasoning, follow docs first.
 - Do not author new canonical skills under `.codex/skills` or `.qwen/skills`.
 - Private skill `astro-engineering-scanner` is intentionally excluded from canonical tracked set.
 
+### 1a. Architecture (what the harness is)
+
+We are a **recipe-centric provenance harness + contract/canon layer, orchestrated by ONE agent through
+skills** — not an MCP-app, not a fat skill, not a multi-agent workflow. Centre of gravity is the
+deterministic recipe layer; the LLM is the thin top that does the **emergent** chart read (un-scriptable
+— that is the irreducible value, not a liability to script away). Full map + design conclusions:
+`TaskLogs/20260618_harness_architecture.md`. In the graph: NKS realm `astrolab`, contour #67 (харнес)
++ transformation #78 (замыкание в харнес, after #55).
+
 ## 2. Sync Rules
 
 Use `.agents/scripts/sync-skills.ps1`.

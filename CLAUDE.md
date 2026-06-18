@@ -5,7 +5,9 @@ this file only records Claude-specific deltas on top of it. Do not duplicate the
 
 ## Read order (mandatory)
 
-1. `AGENTS.md` → `.agents/AGENTS.md` (canonical machine playbook)
+1. `AGENTS.md` → `.agents/AGENTS.md` (canonical machine playbook; §1a = what the harness IS —
+   recipe-centric provenance harness, LLM as the emergent-read organ; full map in
+   `TaskLogs/20260618_harness_architecture.md`, graph contour NKS `astrolab` #67/#78)
 2. `AGENTS_INDEX.md` (graph of local AGENTS files)
 3. `REGISTRIES.md` (index of all registries — sources, recipes, capabilities, methodology, graph)
 4. `.agents/docs/00-mission.md` … `14-l402-lightning-stack.md` (full read order in `.agents/AGENTS.md`)

@@ -1,19 +1,20 @@
 # External Capabilities Map
 
-> ⚠️ **STALE (as of 2026-06-17) — refresh pending.** This snapshot is from March and no longer matches
-> reality. Key drift: **`swissremote` at `https://www.theme-astral.me/mcp` is DEAD** — the engine moved
-> to a **self-hosted Docker container** `swiss-mcp` on `http://localhost:8000` (start: Docker Desktop →
-> `docker start swiss-mcp`; a Node-25 libuv teardown crash is non-fatal). Treat the provider table below
-> as historical until a fresh `run_mcp_provider_probe.ps1` regenerates it. Tracked in `REGISTRIES.md`.
+> ⚠️ **Partially refreshed 2026-06-18.** Provider URLs/roles below are now corrected to current reality
+> (matches `.mcp.json`): **`swissremote` is the self-hosted Docker container `swiss-mcp` at**
+> **`http://localhost:8000/mcp`** — the old `https://www.theme-astral.me/mcp` is DEAD (start: Docker
+> Desktop → `docker start swiss-mcp`; a Node-25 libuv teardown crash is non-fatal). **Health and
+> tool-counts are still the March snapshot** — run `run_mcp_provider_probe.ps1` to regenerate metrics.
+> Tracked in `REGISTRIES.md`.
 
-Snapshot date: 2026-03-04
-Source snapshot run: `artifacts/results/provider_probe_20260304_110257`
+URL/role refresh: 2026-06-18 · Metrics snapshot date: 2026-03-04
+Source metrics run: `artifacts/results/provider_probe_20260304_110257`
 
 ## 1) External Providers (MCP HTTP)
 
 | Provider | URL | Family | Health (snapshot) | Tool count | Key tools we use | Current role |
 |---|---|---|---|---:|---|---|
-| swissremote | https://www.theme-astral.me/mcp | western | healthy | 4 | `calculate_planetary_positions`, `calculate_transits`, `calculate_solar_revolution`, `calculate_synastry` | Primary provider (houses/placidus-oriented workflows) |
+| swissremote | http://localhost:8000/mcp (self-hosted Docker `swiss-mcp`) | western | (March) healthy | 4 | `calculate_planetary_positions`, `calculate_transits`, `calculate_solar_revolution`, `calculate_synastry` | Primary provider (houses/placidus-oriented workflows) |
 | ephem | https://ephemeris.fyi/mcp | western | healthy | 11 | `get_ephemeris_data`, `calculate_aspects`, `get_moon_phase`, `get_daily_events`, `compare_positions` | Backup + continuity + broad raw tooling |
 | vedastro | https://mcp.vedastro.org/api/mcp | vedic | healthy | 6 | `get_horoscope_predictions`, `get_astrology_raw_data`, `get_ashtakvarga_data` | Probe-only today (not in production recipes) |
 
