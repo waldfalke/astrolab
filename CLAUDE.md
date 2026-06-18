@@ -14,6 +14,18 @@ this file only records Claude-specific deltas on top of it. Do not duplicate the
 5. Nearest local `AGENTS.md` in the directory you are editing (adds local constraints)
 6. `CURRENT_WORK.md` (active WIP; restore via `/load`)
 
+## Building a client report — the sanctioned entry
+
+To produce a solar-return / natal **gift report** for a client, the ONE entry is the orchestrator
+`artifacts/mcp-recipes/run_solar_gift.ps1`. It forces the frame a fresh model won't self-enforce:
+natal is computed BEFORE the solar return (an SR is read **against** the natal, never alone), all
+numbers come ONLY from recipes (never hand-author a chart value), client data lives ONLY under
+`.private/charts/` (never the public `charts/`), and a schema+provenance gate runs before the
+deliverable. The orchestrator emits a work-package `.private/charts/<id>/_model_input/` with a
+`BRIEF.md`; do the emergent step (twin → prose) by **following that BRIEF**, using only the computed
+data. Do NOT improvise a custom pipeline or build the report by hand — that is exactly how the
+deliverable gets fabricated numbers and how client PII leaks into the repo.
+
 ## Claude-specific deltas
 
 ### Skills

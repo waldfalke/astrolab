@@ -13,6 +13,9 @@ read the docs (instructions != enforcement).
 """
 import sys, json, subprocess, re, os
 
+# repo root from this file's own location — so the guard works no matter the caller's cwd
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # public, non-PII fixtures allowed to live in tracked charts/
 ALLOW = {
     "trump_19460614_105400_jamaica_ny",
@@ -52,7 +55,7 @@ def scan_staged():
     repo, else None. Model-agnostic — used by the Claude hook AND the git pre-commit."""
     try:
         staged = subprocess.run(["git", "diff", "--cached", "--name-only"],
-                                capture_output=True, text=True).stdout
+                                capture_output=True, encoding="utf-8", errors="replace", cwd=REPO).stdout
     except Exception:
         return None
     bad = sorted({f"charts/{public_chart_top(f)}" for f in staged.splitlines()
@@ -66,7 +69,7 @@ def scan_staged():
             continue
         try:
             d = subprocess.run(["git", "diff", "--cached", "--", f],
-                               capture_output=True, text=True).stdout
+                               capture_output=True, encoding="utf-8", errors="replace", cwd=REPO).stdout
         except Exception:
             d = ""
         if PII_CONTENT.search(d):
