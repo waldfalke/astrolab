@@ -43,7 +43,10 @@ if ($scanMode) {
   $runDir = New-RunDirectory -BaseDir $OutputBase -Prefix ("transit_timeline_" + $CaseId)
 
   $transitBodyList = if ([string]::IsNullOrWhiteSpace($TransitBodies)) {
-    @("sun", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto")
+    # "north node" = the lunar nodal axis (transiting). ONLY North Node is tracked: SN is exactly
+    # NN+180°, so conj/opp of the single NN carrier captures BOTH ends of BOTH axes — adding SN would
+    # only flood duplicates. Sourced via Get-SwissNodePoints (chart_points), not Get-SwissBodyLongitudes.
+    @("sun", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "north node")
   } else {
     @($TransitBodies.Split(",") | ForEach-Object { $_.Trim().ToLowerInvariant() } | Where-Object { $_ })
   }
@@ -57,6 +60,10 @@ if ($scanMode) {
     if (($null -ne $natalChart.chart_points) -and ($natalChart.chart_points.PSObject.Properties.Name -contains $k)) {
       $natalTargets[$angleMap[$k]] = [double]$natalChart.chart_points.$k.longitude
     }
+  }
+  # Natal nodal axis as a target (North Node only — the axis; SN is its antipode, covered by opp).
+  foreach ($np in (Get-SwissNodePoints -SwissData $natalChart)) {
+    if ($np.point -eq "North Node") { $natalTargets["north node"] = [double]$np.longitude }
   }
 
   $rangeStart = Get-UtcDateTime -DateTimeUtc $RangeStartUtc
@@ -72,6 +79,7 @@ if ($scanMode) {
     $chart = Invoke-SwissPrimaryToolJson -Tool "calculate_planetary_positions" -Args @{ datetime = $iso; latitude = $Latitude; longitude = $Longitude }
     $m = @{}
     foreach ($r in (Get-SwissBodyLongitudes -SwissData $chart)) { $m[[string]$r.body] = [double]$r.longitude }
+    foreach ($np in (Get-SwissNodePoints -SwissData $chart)) { if ($np.point -eq "North Node") { $m["north node"] = [double]$np.longitude } }
     $times += $cursor
     foreach ($b in $transitBodyList) { $series[$b] += , ([double]$(if ($m.ContainsKey($b)) { $m[$b] } else { [double]::NaN })) }
     $cursor = $cursor.AddDays($StepDays)
@@ -149,7 +157,7 @@ if ($scanMode) {
   # CARRIER — its orb-period, with retrograde multi-passes merged into a single open->exact(s)->close
   # span. Fast movers (Sun/Moon/Mercury/Venus/Mars) are point-triggers inside the window, not spans,
   # so they stay in the timeline and are deliberately NOT aggregated here.
-  $slowCarriers = @("jupiter", "saturn", "uranus", "neptune", "pluto")
+  $slowCarriers = @("jupiter", "saturn", "uranus", "neptune", "pluto", "north node")
   $carrierWindows = @()
   function New-CarrierWindowRow($grp, $cur) {
     [pscustomobject]@{
