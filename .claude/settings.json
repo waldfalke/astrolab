@@ -18,5 +18,15 @@
     ],
     "deny": [],
     "ask": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash",
+        "hooks": [
+          { "type": "command", "command": "python .claude/hooks/pii_guard.py" }
+        ]
+      }
+    ]
   }
 }
