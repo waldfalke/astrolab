@@ -47,7 +47,41 @@ def public_chart_top(path):
     return top
 
 
+def scan_staged():
+    """Return a block-reason string if the git index stages client data into the tracked
+    repo, else None. Model-agnostic — used by the Claude hook AND the git pre-commit."""
+    try:
+        staged = subprocess.run(["git", "diff", "--cached", "--name-only"],
+                                capture_output=True, text=True).stdout
+    except Exception:
+        return None
+    bad = sorted({f"charts/{public_chart_top(f)}" for f in staged.splitlines()
+                  if public_chart_top(f)})
+    if bad:
+        return ("staged client chart(s) in tracked charts/: " + ", ".join(bad)
+                + " — move to .private/charts/ before committing.")
+    for f in staged.splitlines():
+        fp = f.replace("\\", "/")
+        if ".private/" in fp or fp.split("/")[-1] in ALLOW:
+            continue
+        try:
+            d = subprocess.run(["git", "diff", "--cached", "--", f],
+                               capture_output=True, text=True).stdout
+        except Exception:
+            d = ""
+        if PII_CONTENT.search(d):
+            return (f"staged file '{f}' contains birth-data (datetime key with a real date) "
+                    f"— looks like client PII; keep it in .private/.")
+    return None
+
+
 def main():
+    # git-native pre-commit mode (no stdin payload): scan the index directly.
+    if "--staged" in sys.argv:
+        reason = scan_staged()
+        if reason:
+            block(reason)
+        sys.exit(0)
     try:
         data = json.load(sys.stdin)
     except Exception:
@@ -69,31 +103,9 @@ def main():
         cmd = ti.get("command", "") or ""
         if not re.search(r"\bgit\s+(commit|add)\b", cmd):
             sys.exit(0)
-        try:
-            staged = subprocess.run(["git", "diff", "--cached", "--name-only"],
-                                    capture_output=True, text=True).stdout
-        except Exception:
-            staged = ""
-        bad = sorted({f"charts/{public_chart_top(f)}" for f in staged.splitlines()
-                      if public_chart_top(f)})
-        if bad:
-            block("staged client chart(s) in tracked charts/: " + ", ".join(bad)
-                  + " — move to .private/charts/ before committing.")
-        # birth-data content in any staged non-fixture, non-private file
-        for f in staged.splitlines():
-            fp = f.replace("\\", "/")
-            if ".private/" in fp or fp.split("/")[-1] in ALLOW:
-                continue
-            if any(fp.endswith(x) or f"/{x}/" in f"/{fp}/" for x in ALLOW):
-                continue
-            try:
-                d = subprocess.run(["git", "diff", "--cached", "--", f],
-                                   capture_output=True, text=True).stdout
-            except Exception:
-                d = ""
-            if PII_CONTENT.search(d):
-                block(f"staged file '{f}' contains birth-data (datetime key with a real date) "
-                      f"— looks like client PII; keep it in .private/.")
+        reason = scan_staged()
+        if reason:
+            block(reason)
         sys.exit(0)
 
     sys.exit(0)

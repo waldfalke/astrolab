@@ -1,0 +1,7 @@
+#!/bin/sh
+# Repo PII guard — git-native, model-agnostic. Blocks client chart data from entering the
+# tracked repo (client charts belong in .private/, never public charts/). Protects ANY runner
+# (Claude / Codex / GLM / human) at commit time, not just Claude Code.
+#
+# Install once per clone:   git config core.hooksPath .githooks
+exec python .claude/hooks/pii_guard.py --staged
