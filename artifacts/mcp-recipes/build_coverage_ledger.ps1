@@ -173,6 +173,10 @@ if ($aspPath) {
     Add-Row "натал" @("natal","asp","$($a.body1)-$($a.body2)",$a.aspect) "аспект: $($a.body1) $($a.aspect) $($a.body2)" "орб $([math]::Round([double]$a.orb,2))°$ex" $star
   }
 }
+# Aspects TO custom points (lunar nodes, etc.) — computed but previously dropped from coverage.
+# The nodal axis is read mostly by what aspects it (luminary/ruler conjunctions) — don't lose them.
+$ptAsp = Import-CsvSafe (Resolve-ChartFile @("custom_point_aspects.csv","06_custom_point_aspects.csv"))
+foreach ($a in $ptAsp) { $ex = if ($a.is_exact -eq "TRUE") { " ТОЧНО" } else { "" }; Add-Row "натал" @("natal","ptasp","$($a.point)-$($a.body)",$a.aspect) "аспект к точке: $($a.point) $($a.aspect) $($a.body)" "орб $([math]::Round([double]($a.orb -replace ',','.'),2))°$ex" "" }
 # Declination aspects
 $declAsp = Import-CsvSafe (Resolve-ChartFile @("natal_declination_aspects.csv","09_natal_declination_aspects.csv"))
 foreach ($a in $declAsp) { Add-Row "натал" @("natal","declasp","$($a.from_object)-$($a.to_object)",$a.type) "склон.аспект: $($a.from_object) $($a.type) $($a.to_object)" "орб $($a.orb)°" "" }
