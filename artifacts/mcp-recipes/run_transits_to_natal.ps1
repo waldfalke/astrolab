@@ -159,42 +159,29 @@ if ($scanMode) {
   # so they stay in the timeline and are deliberately NOT aggregated here.
   $slowCarriers = @("jupiter", "saturn", "uranus", "neptune", "pluto", "north node")
   $carrierWindows = @()
-  function New-CarrierWindowRow($grp, $cur) {
-    [pscustomobject]@{
-      window_open = $cur.open.ToString("yyyy-MM-dd")
-      window_close = $cur.close.ToString("yyyy-MM-dd")
+  foreach ($grp in ($events | Where-Object { $slowCarriers -contains $_.transit_body } | Group-Object transit_body, natal_target, aspect)) {
+    # MERGE BY THEME — all passes of one (transit_body, natal_target, aspect) are ONE theme with N
+    # dates, even across out-of-orb gaps. A retro planet touching a natal point in Nov + Jan + Jul is
+    # ONE theme ("Jupiter trine IC: 3 passes"), not three windows — the cause of window-bloat is
+    # un-merged retro passes, not any one planet (planet-agnostic; HARNESS_PITFALLS #13). The window
+    # spans the full arc (earliest open -> latest close); peaks listed; passes counted. Zone
+    # classification (core/horizon/tail) and overhang presentation sit ON the theme downstream — the
+    # script gives the facts, the reading is the model's (NKS astrolab #84, floor-not-cage).
+    $passes = @($grp.Group)
+    $opens = @($passes | ForEach-Object { Get-UtcDateTime -DateTimeUtc ($_.window_start + "T00:00:00Z") })
+    $closes = @($passes | ForEach-Object { Get-UtcDateTime -DateTimeUtc ($_.window_end + "T00:00:00Z") })
+    $exacts = @($passes | Sort-Object exact_date | ForEach-Object { $_.exact_date })
+    $tight = ($passes | ForEach-Object { [double]$_.min_orb_deg } | Measure-Object -Minimum).Minimum
+    $carrierWindows += [pscustomobject]@{
+      window_open = (($opens | Sort-Object) | Select-Object -First 1).ToString("yyyy-MM-dd")
+      window_close = (($closes | Sort-Object) | Select-Object -Last 1).ToString("yyyy-MM-dd")
       transit_body = $grp.Group[0].transit_body
       aspect = $grp.Group[0].aspect
       natal_target = $grp.Group[0].natal_target
-      passes = $cur.exacts.Count
-      exact_dates = [string]::Join("; ", $cur.exacts)
-      tightest_orb_deg = [math]::Round([double]$cur.tight, 3)
+      passes = $passes.Count
+      exact_dates = [string]::Join("; ", $exacts)
+      tightest_orb_deg = [math]::Round([double]$tight, 3)
     }
-  }
-  foreach ($grp in ($events | Where-Object { $slowCarriers -contains $_.transit_body } | Group-Object transit_body, natal_target, aspect)) {
-    # Merge passes into MAXIMAL CONTIGUOUS in-orb spans: a retrograde wobble (overlapping passes) is one
-    # window, but two passes split by a long out-of-orb gap (e.g. Saturn opp: Jul 2026 vs Mar 2027) are
-    # TWO windows. Contiguous = next open <= current close + one sampling step.
-    $passes = @($grp.Group | Sort-Object { Get-UtcDateTime -DateTimeUtc ($_.window_start + "T00:00:00Z") })
-    $cur = $null
-    foreach ($p in $passes) {
-      $pOpen = Get-UtcDateTime -DateTimeUtc ($p.window_start + "T00:00:00Z")
-      $pClose = Get-UtcDateTime -DateTimeUtc ($p.window_end + "T00:00:00Z")
-      $pOrb = [double]$p.min_orb_deg
-      if ($null -eq $cur) {
-        $cur = @{ open = $pOpen; close = $pClose; exacts = @($p.exact_date); tight = $pOrb }
-      }
-      elseif ($pOpen -le $cur.close.AddDays($StepDays)) {
-        if ($pClose -gt $cur.close) { $cur.close = $pClose }
-        $cur.exacts += $p.exact_date
-        if ($pOrb -lt $cur.tight) { $cur.tight = $pOrb }
-      }
-      else {
-        $carrierWindows += (New-CarrierWindowRow $grp $cur)
-        $cur = @{ open = $pOpen; close = $pClose; exacts = @($p.exact_date); tight = $pOrb }
-      }
-    }
-    if ($null -ne $cur) { $carrierWindows += (New-CarrierWindowRow $grp $cur) }
   }
   $carrierWindows = @($carrierWindows | Sort-Object window_open, transit_body, natal_target)
   $cwCols = @("window_open", "window_close", "transit_body", "aspect", "natal_target", "passes", "exact_dates", "tightest_orb_deg")
