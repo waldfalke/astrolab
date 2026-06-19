@@ -5,6 +5,10 @@ param(
   [Parameter(Mandatory = $true)][double]$Latitude,
   [Parameter(Mandatory = $true)][double]$Longitude,
   [int]$ReturnYear = 0,                                   # 0 = current calendar year
+  # Solar-return RELOCATION — where the person MEETS the birthday (current residence), not birthplace.
+  # The SR is cast for this location; angles/houses of the year follow it. Omit = birth location.
+  [double]$ReturnLatitude = [double]::NaN,
+  [double]$ReturnLongitude = [double]::NaN,
   [string]$DisplayName = "",
   # The emergent step (twin -> prose) goes behind a SWAPPABLE adapter. A script/command that takes
   # the work-package dir as $args[0] and writes twin.md + prose into it. Empty = stop at the hand-off
@@ -105,7 +109,12 @@ $natalRun = LatestRun $runs "natal_failover_$chartId" ; $houseRun = LatestRun $r
 
 # ── 2. SOLAR RETURN (only now, with natal in hand) ────────────────────────────────────────────
 Stage "solar return $ReturnYear"
-Recipe "run_solar_revolution.ps1" @("-CaseId",$chartId,"-BirthLatitude",$Latitude,"-BirthLongitude",$Longitude,"-BirthDateTimeUtc",$utc,"-ReturnYear",$ReturnYear,"-OutputBase",$runs)
+$srArgs = @("-CaseId",$chartId,"-BirthLatitude",$Latitude,"-BirthLongitude",$Longitude,"-BirthDateTimeUtc",$utc,"-ReturnYear",$ReturnYear,"-OutputBase",$runs)
+if (-not ([double]::IsNaN($ReturnLatitude) -or [double]::IsNaN($ReturnLongitude))) {
+  $srArgs += @("-ReturnLatitude",$ReturnLatitude,"-ReturnLongitude",$ReturnLongitude)
+  Write-Host ("  SR relocated to {0},{1} (residence ≠ birthplace)" -f $ReturnLatitude,$ReturnLongitude)
+}
+Recipe "run_solar_revolution.ps1" $srArgs
 $srRun = LatestRun $runs "solar_return_$chartId"
 
 # ── 3. TRANSITS over the solar year ───────────────────────────────────────────────────────────
