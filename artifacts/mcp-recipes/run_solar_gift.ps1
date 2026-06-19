@@ -10,6 +10,13 @@ param(
   [double]$ReturnLatitude = [double]::NaN,
   [double]$ReturnLongitude = [double]::NaN,
   [string]$DisplayName = "",
+  # Gender of the client — structural reading parameter, not biography.
+  # Flips the partner significator across the entire relational/derivative stratum:
+  #   female → husband/male partner = Sun + Mars (on DSC/7th); own drive = Moon + Venus
+  #   male   → wife/female partner  = Moon + Venus (on DSC/7th); own drive = Sun + Mars
+  # Without this, derived-house chains anchored on a gendered significator are under-determined.
+  # Values: "female" | "male" | "" (unknown — model must flag relational stratum as partial)
+  [string]$Gender = "",
   # The emergent step (twin -> prose) goes behind a SWAPPABLE adapter. A script/command that takes
   # the work-package dir as $args[0] and writes twin.md + prose into it. Empty = stop at the hand-off
   # (model undecided: Claude / Codex / GLM are just three adapters behind this one boundary).
@@ -228,6 +235,29 @@ $brief = @"
 - Соляр читается ОТНОСИТЕЛЬНО натала, не сам по себе: натал — фундамент, соляр кладётся поверх.
 - Все данные клиента остаются в этой `.private`-папке.
 
+## Пол — структурный параметр реляционного слоя (не биография)
+Пол клиента — в `manifest.json` (поле `gender`). Это не инсайд и не биография: он не добавляет
+событий к карте, но определяет РОЛЬ объектов в реляционном и производном пласте.
+
+**Флип значка партнёра:**
+- Женщина: муж/мужской партнёр читается через **Солнце + Марс** (на DSC, в 7-м, аспекты к ним);
+  Луна и Венера — её собственный эмоциональный и эстетический инструмент.
+- Мужчина: жена/женский партнёр читается через **Луну + Венеру** (на DSC, в 7-м, аспекты к ним);
+  Солнце и Марс — его собственная воля и двигатель.
+
+**Что флипается вместе с значком:**
+- Любая планета/точка на DSC или в 7-м — одна геометрия, разная роль («Венера в 7-м» у мужчины =
+  его партнёрша-объект; у женщины = её собственный стиль в отношениях, муж читается в другом месте).
+- Производные дома, привязанные к значку партнёра: 2-й от 7-го (ресурс супруга), 10-й от 7-го (его
+  дело/статус) — весь оборот наследует флип. Если цепочка не завязана на гендерный значок (2-й от 3-го
+  = ресурс брата) — пол не влияет.
+- Биологические домены: 5-й дом (вынашивание/роды vs отцовство), 1-й/6-й (телесные темы) —
+  проявляются по-разному.
+
+**Если пол не передан (`gender = ""`:** прямо зафикси в `twin.md`: «реляционный/производный пласт
+систематически недоопределён — значок партнёра неизвестен». Не читай бесполо и молча: это не
+дисциплина, а потеря целого слоя чтения.
+
 ## Как обычно читают (ориентир, не чек-лист — порядок и глубину выбираешь сам)
 Натал как целое (секта, темперамент, управитель, диспозиторы/рецепции — двигатель, угловые и
 аспектированные тела, достоинства) → соляр против натала (SR-ASC и его управитель, SR-планеты на
@@ -387,6 +417,7 @@ foreach ($mf in @("phase_vectors.csv","zakharian_dignities.csv")) {
 # manifest of where everything is
 @{
   chart_id = $chartId; chart_dir = $chartDir; utc = $utc; return_year = $ReturnYear
+  gender = $Gender
   outputs = (Join-Path $chartDir "outputs"); natal_run = $natalRun; sr_run = $srRun
   transit_carrier = $carrier; renders = $renders; coverage = $packsFactors
   pending = @("twin.md","prose.md (the [[SECTION]] contract)","coverage_dispositions.csv","year_roles.csv")
