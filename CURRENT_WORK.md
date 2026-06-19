@@ -1,7 +1,9 @@
 # CURRENT_WORK - CATMEastrolab
 
-**Last Updated:** 2026-06-19
-**Active focus:** Solar-gift harness quality — rules loosened, data gaps filled, new client run in progress.
+**Last Updated:** 2026-06-20
+**Active focus:** Solar-gift harness quality + reading-method architecture. This chat (Opus) ran control
+reads (Mitya, owner transit-day), fixed real harness bugs, and laid the conceptual spine of the reading
+machine into NKS (#85–#91). Two new products scoped (transit-day reading, rising-sign clock).
 
 ## Harness Improvement (2026-06-19)
 
@@ -22,6 +24,27 @@
 | 🟢 | BRIEF slim (A9) | Still ~long; some deduplication with report-standards/prose-style. Deferred. |
 | 🟢 | A2 basis contract | BRIEF vs validator self-contradiction on basis column. Deferred. |
 | 🟢 | B6 visual proof (PDF screenshot) | Auto-screenshot page 1 still TODO. Deferred. |
+
+## Reading-method architecture (2026-06-20, this chat — Opus)
+
+NKS realm `astrolab` grundsatz/method spine laid down. These are the conceptual centre of the harness:
+
+| Node | What |
+|---|---|
+| #85 | **Грань детерминизации** — determinize a factor's PROPERTY (orb/date/merge/zone), never its ROLE in the whole (carrying/charged/important = model's discrimination). |
+| #86 | **Усиление различения процессом, не алгоритмом** — re-pass, deferred axis (axis crystallizes at the END, not as a premise), falsify-to-stability (one round, criterion = layer-convergence). Snaps A4. |
+| #87 | **Механика vs когниция** — completeness accounting = cheap model + script; semantic re-check = "second doctor" (ensemble #76). Take the dispositions-CSV bookkeeping off the strong model. |
+| #88 | **Углы первоклассны** (ASC-DSC, MC-IC) — transit to a natal angle outweighs planet; don't conflate "approx time → ◐" (reliability) with "secondary" (weight). |
+| #89 | **Производные дома (N-от-M)** — "9 = деньги кризиса". DEFERRED until a selection criterion exists (144 derivatives → Barnum). |
+| #90 | **Транзит «на день»** — a day is a range of events; three time-hands (slow=background, Moon=hourly, rising ASC/MC=minute-timer); window roles invert with scale. → `docs/transit-day-reading.md`. |
+| #91 | **«Часы восходящего знака»** — separate utilitarian product (intraday astro time-mgmt). ~60% core is ours. → `docs/rising-sign-clock-spec.md`. |
+
+Also landed this chat:
+- **Astro-language un-burned** (prose-style §0): planet names are FLESH, not jargon; sphere "no planets/dates" rule REVOKED (semantic-base); sphere size follows eventfulness (no word-count cap).
+- **Range-fix (683808a):** forecast anchored to SR-instant, not "now" → any ReturnYear (2020/2025/2030) reads correctly; transits cover the chosen solar year, directions/progressions to that year's moment.
+- **Pitfalls #11–14:** magic number, anxious tone, overfit-to-one-chart, angles under-read.
+- **CLIENTS.yaml** (`.private`) — owner/Lissa/Mitya/Lena registry (PII, git-ignored).
+- **Mitya control run** (Sonnet on the fixed harness) — strongest twin/prose yet; verified numbers; confirmed the day's fixes hold on a fresh chart. Owner transit-day PDF built (three time-hands + rising-sign clock + angles).
 
 ## Active Client Run
 
@@ -92,3 +115,26 @@ Key open items:
 **Key insight logged:**
 - Insider-info firewall was too blunt: gender is NOT biography — it's a structural method parameter (like coordinates). Blind reading without gender is systematically under-determined in the entire relational/derivative stratum (significators, 7th-house objects, derived chains, biological domains). See memory: insider-info-firewall.md updated.
 - Self-assessment from Opus: Fortune/Lilith invisible to model (not in coverage_factors, engine computed them); PoF in Virgo → Mercury is double-lord (chart ruler + Fortune ruler); this amplification was missed entirely.
+
+---
+
+### 2026-06-20 03:00 [Chat-3: Opus]
+
+**Completed:**
+- Reading-method spine into NKS: #85 determinization line (property vs role-in-whole), #86 strengthen discrimination by process not algorithm (re-pass, deferred axis, falsify-to-stability), #87 mechanics vs cognition (take dispositions bookkeeping off the strong model; second-doctor ensemble), #88 angles first-class, #89 derived houses (deferred), #90 transit-day method, #91 rising-sign-clock product.
+- Astro-language un-burned (prose-style §0); sphere "no planets/dates" rule revoked (semantic-base); sphere size follows eventfulness (removed a 150-250 word cap I'd wrongly introduced).
+- Range-fix (683808a): forecast anchored to SR-instant → any ReturnYear works (past/current/future), not just "the one starting now".
+- A3 merge-by-theme verified card-agnostic on 3 charts (owner/Lissa/Mitya).
+- HARNESS_PITFALLS.md registry (#11-14: magic number, anxious tone, overfit-to-one-chart, angles under-read).
+- CLIENTS.yaml private registry (owner/Lissa/Mitya/Lena).
+- Mitya control run reviewed (Sonnet on fixed harness — strongest output yet, numbers verified).
+- Owner transit-day PDF (.private/charts/ownerday/) — three time-hands + rising-sign clock + angles; method doc docs/transit-day-reading.md; rising-sign-clock spec docs/rising-sign-clock-spec.md.
+
+**In Progress:**
+- Owner transit-day PDF — "Сегодня по областям" section being rewritten from a dry table to prose (what each area means today + the concrete events inside).
+
+**Next:**
+- Build A3-zones (#84 core/horizon/tail on theme + extrapolation); dispositions rework per #87 (offload to cheap model + ensemble); rising-sign-clock product (#91, ~40% new).
+- Lena run still pending owner decision (this chat scoped current SR 2025, Krasnodar, no relocation; the other chat had Seattle+gender — reconcile).
+
+**Blockers:** none. Deep night — stopping after the prose fix.
