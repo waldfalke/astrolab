@@ -352,7 +352,9 @@ if ([string]::IsNullOrWhiteSpace($ModelAdapter)) {
   if ($LASTEXITCODE -ne 0) { throw "model adapter failed (exit $LASTEXITCODE)" }
   # TEETH: the model must have filled the self-check registries — else no deliverable.
   Stage "deliverable gate (dispositions + year-roles filled)"
-  Assert-DeliverableReady $pkg
+  # Gate reads packs/ — the CANONICAL location ledger writes and BRIEF tells the model to fill
+  # (../packs/). Checking _model_input/ was a latent break: a model following BRIEF hit GATE FAILED.
+  Assert-DeliverableReady (Join-Path $chartDir "packs")
   # BACK HALF: deterministic assembly — real wheels + compute techblocks + template fill -> HTML -> PDF.
   Stage "assemble deliverable (wheels + techblocks + PDF)"
   $prosePath = Join-Path $pkg "prose.md"
