@@ -259,7 +259,7 @@ if (-not [string]::IsNullOrWhiteSpace($TransitTimelineCsv) -and (Test-Path $Tran
     $isSlow = $slowTransit -contains ("$($t.transit_body)").ToLower()
     $tech = if ($isSlow) { "транзиты-несущие" } else { "транзиты-триггеры" }
     $auto = if ($isSlow) { "" } else { "тихий (триггер — поднять по корроборации)" }
-    Add-Row $tech @("transit","$($t.transit_body)-$($t.natal_target)",$t.aspect) "$($t.transit_body) $($t.aspect) натал $($t.natal_target)" "точно $($t.exact_date) · орб $($t.min_orb_deg)° · окно $($t.window_start)…$($t.window_end)" $auto
+    Add-Row $tech @("transit","$($t.transit_body)-$($t.natal_target)",$t.aspect) "$($t.transit_body) $($t.aspect) натал $($t.natal_target)" "точно $($t.exact_dates) · орб $($t.tightest_orb_deg)° · окно $($t.window_open)…$($t.window_close)" $auto
   }
 }
 
