@@ -24,7 +24,11 @@ findings so they aren't lost; triage + fixes follow across sessions.
 - **B1 — Method layer (the signature) didn't reach prose.** Zakharian stages per body (●, book-verified)
   + the 12 monthly phase-segments — both in twin, neither in the report. PHASE_NOTE is a vague "год
   дышит по стадиям" that doesn't match its own heading. **This is what distinguishes us from a horoscope
-  generator — it cannot be the "if I have time" item.** → tooth: lint "are carrying phases/stages in prose?"
+  generator — it cannot be the "if I have time" item.** → ROOT CAUSE (good-text model): the phase files
+  weren't even in the package — `12_monthly_phase_windows.csv` buried in the SR run-dir, model had to
+  guess the path. FIXED: orchestrator copies phase_vectors + zakharian_dignities + 12_monthly_phase_windows
+  into the package; BRIEF marks the method layer MANDATORY (stages of key bodies in plain words + bind
+  each window-chapter to its year phase-segment). Tooth (lint "carrying phases in prose?") still TODO.
 - **B2 — Dispositions stamped, not weighed.** 192 rows filled in one pass; 11 SR-declinations + repeat
   transits copy-pasted "— фон" to clear the gate. → make salience COMPUTED (angularity, dignity, orb
   tightness, year-role, and the layer-convergence count: transit+direction+progression into one point →
