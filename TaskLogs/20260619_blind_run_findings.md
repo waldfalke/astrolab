@@ -30,9 +30,13 @@ findings so they aren't lost; triage + fixes follow across sessions.
   into the package; BRIEF marks the method layer MANDATORY (stages of key bodies in plain words + bind
   each window-chapter to its year phase-segment). Tooth (lint "carrying phases in prose?") still TODO.
 - **B2 — Dispositions stamped, not weighed.** 192 rows filled in one pass; 11 SR-declinations + repeat
-  transits copy-pasted "— фон" to clear the gate. → make salience COMPUTED (angularity, dignity, orb
-  tightness, year-role, and the layer-convergence count: transit+direction+progression into one point →
-  carrying). Run to FIXPOINT, not first-fill.
+  transits copy-pasted "— фон" to clear the gate. → BEST fix (good-text model): it's a COGNITIVE-ORDER
+  problem. Knowing 200 rows await, the model reads the chart in enumeration mode → prose comes out as a
+  methodichka. Fix the ORDER: read the chart as a SYSTEM first (portrait→theme→windows→spheres), write
+  prose from understanding, THEN fill dispositions as a RETROACTIVE check ("what did I use, what did I
+  consciously drop, why"). Changes the gate's meaning from "enumerate before prose" to "after the live
+  reading, confirm nothing was lost." FIXED in BRIEF (Порядок работы: twin→prose→dispositions; gate
+  still verifies before assembly). The anti-skid threshold note (tight dir/prog) complements it.
 - **B3 — Versions log (gate 3) empty by design-dodge.** Model chose poles in prose (Mercury "за",
   Sept "risk", Venus "за с оговоркой") but left valence_resolved blank in all 192 → the silent
   pole-collapse the discipline warns against. → require coverage_versions where a pole was taken.
