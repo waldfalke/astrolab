@@ -211,8 +211,30 @@ foreach ($s in $SphereHouses.Keys) {
 $sumPath = Join-Path $OutDir "sphere_summary.csv"
 $sumRows | Export-Csv -Path $sumPath -NoTypeInformation -Encoding UTF8
 
+# year_roles.csv — the SINGLE place a key planet's year-role is resolved (blind run read the year-ruler
+# as 3 contradictory roles across spheres, #80/#82). Seed the key planets (year lord from profection +
+# chart ruler from the ASC sign); the model fills `role` ONCE, and every sphere READS this one role.
+$roleSeeds = [ordered]@{}
+$ascCusp = $cusps | Where-Object { [int]$_.house -eq 1 } | Select-Object -First 1
+if ($ascCusp) { $cr = $SignRulerTrad[[string]$ascCusp.sign]; if ($cr) { $roleSeeds[$cr] = "управитель карты (ASC $($ascCusp.sign))" } }
+if (-not [string]::IsNullOrWhiteSpace($SolarReturnRunDir)) {
+  $prof = Import-CsvSafe (Join-Path $SolarReturnRunDir "13_annual_profection.csv")
+  if ($prof.Count -gt 0) {
+    $yl = ([string]$prof[0].lord_of_year).ToLowerInvariant()
+    if ($yl) { $roleSeeds[$yl] = if ($roleSeeds[$yl]) { "$($roleSeeds[$yl]) + хозяин года" } else { "хозяин года (профекция д.$($prof[0].profected_house))" } }
+  }
+}
+$roleRows = @()
+foreach ($p in $roleSeeds.Keys) {
+  $rr = Spheres-For-Body -Body $p -AsSR:$false
+  $roleRows += [pscustomobject]@{ planet = $p; why = $roleSeeds[$p]; spheres = (@($rr.spheres) -join ';'); role = ""; note = "разреши роль ОДИН раз; держи её единой во всех перечисленных сферах" }
+}
+$rolePath = Join-Path $OutDir "year_roles.csv"
+$roleRows | Export-Csv -Path $rolePath -NoTypeInformation -Encoding UTF8
+
 Write-Host "sphere ledger  $routePath"
 Write-Host "               $sumPath"
+Write-Host "               $rolePath  (year roles: $($roleRows.Count) key planets)"
 Write-Host ("  factors routed: {0}  · homeless: {1}  · rulership=traditional" -f $factors.Count, $homeless)
 Write-Host "  charged spheres:"
 foreach ($r in ($sumRows | Sort-Object factor_count -Descending)) {
