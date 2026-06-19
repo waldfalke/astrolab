@@ -1048,7 +1048,7 @@ function Convert-ToInvariantScalarString {
 
 function Write-InvariantCsv {
   param(
-    [Parameter(Mandatory = $true)][array]$Rows,
+    [Parameter(Mandatory = $true)][AllowEmptyCollection()][array]$Rows,
     [Parameter(Mandatory = $true)][string]$Path,
     [string[]]$Columns = @()
   )
