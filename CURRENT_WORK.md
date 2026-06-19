@@ -1,69 +1,61 @@
 # CURRENT_WORK - CATMEastrolab
 
-**Last Updated:** 2026-03-06
-**Session Goal:** L402 Phase 2 — интеграция Aperture как L402 reverse proxy для реального Lightning-платежа.
+**Last Updated:** 2026-06-19
+**Active focus:** Solar-gift harness quality — rules loosened, data gaps filled, new client run in progress.
 
-## Active Tasks
+## Harness Improvement (2026-06-19)
 
-| Status | ID | Task | Notes |
-|---|---|---|---|
-| ✅ | ASTRO-001 | MCP result artifact pack | Базовые recipe-артефакты готовы |
-| ✅ | ASTRO-002 | Task management scaffold | Контур `BACKLOG/Tasks/TaskLogs` внедрен |
-| ✅ | ASTRO-003 | Multi-provider MCP profile | Primary/backup + failover runbook |
-| ✅ | ASTRO-004 | House-layer (Placidus-ready) | Рабочие house/QC рецепты |
-| ✅ | ASTRO-007 | Chart project systemization | `charts/<chart_id>`, `methods`, `outputs`, `INDEX.yaml` |
-| ✅ | ASTRO-013 | Provenance integrity | Canonical provenance + checker внедрены |
-| ✅ | ASTRO-014 | Chart project schema validation | Схемы + валидатор внедрены |
-| ✅ | ASTRO-015 | Safe archive and index rewrite | Реализован архиватор + перепривязка индексов + отчет |
-| 🟢 | ASTRO-016 | Serialization and observability | Стандартизация CSV/summary/hash метаданных |
-| 🟢 | ASTRO-008 | Target modular architecture | Формализация границ модулей |
-| 🟢 | ASTRO-011 | Core backbone and provider adapters | Экстракция ядра из recipes |
-| 🟢 | ASTRO-012 | Agent orchestrator | Run-plan executor поверх модулей |
-| 🟢 | ASTRO-009 | Renderer module | SVG/PNG колесо из нормализованных данных |
-| 🟢 | ASTRO-010 | Obsidian integration | Notes + Canvas export |
-| 🟢 | ASTRO-005 | Client output packs | Delivery pack контур с QC-гейтами |
-| 🟢 | ASTRO-006 | Multilingual knowledge ingestion | RU/EN артефактный канал методик |
+| Status | Item | Notes |
+|---|---|---|
+| ✅ | Gate path (A1) | Assert-DeliverableReady now checks packs/, not _model_input/ |
+| ✅ | Phase files in model_input | 12_monthly_phase_windows + phase_vectors + zakharian_dignities copied to pkg |
+| ✅ | Cognitive order (B2) | Prose first, dispositions retroactively; BRIEF reordered + reworded |
+| ✅ | AllowEmptyCollection bug | Write-InvariantCsv crashed at binding on charts with no custom point aspects |
+| ✅ | Phase inline, not a section | BRIEF + [[PHASE_NOTE]] redefined — phase goes inside sphere/portrait/window text |
+| ✅ | Gender as structural param | -Gender added to orchestrator; BRIEF section on significator flip + derived chains |
+| ✅ | License → proprietary | Apache 2.0 replaced; contact stribojich@gmail.com |
+| ✅ | README full setup | Docker, tzdata (Windows mandatory), Node LTS warning, smoke tests, Claude Code wiring |
+| ✅ | Carrier windows A3 | Merged by theme (retro passes); 54→~40; verified card-agnostic on 3 charts |
+| 🟡 | Client run gift_198612052020 | Opus running; deterministic spine done; model step pending |
+| 🟢 | Fortune + Lilith missing from coverage | Harness gap — engine computes, packs don't include. Deferred. |
+| 🟢 | coverage_versions.csv not gated | B3 pattern — behavior avoids ungated work. Deferred. |
+| 🟢 | BRIEF slim (A9) | Still ~long; some deduplication with report-standards/prose-style. Deferred. |
+| 🟢 | A2 basis contract | BRIEF vs validator self-contradiction on basis column. Deferred. |
+| 🟢 | B6 visual proof (PDF screenshot) | Auto-screenshot page 1 still TODO. Deferred. |
 
-**Legend:** 🟢 Ready | 🟡 In Progress | 🔴 Blocked | ✅ Done
+## Active Client Run
 
-## Astro reading methodology (2026-06-14)
+**Chart:** gift_198612052020 (1986-12-05 20:20, Krasnodar, UTC+3 winter → 17:20Z)
+**Gender:** female
+**SR year:** 2025, relocated to Seattle (SR cast at Seattle coords)
+**Status:** Opus 4.8 running orchestrator; deterministic spine complete; model step (twin→prose) pending
+**Note:** Relocation timing is operationally unresolved — client was still in Krasnodar at SR instant (Dec 5), moved Jan 9. Seattle SR angles are an operative assumption, not marked in the current report draft.
 
-Полный набор чтений по личной карте собран и записан (`.private` + obsidian, **не в гит**):
-натал → прогрессия → соляр → транзиты, все с новыми слоями (достоинства, склонение/OOB,
-двухосная модель силы, цепочки управления, временной слой соляра, транзитный скан по диапазону).
-Рецепты расширены: `run_natal_with_failover`, `run_secondary_progressions`, `run_solar_revolution`,
-`run_transits_to_natal` (+ режим range-scan), `lib/mcp_helpers.ps1` (достоинства/склонение/наклон).
+## Open Findings from Blind-Run Analysis
 
-**Очередь развития метода → `docs/methodology-roadmap.md`.** Сделано: 1. solar arc ✅, 2. профекции ✅
-(`Get-AnnualProfection` в `run_solar_revolution`), 3. секта ✅ (`Get-Sect` в `run_house_layer_placidus`),
-базовая семантика ✅ (`docs/semantic-base.md`). Год 44 = Телец/9-й, хозяин года Венера; карта дневная.
-Дальше — структура натала (звёзды, жребии, ср.точки, малые достоинства, целознак, производные дома) и
-тайминг (затмения, лунары, прогр. лунная фаза, ZR/Фирдария, луна без курса). Каноническое чтение — `..._reading.md` в обсидиане.
+See `TaskLogs/20260619_blind_run_findings.md` for full triage.
 
-**Closing gate выполнен (2026-06-14):** chart-проект переиндексирован честно (`INDEX.yaml`, 15 прогонов /
-34 выхода, каждый output привязан к прогону по SHA-256; `external_source: n/a` — легально). Валидатор +
-провенанс-чекер → PASS (49 канон. ссылок). TaskLog: `TaskLogs/20260614_methodology_layer_and_reindex.md`
-(зафиксирована корневая причина дрейфа: промоут руками из temp в обход пайплайна). Контейнмент личных
-данных перепроверен — чисто. Процесс-долг: будущие прогоны гнать через пайплайн (или расширить его на
-`solar_return`/`transit_timeline`), чтобы индекс не протухал.
+Key open items:
+- **B3** — coverage_versions.csv empty by gate-avoidance (repeating pattern from the blind run)
+- **Fortune/Lilith** — computed by engine, absent from coverage_factors; model can't judge or consciously drop what it can't see
+- **A6** — chart.yaml stores `timezone: +04:00` instead of IANA zone (minor, semantic drift)
+- **A7** — Sun longitude discrepancy 2.5″ across pipelines (minor, ironic for a SHA-pinned project)
 
-## L402 Proof of Vision (subproject)
+## L402 Proof of Vision (subproject — paused)
 
 | Status | ID | Task | Next Action |
 |---|---|---|---|
-| 🟢 | L402-APR-001 | Aperture в docker-compose | Добавить сервис + aperture.yaml |
-| 🟢 | L402-APR-002 | lnd-client + setup-channel | Написать setup-channel.sh |
-| 🟢 | L402-APR-004 | Strip L402 из mock-api | Убрать gRPC, оставить чистый backend |
+| 🟢 | L402-APR-001 | Aperture in docker-compose | Add service + aperture.yaml |
+| 🟢 | L402-APR-002 | lnd-client + setup-channel | Write setup-channel.sh |
+| 🟢 | L402-APR-004 | Strip L402 from mock-api | Remove gRPC, keep clean backend |
 | 🔴 | L402-APR-003 | client-agent real payment | Blocked by APR-001 + APR-002 |
 | 🔴 | L402-APR-005 | E2E test | Blocked by ALL |
 
 **Entry:** `l402-proof-of-vision/AGENTS.md` | **BACKLOG:** `l402-proof-of-vision/BACKLOG.md`
 
-**Docker state:** bitcoind + lnd healthy, lnd-client defined, Aperture not yet added.
+## Progress Log
 
-### Progress Log
-
-#### 2026-03-06 23:50 [Chat-1: Opus]
+### 2026-03-06 23:50 [Chat-1: Opus]
 
 **Completed:**
 - Fixed 3 LND/bitcoind Docker blockers (rpcbind, tlsextradomain, lightning.proto)
@@ -71,37 +63,32 @@
 - Deep research of Lightning MCP ecosystem (6 tools analyzed)
 - Key decision: Aperture for server-side L402, refined-element for client-side
 - Created Phase 2 task specs (APR-001..005) with DAG
-- Created subproject structure: AGENTS.md, docs/architecture.md, docs/docker-gotchas.md
-- Updated global agent docs: `.agents/docs/14-l402-lightning-stack.md`, EXTERNAL_CAPABILITIES_MAP.md §3
-- Created `/save` and `/load` commands
 
-**In Progress:**
-- Phase 2 tasks ready to start (APR-001 + APR-002 + APR-004 parallelizable)
-
-**Next:**
-- Start APR-001 (Aperture), APR-002 (lnd-client channel), APR-004 (clean mock-api) in parallel
+**Next:** Start APR-001 + APR-002 + APR-004 in parallel
 
 ---
 
-## Current State (Audit)
+### 2026-06-19 [Chat-2: Sonnet + Opus parallel]
 
-1. Сильная сторона: расчетный контур работает end-to-end (natal/house/progressions/solar arc).
-2. Сильная сторона: chart-project модель внедрена и применена на реальном кейсе.
-3. Сильная сторона: безопасный архиватор с перепривязкой индексов и verification-отчетом внедрен.
-4. Критичный риск: валидатор схем есть, но не включен как обязательный gate для всех delivery flow.
-5. Риск роста сложности: product-модули (renderer/obsidian) нельзя запускать до стабилизации backbone/hardening.
+**Completed:**
+- Harness philosophy confirmed: loosen rules, enable top model — not add gates (эталон came from a bug that bypassed gates)
+- A1 fixed: gate now reads packs/
+- B2 fixed: cognitive order — prose before dispositions (BRIEF reordered, reworded to retroactive check)
+- AllowEmptyCollection bug fixed: Write-InvariantCsv @() was crashing at PowerShell binding level on charts with zero custom point aspects; house-layer recipe deterministically failed on this chart (gift_198612052020); Opus found it via controlled experiment; one attribute added
+- Phase files added to model_input: 12_monthly_phase_windows.csv, phase_vectors.csv, zakharian_dignities.csv
+- Phase layer: BRIEF rule added — phase is a quality of the body, goes inline in sphere/portrait/window text; [[PHASE_NOTE]] redefined (not a standalone section)
+- Gender as structural reading parameter: -Gender param added to run_solar_gift.ps1; manifest.json carries it; BRIEF section added explaining significator flip (female: husband = Sun+Mars on DSC; male: wife = Moon+Venus on DSC) + derived-house co-flip + requirement to flag relational stratum as under-determined if gender unknown
+- License: Apache 2.0 → proprietary commercial (stribojich@gmail.com)
+- README: complete setup guide — Docker, tzdata mandatory on Windows, Node LTS warning + nvm-windows pointer, smoke tests with expected markers, Claude Code .mcp.json auto-pickup note
 
-## Critical Path (Next)
+**In Progress:**
+- Opus model running gift_198612052020 (client female, 1986-12-05, SR 2025 Seattle) — deterministic spine complete, model step pending
 
-1. ASTRO-016
-2. ASTRO-008 -> ASTRO-011 -> ASTRO-012
-3. ASTRO-011 -> ASTRO-009 и ASTRO-010
-4. ASTRO-014 + ASTRO-016 + ASTRO-011 -> ASTRO-005
+**Deferred (next session):**
+- Fortune + Lilith missing from coverage (harness gap — engine computes, packs don't include)
+- coverage_versions.csv gating (B3 — empty because ungated)
+- BRIEF slim A9, basis contract A2, visual proof B6
 
-## Quality Questions (mandatory)
-
-1. Что не сделано?
-2. Что избыточно усложнено?
-3. Где остались структурные дыры?
-4. Что нужно стабилизировать до новых фич?
-5. Что можно упростить без потери качества?
+**Key insight logged:**
+- Insider-info firewall was too blunt: gender is NOT biography — it's a structural method parameter (like coordinates). Blind reading without gender is systematically under-determined in the entire relational/derivative stratum (significators, 7th-house objects, derived chains, biological domains). See memory: insider-info-firewall.md updated.
+- Self-assessment from Opus: Fortune/Lilith invisible to model (not in coverage_factors, engine computed them); PoF in Virgo → Mercury is double-lord (chart ruler + Fortune ruler); this amplification was missed entirely.
