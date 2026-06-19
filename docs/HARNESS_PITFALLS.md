@@ -1,0 +1,19 @@
+# Harness pitfalls — recurring engineering traps
+
+Short operational checklist. Read before editing recipes or running a client report. These are
+classes we hit **more than once** — not one-off bugs. Reading-craft antipatterns (cherry-pick, Barnum)
+live in `report-standards.md` / `semantic-base.md`; this file is the engineering layer.
+
+| # | Symptom (how it shows) | Rule |
+|---|---|---|
+| 1 | **Computed ≠ surfaced.** A layer is calculated by a recipe but the model never uses it — because it isn't enumerated in coverage, OR not named in the BRIEF, OR not in the twin. Hit on phases, SR-declinations, directions, progressions, node-aspects, SR-nodes, transit-nodes. | A layer is "wired" only when ALL THREE meet: **compute** (orchestrator calls it) + **enumerate** (build_coverage_ledger lists the factor) + **name** (BRIEF tells the model). Miss one → silent drop (NKS astrolab #79). |
+| 2 | **Decimal comma.** PowerShell writes `101,58` by locale; Python / the renderer can't parse it → empty fields or a crash. Hit on the validator, the transit-ring CSV, coverage parsing. | When a PS recipe writes numbers a Python step reads, force invariant culture (`.ToString([CultureInfo]::InvariantCulture)`) or use `Write-InvariantCsv`. Readers should also tolerate `replace(',','.')`. |
+| 3 | **PII to a public path.** A recipe writes client data into the tracked `charts/` instead of `.private/` (phase_vectors did; sphere_ledger would have). Or client data gets attributed to the wrong person by guess. | Reproducible client work passes `-ChartsRoot $PrivateRoot`; the orchestrator guards `\.private\`. Never guess whose birth data a chart holds — verify from `chart.yaml` or ask. |
+| 4 | **Silent data loss.** Input is truncated without a flag — birth seconds dropped by `%H:%M`; a layer quietly skipped. | Parse defensively and ERROR on the unexpected, never silently narrow. Seconds, timezones, optional fields — keep or fail loud. |
+| 5 | **Contract / column-name drift.** Code reads a column that doesn't exist (`exact_date` vs `exact_dates`) → blank output that looks "done". Or prose.md section markers don't match the assembler. | When one recipe writes a CSV another reads, the column names ARE the contract — verify against the actual header, not memory. Same for the prose.md `[[SECTION]]` markers. |
+| 6 | **Toothless gate.** A check flags a problem (HOLES, schema) but the pipeline proceeds anyway → the defect ships. The blind run assembled over 169 blank dispositions. | A gate that matters must `throw`, not warn. Block the deliverable; don't advise. Persist the gate output (Tee) so it's auditable. |
+| 7 | **Script the emergent / hand-fake an artifact.** Reflex to determinize interpretation (kills the gestalt, NKS #73), or the model hand-draws a wheel / hand-builds a techblock instead of using the real computed one. | The LLM is the organ of the emergent READ — never script the reading. Conversely, numbers/wheels/techblocks are deterministic — the model writes PROSE only, never fabricates a computed artifact. |
+| 8 | **Encoding crash.** `git diff` / subprocess output decoded as cp1251 chokes on UTF-8 (Cyrillic, ●◐⟨⟩) → hook or validator dies. | Read external process output as `encoding="utf-8", errors="replace"`; set `PYTHONIOENCODING=utf-8` for Python steps that print non-ASCII. |
+| 9 | **Half-cwd-robust script.** A recipe works from the repo root but breaks after a `cd` into a subdir (relative script path, git run from the wrong cwd). | Resolve paths from the script's own location (`$PSScriptRoot` / `__file__`), and run `git` with an explicit `cwd=REPO`. |
+
+When a NEW recurring trap shows up (hit twice), add a row here — symptom + rule, one line each. Keep it short.
