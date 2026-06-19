@@ -116,24 +116,33 @@ if (-not ([double]::IsNaN($ReturnLatitude) -or [double]::IsNaN($ReturnLongitude)
 }
 Recipe "run_solar_revolution.ps1" $srArgs
 $srRun = LatestRun $runs "solar_return_$chartId"
+# Anchor the WHOLE forecast to the SR-INSTANT of the chosen ReturnYear, NOT the calendar "now" — so any
+# year reads correctly: a past year (2020), the current one, or a future one (2030). Transits cover ITS
+# solar year; directions/progressions mature to THAT year's moment. "From now" silently dropped the
+# already-elapsed half of an in-progress year and made past/future returns nonsense.
+# (First-life-year SR — ReturnYear = birth year — is a degenerate case ≈ the natal moment; out of scope.)
+$srSummary = Get-Content (Join-Path $srRun "00_summary.txt") -Raw
+$srInstant = ([regex]::Match($srSummary, 'RETURN_INSTANT_UTC=([0-9T:\-Z]+)')).Groups[1].Value
+if ([string]::IsNullOrWhiteSpace($srInstant)) { throw "could not read RETURN_INSTANT_UTC from SR summary" }
+$srYearStart = [datetimeoffset]::Parse($srInstant).UtcDateTime
 
-# ── 3. TRANSITS over the solar year ───────────────────────────────────────────────────────────
+# ── 3. TRANSITS over the solar year (SR-instant → +15 mo: the 12-month year + 3 of overhang for zones #84) ──
 Stage "transit windows"
-$rangeStart = (Get-Date).ToString("yyyy-MM-ddT00:00:00Z")
-$rangeEnd   = (Get-Date).AddMonths(15).ToString("yyyy-MM-ddT00:00:00Z")
+$rangeStart = $srInstant
+$rangeEnd   = $srYearStart.AddMonths(15).ToString("yyyy-MM-ddT00:00:00Z")
 Recipe "run_transits_to_natal.ps1" @("-CaseId",$chartId,"-Latitude",$Latitude,"-Longitude",$Longitude,"-BirthDateTimeUtc",$utc,"-RangeStartUtc",$rangeStart,"-RangeEndUtc",$rangeEnd,"-StepDays",7,"-Orb",1,"-OutputBase",$runs)
 $trRun = LatestRun $runs "transit_timeline_$chartId"
 $carrier = Join-Path $trRun "03_carrier_windows.csv"
 
-# ── 3b. DEEPENING natal layers: solar-arc directions + secondary progressions, directed to "now"
-#     (the client's present moment). These deepen the NATAL timeline (event-dating by arc, inner
-#     development) — folded into the chart project so coverage enumerates dir2n / prog2n factors.
-$nowUtc = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ")
-Stage "solar-arc directions (to now)"
-Recipe "run_solar_arc.ps1" @("-CaseId",$chartId,"-Latitude",$Latitude,"-Longitude",$Longitude,"-BirthDateTimeUtc",$utc,"-TargetDateUtc",$nowUtc,"-Orb",1.0,"-OutputBase",$runs)
+# ── 3b. DEEPENING natal layers: solar-arc directions + secondary progressions, directed to the SOLAR
+#     YEAR'S MOMENT (SR-instant), not the calendar present — a past/future year gets maturation to ITS
+#     time. Folded into the chart project so coverage enumerates dir2n / prog2n factors.
+$targetUtc = $srInstant
+Stage "solar-arc directions (to solar-year moment)"
+Recipe "run_solar_arc.ps1" @("-CaseId",$chartId,"-Latitude",$Latitude,"-Longitude",$Longitude,"-BirthDateTimeUtc",$utc,"-TargetDateUtc",$targetUtc,"-Orb",1.0,"-OutputBase",$runs)
 $saRun = LatestRun $runs "solar_arc_$chartId"
-Stage "secondary progressions (to now)"
-Recipe "run_secondary_progressions.ps1" @("-CaseId",$chartId,"-Latitude",$Latitude,"-Longitude",$Longitude,"-BirthDateTimeUtc",$utc,"-TargetDateUtc",$nowUtc,"-Orb",1.0,"-OutputBase",$runs)
+Stage "secondary progressions (to solar-year moment)"
+Recipe "run_secondary_progressions.ps1" @("-CaseId",$chartId,"-Latitude",$Latitude,"-Longitude",$Longitude,"-BirthDateTimeUtc",$utc,"-TargetDateUtc",$targetUtc,"-Orb",1.0,"-OutputBase",$runs)
 $spRun = LatestRun $runs "secondary_progressions_$chartId"
 
 # ── 4. assemble chart project (forced into .private) — folds in directions + progressions ──────
