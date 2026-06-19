@@ -26,63 +26,115 @@ the emergent read layer is a swappable model adapter.
 - Chart project build + schema/provenance validation
 - Solar return gift report orchestrator (`run_solar_gift.ps1`)
 
-## Requirements
+## Full Setup (from scratch)
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| Windows + PowerShell 7 | `pwsh` 7+ | recipe execution |
-| Python | 3.11+ | timezone resolution, validation |
-| Node.js | 18–22 LTS | `npx mcporter` (MCP client); **avoid Node 25** — libuv crash on teardown (KI-006) |
-| Docker | any recent | self-hosted Swiss Ephemeris MCP server |
+Follow these steps in order. An AI agent (Claude Code) can execute all of them.
 
-Python package:
+### 1. Prerequisites
+
+| Tool | Required version | Check |
+|------|-----------------|-------|
+| Windows + PowerShell 7 | `pwsh` 7+ | `pwsh --version` |
+| Python | 3.11+ | `python --version` |
+| Node.js | **18–22 LTS** | `node --version` |
+| Docker Desktop | any recent | `docker info` |
+
+> **Node 25 is broken for this project.** The `npx mcporter` MCP client crashes on teardown
+> under Node 25 (libuv assertion, KI-006). The crash is partially handled, but using Node LTS
+> eliminates it entirely. Install [nvm-windows](https://github.com/coreybutler/nvm-windows) if
+> you need to manage multiple Node versions: `nvm install 22 && nvm use 22`.
+
+### 2. Clone and install packages
 
 ```powershell
-python -m pip install pyyaml
+git clone <repo-url>
+cd CATMEastrolab
+npm install                              # installs mcporter and other Node deps
+python -m pip install pyyaml            # YAML parsing for validation
+python -m pip install tzdata            # REQUIRED on Windows: zoneinfo has no tz data without this
 ```
 
-Node packages:
+> `tzdata` is mandatory on Windows. Without it, every recipe that converts a local birth time
+> to UTC will fail with `ZoneInfoNotFoundError`. The recipes use Python `zoneinfo` — it works
+> out of the box on Linux/macOS but needs `tzdata` explicitly on Windows.
 
-```powershell
-npm install
-```
+### 3. Build the Swiss Ephemeris provider (swissremote)
 
-## Setup: Swiss Ephemeris Provider (swissremote)
+The primary astrology provider runs as a self-hosted Docker container.
+The public `theme-astral.me` endpoint was decommissioned in 2026-06.
 
-The primary astrology provider runs as a local Docker container.
-The public `theme-astral.me` instance was decommissioned in 2026-06 — you must build it yourself.
-
-**Build and start (one-time):**
+**Build the image (one-time, ~3–5 min, downloads ephemeris data):**
 
 ```powershell
 docker build -t swiss-mcp:local infra/swiss-mcp
+```
+
+**Start the container:**
+
+```powershell
 docker run -d --name swiss-mcp --restart unless-stopped -p 8000:8000 -e MCP_HTTP_MODE=true swiss-mcp:local
 ```
 
-**Verify it is running:**
+**Verify:**
 
 ```powershell
 docker ps --filter "name=swiss-mcp"
 # Expected: Up ... (healthy)   0.0.0.0:8000->8000/tcp
-```
 
-**Health check:**
-
-```powershell
 (Invoke-WebRequest http://localhost:8000/health).Content
-# Expected: {"status":"ok",...}
+# Expected JSON: {"status":"ok",...}
 ```
 
-**If the container stopped (e.g. after reboot):**
+The container restarts automatically when Docker starts. If you need to start it manually:
 
 ```powershell
 docker start swiss-mcp
 ```
 
-The container has `--restart unless-stopped`, so it starts automatically after Docker itself starts.
+Override the endpoint with `$env:SWISS_MCP_URL` if you run it on a different host or port.
 
-The endpoint `http://localhost:8000/mcp` is already wired in `.mcp.json` and in the recipe helpers.
-Override with `$env:SWISS_MCP_URL` if you moved it.
+### 4. Sync agent skills
+
+```powershell
+pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents -IncludeClaude
+```
+
+This mirrors `.agents/skills/` into `.claude/skills/` so Claude Code can discover them.
+Re-run after pulling updates that touch `.agents/skills/`.
+
+### 5. Smoke test
+
+```powershell
+# Natal (should hit swissremote as primary, exit 0)
+pwsh artifacts/mcp-recipes/run_natal_with_failover.ps1 `
+  -CaseId verify -Latitude 40.7 -Longitude -73.8164 -DateTimeUtc 1946-06-14T14:54:00Z
+# Check: artifacts/results/natal_failover_verify_*/00_summary.txt
+#   PROVIDER_USED=swissremote
+#   RUN_STATUS=FULL
+
+# House layer / Placidus (requires swissremote — ephem cannot do houses)
+pwsh artifacts/mcp-recipes/run_house_layer_placidus.ps1 `
+  -CaseId verify -Latitude 40.7 -Longitude -73.8164 -DateTimeUtc 1946-06-14T14:54:00Z
+# Check: artifacts/results/house_placidus_verify_*/00_summary.txt
+#   HOUSE_COUNT=12
+#   HOUSE_SYSTEM=Placidus
+```
+
+If `PROVIDER_USED=ephem` appears in the natal summary, the swissremote container is not reachable —
+go back to step 3.
+
+### 6. Claude Code integration
+
+`.mcp.json` is already in the repo root. Claude Code picks it up automatically when you open
+the project folder — no extra configuration needed. The three MCP servers (swissremote, ephem,
+vedastro) appear as native tools in the session.
+
+The `.claude/` directory contains project-scoped settings and synced skills. It is committed
+to the repo; do not hand-edit `.claude/skills/` (sync from `.agents/skills/` instead).
+
+---
+
+## MCP Providers
 
 ## MCP Providers
 
@@ -98,38 +150,30 @@ Override with `$env:SWISS_MCP_URL` if you moved it.
 it enforces swiss→ephem failover, retry/backoff, and raw-JSON persistence.
 Native MCP tools are for exploration only.
 
-## Quick Start
+## Running a Solar Return Gift Report
 
-1. Build the Swiss Ephemeris container (see **Setup** above).
-
-2. Sync agent skills:
+After setup is complete (swissremote container running, skills synced):
 
 ```powershell
-pwsh .agents/scripts/sync-skills.ps1 -Direction from-agents -IncludeClaude
+pwsh artifacts/mcp-recipes/run_solar_gift.ps1 `
+  -BirthLocal "1990-06-15 14:30" `
+  -Timezone "Europe/Moscow" `
+  -Latitude 55.75 -Longitude 37.62
 ```
 
-3. Smoke test — natal + house layer:
+Outputs land in `.private/charts/gift_<id>/_model_input/` — the work-package for the model step.
+Client data never touches the public `charts/` directory (PII guard enforced by the script).
 
-```powershell
-pwsh artifacts/mcp-recipes/run_natal_with_failover.ps1 `
-  -CaseId verify -Latitude 40.7 -Longitude -73.8164 -DateTimeUtc 1946-06-14T14:54:00Z
-# -> 00_summary.txt: PROVIDER_USED=swissremote, RUN_STATUS=FULL
-
-pwsh artifacts/mcp-recipes/run_house_layer_placidus.ps1 `
-  -CaseId verify -Latitude 40.7 -Longitude -73.8164 -DateTimeUtc 1946-06-14T14:54:00Z
-# -> 00_summary.txt: HOUSE_COUNT=12, HOUSE_SYSTEM=Placidus
-```
-
-4. Run a solar return gift report:
+To relocate the solar return (person lives somewhere other than their birthplace):
 
 ```powershell
 pwsh artifacts/mcp-recipes/run_solar_gift.ps1 `
   -BirthLocal "1990-06-15 14:30" -Timezone "Europe/Moscow" `
-  -Latitude 55.75 -Longitude 37.62
-# -> .private/charts/gift_199006151430/_model_input/  (work-package for the model)
+  -Latitude 55.75 -Longitude 37.62 `
+  -ReturnLatitude 59.95 -ReturnLongitude 30.32   # SR cast for St. Petersburg
 ```
 
-5. Validate a chart project:
+Validate any chart project:
 
 ```powershell
 pwsh artifacts/mcp-recipes/check_chart_provenance.ps1 -ChartId <chart_id> -ChartsRoot .private/charts
