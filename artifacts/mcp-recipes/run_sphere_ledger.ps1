@@ -186,26 +186,48 @@ if ($factors.Count -eq 0) { throw "no coverage factors at $CoverageFactorsCsv (r
 
 $routeRows = @()
 $sphereCount = @{}; foreach ($s in $SphereHouses.Keys) { $sphereCount[$s] = 0 }
+# Per-sphere TEMPORAL posture of the (dated) transit charge — the DOMAIN-axis twin of carrier zones
+# (#84). A factor's zone (tail|core|horizon) rides in from coverage_factors; only dated transit
+# carriers carry one (standing natal/SR context has no zone). Counting them per sphere lets a sphere
+# say not just "charged?" but "charged NOW (core) / maturing (horizon) / winding down (tail)" — and a
+# sphere quiet on the strict year but holding a horizon factor is "на подходе", saved from Barnum.
+$sphereZone = @{}; foreach ($s in $SphereHouses.Keys) { $sphereZone[$s] = @{ core = 0; horizon = 0; tail = 0 } }
 $homeless = 0
 foreach ($f in $factors) {
   $res = Route-Factor $f.id
   $sphereStr = ($res.spheres -join ';')
-  if ($res.spheres.Count -eq 0) { $homeless++ } else { foreach ($s in $res.spheres) { if ($null -ne $sphereCount[$s]) { $sphereCount[$s]++ } } }
-  $routeRows += [pscustomobject]@{ factor_id = $f.id; tech = $f.tech; spheres = $sphereStr; via = $res.via; factor = $f.factor }
+  $zone = if ($f.PSObject.Properties['zone']) { ("$($f.zone)").Trim().ToLowerInvariant() } else { "" }
+  if ($res.spheres.Count -eq 0) { $homeless++ } else {
+    foreach ($s in $res.spheres) {
+      if ($null -ne $sphereCount[$s]) { $sphereCount[$s]++ }
+      if ($zone -and $sphereZone[$s].ContainsKey($zone)) { $sphereZone[$s][$zone]++ }
+    }
+  }
+  $routeRows += [pscustomobject]@{ factor_id = $f.id; tech = $f.tech; spheres = $sphereStr; zone = $zone; via = $res.via; factor = $f.factor }
 }
 
 $routePath = Join-Path $OutDir "sphere_routing.csv"
 $routeRows | Export-Csv -Path $routePath -NoTypeInformation -Encoding UTF8
 
-# summary: one row per sphere, charged flag, honest empty note
+# summary: one row per sphere, charged flag, honest empty note, + temporal posture (zones #84)
 $sumRows = @()
 foreach ($s in $SphereHouses.Keys) {
   $n = $sphereCount[$s]
   $charged = $n -gt 0
+  $zc = $sphereZone[$s]
+  # posture is an ORIENTING hint (что у сферы во ВРЕМЕНИ), not a salience verdict — the model still
+  # decides whether the sphere is loud (#84 floor-not-cage). core present => live this year; only
+  # horizon => maturing (saves a тихий sphere from Barnum: «есть что зреет»); only tail => winding down.
+  $posture = if (($zc.core + $zc.horizon + $zc.tail) -eq 0) { "" }
+    elseif ($zc.core -gt 0)    { "ядро — активна в этом году" + $(if ($zc.horizon) { " (+ зреет на след.год)" } else { "" }) }
+    elseif ($zc.horizon -gt 0) { "горизонт — вызревает, раскроется к концу года и дальше (не кульминирует сейчас)" }
+    else                       { "хвост — завершается, доигрывает прошлогоднее" }
   $note = if (-not $charged) { "ТИХИЙ — ни один фактор не роутится сюда; честно скажи «спокойный год по этой сфере», не заливай" } else { "" }
   $sumRows += [pscustomobject]@{
     sphere = $s; title = $SphereTitle[$s]; houses = ($SphereHouses[$s] -join ',')
-    factor_count = $n; charged = $charged; note = $note
+    factor_count = $n; charged = $charged
+    zone_core = $zc.core; zone_horizon = $zc.horizon; zone_tail = $zc.tail; posture = $posture
+    note = $note
   }
 }
 $sumPath = Join-Path $OutDir "sphere_summary.csv"
@@ -239,5 +261,6 @@ Write-Host ("  factors routed: {0}  · homeless: {1}  · rulership=traditional" 
 Write-Host "  charged spheres:"
 foreach ($r in ($sumRows | Sort-Object factor_count -Descending)) {
   $flag = if ($r.charged) { "" } else { "  ← ТИХИЙ" }
-  Write-Host ("    {0,-9} {1,3} factors{2}" -f $r.sphere, $r.factor_count, $flag)
+  $zt = if ($r.zone_core + $r.zone_horizon + $r.zone_tail -gt 0) { "  [ядро $($r.zone_core)·гор $($r.zone_horizon)·хвост $($r.zone_tail)]" } else { "" }
+  Write-Host ("    {0,-9} {1,3} factors{2}{3}" -f $r.sphere, $r.factor_count, $flag, $zt)
 }

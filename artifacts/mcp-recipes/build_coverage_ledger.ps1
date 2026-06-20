@@ -99,8 +99,8 @@ function New-FactorId { param([string[]]$Parts)
 }
 
 $rows = New-Object System.Collections.Generic.List[object]
-function Add-Row { param($Tech, [string[]]$IdParts, $Factor, $Data, $Auto)
-  $rows.Add([pscustomobject]@{ id = (New-FactorId $IdParts); tech = $Tech; factor = $Factor; data = $Data; auto = $Auto })
+function Add-Row { param($Tech, [string[]]$IdParts, $Factor, $Data, $Auto, $Zone = "")
+  $rows.Add([pscustomobject]@{ id = (New-FactorId $IdParts); tech = $Tech; factor = $Factor; data = $Data; auto = $Auto; zone = $Zone })
 }
 
 # ---------- NATAL ----------
@@ -262,13 +262,13 @@ if (-not [string]::IsNullOrWhiteSpace($TransitTimelineCsv) -and (Test-Path $Tran
     # zone (NKS #84): ядро=пик в году · горизонт=вызревает за след.ДР · хвост=завершается. Date property
     # of the window, surfaced so the model reads the year's shape; absent on a generic (non-SR) run.
     $zoneTag = if (-not [string]::IsNullOrWhiteSpace($t.zone)) { " · зона $($t.zone)" } else { "" }
-    Add-Row $tech @("transit","$($t.transit_body)-$($t.natal_target)",$t.aspect) "$($t.transit_body) $($t.aspect) натал $($t.natal_target)" "точно $($t.exact_dates) · орб $($t.tightest_orb_deg)° · окно $($t.window_open)…$($t.window_close)$zoneTag" $auto
+    Add-Row $tech @("transit","$($t.transit_body)-$($t.natal_target)",$t.aspect) "$($t.transit_body) $($t.aspect) натал $($t.natal_target)" "точно $($t.exact_dates) · орб $($t.tightest_orb_deg)° · окно $($t.window_open)…$($t.window_close)$zoneTag" $auto "$($t.zone)"
   }
 }
 
 # ---------- ARTIFACT 1: factors.csv (machine, regenerated freely) ----------
 if (-not (Test-Path $packDir)) { New-Item -ItemType Directory -Force -Path $packDir | Out-Null }
-$rows | Select-Object id, tech, factor, data, auto | Export-Csv -Path $FactorsPath -NoTypeInformation -Encoding UTF8
+$rows | Select-Object id, tech, factor, data, auto, zone | Export-Csv -Path $FactorsPath -NoTypeInformation -Encoding UTF8
 
 # ---------- ARTIFACT 2: dispositions.csv (semantic, model-owned — APPEND-ONLY, never rewrite existing) ----------
 $existingDisp = Import-CsvSafe $DispositionsPath
