@@ -12,6 +12,13 @@ param(
   [double]$StepDays = 7,
   [string]$TransitBodies = "",
   [double]$Orb = 1,
+  # Solar-year anchor for carrier-window ZONE classification (NKS astrolab #84). When set (= the SR
+  # instant), each carrier window gets zone = tail | core | horizon by where its PEAK falls relative
+  # to the solar year [anchor, anchor+365.25d], and windows that close BEFORE the anchor are dropped
+  # (last year's themes). This is a date PROPERTY of the window (#85), not its role. Decoupled from the
+  # scan range on purpose: the scan must reach ~3mo BEFORE the anchor for tail to be sampled at all.
+  # Empty => generic transit run, no zone, no year-filter.
+  [string]$SolarYearStartUtc = "",
   [string]$OutputBase = ""
 )
 
@@ -172,19 +179,36 @@ if ($scanMode) {
     $closes = @($passes | ForEach-Object { Get-UtcDateTime -DateTimeUtc ($_.window_end + "T00:00:00Z") })
     $exacts = @($passes | Sort-Object exact_date | ForEach-Object { $_.exact_date })
     $tight = ($passes | ForEach-Object { [double]$_.min_orb_deg } | Measure-Object -Minimum).Minimum
+    $windowClose = (($closes | Sort-Object) | Select-Object -Last 1)
+    # PEAK of the theme = the date of its TIGHTEST pass (smallest orb) — that is what the year is read
+    # against, not the first or last touch.
+    $peakPass = $passes | Sort-Object { [double]$_.min_orb_deg } | Select-Object -First 1
+    $peakDate = Get-UtcDateTime -DateTimeUtc ($peakPass.exact_date + "T00:00:00Z")
+    # ZONE (NKS astrolab #84) — only when a solar-year anchor is given. tail/core/horizon by peak vs
+    # the year [anchor, anchor+365.25d]; a window closing before the anchor is last year's theme (drop).
+    $zone = ""
+    if (-not [string]::IsNullOrWhiteSpace($SolarYearStartUtc)) {
+      $syStart = Get-UtcDateTime -DateTimeUtc $SolarYearStartUtc
+      $syEnd = $syStart.AddDays(365.25)
+      if ($windowClose -lt $syStart) { continue }            # finished before the year opened — skip
+      elseif ($peakDate -lt $syStart) { $zone = "tail" }     # peaked before SR, still in orb at open
+      elseif ($peakDate -le $syEnd)   { $zone = "core" }     # peaks inside the solar year
+      else                            { $zone = "horizon" }  # peaks past next SR; approach is in-year
+    }
     $carrierWindows += [pscustomobject]@{
       window_open = (($opens | Sort-Object) | Select-Object -First 1).ToString("yyyy-MM-dd")
-      window_close = (($closes | Sort-Object) | Select-Object -Last 1).ToString("yyyy-MM-dd")
+      window_close = $windowClose.ToString("yyyy-MM-dd")
       transit_body = $grp.Group[0].transit_body
       aspect = $grp.Group[0].aspect
       natal_target = $grp.Group[0].natal_target
+      zone = $zone
       passes = $passes.Count
       exact_dates = [string]::Join("; ", $exacts)
       tightest_orb_deg = [math]::Round([double]$tight, 3)
     }
   }
   $carrierWindows = @($carrierWindows | Sort-Object window_open, transit_body, natal_target)
-  $cwCols = @("window_open", "window_close", "transit_body", "aspect", "natal_target", "passes", "exact_dates", "tightest_orb_deg")
+  $cwCols = @("window_open", "window_close", "transit_body", "aspect", "natal_target", "zone", "passes", "exact_dates", "tightest_orb_deg")
   $cwPath = Join-Path $runDir "03_carrier_windows.csv"
   if ($carrierWindows.Count -gt 0) { Write-InvariantCsv -Rows $carrierWindows -Path $cwPath -Columns $cwCols }
   else { Write-InvariantCsv -Rows @() -Path $cwPath -Columns $cwCols }
