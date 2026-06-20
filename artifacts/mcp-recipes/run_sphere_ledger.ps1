@@ -218,9 +218,11 @@ foreach ($s in $SphereHouses.Keys) {
   # posture is an ORIENTING hint (что у сферы во ВРЕМЕНИ), not a salience verdict — the model still
   # decides whether the sphere is loud (#84 floor-not-cage). core present => live this year; only
   # horizon => maturing (saves a тихий sphere from Barnum: «есть что зреет»); only tail => winding down.
+  # core present => active now, but DON'T bury a co-present tail/horizon (a major ending under a
+  # trivial core must still surface — counts are kept, and the hint names all present zones).
   $posture = if (($zc.core + $zc.horizon + $zc.tail) -eq 0) { "" }
-    elseif ($zc.core -gt 0)    { "ядро — активна в этом году" + $(if ($zc.horizon) { " (+ зреет на след.год)" } else { "" }) }
-    elseif ($zc.horizon -gt 0) { "горизонт — вызревает, раскроется к концу года и дальше (не кульминирует сейчас)" }
+    elseif ($zc.core -gt 0)    { "ядро — активна в этом году" + $(if ($zc.horizon) { " · зреет на след.год" } else { "" }) + $(if ($zc.tail) { " · и что-то завершается" } else { "" }) }
+    elseif ($zc.horizon -gt 0) { "горизонт — вызревает, раскроется к концу года и дальше (не кульминирует сейчас)" + $(if ($zc.tail) { " · и что-то завершается" } else { "" }) }
     else                       { "хвост — завершается, доигрывает прошлогоднее" }
   $note = if (-not $charged) { "ТИХИЙ — ни один фактор не роутится сюда; честно скажи «спокойный год по этой сфере», не заливай" } else { "" }
   $sumRows += [pscustomobject]@{

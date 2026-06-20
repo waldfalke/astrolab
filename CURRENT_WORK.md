@@ -134,7 +134,7 @@ Key open items:
 - Owner transit-day PDF — "Сегодня по областям" section being rewritten from a dry table to prose (what each area means today + the concrete events inside).
 
 **Next:**
-- Zones #84: TIME-axis DONE+verified (commit 2d3b43f — carrier_windows zone tail/core/horizon, ±3mo scan decoupled from SR anchor, threaded to coverage_factors; tail proven on owner solar-2026; pitfall #15). REMAINING: DOMAIN-axis zone on sphere_ledger (wider orb-horizon for spheres) + far-horizon extrapolation (deferred).
+- Zones #84: TIME-axis DONE+verified (2d3b43f — carrier_windows zone tail/core/horizon, ±3mo scan decoupled from SR anchor, threaded to coverage_factors; tail proven on owner solar-2026; pitfall #15). DOMAIN-axis POSTURE DONE+verified (bf09167 — coverage_factors `zone` column → sphere_ledger zone_core/horizon/tail + posture hint; tail-only sphere proven on fixture). REMAINING in #84: (1) **wider orb-horizon for spheres** — the real "horizon saves a тихий sphere" engine; current posture only re-sorts orb-1 themes, a theme maturing at orb 2-3° doesn't light the sphere (needs a 2nd/wider scan — build-or-defer is owner's call); (2) far-horizon extrapolation; (3) real-chart end-to-end of the domain axis (verified on synthetic only).
 - dispositions rework per #87 (offload to cheap model + ensemble); rising-sign-clock product (#91, ~40% new).
 - Lena run still pending owner decision (this chat scoped current SR 2025, Krasnodar, no relocation; the other chat had Seattle+gender — reconcile).
 
