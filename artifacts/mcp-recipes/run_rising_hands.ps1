@@ -109,15 +109,27 @@ function ClosestAsp([double]$a, [double]$b, [double]$orb = 6) {
 function WatchRow($curSign, $startMin, $endMin) {
   $midMin = ($startMin + $endMin) / 2.0
   $g = GridAt $midMin
-  $rk = $RulerTrad[$curSign]                              # chart-traditional ruler key, e.g. "mercury"
+  $rk = $RulerTrad[$curSign]                              # classical ruler key, e.g. "mercury"
   $rlon = [double]$g.$rk
   $rIdx = SignIdx $rlon
+  # SECOND страж — the modern co-ruler (Scorpio→pluto, Aquarius→uranus, Pisces→neptune), investigated
+  # the same way when present (#97 dual ruler = two scenarios). Empty for the other 9 signs.
+  $rm = $RulerModern[$curSign]
+  $mSign = ""; $mDig = ""; $mMoon = ""
+  if ($rm) {
+    $mlon = [double]$g.$rm; $mIdx = SignIdx $mlon
+    $mSign = $Signs[$mIdx]
+    $mDig = Get-ZakharianDignity -Body $rm -Sign ($mIdx + 1)
+    $mMoon = ClosestAsp $mlon ([double]$g.moon)
+  }
   [pscustomobject]@{
     start_local = (LocalStr $startMin); asc_sign = $Signs[$curSign]
-    ruler_trad = $rk; ruler_modern = $RulerModern[$curSign]
-    ruler_sign = $Signs[$rIdx]                            # WHERE the начкар is now
-    ruler_dignity = (Get-ZakharianDignity -Body $rk -Sign ($rIdx + 1))  # PHASE (Z): начкар's strength by sign (#97)
-    ruler_to_moon = (ClosestAsp $rlon ([double]$g.moon))  # tone: ruler's aspect to the Moon
+    ruler_trad = $rk; ruler_sign = $Signs[$rIdx]
+    ruler_dignity = (Get-ZakharianDignity -Body $rk -Sign ($rIdx + 1))   # PHASE (Z): classical strength by sign
+    ruler_to_moon = (ClosestAsp $rlon ([double]$g.moon))                 # tone: classical ruler's aspect to Moon
+    ruler_modern = $rm; ruler_modern_sign = $mSign
+    ruler_modern_dignity = $mDig                                         # PHASE of the modern co-ruler
+    ruler_modern_to_moon = $mMoon
     end_local = (LocalStr $endMin); duration_min = [int]($endMin - $startMin)
   }
 }
@@ -140,7 +152,7 @@ for ($i = 0; $i -lt $grid.Count - 1; $i++) {
 # final open watch to end of day
 $watches += (WatchRow $curSign $watchStartMin 1440)
 Write-InvariantCsv -Rows $watches -Path (Join-Path $runDir "03_watches.csv") `
-  -Columns @("start_local","asc_sign","ruler_trad","ruler_modern","ruler_sign","ruler_dignity","ruler_to_moon","end_local","duration_min")
+  -Columns @("start_local","asc_sign","ruler_trad","ruler_sign","ruler_dignity","ruler_to_moon","ruler_modern","ruler_modern_sign","ruler_modern_dignity","ruler_modern_to_moon","end_local","duration_min")
 
 # --- with natal points: FINE hand (rising crossings) + HOUR hand (Moon timing) ----------------------
 $natal = [ordered]@{}
