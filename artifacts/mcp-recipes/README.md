@@ -65,6 +65,8 @@ This folder contains executable artifacts that generate working astrology output
    - Produces: Zakharian phase vector `P⟨Z.z:H.h:D⟩` for all 10 bodies, built FROM the operator (book Table 2.2 embedded as a self-test, throws on mismatch). Tiers: Z,H grounded · z,h,D anumita. Working layer only (copyright).
 25. `build_coverage_ledger.ps1`
    - Produces: keyed-contract coverage ledger (factors / dispositions / versions / report) over the chart project + SR + transit timeline. Transits split into `транзиты-несущие` (slow) and `транзиты-триггеры` (fast, auto-quiet). Runs gate-2/gate-3 structural checks.
+26. `run_rising_hands.ps1`
+   - Produces: the FLOATING intraday "hands" of the rising-sign clock (NKS astrolab #93) for a day + location — ASC/MC/Moon recomputed at every grid step (6-min). Emits `03_watches.csv` (rising-sign "караулы" + dual rulers = minute hand), and with `-NatalPointsCsv`: `04_rising_cross.csv` (transiting ASC/MC crossing natal points = fine hand) + `05_moon_timing.csv` (Moon's aspects to natal points = hour hand). Standalone hands instrument; transit-day-to-natal CONSUMES it. Does NOT compute transit→natal aspects (that's `run_transits_to_natal` snapshot). Data only — prose is the model's.
 
 ## Full chart rebuild (orchestration)
 
