@@ -77,7 +77,7 @@ for ($k = 0; $k -lt $nSteps; $k++) {
   }
 }
 Write-InvariantCsv -Rows @($grid | ForEach-Object { [pscustomobject]@{ utc_min=$_.utcMin; local=(LocalStr $_.utcMin); asc=[math]::Round($_.asc,3); asc_sign=$Signs[(SignIdx $_.asc)]; mc=[math]::Round($_.mc,3); moon=[math]::Round($_.moon,3) } }) `
-  -Path (Join-Path $runDir "02_grid.csv") -Columns @("utc_min","local","asc","asc_sign","mc","mc_sign","moon")
+  -Path (Join-Path $runDir "02_grid.csv") -Columns @("utc_min","local","asc","asc_sign","mc","moon")
 
 # --- MINUTE HAND: watches (rising-sign changes) -----------------------------------------------------
 $watches = @()
@@ -129,8 +129,8 @@ if ($natal.Count -gt 0) {
     }
     # HOUR: Moon makes each major aspect to the point during the day
     foreach ($an in $Aspects.Keys) {
-      # conjunction (0°) has a single target; ±0 would duplicate the row
-      $offs = if ($Aspects[$an] -eq 0) { @(0) } else { @($Aspects[$an], -$Aspects[$an]) }
+      # conjunction (0°) and opposition (180°) have a single target; ±offset would duplicate the row
+      $offs = if ($Aspects[$an] -eq 0 -or $Aspects[$an] -eq 180) { @($Aspects[$an]) } else { @($Aspects[$an], -$Aspects[$an]) }
       foreach ($off in $offs) {
         $atgt = (($tgt + $off) % 360 + 360) % 360
         for ($i = 0; $i -lt $grid.Count - 1; $i++) {
