@@ -4,6 +4,7 @@ param(
   [Parameter(Mandatory = $true)][double]$Longitude,
   [double]$TzOffsetHours = 0,                              # local-time display offset (e.g. +3 for Krasnodar)
   [int]$StepMin = 6,                                       # grid step. 6 = #97 precise; 10 = lighter (fewer swiss calls)
+  [int]$CoincWindowMin = 30,                               # coincidence window: events within this gap cluster into one node (#98)
   [string]$NatalPointsCsv = "",                            # optional: CSV name,longitude — enables rising crossings + Moon timing to natal
   [string]$OutputBase = ""
 )
@@ -69,15 +70,25 @@ for ($k = 0; $k -lt $nSteps; $k++) {
   $utcMin = $k * $StepMin
   $iso = ("{0}T{1:D2}:{2:D2}:00Z" -f $Date, [int][math]::Floor($utcMin/60), [int]($utcMin % 60))
   $c = Invoke-SwissPrimaryToolJson -Tool "calculate_planetary_positions" -Args @{ datetime = $iso; latitude = $Latitude; longitude = $Longitude }
-  $grid += [pscustomobject]@{
+  # FULL chart per step (#98): keep ALL bodies, not just ASC/MC/Moon. Unlocks Moon→transit-planet
+  # (general secondary hand) and feeds the general optic; costs nothing (swiss already returns them).
+  $row = [ordered]@{
     utcMin = $utcMin
     asc    = [double]$c.chart_points.Ascendant.longitude
     mc     = [double]$c.chart_points.Midheaven.longitude
     moon   = [double]$c.planets.Moon.longitude
   }
+  foreach ($b in @("Sun","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto")) {
+    $row[$b.ToLowerInvariant()] = [double]$c.planets.$b.longitude
+  }
+  $grid += [pscustomobject]$row
 }
-Write-InvariantCsv -Rows @($grid | ForEach-Object { [pscustomobject]@{ utc_min=$_.utcMin; local=(LocalStr $_.utcMin); asc=[math]::Round($_.asc,3); asc_sign=$Signs[(SignIdx $_.asc)]; mc=[math]::Round($_.mc,3); moon=[math]::Round($_.moon,3) } }) `
-  -Path (Join-Path $runDir "02_grid.csv") -Columns @("utc_min","local","asc","asc_sign","mc","moon")
+$planetCols = @("sun","mercury","venus","mars","jupiter","saturn","uranus","neptune","pluto")
+Write-InvariantCsv -Rows @($grid | ForEach-Object {
+    $g = $_; $o = [ordered]@{ utc_min=$g.utcMin; local=(LocalStr $g.utcMin); asc=[math]::Round($g.asc,3); asc_sign=$Signs[(SignIdx $g.asc)]; mc=[math]::Round($g.mc,3); moon=[math]::Round($g.moon,3) }
+    foreach ($pc in $planetCols) { $o[$pc] = [math]::Round($g.$pc,3) }
+    [pscustomobject]$o
+  }) -Path (Join-Path $runDir "02_grid.csv") -Columns (@("utc_min","local","asc","asc_sign","mc","moon") + $planetCols)
 
 # --- MINUTE HAND: watches (rising-sign changes) -----------------------------------------------------
 $watches = @()
@@ -146,6 +157,51 @@ Write-InvariantCsv -Rows $crossRows -Path (Join-Path $runDir "04_rising_cross.cs
 $moonRows = @($moonRows | Sort-Object sort | ForEach-Object { [pscustomobject]@{ time_local=$_.time_local; aspect=$_.aspect; point=$_.point } })
 Write-InvariantCsv -Rows $moonRows -Path (Join-Path $runDir "05_moon_timing.csv") -Columns @("time_local","aspect","point")
 
+# --- COINCIDENCE DETECTOR (#98 genuinely-new): cluster day-events into NODES where layers converge ----
+# Events: watch changes (GENERAL layer) + rising activations + Moon aspects (PERSONAL layer). A node =
+# events within CoincWindowMin of each other (chain-linked). "Carrying" if it spans BOTH layers or >=3
+# events. Score = sum(point weights) × (2 if both layers) — the FLOOR ranks (#85); the model reads which
+# node carries the day. This is what lets the woven axis surface (e.g. the noon ASC=MC cluster) by itself.
+function ParseLocalMin([string]$hhmm) { $p = $hhmm -split ':'; return [int]$p[0]*60 + [int]$p[1] }
+function LocalFromMin([int]$m) { return ("{0:D2}:{1:D2}" -f [int][math]::Floor($m/60), ($m % 60)) }
+function PointWeight([string]$name) {
+  $n = $name.ToLowerInvariant()
+  if ($n -match 'asc|mc|ic|dsc') { return 3 }       # angles — first-class (#88)
+  if ($n -match 'солнц|лун')      { return 3 }       # luminaries
+  if ($n -match 'меркур|венер|марс') { return 2 }    # personal planets / chart ruler
+  return 1
+}
+$ev = @()
+foreach ($w in ($watches | Select-Object -Skip 1)) { $ev += [pscustomobject]@{ min=(ParseLocalMin $w.start_local); layer="general"; kind="караул→$($w.asc_sign)"; weight=2 } }
+foreach ($r in $crossRows) { $ev += [pscustomobject]@{ min=(ParseLocalMin $r.time_local); layer="personal"; kind="$($r.point) $($r.kind)"; weight=(PointWeight $r.point) } }
+foreach ($m in $moonRows)  { $ev += [pscustomobject]@{ min=(ParseLocalMin $m.time_local); layer="personal"; kind="Луна $($m.aspect) $($m.point)"; weight=(PointWeight $m.point) } }
+$ev = @($ev | Sort-Object min)
+
+$coinc = @()
+if ($ev.Count -gt 0) {
+  $cluster = [System.Collections.ArrayList]@($ev[0])
+  for ($i = 1; $i -le $ev.Count; $i++) {
+    $brk = ($i -eq $ev.Count) -or (($ev[$i].min - $cluster[$cluster.Count-1].min) -gt $CoincWindowMin)
+    if ($brk) {
+      $layers = @($cluster | ForEach-Object { $_.layer } | Select-Object -Unique)
+      $both = ($layers.Count -ge 2)
+      if ($cluster.Count -ge 2 -and ($both -or $cluster.Count -ge 3)) {
+        $coinc += [pscustomobject]@{
+          window = ("{0}-{1}" -f (LocalFromMin $cluster[0].min), (LocalFromMin $cluster[$cluster.Count-1].min))
+          span_min = ($cluster[$cluster.Count-1].min - $cluster[0].min)
+          n = $cluster.Count
+          layers = ($layers -join '+')
+          score = (($cluster | Measure-Object weight -Sum).Sum * $(if ($both) { 2 } else { 1 }))
+          events = (($cluster | ForEach-Object { "$(LocalFromMin $_.min) $($_.kind)" }) -join ' · ')
+        }
+      }
+      if ($i -lt $ev.Count) { $cluster = [System.Collections.ArrayList]@($ev[$i]) }
+    } else { [void]$cluster.Add($ev[$i]) }
+  }
+}
+$coinc = @($coinc | Sort-Object score -Descending)
+Write-InvariantCsv -Rows $coinc -Path (Join-Path $runDir "06_coincidences.csv") -Columns @("window","span_min","n","layers","score","events")
+
 # --- summary ----------------------------------------------------------------------------------------
 $sum = @()
 $sum += "SCRIPT=$scriptId v$scriptVersion"
@@ -155,6 +211,7 @@ $sum += "STEP_MIN=$StepMin  GRID_SAMPLES=$($grid.Count)"
 $sum += "WATCH_COUNT=$($watches.Count)"
 $sum += "NATAL_MODE=$(if($natal.Count -gt 0){"ON ($($natal.Count) points)"}else{"OFF (general mode)"})"
 $sum += "RISING_CROSSINGS=$($crossRows.Count)  MOON_TIMINGS=$($moonRows.Count)"
+$sum += "COINCIDENCE_NODES=$($coinc.Count)  (window=${CoincWindowMin}min)"
 $sum += "NOTE=floating recompute every step; watch boundary interpolated (ASC ~linear per step)"
 [System.IO.File]::WriteAllLines((Join-Path $runDir "00_summary.txt"), $sum, [System.Text.UTF8Encoding]::new($false))
 
