@@ -1,6 +1,6 @@
 param(
   # Natal (whose chart the day is read against)
-  [Parameter(Mandatory = $true)][string]$BirthLocal,     # "1982-06-13 13:39:10"
+  [Parameter(Mandatory = $true)][string]$BirthLocal,     # "1990-06-15 14:30:00"
   [Parameter(Mandatory = $true)][string]$Timezone,       # IANA, e.g. "Europe/Moscow"
   [Parameter(Mandatory = $true)][double]$NatalLatitude,
   [Parameter(Mandatory = $true)][double]$NatalLongitude,
