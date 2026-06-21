@@ -122,6 +122,13 @@ for ($k = 0; $k -lt $nSteps; $k++) {
   }
   $grid += [pscustomobject]$row
 }
+# RETRO CLIMATE (#91) — swiss here returns no retro flag, so derive DIRECTION from the ribbon:
+# a body whose longitude DECREASES across the day is retrograde (signed delta, wrap-safe).
+$retroBodies = @()
+foreach ($b in @("mercury","venus","mars","jupiter","saturn","uranus","neptune","pluto")) {
+  $d = (((([double]$grid[-1].$b - [double]$grid[0].$b) + 180) % 360) + 360) % 360 - 180
+  if ($d -lt 0) { $retroBodies += $b }
+}
 $planetCols = @("sun","mercury","venus","mars","jupiter","saturn","uranus","neptune","pluto")
 Write-InvariantCsv -Rows @($grid | ForEach-Object {
     $g = $_; $o = [ordered]@{ utc_min=$g.utcMin; local=(LocalStr $g.utcMin); asc=[math]::Round($g.asc,3); asc_sign=$Signs[(SignIdx $g.asc)]; mc=[math]::Round($g.mc,3); moon=[math]::Round($g.moon,3) }
@@ -323,6 +330,25 @@ foreach ($w in $watches) {
 }
 Write-InvariantCsv -Rows $sphRows -Path (Join-Path $runDir "08_sphere_quality.csv") -Columns @("start_local","asc_sign","spheres")
 
+# --- VoC: Moon void of course — no major aspect to a CLASSICAL planet before leaving its sign (#91) --
+# Минутная стрелка (караулы) идёт всегда; на VoC ВСТАЁТ ТОЛЬКО СЕКУНДНАЯ (аспекты Луны). Режим "без
+# последствий": рутина/завершение, не старт. Empty if the Moon doesn't change sign on the day.
+$classicalP = @("sun","mercury","venus","mars","jupiter","saturn")
+$mClass = @($m2p | Where-Object { $classicalP -contains $_.planet } | ForEach-Object { ParseLocalMin $_.time_local } | Sort-Object)
+$vocRows = @()
+for ($i = 0; $i -lt $grid.Count - 1; $i++) {
+  $s1 = [int][math]::Floor(((($grid[$i].moon % 360) + 360) % 360) / 30)
+  $s2 = [int][math]::Floor(((($grid[$i+1].moon % 360) + 360) % 360) / 30)
+  if ($s1 -ne $s2) {
+    $chgLocal = (ParseLocalMin (LocalStr $grid[$i+1].utcMin))
+    $lastAsp = @($mClass | Where-Object { $_ -lt $chgLocal }) | Select-Object -Last 1
+    if ($null -ne $lastAsp) {
+      $vocRows += [pscustomobject]@{ voc_start=(LocalFromMin $lastAsp); voc_end=(LocalStr $grid[$i+1].utcMin); note="Луна без курса — секундная стрелка встала; рутина/завершение, не старт" }
+    }
+  }
+}
+Write-InvariantCsv -Rows $vocRows -Path (Join-Path $runDir "09_void_of_course.csv") -Columns @("voc_start","voc_end","note")
+
 # --- summary ----------------------------------------------------------------------------------------
 $sum = @()
 $sum += "SCRIPT=$scriptId v$scriptVersion"
@@ -333,6 +359,8 @@ $sum += "WATCH_COUNT=$($watches.Count)"
 $sum += "NATAL_MODE=$(if($natal.Count -gt 0){"ON ($($natal.Count) points)"}else{"OFF (general mode)"})"
 $sum += "RISING_CROSSINGS=$($crossRows.Count)  MOON_TIMINGS=$($moonRows.Count)"
 $sum += "COINCIDENCE_NODES=$($coinc.Count)  (window=${CoincWindowMin}min)"
+$sum += "RETROGRADE=$(if($retroBodies.Count){[string]::Join(',', $retroBodies)}else{'none'})  (seasonal climate, #91)"
+$sum += "VOID_OF_COURSE_PERIODS=$($vocRows.Count)"
 $sum += "NOTE=floating recompute every step; watch boundary interpolated (ASC ~linear per step)"
 [System.IO.File]::WriteAllLines((Join-Path $runDir "00_summary.txt"), $sum, [System.Text.UTF8Encoding]::new($false))
 
