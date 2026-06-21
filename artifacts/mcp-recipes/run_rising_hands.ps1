@@ -200,6 +200,12 @@ for ($i = 0; $i -lt $grid.Count - 1; $i++) {
 }
 # final open watch to end of day
 $watches += (WatchRow $curSign $watchStartMin 1440)
+# 12 watches, NOT 13: a full 24h turns the ASC through all 12 signs; the same sign opens AND closes the
+# scan (wraps through midnight). Merge that edge pair into one watch so the круг = 12.
+if ($watches.Count -ge 2 -and $watches[0].asc_sign -eq $watches[-1].asc_sign) {
+  $watches[0].start_local = $watches[-1].start_local      # the watch actually began before midnight
+  $watches = @($watches[0..($watches.Count - 2)])
+}
 Write-InvariantCsv -Rows $watches -Path (Join-Path $runDir "03_watches.csv") `
   -Columns @("start_local","asc_sign","ruler_trad","ruler_sign","ruler_dignity","ruler_phase","ruler_to_moon","ruler_modern","ruler_modern_sign","ruler_modern_dignity","ruler_modern_phase","ruler_modern_to_moon","end_local","duration_min")
 
@@ -261,6 +267,23 @@ foreach ($pc in $planetCols) {
 }
 $m2p = @($m2p | Sort-Object sort | ForEach-Object { [pscustomobject]@{ time_local=$_.time_local; aspect=$_.aspect; planet=$_.planet } })
 Write-InvariantCsv -Rows $m2p -Path (Join-Path $runDir "07_moon_to_planets.csv") -Columns @("time_local","aspect","planet")
+
+# --- GENERAL: which transit OBJECTS rise / culminate — "карта момента" (objects on the ASC/MC) #91/#93
+# The тонкая стрелка for the natal-free clock: transit ASC crosses a planet → that planet RISES (выходит
+# на горизонт); transit MC crosses it → CULMINATES (наверху). This is what "objects on the ASC" means here.
+$riseObj = @()
+foreach ($pc in (@("moon") + $planetCols)) {
+  for ($i = 0; $i -lt $grid.Count - 1; $i++) {
+    $f = Cross $grid[$i].asc $grid[$i+1].asc ([double]$grid[$i].$pc)
+    if ($f -ge 0) { $riseObj += [pscustomobject]@{ time_local=(LocalStr ($grid[$i].utcMin + $f*$StepMin)); object=$pc; kind="восходит (ASC)"; sort=($grid[$i].utcMin + $f*$StepMin) }; break }
+  }
+  for ($i = 0; $i -lt $grid.Count - 1; $i++) {
+    $f = Cross $grid[$i].mc $grid[$i+1].mc ([double]$grid[$i].$pc)
+    if ($f -ge 0) { $riseObj += [pscustomobject]@{ time_local=(LocalStr ($grid[$i].utcMin + $f*$StepMin)); object=$pc; kind="кульминирует (MC)"; sort=($grid[$i].utcMin + $f*$StepMin) }; break }
+  }
+}
+$riseObj = @($riseObj | Sort-Object sort | ForEach-Object { [pscustomobject]@{ time_local=$_.time_local; object=$_.object; kind=$_.kind } })
+Write-InvariantCsv -Rows $riseObj -Path (Join-Path $runDir "10_rising_objects.csv") -Columns @("time_local","object","kind")
 
 # --- COINCIDENCE DETECTOR (#98 genuinely-new): cluster day-events into NODES where layers converge ----
 # Events: watch changes (GENERAL layer) + rising activations + Moon aspects (PERSONAL layer). A node =
