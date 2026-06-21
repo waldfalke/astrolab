@@ -42,6 +42,34 @@ $RulerTrad = @("mars","venus","mercury","moon","sun","mercury","venus","mars","j
 $RulerModern = @("","","","","","","","pluto","","","uranus","neptune")
 $Aspects = [ordered]@{ "☌"=0; "⚹"=60; "□"=90; "△"=120; "☍"=180 }
 
+# Zakharian PHASE operator P⟨Z.z:H.h:D⟩ — same operator as the эталонный run_phase_vectors (self-tested
+# vs book Table 2.2). MODERN domiciles (phase axiom). Applied to the watch ruler: Z/z by sign, H/h from
+# the watch's ASC (equal-house), D = dispositor's Z. Working layer only — never the client report.
+$PhDomicile = @{ sun=5; moon=4; mercury=3; venus=2; mars=1; jupiter=9; saturn=10; uranus=11; neptune=12; pluto=8 }
+$PhSignRuler = @("mars","venus","mercury","moon","sun","mercury","venus","pluto","jupiter","saturn","uranus","neptune")  # modern ruler of sign 1..12
+function PhOp([int]$pointIdx1, [int]$anchorIdx1) { return ((($pointIdx1 - $anchorIdx1) % 12 + 12) % 12) + 1 }  # 1-based
+function PhMicro([double]$x) { $m = [int][math]::Floor($x / 2.5) + 1; if ($m -gt 12) { $m = 12 }; if ($m -lt 1) { $m = 1 }; return $m }
+function PhaseVec([string]$body, [double]$lon, [double]$ascLon, $g) {
+  $b = $body.ToLowerInvariant(); if (-not $PhDomicile.ContainsKey($b)) { return "" }
+  $L = ((($lon % 360) + 360) % 360)
+  $sIdx0 = [int][math]::Floor($L / 30.0)                     # 0..11 sign of the body
+  $degIn = $L - $sIdx0 * 30.0
+  # NOTE: PowerShell variables are CASE-INSENSITIVE — $Z and $z are the SAME variable. Use distinct names.
+  $signPhase  = PhOp ($sIdx0 + 1) $PhDomicile[$b]            # Z = sign phase from domicile
+  $signMicro  = PhMicro $degIn                               # z
+  $off = ((($L - $ascLon) % 360) + 360) % 360                # ecliptic offset from the EXACT ASC longitude
+  $housePhase = [int][math]::Floor($off / 30.0) + 1          # H = equal-house from ASC (эталон run_phase_vectors)
+  $houseMicro = PhMicro ($off - [math]::Floor($off / 30.0) * 30.0)  # h
+  # D = Z of the dispositor, computed from the DISPOSITOR's own position (эталон), taken from the ribbon.
+  $disp = $PhSignRuler[$sIdx0]                               # dispositor = modern ruler of the body's sign
+  $dispPhase = ""
+  if ($PhDomicile.ContainsKey($disp) -and $null -ne $g -and $g.PSObject.Properties[$disp]) {
+    $dL = ((([double]$g.$disp % 360) + 360) % 360)
+    $dispPhase = PhOp ([int][math]::Floor($dL / 30.0) + 1) $PhDomicile[$disp]
+  }
+  return ("P⟨{0}.{1}:{2}.{3}:{4}⟩" -f $signPhase, $signMicro, $housePhase, $houseMicro, $dispPhase)
+}
+
 function SignIdx([double]$lon){ [int]([math]::Floor((($lon % 360 + 360) % 360) / 30.0)) }
 function LocalStr([double]$utcMin){
   $loc = (($utcMin + $TzOffsetHours*60) % 1440 + 1440) % 1440
@@ -122,13 +150,16 @@ function WatchRow($curSign, $startMin, $endMin) {
     $mDig = Get-ZakharianDignity -Body $rm -Sign ($mIdx + 1)
     $mMoon = ClosestAsp $mlon ([double]$g.moon)
   }
+  $mPhase = if ($rm) { PhaseVec $rm ([double]$g.$rm) ([double]$g.asc) $g } else { "" }
   [pscustomobject]@{
     start_local = (LocalStr $startMin); asc_sign = $Signs[$curSign]
     ruler_trad = $rk; ruler_sign = $Signs[$rIdx]
-    ruler_dignity = (Get-ZakharianDignity -Body $rk -Sign ($rIdx + 1))   # PHASE (Z): classical strength by sign
+    ruler_dignity = (Get-ZakharianDignity -Body $rk -Sign ($rIdx + 1))   # dignity word (domicile/exalt/fall…)
+    ruler_phase = (PhaseVec $rk $rlon ([double]$g.asc) $g)               # FULL phase P⟨Z.z:H.h:D⟩ of the начкар
     ruler_to_moon = (ClosestAsp $rlon ([double]$g.moon))                 # tone: classical ruler's aspect to Moon
     ruler_modern = $rm; ruler_modern_sign = $mSign
-    ruler_modern_dignity = $mDig                                         # PHASE of the modern co-ruler
+    ruler_modern_dignity = $mDig
+    ruler_modern_phase = $mPhase
     ruler_modern_to_moon = $mMoon
     end_local = (LocalStr $endMin); duration_min = [int]($endMin - $startMin)
   }
@@ -152,7 +183,7 @@ for ($i = 0; $i -lt $grid.Count - 1; $i++) {
 # final open watch to end of day
 $watches += (WatchRow $curSign $watchStartMin 1440)
 Write-InvariantCsv -Rows $watches -Path (Join-Path $runDir "03_watches.csv") `
-  -Columns @("start_local","asc_sign","ruler_trad","ruler_sign","ruler_dignity","ruler_to_moon","ruler_modern","ruler_modern_sign","ruler_modern_dignity","ruler_modern_to_moon","end_local","duration_min")
+  -Columns @("start_local","asc_sign","ruler_trad","ruler_sign","ruler_dignity","ruler_phase","ruler_to_moon","ruler_modern","ruler_modern_sign","ruler_modern_dignity","ruler_modern_phase","ruler_modern_to_moon","end_local","duration_min")
 
 # --- with natal points: FINE hand (rising crossings) + HOUR hand (Moon timing) ----------------------
 $natal = [ordered]@{}
