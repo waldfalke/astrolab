@@ -42,6 +42,17 @@ $RulerTrad = @("mars","venus","mercury","moon","sun","mercury","venus","mars","j
 $RulerModern = @("","","","","","","","pluto","","","uranus","neptune")
 $Aspects = [ordered]@{ "☌"=0; "⚹"=60; "□"=90; "△"=120; "☍"=180 }
 
+# Sphere profiles (7 spheres, same set as sphere_ledger) for GENERAL-mode time-quality scoring (#97).
+# Floor only: the script tallies WHICH spheres each watch leans toward (by sign + начкар + Moon hits);
+# the model reads salience. Russian sphere keys: self/mind/love/work/money/home/meaning.
+$SignSphere = @(
+  @("self"), @("money"), @("mind"), @("home"), @("self","love"), @("work","mind"),
+  @("love"), @("love","money"), @("meaning"), @("work"), @("meaning"), @("meaning","home"))   # Овен..Рыбы
+$BodySphere = @{
+  sun=@("self","work"); moon=@("home"); mercury=@("mind"); venus=@("love","money"); mars=@("self","work")
+  jupiter=@("meaning","money"); saturn=@("work"); pluto=@("love"); uranus=@("mind"); neptune=@("meaning") }
+$DignityWeight = @{ "домицил"=1; "экзальтация"=1; "падение"=-1; "изгнание"=-1; "перегрин"=0 }
+
 # Zakharian PHASE operator P⟨Z.z:H.h:D⟩ — same operator as the эталонный run_phase_vectors (self-tested
 # vs book Table 2.2). MODERN domiciles (phase axiom). Applied to the watch ruler: Z/z by sign, H/h from
 # the watch's ASC (equal-house), D = dispositor's Z. Working layer only — never the client report.
@@ -288,6 +299,29 @@ if ($ev.Count -gt 0) {
 }
 $coinc = @($coinc | Sort-Object score -Descending)
 Write-InvariantCsv -Rows $coinc -Path (Join-Path $runDir "06_coincidences.csv") -Columns @("window","span_min","n","layers","score","events")
+
+# --- SPHERE QUALITY per watch (#97 general-mode): which life-spheres each watch leans toward ----------
+# Floor: tally spheres by sign + начкар (with its dignity strength) + Moon hits in the window. Model reads.
+$sphRows = @()
+foreach ($w in $watches) {
+  $sIdx = [array]::IndexOf($Signs, $w.asc_sign)
+  $score = [ordered]@{ self=0; mind=0; love=0; work=0; money=0; home=0; meaning=0 }
+  if ($sIdx -ge 0) { foreach ($sp in $SignSphere[$sIdx]) { $score[$sp] += 2 } }
+  if ($BodySphere.ContainsKey($w.ruler_trad)) {
+    $dw = if ($DignityWeight.ContainsKey($w.ruler_dignity)) { $DignityWeight[$w.ruler_dignity] } else { 0 }
+    foreach ($sp in $BodySphere[$w.ruler_trad]) { $score[$sp] += (1 + $dw) }
+  }
+  $ws = ParseLocalMin $w.start_local; $we = ParseLocalMin $w.end_local; if ($we -lt $ws) { $we += 1440 }
+  foreach ($m in $m2p) {
+    $mm = ParseLocalMin $m.time_local; if ($mm -lt $ws) { $mm += 1440 }
+    if ($mm -ge $ws -and $mm -le $we -and $BodySphere.ContainsKey($m.planet)) {
+      foreach ($sp in $BodySphere[$m.planet]) { $score[$sp] += 1 }
+    }
+  }
+  $top = (@($score.GetEnumerator() | Where-Object { $_.Value -gt 0 } | Sort-Object Value -Descending | ForEach-Object { "$($_.Key):$($_.Value)" })) -join " "
+  $sphRows += [pscustomobject]@{ start_local=$w.start_local; asc_sign=$w.asc_sign; spheres=$top }
+}
+Write-InvariantCsv -Rows $sphRows -Path (Join-Path $runDir "08_sphere_quality.csv") -Columns @("start_local","asc_sign","spheres")
 
 # --- summary ----------------------------------------------------------------------------------------
 $sum = @()
