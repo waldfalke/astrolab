@@ -90,6 +90,38 @@ Write-InvariantCsv -Rows @($grid | ForEach-Object {
     [pscustomobject]$o
   }) -Path (Join-Path $runDir "02_grid.csv") -Columns (@("utc_min","local","asc","asc_sign","mc","moon") + $planetCols)
 
+# --- НАЧКАР helpers: investigate the watch RULER from the ribbon (not just a label) -----------------
+# The ruler of the rising sign IS the "начкар" — who commands the watch. From the ribbon we know WHERE
+# it is each moment, so we read its sign and its aspect to the Moon (tone of the watch). #97/#88.
+function GridAt([double]$utcMin) {
+  $idx = [int][math]::Round($utcMin / $StepMin)
+  if ($idx -ge $grid.Count) { $idx = $grid.Count - 1 }; if ($idx -lt 0) { $idx = 0 }
+  return $grid[$idx]
+}
+function ClosestAsp([double]$a, [double]$b, [double]$orb = 6) {
+  $sep = [math]::Abs(($a - $b) % 360); if ($sep -gt 180) { $sep = 360 - $sep }
+  $best = ""; $bestOrb = 999
+  foreach ($asp in @(@{n="☌";d=0}, @{n="⚹";d=60}, @{n="□";d=90}, @{n="△";d=120}, @{n="☍";d=180})) {
+    $o = [math]::Abs($sep - $asp.d); if ($o -lt $bestOrb) { $bestOrb = $o; $best = $asp.n }
+  }
+  if ($bestOrb -le $orb) { return ("{0} {1:N1}°" -f $best, $bestOrb) } else { return "" }
+}
+function WatchRow($curSign, $startMin, $endMin) {
+  $midMin = ($startMin + $endMin) / 2.0
+  $g = GridAt $midMin
+  $rk = $RulerTrad[$curSign]                              # chart-traditional ruler key, e.g. "mercury"
+  $rlon = [double]$g.$rk
+  $rIdx = SignIdx $rlon
+  [pscustomobject]@{
+    start_local = (LocalStr $startMin); asc_sign = $Signs[$curSign]
+    ruler_trad = $rk; ruler_modern = $RulerModern[$curSign]
+    ruler_sign = $Signs[$rIdx]                            # WHERE the начкар is now
+    ruler_dignity = (Get-ZakharianDignity -Body $rk -Sign ($rIdx + 1))  # PHASE (Z): начкар's strength by sign (#97)
+    ruler_to_moon = (ClosestAsp $rlon ([double]$g.moon))  # tone: ruler's aspect to the Moon
+    end_local = (LocalStr $endMin); duration_min = [int]($endMin - $startMin)
+  }
+}
+
 # --- MINUTE HAND: watches (rising-sign changes) -----------------------------------------------------
 $watches = @()
 $curSign = SignIdx $grid[0].asc
@@ -101,22 +133,14 @@ for ($i = 0; $i -lt $grid.Count - 1; $i++) {
     $bDeg = ([math]::Floor($grid[$i].asc / 30.0) + 1) * 30.0
     $f = Cross $grid[$i].asc $grid[$i+1].asc ($bDeg % 360)
     $bMin = if ($f -ge 0) { $grid[$i].utcMin + $f * $StepMin } else { $grid[$i+1].utcMin }
-    $watches += [pscustomobject]@{
-      start_local = (LocalStr $watchStartMin); asc_sign = $Signs[$curSign]
-      ruler_trad = $RulerTrad[$curSign]; ruler_modern = $RulerModern[$curSign]
-      end_local = (LocalStr $bMin); duration_min = [int]($bMin - $watchStartMin)
-    }
+    $watches += (WatchRow $curSign $watchStartMin $bMin)
     $curSign = $s2; $watchStartMin = $bMin
   }
 }
 # final open watch to end of day
-$watches += [pscustomobject]@{
-  start_local = (LocalStr $watchStartMin); asc_sign = $Signs[$curSign]
-  ruler_trad = $RulerTrad[$curSign]; ruler_modern = $RulerModern[$curSign]
-  end_local = (LocalStr 1440); duration_min = [int](1440 - $watchStartMin)
-}
+$watches += (WatchRow $curSign $watchStartMin 1440)
 Write-InvariantCsv -Rows $watches -Path (Join-Path $runDir "03_watches.csv") `
-  -Columns @("start_local","asc_sign","ruler_trad","ruler_modern","end_local","duration_min")
+  -Columns @("start_local","asc_sign","ruler_trad","ruler_modern","ruler_sign","ruler_dignity","ruler_to_moon","end_local","duration_min")
 
 # --- with natal points: FINE hand (rising crossings) + HOUR hand (Moon timing) ----------------------
 $natal = [ordered]@{}
@@ -156,6 +180,26 @@ $crossRows = @($crossRows | Sort-Object { [int]($_.time_local -replace ':','') }
 Write-InvariantCsv -Rows $crossRows -Path (Join-Path $runDir "04_rising_cross.csv") -Columns @("point","kind","time_local","point_lon")
 $moonRows = @($moonRows | Sort-Object sort | ForEach-Object { [pscustomobject]@{ time_local=$_.time_local; aspect=$_.aspect; point=$_.point } })
 Write-InvariantCsv -Rows $moonRows -Path (Join-Path $runDir "05_moon_timing.csv") -Columns @("time_local","aspect","point")
+
+# --- GENERAL secondary hand: Moon aspects to TRANSIT planets (not natal) — #98 ----------------------
+# The clock's "second hand" in GENERAL mode (no natal): when the Moon perfects an aspect to a transit
+# planet over the day. Planets come from the ribbon (kept per-step). Feeds the general optic.
+$m2p = @()
+$AspG = [ordered]@{ "☌"=0; "⚹"=60; "□"=90; "△"=120; "☍"=180 }
+foreach ($pc in $planetCols) {
+  foreach ($an in $AspG.Keys) {
+    $offs = if ($AspG[$an] -eq 0 -or $AspG[$an] -eq 180) { @($AspG[$an]) } else { @($AspG[$an], -$AspG[$an]) }
+    foreach ($off in $offs) {
+      for ($i = 0; $i -lt $grid.Count - 1; $i++) {
+        $tgt = ((([double]$grid[$i].$pc + $off) % 360) + 360) % 360
+        $fr = Cross $grid[$i].moon $grid[$i+1].moon $tgt
+        if ($fr -ge 0) { $m2p += [pscustomobject]@{ time_local=(LocalStr ($grid[$i].utcMin + $fr*$StepMin)); aspect=$an; planet=$pc; sort=($grid[$i].utcMin + $fr*$StepMin) }; break }
+      }
+    }
+  }
+}
+$m2p = @($m2p | Sort-Object sort | ForEach-Object { [pscustomobject]@{ time_local=$_.time_local; aspect=$_.aspect; planet=$_.planet } })
+Write-InvariantCsv -Rows $m2p -Path (Join-Path $runDir "07_moon_to_planets.csv") -Columns @("time_local","aspect","planet")
 
 # --- COINCIDENCE DETECTOR (#98 genuinely-new): cluster day-events into NODES where layers converge ----
 # Events: watch changes (GENERAL layer) + rising activations + Moon aspects (PERSONAL layer). A node =
