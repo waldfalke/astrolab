@@ -270,9 +270,24 @@ $transitMap = @{}
 foreach ($row in $natalRows) { $natalMap[$row.body] = [double]$row.longitude }
 foreach ($row in $transitRows) { $transitMap[$row.body] = [double]$row.longitude }
 
+# NATAL ANGLES — ephem carries no chart_points, so pull ASC/MC/IC/DSC from swiss (same as range mode).
+# A transit to a natal ANGLE outweighs the same to an ordinary planet (#88) — losing them here was a
+# silent under-read (pitfall #1/#14). Angles are natal targets only (we don't aspect transit→transit-angle).
+$natalTargetNames = @($bodies)
+try {
+  $swissNatal = Invoke-SwissPrimaryToolJson -Tool "calculate_planetary_positions" -Args @{ datetime = $BirthDateTimeUtc; latitude = $Latitude; longitude = $Longitude }
+  $angleMap = [ordered]@{ Ascendant = "ASC"; Midheaven = "MC"; IC = "IC"; Descendant = "DSC" }
+  foreach ($k in $angleMap.Keys) {
+    if (($null -ne $swissNatal.chart_points) -and ($swissNatal.chart_points.PSObject.Properties.Name -contains $k)) {
+      $natalMap[$angleMap[$k]] = [double]$swissNatal.chart_points.$k.longitude
+      $natalTargetNames += $angleMap[$k]
+    }
+  }
+} catch { Write-Warning "natal angles unavailable from swiss (continuing planets-only): $_" }
+
 $matches = @()
 foreach ($t in $bodies) {
-  foreach ($n in $bodies) {
+  foreach ($n in $natalTargetNames) {
     if (-not $transitMap.ContainsKey($t) -or -not $natalMap.ContainsKey($n)) { continue }
 
     $angle = Get-MinDelta360 -A $transitMap[$t] -B $natalMap[$n]
