@@ -1,12 +1,12 @@
 # CURRENT_WORK - CATMEastrolab
 
-**Last Updated:** 2026-06-23
-**Active focus:** Rising-sign clock **mundane product shipped** (Stage-1 MVP, natal-free) + NKS made a
-routine part of the work loop + **instrumentarium layer designed in the graph as a PLAN** (the forgotten
-headless/MCP product half is back on the map). This chat (Opus) built the mundane orchestrator, ran a
-verstakify refresh, did the first NKS capability audit + tensions-sweep (wove the ritual into
-`/save`·`/load`·git-push hook), then designed contour #102 (instrumentarium) and planned the MCPization
-of the recipes (Python rewrite, gap audit).
+**Last Updated:** 2026-06-24
+**Active focus:** Headless MCP layer — **first vertical slice shipped** (rising_hands as a FastMCP tool
+on a pinned uv stack), engine-agnosticism decided (#115, fork #113 dissolved by measurement), and the
+**two views split in the graph** (holarchic reading-ontology vs instrumentarium, natal in both roles).
+Earlier in the session: rising-clock mundane product, verstakify refresh, NKS process-weave, and the
+instrumentarium contour #102. Discipline throughout: nothing marked "done/decided" beyond what was
+verified/measured (built ≠ trustworthy).
 
 ## Rising-sign clock — mundane product + NKS process (2026-06-22/23, Opus)
 
@@ -54,6 +54,32 @@ into reading-craft — `semantic_search` found zero nodes for the product layer.
   golden test vs the PowerShell recipe. Proves language + contract (G1/G2/G3) + provider-removal (G5).
 - G6 copyright allow-list (exclude phase) · G8 L402 billing (#111, after the surface exists).
 - Refactor `.agents/skills/` into workflow-capsules with a test harness (fixture + invariants).
+
+## Headless MCP — first slice + engine-agnosticism + element/composite views (2026-06-24, Opus)
+
+Built the first real headless slice via verstakify+Superpowers (TDD skills run as EXPLICIT isolated
+subagents, not inlined; every GREEN verified by me, not on the subagent's word).
+
+| Status | Item | Notes |
+|---|---|---|
+| ✅ | First MCP tool | `astro/server.py` — FastMCP tool `rising_hands`, typed inputSchema (G2) + stateless dict (G3); in-memory round-trips the golden |
+| ✅ | rising_hands engine | `astro/rising_hands.py` + `astro/engine.py` — B1 (client of our pinned swiss-mcp v2.10.03) computes 12 watches; golden green by construction |
+| ✅ | Pinned stack | `pyproject.toml` + `uv.lock` (fastmcp 3.4.2, mcp 1.28, pytest 9.1.1) — reproducibility gap closed, like the pinned ephemeris node |
+| ✅ | Engine-agnosticism #115 | engine behind thin `compute_asc_series`; B1 default, A (pyswisseph) optional group `engine-a`; golden arbiter; per-function choice. Fork #113 CLOSED — A==B1 (drift 0, same v2.10.03), A ~1000× faster; A deploy needs C-build (Win), B1 needs none. Soft preference: the fast in-process one. |
+| ✅ | Supply-chain #114 | own ephemeris node, never a 3rd-party API (theme-astral.me was the realized risk); hosting it = release req (G5) |
+| ✅ | Two views split | holarchic reading-ontology (natal HOLON #116, ELEMENT #117 — not "atom", reading organ #121, reading #122) vs instrumentarium (natal COMPOSITE #119, structure #118, SCENARIO #120). Linked via the natal-structure estafeta, roles kept separate. |
+
+Terminology fixed: **element / composite / scenario** (NOT atomic-design atoms/molecules/organisms — those are just holon layers misnamed; holarchy absorbs them). Tasklog: `TaskLogs/20260623_mcpization_plan.md`.
+
+**HONEST status (built ≠ trustworthy):** the MCP tool is in-memory only — transport-as-process,
+auth, failover NOT done (G5 deploy layer). rising_hands covers only watches (no phases/objects/spheres).
+Natal is a SPEC in the graph (#116–122), not code yet. A-engine pass depends on the optional install.
+
+**Next:**
+- Natal in code: implement composite #119 (assemble elements → structure), golden on Trump fixture.
+- Transport-as-process (HTTP) → toward G5 deploy (hosting + TLS + auth).
+- Widen `rising_hands` to the full function (phases/objects/spheres) OR prove the conveyor on a 2nd function.
+- Fix "атомарн" → "элемент" wording in #109 (term-drift hygiene).
 
 ## Harness Improvement (2026-06-19)
 
