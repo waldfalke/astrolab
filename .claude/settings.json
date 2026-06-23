@@ -14,7 +14,20 @@
       "Bash(npx -y mcporter call:*)",
       "mcp__swissremote__*",
       "mcp__ephem__*",
-      "mcp__vedastro__*"
+      "mcp__vedastro__*",
+      "mcp__nks__nks_orient",
+      "mcp__nks__nks_search",
+      "mcp__nks__nks_semantic_search",
+      "mcp__nks__nks_look",
+      "mcp__nks__nks_add_holon",
+      "mcp__nks__nks_add_kriya",
+      "mcp__nks__nks_add_phenomenon",
+      "mcp__nks__nks_add_vimarsha",
+      "mcp__nks__nks_add_karta",
+      "mcp__nks__nks_add_bianhua",
+      "mcp__nks__nks_update",
+      "mcp__nks__nks_arrow",
+      "mcp__nks__nks_batch"
     ],
     "deny": [],
     "ask": []
@@ -25,6 +38,21 @@
         "matcher": "Write|Edit|MultiEdit|Bash",
         "hooks": [
           { "type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/pii_guard.py\"" }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"NKS: orient before acting — nks_orient(realm=\\\"astrolab\\\"). Contours: #1 фазовый соляр · #30 дисциплина трактовки · #67/#78 харнес · #93 часы восходящего знака. Use the verstak entry skill.\"}}'" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "jq -r '.tool_input.command // \"\"' | grep -q 'git push' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"git push — update NKS realm astrolab to match reality (close/open vimarshas, handle driving hint), then run the after-green-push self-review.\"}}' || true" }
         ]
       }
     ]

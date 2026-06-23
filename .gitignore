@@ -18,3 +18,6 @@ obsidian-vault/
 Astrolab/
 lnd_temp/
 mcporter_temp/
+
+# agent-local overrides (machine-specific, never committed)
+.claude/settings.local.json
