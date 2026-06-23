@@ -10,8 +10,10 @@ This folder contains executable artifacts that generate working astrology output
 
 ## Implemented Providers
 
-1. Primary (houses/Placidus): `https://www.theme-astral.me/mcp`
+1. Primary (engine): self-hosted swiss — `swiss-mcp` Docker on `http://localhost:8000/mcp`
+   (theme-astral.me died; see memory `swiss-self-host-primary` / `.mcp.json`)
 2. Backup (continuity): `https://ephemeris.fyi/mcp`
+3. Probe-only (NOT in production failover): `https://mcp.vedastro.org/api/mcp`
 
 ## Recipes
 

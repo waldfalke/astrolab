@@ -2,9 +2,11 @@
 
 **Last Updated:** 2026-06-23
 **Active focus:** Rising-sign clock **mundane product shipped** (Stage-1 MVP, natal-free) + NKS made a
-routine part of the work loop. This chat (Opus) built the standard template + twin-gated orchestrator
-for the mundane day forecast, ran a verstakify refresh, and did the first-ever NKS capability audit /
-tensions-sweep — then wove the sweep ritual into `/save`, `/load`, and the git-push hook.
+routine part of the work loop + **instrumentarium layer designed in the graph as a PLAN** (the forgotten
+headless/MCP product half is back on the map). This chat (Opus) built the mundane orchestrator, ran a
+verstakify refresh, did the first NKS capability audit + tensions-sweep (wove the ritual into
+`/save`·`/load`·git-push hook), then designed contour #102 (instrumentarium) and planned the MCPization
+of the recipes (Python rewrite, gap audit).
 
 ## Rising-sign clock — mundane product + NKS process (2026-06-22/23, Opus)
 
@@ -30,6 +32,28 @@ technical→human, twin before prose. Memory: `rising-clock-mundane-format`. Tas
 - 14 standing weave tensions (11 grundsatz + 2 vollzug) — a focused `design`/`weaving` pass: they need
   applying-kriya nodes, decided per-principle (pitfall #85), not blanket-linked.
 - `#94` scoring-engine vs determinization line (parked samshaya).
+
+## Instrumentarium contour + MCPization plan (2026-06-23, Opus)
+
+The project began as a headless MCP function factory (webMCP, aA2A) but the graph had drifted entirely
+into reading-craft — `semantic_search` found zero nodes for the product layer. Returned it to the map.
+
+| Status | Item | Notes |
+|---|---|---|
+| ✅ | Contour #102 «Инструментарий» | 5th root holon — *чем* исполняется машина (substrate/капсулы/MCP/гейты), vs #67 принципы |
+| ✅ | Retrospective wiring | engine #103, substrate #104, kriyas #105/#106/#107 → `upadhi` to 13 principles → **weave 14→2** |
+| ✅ | Prospective plan (hints) | #108 капсула-скилл → #109 headless-MCP → #111 L402 (anantara) · #110 изоляция-прогон |
+| ✅ | Bianhua #112 | «Инструментарий становится планируемым слоем и headless-продуктом» — owner map, holds headless visible |
+| ✅ | MCPization plan + gap audit | 33 recipes classified (atomic/orchestrator/infra/copyright); 8 gaps; tasklog `20260623_mcpization_plan.md` |
+| ✅ | Language decision | **Python + pyswisseph + FastMCP** (not PowerShell-shim) — pyswisseph in-process kills provider dep (G4+G5); PS recipe = golden reference |
+| ✅ | Test granularity | function=unit/golden · skill=workflow-scenario · gate=assertion; one skill-capsule per workflow-genre |
+| ✅ | G7 fix | recipes README named dead provider theme-astral.me → corrected to self-hosted swiss |
+
+**Next (instrumentarium):**
+- Stage 1 — first MCP function: `astro.rising_hands(date,lat,lon,tz)` in Python+pyswisseph+FastMCP +
+  golden test vs the PowerShell recipe. Proves language + contract (G1/G2/G3) + provider-removal (G5).
+- G6 copyright allow-list (exclude phase) · G8 L402 billing (#111, after the surface exists).
+- Refactor `.agents/skills/` into workflow-capsules with a test harness (fixture + invariants).
 
 ## Harness Improvement (2026-06-19)
 
