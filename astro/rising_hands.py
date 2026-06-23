@@ -4,10 +4,11 @@ First MCPization target. This is the Python port of the *watch core* of the Powe
 `artifacts/mcp-recipes/run_rising_hands.ps1` (general mode): it scans the Ascendant across a day,
 finds when the rising SIGN changes (the "караул" units), and returns those watches.
 
-Engine = B1 (NKS #113 spike): Python is a CLIENT of the already-running self-hosted swiss-ephemeris
-MCP (StreamableHTTP at http://localhost:8000/mcp, swisseph v2.10.03 pinned). Because it is the SAME
-engine the PowerShell recipe calls, the numbers match the golden BY CONSTRUCTION — no second build,
-no pyswisseph (that is a different #113 spike).
+Engine-agnostic (NKS #115): rising_hands does NOT call any engine directly. It asks the THIN seam
+`astro.engine.compute_asc_series` for the day's ASC longitudes and stays engine-blind. The default
+engine is B1 (swiss-mcp client, swisseph v2.10.03 — the SAME engine the PowerShell recipe calls, so
+the numbers match the golden BY CONSTRUCTION); engine="a" (or env SWISS_ENGINE=a) runs the whole
+clock on in-process pyswisseph where it is installed. The seam is the ONLY place the engine differs.
 
 SCOPE (minimal, golden-test driven): ONLY the watches (start_local + asc_sign). The recipe's other
 hands — natal crossings, Moon timing, phases, dignities, spheres, void-of-course, coincidences — are
@@ -15,21 +16,16 @@ deliberately NOT ported here. They are out of scope for the rising_hands watch c
 """
 from __future__ import annotations
 
-import asyncio
-import json
 import math
-import os
+from datetime import datetime, timedelta, timezone
 
-from mcp import ClientSession
-from mcp.client.streamable_http import streamable_http_client
+from astro.engine import compute_asc_series
 
 # Russian sign names, index 0..11 = Aries..Pisces (same order as the recipe's $Signs).
 SIGNS = (
     "Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева",
     "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы",
 )
-
-SWISS_MCP_URL = os.environ.get("SWISS_MCP_URL", "http://localhost:8000/mcp")
 
 
 def _sign_idx(lon: float) -> int:
@@ -61,38 +57,21 @@ def _cross(a: float, b: float, target: float) -> float:
     return -1.0
 
 
-async def _scan_asc(date: str, lat: float, lon: float, step_min: int) -> list[float]:
-    """Floating scan: ASC longitude at every grid step across the day, via ONE swiss-mcp session.
+def _scan_asc(date: str, lat: float, lon: float, step_min: int, engine: str | None) -> list[float]:
+    """Floating scan: ASC longitude at every grid step across the day, via the engine seam.
 
-    Returns a list of ASC longitudes, one per step (utcMin = k * step_min). The datetime sent to
-    swiss is pure UTC built from date + utcMin (no tz shift) — tz is applied only at display time.
+    Builds pure-UTC moments from date + utcMin (no tz shift — tz is display-only) and hands them
+    to compute_asc_series. rising_hands stays engine-blind; only `engine` is threaded through.
     """
     n_steps = int(1440 / step_min)
-    asc = []
-    async with streamable_http_client(SWISS_MCP_URL) as (read, write, _):
-        async with ClientSession(read, write) as session:
-            await session.initialize()
-            for k in range(n_steps):
-                utc_min = k * step_min
-                iso = "{}T{:02d}:{:02d}:00Z".format(
-                    date, int(math.floor(utc_min / 60)), int(utc_min % 60)
-                )
-                res = await session.call_tool(
-                    "calculate_planetary_positions",
-                    {"datetime": iso, "latitude": lat, "longitude": lon},
-                )
-                payload = None
-                for c in res.content:
-                    if getattr(c, "type", None) == "text":
-                        payload = json.loads(c.text)
-                        break
-                if payload is None:
-                    raise RuntimeError("swiss-mcp returned no text payload for %s" % iso)
-                asc.append(float(payload["chart_points"]["Ascendant"]["longitude"]))
-    return asc
+    base = datetime.strptime(date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    moments = [base + timedelta(minutes=k * step_min) for k in range(n_steps)]
+    return compute_asc_series(moments, lat, lon, engine=engine)
 
 
-def rising_hands(date: str, lat: float, lon: float, tz: float, step_min: int = 10) -> dict:
+def rising_hands(
+    date: str, lat: float, lon: float, tz: float, step_min: int = 10, engine: str | None = None
+) -> dict:
     """Compute the day's rising-sign watches (minute hand of the rising-sign clock).
 
     Args:
@@ -103,12 +82,14 @@ def rising_hands(date: str, lat: float, lon: float, tz: float, step_min: int = 1
         step_min: floating-scan grid step in minutes. Default 10 — this matches the golden
             reference run; a different step brackets the 30deg crossings differently and can
             shift an interpolated boundary by a minute.
+        engine: which compute engine to use ("b1" default / "a" pyswisseph). None -> env
+            SWISS_ENGINE, else "b1". Forwarded to the seam; rising_hands itself stays engine-blind.
 
     Returns:
         {"watches": [{"start_local": "HH:MM", "asc_sign": "<Russian sign>"}, ...]} — exactly 12
         watches over a full day (the midnight-edge sign, which opens AND closes the scan, is merged).
     """
-    asc = asyncio.run(_scan_asc(date, lat, lon, step_min))
+    asc = _scan_asc(date, lat, lon, step_min, engine)
 
     # MINUTE HAND: a watch boundary = the rising SIGN changes. Interpolate the 30deg crossing
     # time within the step (ASC ~linear over a step). Port of the recipe's watch loop.

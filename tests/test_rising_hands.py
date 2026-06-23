@@ -28,3 +28,16 @@ def test_first_watch_matches_powershell_golden():
     first = result["watches"][0]
     assert first["start_local"] == GOLDEN_FIRST_WATCH["start_local"]
     assert first["asc_sign"] == GOLDEN_FIRST_WATCH["asc_sign"]
+
+
+def test_engine_agnostic_whole_clock_a_equals_b1():
+    """#115 arbiter at the CLOCK level: the full 12-watch clock is identical on engine A and B1.
+
+    Skips where pyswisseph (engine A) is absent, so the suite stays green without it.
+    """
+    import pytest
+
+    pytest.importorskip("swisseph")
+    b1 = rising_hands(**GOLDEN_INPUT, engine="b1")
+    a = rising_hands(**GOLDEN_INPUT, engine="a")
+    assert a == b1
