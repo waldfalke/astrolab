@@ -21,3 +21,7 @@ mcporter_temp/
 
 # agent-local overrides (machine-specific, never committed)
 .claude/settings.local.json
+
+# Python virtualenv (uv-managed)
+.venv/
+__pycache__/
