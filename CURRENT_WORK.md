@@ -1,9 +1,35 @@
 # CURRENT_WORK - CATMEastrolab
 
-**Last Updated:** 2026-06-20
-**Active focus:** Solar-gift harness quality + reading-method architecture. This chat (Opus) ran control
-reads (Mitya, owner transit-day), fixed real harness bugs, and laid the conceptual spine of the reading
-machine into NKS (#85–#91). Two new products scoped (transit-day reading, rising-sign clock).
+**Last Updated:** 2026-06-23
+**Active focus:** Rising-sign clock **mundane product shipped** (Stage-1 MVP, natal-free) + NKS made a
+routine part of the work loop. This chat (Opus) built the standard template + twin-gated orchestrator
+for the mundane day forecast, ran a verstakify refresh, and did the first-ever NKS capability audit /
+tensions-sweep — then wove the sweep ritual into `/save`, `/load`, and the git-push hook.
+
+## Rising-sign clock — mundane product + NKS process (2026-06-22/23, Opus)
+
+| Status | Item | Notes |
+|---|---|---|
+| ✅ | Mundane clock Stage-1 MVP | natal-free "космограмма качества времени дня"; verified end-to-end 22–23.06 Krasnodar |
+| ✅ | Standard template | `artifacts/report-templates/rising-clock-mundane.html` — de-identified, format rules in leading comment (that comment IS the standard) |
+| ✅ | Twin-gated orchestrator | `artifacts/mcp-recipes/run_mundane_day.ps1` — data→twin→template→PDF, younger sibling of run_transit_day; gate blocks PDF without twin |
+| ✅ | Crystallized to NKS | bildung `#101` (bianhua `#96` Stage-1); driving hints #91/#95/#97 realized |
+| ✅ | run_transit_day protocol | natal transit-day twin-gated orchestrator (built earlier this session) |
+| ✅ | verstakify refresh | SessionStart orient + PostToolUse git-push hooks + NKS allow-list in `.claude/settings.json` |
+| ✅ | NKS process-weave | first tensions/bianhua sweep; 3 vimarshas anchored; sweep ritual woven into `/save` Step 6 + `/load` Step 2 + git-push hook |
+
+Format standard (the rules we suffered to find): 12 watches as bold-header paragraphs (no period),
+достоинство ≠ фаза, phase = archetype word (never the P⟨⟩ formula), "восходящий градус" not "горизонт",
+НА квадрате / В оппозиции, high planets not a flat background, retro-only climate, two layers
+technical→human, twin before prose. Memory: `rising-clock-mundane-format`. Tasklog:
+`TaskLogs/20260623_nks_capability_audit_and_process_weave.md`.
+
+**Next:**
+- Stage-2 «свадьба» of the clock with natal (`#98`, anantara after MVP) — personal overlay on the
+  general mechanics.
+- 14 standing weave tensions (11 grundsatz + 2 vollzug) — a focused `design`/`weaving` pass: they need
+  applying-kriya nodes, decided per-principle (pitfall #85), not blanket-linked.
+- `#94` scoring-engine vs determinization line (parked samshaya).
 
 ## Harness Improvement (2026-06-19)
 
