@@ -41,3 +41,23 @@ pwsh artifacts/mcp-recipes/run_renderer.ps1 -ChartId <id> -ChartsRoot .private/c
 - Keep the approximate-time note and the "verify against biography" line, gracefully worded.
 
 First filled instance (reference): `novosibirsk_19880609_1430` (in `.private`).
+
+## `rising-clock-mundane.html` — natal-free rising-sign clock (mundane day forecast)
+
+The quality of a **day for a place**, with no personal chart — a "космограмма качества времени дня". Two
+layers in fixed order: **I. Астрологический слой** (12 watches as paragraph pairs + начкары, objects on the
+rising degree, Moon hand, retro climate) → **II. По-человечески**. All `{{TOKENS}}` and the full quality
+rules (12 watches not 13; header bold/no period; достоинство ≠ фаза; phase = archetype, never the formula;
+"восходящий градус" not "горизонт"; aspect cases НА квадрате / В оппозиции; high planets are not background)
+live in the leading HTML comment of the file — that comment **is** the standard.
+
+### Data source & render
+
+Data comes from `run_rising_hands.ps1` in **general mode** (no `-NatalPointsCsv`). Fill the template against
+a twin (read-as-system first — twin before prose), then render to PDF:
+
+```powershell
+python D:/Temp/claude/h2pdf_day.py <filled>.html <out>.pdf
+```
+
+First filled instance (reference): `general_20260623_krasnodar` (in `.private/charts/_transit_days/`).

@@ -1,0 +1,141 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<!--
+  rising-clock-mundane.html — CANONICAL template for the natal-free "rising-sign clock" mundane forecast.
+  A "космограмма качества времени дня": the quality of a DAY for a PLACE, with no personal chart.
+  De-identified. Git-tracked. A FILLED instance carries place/date but NO PII — still goes to
+  .private/charts/_transit_days/, never committed. First reference fill: general_20260623_krasnodar (.private).
+
+  ── DATA SOURCE ─────────────────────────────────────────────────────────────────────────────────
+  run_rising_hands.ps1 in GENERAL mode (no -NatalPointsCsv). Per-day artifacts under the run dir:
+    03_watches.csv        — 12 watches (rising sign ~2h each) + начкар (ruler): sign, dignity, phase
+    10_rising_objects.csv — objects on the rising DEGREE (transit ASC/MC crosses a planet)
+    07_moon_to_planets.csv / 05_moon_timing — Moon hand: aspects to transit planets, void-of-course
+    08_sphere_quality.csv — which life-sphere each watch leans to (#97)
+    09_void_of_course.csv — Moon makes no major aspect before leaving its sign
+    summary               — retro climate (derived from ribbon), VoC verdict
+
+  ── TOKENS (fill from data; never hand-author a chart value) ──────────────────────────────────────
+    {{DATE}}        e.g. "23 июня 2026"
+    {{PLACE}}       e.g. "Краснодар"
+    WATCH block ×12 from 03_watches: {{TIME_RANGE}} · {{SIGN}}  +  ruler position/dignity/phase prose
+    RISING-OBJECT lines from 10_rising_objects: {{HH:MM}} — {{OBJECT}} восходит|кульминирует
+    MOON line from the Moon hand; SEASON line from retro climate
+    Human-layer blocks (Утро/День/Вечер/Ночь/Про силу/Про фазу) — same wh/wb pair as the watches
+
+  ── QUALITY RULES (this IS the standard — enforce on every fill) ──────────────────────────────────
+  STRUCTURE
+   • Two layers in order: I. Астрологический слой (technical, точно) → II. По-человечески. Never mix.
+   • TWIN BEFORE PROSE. Read the day as a system, write a twin (12 watches + начкары, rising objects,
+     Moon hand, spheres, retro/VoC, осторожно), THEN fill this template checked against it. No cutting it.
+  WATCHES
+   • Exactly 12 watches, not 13 (the midnight edge sign wraps — merge the pair).
+   • Each watch = a PARAGRAPH PAIR: <p class="wh"> header (TIME · SIGN), bold, SAME font, NO trailing period;
+     <p class="wb"> interpretation below. Not a table.
+   • Начкар (ruler): name its POSITION (sign) and DIGNITY, then the lean. Dual ruler for
+     Scorpio (Mars+Pluto) / Aquarius (Saturn+Uranus) / Pisces (Jupiter+Neptune) — name both.
+   • ДОСТОИНСТВО ≠ ФАЗА. Dignity (домицил/экзальтация/падение/изгнание/перегрин) = STRENGTH.
+     Phase = ARCHETYPE (Импульс/Ресурс/Связь/База/Творчество/Служение/Зеркало/Трансформация/Стратегия/
+     Результат/Оптимизация/Архив). Show the archetype word; NEVER print the formula P⟨Z.z:H.h:D⟩ — working layer.
+  RISING OBJECTS
+   • Heading: "Объекты на восходящем градусе" — NOT "горизонт". ASC = ecliptic degree on the horizon,
+     not the physical horizon; a planet's ecliptic latitude offsets its true rising. "восходит" = on the ASC degree.
+   • Render as a LINE LIST (HH:MM — Object восходит / кульминирует), not a table, not prose.
+  MOON / SEASON
+   • Aspect cases: НА квадрате / НА трине / НА секстиле / В оппозиции / В соединении.
+   • Note void-of-course if any (Moon leaves sign with no further major aspect).
+   • High planets are NOT a "ровный фон" — too faint for a background layer. The only seasonal climate
+     worth naming is RETROGRADE motion. Don't pad with slow-planet "background".
+  LANGUAGE (realm clear-russsian)
+   • Live verb over verbal noun; explicit actor; concrete image; Russian equivalent, not calque.
+   • No "self-notes"/meta-commentary in the client text. No glyphs in body prose (words).
+   • Self-contained for print: inline CSS; print_background on.
+-->
+<style>
+@page { size: A4; margin: 16mm 14mm; }
+body { font: 11pt/1.55 Georgia, "PT Serif", serif; color:#1a1a1a; max-width: 720px; }
+h1 { font-size: 19pt; margin:0 0 2pt; }
+.sub { color:#666; font-size:10pt; margin-bottom:12pt; }
+h2 { font-size:13pt; margin:18pt 0 5pt; border-bottom:1px solid #ddd; padding-bottom:3pt; }
+h3 { font-size:11pt; margin:11pt 0 3pt; color:#333; }
+p { margin:5pt 0; }
+table { border-collapse:collapse; font-size:9.5pt; margin:5pt 0; width:100%; }
+td,th { border:1px solid #e3e1dd; padding:2px 6px; text-align:left; }
+th { background:#f7f6f3; }
+.cal { font-variant-numeric: tabular-nums; }
+.dim { color:#888; font-size:9pt; }
+.strong { font-weight:bold; }
+.weak { color:#999; }
+hr { border:0; border-top:1px solid #eee; margin:14pt 0; }
+.layer { color:#777; font-size:9.5pt; font-style:italic; margin:2pt 0 8pt; }
+.wh { margin:10pt 0 0; font-weight:bold; }
+.wb { margin:1pt 0 0; }
+</style></head><body>
+
+<h1>Часы восходящего знака</h1>
+<div class="sub">{{DATE}} · {{PLACE}} · космограмма качества времени дня</div>
+
+<h2>I. Астрологический слой — факторы дня</h2>
+
+<h3>Караулы — знак за знаком (минутная стрелка)</h3>
+<p>За сутки восходящий градус (ASC) проходит весь зодиак — 12 знаков. Каждый отрезок дня обладает своим
+качеством - знак на восходе, его управитель (где он и в какой силе), фаза-архетип и в какой сфере проявлен.</p>
+
+<!-- WATCH BLOCK — repeat ×12 from 03_watches.csv (12, not 13). Header bold, no period; ruler position +
+     DIGNITY (strength) + PHASE archetype (no formula); then the lean. Dual ruler → name both. -->
+<p class="wh">{{TIME_RANGE}} · {{SIGN}}</p>
+<p class="wb">Управитель {{RULER}} в {{RULER_SIGN}}, {{ДОСТОИНСТВО}}, фаза {{АРХЕТИП}}. {{трактовка караула —
+во что клонит время и для чего этот час}}.</p>
+<!-- … остальные караулы … -->
+
+<h3>Объекты на восходящем градусе (тонкая стрелка — планета на ASC / в кульминации)</h3>
+<!-- LINE LIST from 10_rising_objects.csv — НЕ таблица, НЕ проза. "восходит" = на восходящем градусе. -->
+<p class="cal" style="line-height:1.5; margin:5pt 0">
+{{HH:MM}} — {{OBJECT}} восходит<br>
+{{HH:MM}} — {{OBJECT}} кульминирует<br>
+<!-- … все строки из 10_rising_objects … --></p>
+
+<h3>Лунная стрелка (часовая — аспекты Луны к планетам)</h3>
+<p>{{где идёт Луна за день}}. {{точные мажорные аспекты: «~HH:MM — Луна НА квадрате к …» / «В оппозиции к …»}}.
+{{VoC: есть/нет — Луна меняет знак без дальнейшего мажорного аспекта}}.</p>
+
+<h3>Сезонный фон</h3>
+<!-- ТОЛЬКО ретро-климат. Высшие НЕ как ровный фон. -->
+<p>{{ретроградные планеты и что это за климат недель}}.</p>
+
+<h2>II. По-человечески — как этим пользоваться</h2>
+<p class="layer">То же самое простыми словами.</p>
+
+<p>Представь день как циферблат, где «минутная стрелка» — это знак, восходящий над городом. Он меняется
+каждые ~2 часа и задаёт общий настрой времени. У каждого знака есть «командир» — планета-управитель; от
+того, в силе она или в слабости, зависит, твёрдо ли стоит этот час.</p>
+
+<!-- Human-layer blocks: same wh/wb pair as the watches. Group the day (утро/день/вечер/ночь),
+     then explain сила (достоинство) and фаза (архетип) as separate things. -->
+<p class="wh">Утро</p>
+<p class="wb">{{какие объекты восходят с утра, какие караулы, для чего хорош утренний отрезок}}.</p>
+
+<p class="wh">День</p>
+<p class="wb">{{полуденная кульминация, дневные караулы и их качество}}.</p>
+
+<p class="wh">Вечер</p>
+<p class="wb">{{вечерние караулы, лучшее/худшее окно по силе управителя}}.</p>
+
+<p class="wh">Ночь</p>
+<p class="wb">{{ночные караулы, лунная стрелка, поздние объекты}}.</p>
+
+<p class="wh">Про силу командиров</p>
+<p class="wb">«Экзальтация» — планета в гостях, где её особенно чтут (сильна, благосклонна); «падение» — где
+ей неуютно (слаба); «перегрин» — обычное, нейтральное состояние. {{какие полюса силы выделяются сегодня}}.</p>
+
+<p class="wh">Про фазу — это другое, чем сила</p>
+<p class="wb">Достоинство говорит, насколько командир крепок; фаза — в каком <b>архетипе</b> он сейчас работает,
+и это окрашивает час. {{какие архетипы выделяются сегодня и как это окрашивает дневные/ночные часы}}. Сила
+говорит, крепко ли стоит час, а фаза — какого он рода.</p>
+
+<hr>
+<p class="dim">Восходящий знак и его смены, положение и сила управителя караула, восходящие объекты, лунные
+аспекты, тяготение к сферам, ретроградность и «без курса» посчитаны рецептом <code>run_rising_hands</code>
+(плавающий расчёт, шаг 10 мин) для {{PLACE}}. Это качество времени для места, не предсказание событий и не
+личный прогноз: личная карта уточнила бы картину, но и без неё ритм дня читается.</p>
+
+</body></html>
