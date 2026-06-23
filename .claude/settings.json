@@ -52,7 +52,7 @@
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "jq -r '.tool_input.command // \"\"' | grep -q 'git push' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"git push — update NKS realm astrolab to match reality (close/open vimarshas, handle driving hint), then run the after-green-push self-review.\"}}' || true" }
+          { "type": "command", "command": "jq -r '.tool_input.command // \"\"' | grep -q 'git push' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"git push — sweep NKS realm astrolab: nks_orient(lens=tensions) and weave new gaps, crystallize one understanding (bildung), update bianhua progress; then the after-green-push self-review.\"}}' || true" }
         ]
       }
     ]

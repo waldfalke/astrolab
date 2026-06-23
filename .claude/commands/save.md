@@ -54,7 +54,22 @@ If a task completed:
 1. Change task file header `[TODO]` → `[DONE]`
 2. Update BACKLOG.md entry
 
-### Step 6: Check Git
+### Step 6: NKS sweep (end-of-session graph ritual — 時-cycle 忠 light update)
+
+Realm `astrolab` is the living graph of this work. Before ending, do NOT skip — the graph silts up
+silently otherwise (17 tensions once accumulated this way):
+
+1. `nks_orient(realm="astrolab", lens="tensions")` — what did THIS session leave unclosed?
+   - Weave your own gaps (`weaving` skill): a new node without `vimarsha_of`/`context`, an arrow
+     without `sense`, an unclosed lifecycle.
+   - Sanctioned boundaries (realm inlet, ambient principle) — leave **consciously**, don't "fix"
+     them. Tensions are truthful; a wrong arrow to zero a counter is worse than the tension.
+2. Crystallize ≥1 understanding from the session: a `bildung` phenomenon (`arose_from` its origin,
+   `context` into the holon) — a session must leave an **understanding**, not only new questions
+   (methodology #435). If nothing crystallized, the session didn't land.
+3. Update active bianhua progress: what advanced, which driving vimarshas resolved.
+
+### Step 7: Check Git
 
 ```bash
 git status -sb
@@ -62,7 +77,7 @@ git status -sb
 
 If uncommitted changes, offer: commit / leave / stash.
 
-### Step 7: Output Confirmation
+### Step 8: Output Confirmation
 
 ```markdown
 ## Saved
@@ -85,3 +100,5 @@ If uncommitted changes, offer: commit / leave / stash.
 - Include timestamp and chat/model identifier
 - If no significant work, still log brief entry
 - Update `.agents/docs/` if architectural decisions were made
+- The NKS sweep (Step 6) is not optional bookkeeping — it is how the graph stays in tension with
+  reality. Match the graph to what changed; leave an understanding behind.
