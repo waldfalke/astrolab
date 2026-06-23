@@ -49,20 +49,27 @@ not the ephemeris.
 | G2 | **No typed input schema.** PowerShell `param()` blocks exist but no JSON `inputSchema` (MCP requires it). | all of A | blocking |
 | G3 | **Stateful by design.** Recipes persist by caseId+timestamp; an MCP function should be stateless (input→output, no side-files). Need a compute-only / no-persist mode. | all of A | blocking |
 | G4 | **Transport mismatch: PowerShell scripts ≠ MCP server.** Recipes run via `pwsh`; MCP needs a stdio/http server process. Either (a) a thin server that shells recipes in no-persist mode, or (b) extract the compute core into the server. **This is the real architecture fork.** | systemic | blocking |
-| G5 | **Provider is local.** `swissremote` = local Docker `:8000`, not public. Remote/agent access needs a hosted swiss (or bundled ephemeris). | infra | blocks remote |
+| G5 | **No own HOSTED ephemeris node.** `swissremote` = local Docker `:8000`. SUPPLY-CHAIN lesson: the project began on a 3rd-party API (theme-astral.me), which was silently killed — a realized risk. A headless product SOLD to agents cannot depend on someone else's API; ephem.fyi/vedastro are the same risk class (backup/probe only, never production). **Own hosted ephemeris node = a release REQUIREMENT**, with operational cost (Swiss Eph updates, uptime, hosting). Both #113 engine candidates (pyswisseph self / swiss-mcp Docker) are "ours"; the gap is HOSTING it for remote agent access. | infra | **blocks release** |
 | G6 | **No exportable/working-layer marking.** Nothing in the recipes flags copyright (phase) vs free-to-expose. Need an allow-list at the server boundary. | D | blocking for public |
 | G7 | **README stale.** `artifacts/mcp-recipes/README.md` still names dead providers (theme-astral.me); `.mcp.json` has the live set (swissremote/ephem/vedastro). Doc drift. | doc | minor |
 | G8 | **No billing hooks.** L402 monetization (hint #111) not started; depends on G4 first. | product | deferred |
 
 ## Plan — staged (anantara order)
 
-**Stage 0 — Language/transport decision (resolves G4+G5). DECIDED: rewrite compute cores in Python.**
-A PowerShell-shim (a) only lacquers slow `pwsh` and keeps the swissremote dependency. Instead rewrite
-the atomic-function compute cores in **Python + `pyswisseph`** (Swiss Ephemeris in-process → kills the
-external-provider dependency, resolves G5) served via **FastMCP** (typed `inputSchema` from annotations
-→ resolves G2). NOT all at once — one function at a time; the PowerShell recipe stays the **golden
-reference** (Python output == PS output on a fixture). Orchestrators (twin-gate) are NOT exposed.
-`phase_vectors` is copyright — excluded.
+**Stage 0 — ADD a Python engine ALONGSIDE the recipes (not a migration). ENGINE CHOICE IS OPEN
+(samshaya #113) — do NOT fix it unmeasured.** PowerShell recipes stay source of truth; we ADD a Python
+function layer via **FastMCP** (typed `inputSchema` → G2), coexisting. The compute engine has THREE
+candidates, to be compared empirically, not chosen blind:
+- **A. pyswisseph in-process** (own `.se1` ephemeris) — fast, self-contained; risk: its Swiss Eph
+  version may differ from swiss-mcp Docker → numbers drift.
+- **B1. client of the running swiss-mcp Docker (:8000)** — reuses the proven engine + its ephemeris;
+  free of version-drift; cost: HTTP-hop latency, depends on the container.
+- **B2. hybrid** — pyswisseph library but `swe.set_ephe_path()` onto the Docker ephemeris volume.
+
+One function at a time; the PowerShell recipe is the **golden reference** — the golden test checks the
+added engine AGREES with the recipe (Python == PS on a fixture). The golden test is the ARBITER of
+number-agreement. **Resolution: spike GREEN twice (B1 and A/B2) on the ready RED golden test, measure
+speed+deploy, then decide.** Orchestrators (twin-gate) NOT exposed. `phase_vectors` copyright — excluded.
 
 **Stage 1 — First function in Python (resolves G1+G3 by construction).** A Python function returns
 typed JSON and persists nothing — stateless by default, no `-EmitJson/-NoPersist` retrofit needed.
