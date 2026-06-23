@@ -135,17 +135,7 @@ Key open items:
 
 **Next:**
 - Zones #84: TIME-axis DONE+verified (2d3b43f — carrier_windows zone tail/core/horizon, ±3mo scan decoupled from SR anchor, threaded to coverage_factors; tail proven on owner solar-2026; pitfall #15). DOMAIN-axis POSTURE DONE+verified (bf09167 — coverage_factors `zone` column → sphere_ledger zone_core/horizon/tail + posture hint; tail-only sphere proven on fixture). #84 CONSCIOUSLY DEFERRED (owner 2026-06-21, factors already plentiful): (1) **wider orb-horizon for spheres** — full "horizon saves a тихий sphere" needs a separate wider scan (orb 2-3°) for the sphere axis only; FROZEN until a future long-cycle module (slow-planet cycles) — decide there. Open question for thaw (from a SOURCE, not memory): does the up-to-3° orb apply to trans-Saturnian/outer planets or only classical? (2) far-horizon extrapolation — same trigger; (3) real-chart end-to-end of the domain axis — do it on the next real client run, not separately.
-- dispositions rework per #87 (offload to cheap model + ensemble).
+- dispositions rework per #87 (offload to cheap model + ensemble); rising-sign-clock product (#91, ~40% new).
 - Lena run still pending owner decision (this chat scoped current SR 2025, Krasnodar, no relocation; the other chat had Seattle+gender — reconcile).
-
-## Rising-sign clock #93 + transit-day recipe (2026-06-21, this chat)
-
-NKS contour #93 (rising-sign clock) fully scoped from the owner↔DeepSeek conversation + #96 bianhua
-(MVP generalized elections → personal-natal overlay). Build started:
-- **`run_rising_hands.ps1` BUILT** (commits 0a96138, 2746576) — the FLOATING three-hands recipe (#97 params: 6-min grid, watches+dual rulers, ASC/MC crossings, Moon timing). First stone of MVP #93. Standalone tool; transit-day CONSUMES it. Verified on owner 21/22-Jun (hands reproduce yesterday's manual build).
-- **`run_transits_to_natal` snapshot fix** (f284d12) — now carries natal angles (was a silent #88/#14 gap; range mode had them, snapshot didn't). Pitfall #16.
-- **transit-day pipeline is now recipe-based** (not temp scripts): aspects ← run_transits_to_natal snapshot (with angles) · hands ← run_rising_hands · prose/PDF ← model. Owner 21-Jun PDF rebuilt this way (`.private/charts/ownerday/transit_day_20260621_v2.pdf`).
-- Pitfalls #16 (recipe-mode drift) + #17 (PowerShell [int] rounds not truncates) recorded.
-- REMAINING for MVP #93: scoring layer (house-scoring as floor, sphere profiles, generative aspect weights #97), window selection (#94 boundary), presentation (#95), high-latitude house systems. Hands calc only is done.
 
 **Blockers:** none. Deep night — stopping after the prose fix.
