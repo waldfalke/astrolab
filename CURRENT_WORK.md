@@ -52,7 +52,7 @@ into reading-craft — `semantic_search` found zero nodes for the product layer.
 **Next (instrumentarium):**
 - Stage 1 — first MCP function: `astro.rising_hands(date,lat,lon,tz)` in Python+pyswisseph+FastMCP +
   golden test vs the PowerShell recipe. Proves language + contract (G1/G2/G3) + provider-removal (G5).
-- G6 copyright allow-list (exclude phase) · G8 L402 billing (#111, after the surface exists).
+- ~~G6 copyright allow-list (exclude phase)~~ — copyright restriction **LIFTED 2026-06-24** (#50 retired; phase free for client/product) · G8 L402 billing (#111, послезавтра).
 - Refactor `.agents/skills/` into workflow-capsules with a test harness (fixture + invariants).
 
 ## Headless MCP — first slice + engine-agnosticism + element/composite views (2026-06-24, Opus)

@@ -55,7 +55,7 @@ $DignityWeight = @{ "домицил"=1; "экзальтация"=1; "паден�
 
 # Zakharian PHASE operator P⟨Z.z:H.h:D⟩ — same operator as the эталонный run_phase_vectors (self-tested
 # vs book Table 2.2). MODERN domiciles (phase axiom). Applied to the watch ruler: Z/z by sign, H/h from
-# the watch's ASC (equal-house), D = dispositor's Z. Working layer only — never the client report.
+# the watch's ASC (equal-house), D = dispositor's Z. (Copyright restriction lifted 2026-06-24 — free for client.)
 $PhDomicile = @{ sun=5; moon=4; mercury=3; venus=2; mars=1; jupiter=9; saturn=10; uranus=11; neptune=12; pluto=8 }
 $PhSignRuler = @("mars","venus","mercury","moon","sun","mercury","venus","pluto","jupiter","saturn","uranus","neptune")  # modern ruler of sign 1..12
 function PhOp([int]$pointIdx1, [int]$anchorIdx1) { return ((($pointIdx1 - $anchorIdx1) % 12 + 12) % 12) + 1 }  # 1-based

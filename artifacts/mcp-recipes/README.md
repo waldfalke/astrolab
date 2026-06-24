@@ -64,7 +64,7 @@ This folder contains executable artifacts that generate working astrology output
 23. `run_solar_revolution.ps1`
    - Produces: solar return for `ReturnYear`, cast at the TRUE Sun-return instant (bisection, not naive birthday cast), with relocation (`ReturnLatitude/ReturnLongitude`), SR→natal aspects, SR dignities, and annual profection.
 24. `run_phase_vectors.ps1`
-   - Produces: Zakharian phase vector `P⟨Z.z:H.h:D⟩` for all 10 bodies, built FROM the operator (book Table 2.2 embedded as a self-test, throws on mismatch). Tiers: Z,H grounded · z,h,D anumita. Working layer only (copyright).
+   - Produces: Zakharian phase vector `P⟨Z.z:H.h:D⟩` for all 10 bodies, built FROM the operator (book Table 2.2 embedded as a self-test, throws on mismatch). Tiers: Z,H grounded · z,h,D anumita (knowledge-quality). Copyright restriction lifted 2026-06-24 — free for client/product.
 25. `build_coverage_ledger.ps1`
    - Produces: keyed-contract coverage ledger (factors / dispositions / versions / report) over the chart project + SR + transit timeline. Transits split into `транзиты-несущие` (slow) and `транзиты-триггеры` (fast, auto-quiet). Runs gate-2/gate-3 structural checks.
 26. `run_rising_hands.ps1`

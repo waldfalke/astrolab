@@ -52,7 +52,7 @@ not assumed.
 
 ## Constraints (carry into every subtask)
 - **Reframe holds:** MCPize PRODUCED value (composites/derived), not raw swiss positions (already MCP).
-- **Copyright:** фаза-слой (#10) NEVER exposed publicly (working layer). Exclude at the allow-list (G6).
+- **Copyright (LIFTED 2026-06-24):** фаза-слой (#10) — копирайт-запрет СНЯТ владельцем; свободна к экспозиции/продукту/монетизации. Эпистемика (z/h/D anumita) остаётся — качество знания, не запрет. Graph #50 retired (visarjana).
 - **PII:** golden ONLY on the public Trump fixture (`charts/trump_19460614_105400_jamaica_ny`); client
   sets (CLIENTS.yaml) stay in `.private`, never in golden/git/graph.
 - **Engine-agnosticism (#115):** every element-compute goes through the seam; B1 default, A optional.

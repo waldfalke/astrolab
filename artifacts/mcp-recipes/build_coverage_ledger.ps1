@@ -124,7 +124,8 @@ foreach ($d in $dignities) {
 $sectMap = @{}; foreach ($s in $sect) { $sectMap[$s.body] = "$($s.planet_team)/$($s.placement)/$($s.role)" }
 $declMap = @{}; foreach ($d in $decl) { $oob = if ($d.out_of_bounds -eq "TRUE") { " OOB!" } else { "" }; $declMap[$d.body] = "$($d.declination_deg)$oob" }
 # Phase vector (Zakharian) — base object property like dignity/sect. Z is grounded (book Table 2.2);
-# z/H/h/D ride along but are anumita (operator+attested, source-unverifiable). Authorial → working layer only.
+# z/H/h/D ride along but are anumita (operator+attested, source-unverifiable) — knowledge-quality, NOT a
+# copyright bar (restriction lifted 2026-06-24; phase free for client/product).
 $phaseLayer = Import-CsvSafe (Resolve-ChartFile @("phase_vectors.csv"))
 $phaseMap = @{}; foreach ($pv in $phaseLayer) { $phaseMap[("$($pv.body)").ToLower()] = $pv }
 

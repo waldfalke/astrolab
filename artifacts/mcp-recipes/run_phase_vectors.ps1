@@ -31,7 +31,8 @@ param(
 #
 # Rulership axiom: MODERN (outers get domiciles; phase-ruler cycle 1 Mars…12 Neptune needs it).
 #   This is a declared input, and it differs from the TRADITIONAL scheme used in profections.
-# Output is internal to the working reading + coverage. Zakharian is copyright — NEVER the client report.
+# Output feeds the working reading + coverage. Copyright restriction LIFTED by owner 2026-06-24 — phase
+# layer is free for client report / product (epistemic tiers Z,H grounded / z,h,D anumita-ceiling remain).
 # ============================================================================================
 
 $ErrorActionPreference = "Stop"
