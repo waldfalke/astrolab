@@ -77,6 +77,18 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 - Where an oracle is buildable, build it (test that screams, CI on clean checkout); where the claim is
   judgemental (coverage, a map, a mode), no gate exists — use an independent adversary, not your word.
 
+### 3b. Execution & skill-invocation discipline (rationale: NKS #125/#126 — same root: bypassing the checking layer)
+
+- Multi-step build → use the Superpowers chain, don't hand-roll a bespoke workflow: `writing-plans`
+  (requirements → plan before code) → `subagent-driven-development` / `executing-plans` (independent
+  tasks via subagents, review checkpoints) → `verification-before-completion` per checkpoint.
+- Run discipline skills (TDD, verification, brainstorming, plans, debugging) as EXPLICIT isolated
+  subagents — a FLEET — never inlined as read-and-do instructions. (why: an inlined skill is goodwill,
+  skipped under optimism; an isolated subagent makes the discipline actually run — this is the #1
+  recurring failure the owner has to flag.)
+- To RESCOPE, run `verstak:assembly` over the realm — it produces the bianhua map + the transcendent-will
+  agenda (the owner's calls, e.g. #124). Don't hand-roll scope from local focus.
+
 ## 4. First Smoke Check
 
 ```powershell
