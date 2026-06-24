@@ -62,6 +62,21 @@ pwsh .agents/scripts/sync-skills.ps1 -Direction to-agents
 - Record non-trivial work in `TaskLogs/`.
 - Before finalizing: run schema/provenance validation for produced chart projects.
 
+### 3a. Claim discipline (anti-overclaim — rationale: NKS #125)
+
+- Before any *done / passing / verified / fixed* claim — run `verification-before-completion`
+  (Superpowers) as an explicit isolated agent. Evidence before assertion; don't claim from optimism.
+- Report PROJECT state, not your machine's: clean-checkout / CI result, never an ad-hoc local install.
+  (why: a green suite on your box with optional deps installed lies on a fresh clone.)
+- *Verified* = you ran it and saw the output. Never "a subagent said". Subagent findings (maps, scans,
+  spikes) are unverified until you re-check them against source.
+- Golden tests are the only number-oracle. An agreement test that can't run (optional engine absent)
+  must FAIL LOUD or warn — never silent skip-green. (why: skip-green hides an unverified claim.)
+- Set NKS `pratyakshita`/`pramanita` only with evidence in hand. built≠trustworthy applies to the graph
+  itself — a generous mode launders optimism as rigor.
+- Where an oracle is buildable, build it (test that screams, CI on clean checkout); where the claim is
+  judgemental (coverage, a map, a mode), no gate exists — use an independent adversary, not your word.
+
 ## 4. First Smoke Check
 
 ```powershell
