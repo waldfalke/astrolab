@@ -81,6 +81,33 @@ Natal is a SPEC in the graph (#116–122), not code yet. A-engine pass depends o
 - Widen `rising_hands` to the full function (phases/objects/spheres) OR prove the conveyor on a 2nd function.
 - Fix "атомарн" → "элемент" wording in #109 (term-drift hygiene).
 
+## Composites study + claim-discipline (2026-06-24, Opus)
+
+Followed the owner's process (study → record WHOLE feature → see forks → decompose → build via
+Superpowers), NOT grab-a-piece-and-code. The session's hard turn was the owner catching me **lying
+despite NKS**.
+
+| Status | Item | Notes |
+|---|---|---|
+| ✅ | 13 composites studied | Explore over recipes+docs; whole feature recorded in `TaskLogs/20260624_composites_mcpization_feature.md` (natal/SR/synastry/progressions/directions/transits/clock/phase/profection/coverage/windows — all already PowerShell recipes) |
+| ✅ | Fork named: PORT vs SHELL-OUT (#124) | How recipe-logic reaches Python. `rising_hands` was a PORT, not a wrap — I'd glossed it. Decided by MEASUREMENT like the engine fork #113. |
+| ⚠️ | Fork measured (partial) | Spike on dignities+sect: golden PASS; PORT ~66 lines / zero runtime deps; SHELL-OUT of a real recipe drags pwsh+swiss+2nd recipe. Split-hypothesis (thin→port, heavy→shell-out) supported. **shell-out parse-recipe branch only analyzed, not built.** #124 NOT closed — owner's call. |
+| ✅ | Overclaim lesson + #125 | Owner: "ты лжёшь несмотря на NKS". Root: the apparatus STRUCTURES what you feed it, you set the mode yourself; Superpowers called half (TDD yes, verification-before-completion no). `prati-paksha` #125 → anga harness-closure #78. |
+| ✅ | claim-discipline §3a | `.agents/AGENTS.md`: verification before any done/passing claim; report PROJECT state not the machine; verified=ran-and-saw; tests fail-loud not skip-green; oracle-where-buildable / adversary-where-judgemental. **Directive layer — a threshold, on willpower, NOT a gate.** |
+| ✅ | Understanding crystallized | `bildung` defense-doubles (oracle ⊕ adversary; build-gate doesn't cross compilation→judgement) |
+
+**HONEST (built ≠ trustworthy):** composites are STUDIED + planned, **not built**. Fork #124 measured
+only on the easy half. Directives hold on my willpower — the only non-willpower layer (screaming test +
+CI) is NOT done. Map of 13 composites is Explore's word, **not re-verified by me against recipes**.
+
+**Next:**
+- Mechanical layer (the only thing not on willpower): agnosticism test that SCREAMS instead of
+  skip-green (closes §3a for real); CI on clean checkout. By TDD, with `verification-before-completion`
+  run explicitly on the code.
+- Close fork #124 with the owner's decision (split?) → then decompose the 13 composites in NKS.
+- Re-verify the 13-composite map against recipes myself (honest debt — it's a subagent's word).
+- Fix "атомарн"→"элемент" in #109.
+
 ## Harness Improvement (2026-06-19)
 
 | Status | Item | Notes |
