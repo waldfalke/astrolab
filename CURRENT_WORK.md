@@ -1,12 +1,13 @@
 # CURRENT_WORK - CATMEastrolab
 
 **Last Updated:** 2026-06-24
-**Active focus:** Headless MCP layer — **first vertical slice shipped** (rising_hands as a FastMCP tool
-on a pinned uv stack), engine-agnosticism decided (#115, fork #113 dissolved by measurement), and the
-**two views split in the graph** (holarchic reading-ontology vs instrumentarium, natal in both roles).
-Earlier in the session: rising-clock mundane product, verstakify refresh, NKS process-weave, and the
-instrumentarium contour #102. Discipline throughout: nothing marked "done/decided" beyond what was
-verified/measured (built ≠ trustworthy).
+**Active focus:** **Project picture corrected, not code written.** A real `assembly` rescope showed the
+session had been working a graph-blocked transformation — the order was inverted. Rebuilt the forest to
+the owner's three-tense model: **NOW = fix the instrumentarium (foundation)**; TOMORROW = the one holistic
+reading-skill applied to charts (soljar/natal/transits/clock); DAY-AFTER = sell to robots. Recorded the
+stage-conveyor model (#129) and LIFTED the Zakharian copyright everywhere. Still open: the #1/#93 vertical
+"kingdoms" need untangling by stage. Earlier this session (still valid): headless first slice (rising_hands
+FastMCP tool), engine-agnosticism #115, claim-discipline §3a/§3b, build-with-verification workflow.
 
 ## Rising-sign clock — mundane product + NKS process (2026-06-22/23, Opus)
 
@@ -80,6 +81,28 @@ Natal is a SPEC in the graph (#116–122), not code yet. A-engine pass depends o
 - Transport-as-process (HTTP) → toward G5 deploy (hosting + TLS + auth).
 - Widen `rising_hands` to the full function (phases/objects/spheres) OR prove the conveyor on a 2nd function.
 - Fix "атомарн" → "элемент" wording in #109 (term-drift hygiene).
+
+## Rescope via assembly + forest rebuild + copyright lift (2026-06-24 late, Opus)
+
+The session had drifted deep into meta (claim-discipline, build-with-verification, overclaim). Updated
+verstak (`→6ab7b848da84`, got `assembly`/`inquiry`/`integrity`), ran a real `assembly`, and the graph
+gave an OBJECTIVE rescope signal — the session was working a **graph-blocked** transformation.
+
+| Status | Item | Notes |
+|---|---|---|
+| ✅ | Rescope: order was inverted | #112 (headless) was BLOCKED `after #78/#55`, yet the session worked it. Owner's three-tense model: NOW = fix instrumentarium (foundation); TOMORROW = reading-soljar/clock/transits on it; DAY-AFTER = sell to robots. |
+| ✅ | Forest rebuilt | deleted `anantara #112→#78`; #112 = foundation, **committed-now**; #26 (phase-soljar) → `upeksha` (tomorrow); #55 reframed as the ONE holistic reading-skill, per-chart readings are applications (`#26→#55`). |
+| ✅ | Owner's model (bildung #129) | horizontal **stage-conveyor** (compute→data→analyze→text); a CHART goes through it whole; METHODS feed the compute-pot (общий котёл); origin (ours/Zakharian) = separate rights-axis. (+#127/#128 rescope bildungs.) |
+| ✅ | Copyright LIFTED | Zakharian phase restriction removed EVERYWHERE (graph #50 retired + #12 unlinked; memory; 5 recipes; report-standards; tasklog/CURRENT_WORK). KEPT epistemic honesty (z/h,D anumita-ceiling — knowledge-quality, not a bar). |
+| ⚠️ | Disease found, NOT fixed | contours #1 (phase-soljar-reading) & #93 (clock) are vertical KINGDOMS mixing all axes (stages+method+chart+origin); #1 dups holistic #30, #93 also glues compute+text. Untangle by stage = big separate work. |
+
+**Language discipline (owner flagged hard):** NKS jargon (bianhua/anga/anantara/telos) leaked badly into
+owner-facing talk this session. Memory rule exists (`report-plain-russian-no-nks-jargon`) — keep the graph
+INSIDE, report in plain Russian at the boundary.
+
+**Next (NOW = fix instrumentarium):**
+- Untangle the #1/#93 kingdoms by stage-conveyor (big).
+- Verify the 13-computation map against recipes myself (debt); then port-vs-shell-out #124; then build.
 
 ## Composites study + claim-discipline (2026-06-24, Opus)
 
