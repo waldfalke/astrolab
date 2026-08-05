@@ -252,7 +252,6 @@ def _positions_series_b1(
 # --- Engine A: in-process pyswisseph (optional) ------------------------------------------------
 
 _SWE_EPHE_PATH: str | None = None
-_SWE_PATH_THREADS: set[int] = set()
 _SWE_RUNTIME_FILES = ("sepl_18.se1", "semo_18.se1", "seas_18.se1", "se00433s.se1")
 
 
@@ -263,9 +262,8 @@ def _init_swe():
     The runtime file set is checked before use so pyswisseph cannot silently fall back to Moshier.
 
     Per-thread, not per-process: pyswisseph ships a thread-local Swiss Ephemeris build, so a path
-    set in the main thread is INVISIBLE to worker threads (FastMCP runs tools in a worker — the
-    natal tool crashed on 'seas_18.se1 not found' in the full-suite run while passing in
-    isolation). set_ephe_path must run in every thread that computes.
+    set in the main thread is INVISIBLE to worker threads. Thread IDs can be reused after a worker
+    exits, so set_ephe_path runs on every entry instead of caching IDs.
     """
     global _SWE_EPHE_PATH
     import swisseph as swe  # optional dependency, imported only when engine A is requested
@@ -293,12 +291,7 @@ def _init_swe():
             )
         _SWE_EPHE_PATH = str(ephe_path)
 
-    import threading
-
-    tid = threading.get_ident()
-    if tid not in _SWE_PATH_THREADS:
-        swe.set_ephe_path(_SWE_EPHE_PATH)
-        _SWE_PATH_THREADS.add(tid)
+    swe.set_ephe_path(_SWE_EPHE_PATH)
     return swe
 
 

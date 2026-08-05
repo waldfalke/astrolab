@@ -39,7 +39,6 @@ def test_guard_passes_through_when_engine_a_present():
 
 def _reset_engine_a(monkeypatch):
     monkeypatch.setattr(engine, "_SWE_EPHE_PATH", None)
-    monkeypatch.setattr(engine, "_SWE_PATH_THREADS", set())
 
 
 def test_init_swe_rejects_missing_ephemeris_directory(monkeypatch, tmp_path):
@@ -71,7 +70,7 @@ def test_init_swe_rejects_incomplete_ephemeris_directory(monkeypatch, tmp_path):
     assert "SWISS_EPHE_PATH" in message
 
 
-def test_init_swe_sets_valid_ephemeris_path_once_per_thread(monkeypatch, tmp_path):
+def test_init_swe_sets_valid_ephemeris_path_on_every_call(monkeypatch, tmp_path):
     _reset_engine_a(monkeypatch)
     monkeypatch.setenv("SWISS_EPHE_PATH", str(tmp_path))
     for filename in ("sepl_18.se1", "semo_18.se1", "seas_18.se1", "se00433s.se1"):
@@ -95,4 +94,4 @@ def test_init_swe_sets_valid_ephemeris_path_once_per_thread(monkeypatch, tmp_pat
     worker.join()
 
     assert worker_results == [fake_swe, fake_swe]
-    assert calls == [str(tmp_path), str(tmp_path)]
+    assert calls == [str(tmp_path)] * 4
