@@ -1,10 +1,10 @@
-"""rising_hands — the FLOATING intraday rising-sign clock, minute hand only (NKS astrolab #109).
+"""Intraday rising-sign clock.
 
 First MCPization target. This is the Python port of the *watch core* of the PowerShell recipe
 `artifacts/mcp-recipes/run_rising_hands.ps1` (general mode): it scans the Ascendant across a day,
 finds when the rising SIGN changes (the "караул" units), and returns those watches.
 
-Engine-agnostic (NKS #115): rising_hands does NOT call any engine directly. It asks the THIN seam
+The function does not call a calculation engine directly. It asks the engine boundary
 `astro.engine.compute_asc_series` for the day's ASC longitudes and stays engine-blind. The default
 engine is B1 (swiss-mcp client, swisseph v2.10.03 — the SAME engine the PowerShell recipe calls, so
 the numbers match the golden BY CONSTRUCTION); engine="a" (or env SWISS_ENGINE=a) runs the whole

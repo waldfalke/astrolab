@@ -12,14 +12,21 @@ dependencies = [
 dev = [
     "pytest>=9.1.1",
 ]
-# Engine A (NKS astrolab #115): in-process pyswisseph backend for compute_asc_series.
+# Engine A: in-process pyswisseph backend.
 # OPTIONAL on purpose — it needs a C build/wheel that is not guaranteed on Windows/3.13.
 # The default engine (B1, swiss-mcp client) works without it. Install with:
 #   uv sync --group engine-a   (or: uv pip install pyswisseph)
 engine-a = [
     "pyswisseph>=2.10",
 ]
+report-kit = [
+    "jsonschema>=4.26.0",
+    "pyyaml>=6.0.3",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+markers = [
+    "needs_swiss_mcp: test explicitly calls engine B1 (self-hosted swiss-mcp on localhost:8000); deselect with -m 'not needs_swiss_mcp' where the container is unavailable (CI runs the rest on engine A)",
+]

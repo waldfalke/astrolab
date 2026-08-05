@@ -1,0 +1,11 @@
+.git
+.github
+.venv
+.pytest_cache
+__pycache__
+*.pyc
+docs
+examples
+tests
+tools
+infra/ephe/files

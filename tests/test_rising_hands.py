@@ -1,14 +1,15 @@
-"""Golden tests for the Python rising_hands MCP function (NKS astrolab #109, first MCPization target).
+"""Golden tests for the Python rising-sign clock.
 
 GOLDEN REFERENCE: the PowerShell recipe `artifacts/mcp-recipes/run_rising_hands.ps1` in general mode.
 These values are its witnessed output for a mundane (no-PII) input:
     date=2026-06-22, lat=45.04, lon=38.98, tz=+3, step=10min  (Krasnodar)
 Source: 03_watches.csv of that run — 12 watches, first = 02:44 Близнецы.
 
-DOMAIN GATE (verstakify): the Python function must reproduce the PowerShell reference, not merely
-"return something". RED now (function does not exist); GREEN waits on pyswisseph (not yet installed).
+The Python function must reproduce the PowerShell reference, not merely return a plausible shape.
 """
 import pytest
+
+from tests.conftest import require_engine_a
 
 # The function under test does not exist yet — this import is the RED.
 from astro.rising_hands import rising_hands  # noqa: E402
@@ -30,14 +31,15 @@ def test_first_watch_matches_powershell_golden():
     assert first["asc_sign"] == GOLDEN_FIRST_WATCH["asc_sign"]
 
 
+@pytest.mark.needs_swiss_mcp
 def test_engine_agnostic_whole_clock_a_equals_b1():
-    """#115 arbiter at the CLOCK level: the full 12-watch clock is identical on engine A and B1.
+    """The full 12-watch clock is identical on engine A and B1.
 
     Skips where pyswisseph (engine A) is absent, so the suite stays green without it.
     """
     import pytest
 
-    pytest.importorskip("swisseph")
+    require_engine_a()
     b1 = rising_hands(**GOLDEN_INPUT, engine="b1")
     a = rising_hands(**GOLDEN_INPUT, engine="a")
     assert a == b1

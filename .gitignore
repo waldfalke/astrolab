@@ -1,27 +1,6 @@
-node_modules/
-*.log
-.DS_Store
-Thumbs.db
-.qwen/
-.codex/skills/astro-engineering-scanner/
+.venv/
+.pytest_cache/
 __pycache__/
 *.pyc
-.tools/
-.private/
-artifacts/result-packs/
-artifacts/results/
-artifacts/skill-smoke/
-artifacts/tmp/
-docs/private/
-docs/sources/
-obsidian-vault/
-Astrolab/
-lnd_temp/
-mcporter_temp/
+infra/ephe/files/
 
-# agent-local overrides (machine-specific, never committed)
-.claude/settings.local.json
-
-# Python virtualenv (uv-managed)
-.venv/
-__pycache__/

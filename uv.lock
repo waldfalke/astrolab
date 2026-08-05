@@ -115,6 +115,10 @@ dev = [
 engine-a = [
     { name = "pyswisseph" },
 ]
+report-kit = [
+    { name = "jsonschema" },
+    { name = "pyyaml" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -126,6 +130,10 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.1.1" }]
 engine-a = [{ name = "pyswisseph", specifier = ">=2.10" }]
+report-kit = [
+    { name = "jsonschema", specifier = ">=4.26.0" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
+]
 
 [[package]]
 name = "certifi"
