@@ -8,6 +8,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = (
+    "docs/recipes.md",
     "docs/stars/README.md",
     "docs/stars/READ2PLAY.md",
     "docs/stars/EXAMPLE.md",
@@ -50,6 +51,24 @@ class StarsPackageTests(unittest.TestCase):
         text = (ROOT / "docs/stars/README.md").read_text(encoding="utf-8")
         self.assertIn("READ2PLAY.md", text)
         self.assertIn("STARS.full.md", text)
+
+    def test_landing_images_and_recipe_links_resolve(self):
+        overlay = ROOT / "distribution/public"
+        landing = overlay / "README.md" if overlay.exists() else ROOT / "README.md"
+        text = landing.read_text(encoding="utf-8")
+        self.assertEqual(len(re.findall(r'<img\s', text)), 5)
+        recipes = (ROOT / "docs/recipes.md").read_text(encoding="utf-8")
+        for anchor in ("natal", "solar", "transits", "day"):
+            self.assertIn(f'docs/recipes.md#{anchor}', text)
+            self.assertIn(f'<a id="{anchor}"></a>', recipes)
+        targets = re.findall(r'(?:src|href)="([^"]+)"', text)
+        targets += re.findall(r"\]\(([^)]+)\)", text)
+        for target in targets:
+            parsed = urlsplit(target)
+            if parsed.scheme or not parsed.path:
+                continue
+            relative = unquote(parsed.path)
+            self.assertTrue((ROOT / relative).is_file() or (overlay / relative).is_file(), target)
 
 
 if __name__ == "__main__":

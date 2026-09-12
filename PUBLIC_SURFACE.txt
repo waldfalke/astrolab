@@ -9,6 +9,11 @@ generated	EXPORT_PROVENANCE.json
 source	LICENSE
 overlay	PUBLIC_SURFACE.txt
 overlay	README.md
+overlay	assets/astrolab-hero.png
+overlay	assets/natal.png
+overlay	assets/solar.png
+overlay	assets/transits.png
+overlay	assets/day-forecast.png
 source	astro/__init__.py
 source	astro/aspects.py
 source	astro/dignities.py
@@ -24,6 +29,7 @@ source	astro/transits.py
 overlay	docs/engines.md
 overlay	docs/mcp-api.md
 overlay	docs/output-contract.md
+source	docs/recipes.md
 source	docs/stars/README.md
 source	docs/stars/READ2PLAY.md
 source	docs/stars/EXAMPLE.md

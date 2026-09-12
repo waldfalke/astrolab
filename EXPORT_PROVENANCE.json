@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "4effd81b00ecdabe72d6b9553da01e6b85ec3763",
+  "source_commit": "11cac8c77f40cd18a3762db23faaace87a270815",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,14 +45,44 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "7ab4abb1647fcb5126a2ce76ac017cb2028233b5",
-      "sha256": "52c8e8ef1ccf6fb6610c98eb9e67a53d2cb1a057c0cb963de0b704c96fea7702"
+      "git_blob": "ffc5ffffe81c2fcede747086d9eb298817477a5f",
+      "sha256": "023038d310018aa259fe28b1b4d33cc3c067e510ca30a4f0254eeb2cd42c8a2e"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "43dcc7528aefd8f7883ec78b647a4268272fad16",
-      "sha256": "47cae46ff17fab8dcb7dc03b11ae23af2228bffdeecdb97f9cd93ebb3c707ff2"
+      "git_blob": "4623487c091cd002796e863d40db4886e104bd02",
+      "sha256": "f2f46f7d3b253f914a0ff604c6cf43950cd1b684238e0c51df4e5ded606721aa"
+    },
+    {
+      "path": "assets/astrolab-hero.png",
+      "origin": "overlay",
+      "git_blob": "f0a4c8feff56239bf00b56029db4ba30b8367fa3",
+      "sha256": "fdcc9d7695b1233cf9bf95b4844f2280361ee9d6ef62f6654e30fd10e145526f"
+    },
+    {
+      "path": "assets/natal.png",
+      "origin": "overlay",
+      "git_blob": "5f9c1573680c8acf54cddcec07e7a5760101c9a2",
+      "sha256": "98225b95713adce7e557a5323402c07934e0841bcff12427f6a57982efd2100a"
+    },
+    {
+      "path": "assets/solar.png",
+      "origin": "overlay",
+      "git_blob": "8a7cd8a03e2672b8efb36015c0eebec3078ddcfd",
+      "sha256": "765e3e7618dcf3c419b1327f606f32afdab8341f2e71a552d19ff1cc4da2f3ef"
+    },
+    {
+      "path": "assets/transits.png",
+      "origin": "overlay",
+      "git_blob": "bd9bfbf494421221834006f08d156913316c90ba",
+      "sha256": "4ee65ac4f441b15611cd14736ff4b45eb36dc8a5313efea7f18caad1acc364f6"
+    },
+    {
+      "path": "assets/day-forecast.png",
+      "origin": "overlay",
+      "git_blob": "5af62f278389e40131ce9a5907d252b29d351438",
+      "sha256": "b6f23f0a3244037afd1a39b07c2fbeb796651511d673ebeccc76409b8116512f"
     },
     {
       "path": "astro/__init__.py",
@@ -145,34 +175,40 @@
       "sha256": "c71b0f75a3b9fbb137931d8dbd482b805df7849d194e597c9bb656452fcaebef"
     },
     {
+      "path": "docs/recipes.md",
+      "origin": "source",
+      "git_blob": "741d9f839c423c09410fcad80f5a916a279929bd",
+      "sha256": "dea41e3579fc6a677631be583f261b66823d7290772eac8a4b7b1e32e5e65063"
+    },
+    {
       "path": "docs/stars/README.md",
       "origin": "source",
-      "git_blob": "40af3a27a8433dc7ed35f194c3806edcae95d284",
-      "sha256": "1d38ed4b0ae6a7cb593ef2b974b7ffbb31d82ace56ead013e64ae6e5c8e5096b"
+      "git_blob": "327ffa0469ce428146511d4c5ef5e579a1365a2f",
+      "sha256": "2bff68b05df30aa79d3c333acb24e0d2120bc8ee88acd285bbbf2994fde14a3c"
     },
     {
       "path": "docs/stars/READ2PLAY.md",
       "origin": "source",
-      "git_blob": "dddfbb482dc6df61d5160afeb75d37d4ef93ef83",
-      "sha256": "01c252bb8ac67f025c984c3437988e13dfe771cdd0881a71f71437b9bf0851fa"
+      "git_blob": "d37b4706f1dfb67be310fac6579e45edc90eea55",
+      "sha256": "95c7ef6c3ecf42f1bc0912512be58f3ed052abcfb447d67fd92bd0abc0fc459d"
     },
     {
       "path": "docs/stars/EXAMPLE.md",
       "origin": "source",
-      "git_blob": "a17acad896fc90dfe128408132cd639744cd132d",
-      "sha256": "1d9a9613b2dbbb77218117664559ca78fabf4cd8300ce2c2abf9562628c8ca8b"
+      "git_blob": "9f3c1646505c70387a3bac95086dc04049f6a511",
+      "sha256": "adb93ea13ee10c55aad15b9c97fa815cd08ccc3553bd46e4677427de28c64a70"
     },
     {
       "path": "docs/stars-supplier-metacontract.md",
       "origin": "source",
-      "git_blob": "8cb65eebe2d1f07211717a01c1d37fcc4c5dde5f",
-      "sha256": "970d6d4970d19d3828b9014163dde7130af527b85a2acf177ea34fd5aec46290"
+      "git_blob": "be0cbcf70511165ce53394d1c803dad1141996c6",
+      "sha256": "a646d67a41b262b914ce668b27e0f7ba99f981e10b81ce55878eef283eabd120"
     },
     {
       "path": "docs/stars-consumer-metacontract.md",
       "origin": "source",
-      "git_blob": "5a9dbf7a409aafbb05b4946e7baae08cd94faf0a",
-      "sha256": "a5ecdc42e15969762585c1a9db15cf21eabe9443055b1cacf0e325e35ef6200e"
+      "git_blob": "5d6feaf21639649d081a7a164fc9fe1a9e5ba72a",
+      "sha256": "cc5dce8d206abc6967c6aeb242144a08f3714f624dc3df2c585a5209e2dcbee7"
     },
     {
       "path": "examples/call_mcp.py",
@@ -309,8 +345,8 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "source",
-      "git_blob": "80ca6c546e259d7d09f516d43c3133f7f85aa5d5",
-      "sha256": "12c10bb1b19c8e805b0c9420e529df1f4ac758bdb60ced8a6e8e9e9bd5c615d4"
+      "git_blob": "c0c4dc7369dcb6a1bb579fba09b86a5dfbd7c6e1",
+      "sha256": "542e37da45b6a739681053f2ee6bd40d1723b6afe13be69502c47e7d57a50228"
     },
     {
       "path": "tests/test_transits.py",

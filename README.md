@@ -1,21 +1,63 @@
+<img src="assets/astrolab-hero.png" alt="Astrolab — небесный путешественник с астролябией" width="100%">
+
 # Astrolab
 
-Headless MCP server for reproducible astrology calculations. It returns structured data; the caller
-chooses how to store, display, or interpret it.
+Астрология для работы с ИИ. Astrolab рассчитывает карту, соляр и транзиты —
+вы с агентом разбираете, что они могут значить для вас.
 
-[STARS: personal AI context](docs/stars/README.md) · [Run calculations](#run-with-docker) ·
-[API reference](docs/mcp-api.md)
+[Создать STARS](docs/stars/README.md) · [Выбрать разбор](#разборы) ·
+[Подключить расчёты](#run-with-docker) · [API](docs/mcp-api.md)
 
-## STARS — свой контекст для ИИ
+## STARS.md — ИИ, который лучше понимает вас
 
-**Соберите личный комплект, который помогает агенту общаться именно с вами.**
-STARS 0.1.0 — инструкции для создания короткого `STARS.md`, полного `STARS.full.md`
-и подключения к вашей агентной среде. Личных профилей в поставке нет.
+STARS.md помогает ИИ лучше понимать вас и учитывать это в совместной работе:
+какие вопросы задавать, что предлагать и как объяснять.
 
-Начните с [понятного руководства и готового поручения](docs/stars/README.md).
-Агенту — [READ2PLAY](docs/stars/READ2PLAY.md). Для сборки по уже предоставленным текстам
-установка сервера не нужна; для нового расчёта карты используйте MCP ниже.
-Расчётный сервер возвращает данные, а не пишет профиль вместо агента.
+Всё, что вы разберёте вместе, сохраняется. К этому можно возвращаться, дополнять
+и пересматривать — чтобы ваше взаимопонимание развивалось по мере общения.
+
+**[Сделать свой STARS →](docs/stars/README.md)** · [Посмотреть пример](docs/stars/EXAMPLE.md)
+
+Начать можно без установки расчётного сервера.
+
+## Разборы
+
+Выберите тему и передайте поручение своему агенту.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="docs/recipes.md#natal"><img src="assets/natal.png" alt="Картограф с кругом натальной карты" width="220"></a>
+<h3>Натальная карта</h3>
+<p>Увидеть карту целиком: что связано между собой, где напряжение и на что можно опереться.</p>
+<p><a href="docs/recipes.md#natal">Разобрать карту →</a></p>
+</td>
+<td width="50%" valign="top">
+<a href="docs/recipes.md#solar"><img src="assets/solar.png" alt="Путешественница в солнечном круге" width="220"></a>
+<h3>Соляр</h3>
+<p>Разобрать личный год: его основные темы и их связь с натальной картой.</p>
+<p><a href="docs/recipes.md#solar">Посмотреть год →</a></p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="docs/recipes.md#transits"><img src="assets/transits.png" alt="Путешественник среди планетных орбит" width="220"></a>
+<h3>Транзиты</h3>
+<p>Увидеть развитие периода: длительный фон, точные прохождения и возвращение одной темы.</p>
+<p><a href="docs/recipes.md#transits">Разобрать период →</a></p>
+</td>
+<td width="50%" valign="top">
+<a href="docs/recipes.md#day"><img src="assets/day-forecast.png" alt="Хранитель времени с часами Солнца и Луны" width="220"></a>
+<h3>Прогноз дня</h3>
+<p>Проследить день в движении: общий фон, смену ритма и часы, когда сходятся несколько указаний.</p>
+<p><a href="docs/recipes.md#day">Как устроен разбор →</a><br><sub>Пока не входит в публичный пакет.</sub></p>
+</td>
+</tr>
+</table>
+
+Знаете астрологию глубже? Собирайте свои разборы из [расчётов API](docs/mcp-api.md).
+Astrolab возвращает структурированные данные и не ограничивает вас этими рецептами.
+Астрологические толкования — не установленные факты и не гарантии событий.
 
 ## Available tools
 
@@ -45,7 +87,8 @@ uv sync --frozen
 uv run python examples/call_mcp.py --url http://127.0.0.1:8400/mcp
 ```
 
-The example supports `rising_hands`, `natal`, and `invalid_input`; see the MCP documentation below.
+The example supports `rising_hands`, `natal`, `chart_workflow`, and `invalid_input`;
+see the MCP documentation below.
 
 This command exposes Astrolab only on the local machine. The server does not provide authentication
 or TLS; do not publish its port on a LAN or the internet. Remote deployment requires a separate
