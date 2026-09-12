@@ -1,347 +1,339 @@
 {
   "schema_version": 1,
-  "export_mode": "Development",
-  "source_commit": "43d3d390c9ba754ea806900fa2348f944acf832b",
-  "source_dirty": true,
-  "dirty_public_paths": [
-    "astro/aspects.py",
-    "astro/dignities.py",
-    "astro/engine.py",
-    "astro/natal.py",
-    "astro/profection.py",
-    "astro/rising_hands.py",
-    "astro/sect.py",
-    "astro/server.py",
-    "astro/transits.py",
-    "distribution/public/.dockerignore",
-    "distribution/public/.gitattributes",
-    "distribution/public/.github/workflows/ci.yml",
-    "distribution/public/.gitignore",
-    "distribution/public/docs/engines.md",
-    "distribution/public/docs/mcp-api.md",
-    "distribution/public/docs/output-contract.md",
-    "distribution/public/examples/call_mcp.py",
-    "distribution/public/PUBLIC_SURFACE.txt",
-    "distribution/public/README.md",
-    "distribution/public/tools/check_public_surface.py",
-    "Dockerfile",
-    "infra/ephe/get-ephe.ps1",
-    "pyproject.toml",
-    "tests/conftest.py",
-    "tests/fixtures/trump/house_placidus/01_primary_positions.json",
-    "tests/fixtures/trump/natal_failover/02_primary_longitudes.csv",
-    "tests/fixtures/trump/natal_failover/04_backup_aspects.json",
-    "tests/fixtures/trump/natal_failover/06_backup_longitudes.csv",
-    "tests/test_aspects.py",
-    "tests/test_dignities.py",
-    "tests/test_engine.py",
-    "tests/test_guard.py",
-    "tests/test_houses.py",
-    "tests/test_mcp_api_contract.py",
-    "tests/test_mcp_server.py",
-    "tests/test_natal.py",
-    "tests/test_positions.py",
-    "tests/test_profection.py",
-    "tests/test_rising_hands.py",
-    "tests/test_sect_and_placements.py",
-    "tests/test_transits.py",
-    "tests/test_transport_http.py",
-    "uv.lock"
-  ],
-  "exporter_sha256": "ed82dd293e9b09eea37c81a580a6b9c379efb51555ed3d18e350f937d8f2abba",
+  "export_mode": "Release",
+  "source_commit": "4effd81b00ecdabe72d6b9553da01e6b85ec3763",
+  "source_dirty": false,
+  "dirty_public_paths": [],
+  "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
   "source_files": [
     {
       "path": ".dockerignore",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "ee676060abd5e713f29d17fb036cf846d230b06e",
       "sha256": "1efcffd2a19c138c9ba97f9738d8ef84d5eac9f5dae10a380db64d4a14c37e14"
     },
     {
       "path": ".github/workflows/ci.yml",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "7e91d32ff2417742af8a9b6e70bcdcc2fa73b6c5",
       "sha256": "40b794b32eb570981646a29e7670cbd88b5a681c0acab223c00b6416ac53d8c5"
     },
     {
       "path": ".gitattributes",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "1579939e3bee5eb28244e94452ebe9596dd2d480",
       "sha256": "670554d61ec5334107ac36680bb7546c90f4653d97488164681135fa6b7f5755"
     },
     {
       "path": ".gitignore",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "dba8f60b863e975133bebc72a0cee1ab934c2348",
       "sha256": "6a1a0143d19eeb97a38305fb55ed9d5b965cbf32371dc247557c17c691827cb8"
     },
     {
       "path": "Dockerfile",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "06a220ad9f9bcce9688f56a8f542c9306b7af7c7",
       "sha256": "a003240f80ccb624c8678dabf87822991228e81bdd27addd44c0576310ae0433"
     },
     {
       "path": "LICENSE",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "5e0c4595608a7215ad56f2965fdc2b47e19c505c",
       "sha256": "bcff6ce1532b1745164d7437a38e7e8a5868f52dc5ffa902dfb2b05b29097d5b"
     },
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": null,
-      "sha256": "fc1dfe91499775600e5f6c98081489d744ac31102f1411f228bae0a1fbd66987"
+      "git_blob": "7ab4abb1647fcb5126a2ce76ac017cb2028233b5",
+      "sha256": "52c8e8ef1ccf6fb6610c98eb9e67a53d2cb1a057c0cb963de0b704c96fea7702"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": null,
-      "sha256": "d7437d2abe3b9926fc5ee109ab78e6e669e17cc18667926221d384da2fee3218"
+      "git_blob": "43dcc7528aefd8f7883ec78b647a4268272fad16",
+      "sha256": "47cae46ff17fab8dcb7dc03b11ae23af2228bffdeecdb97f9cd93ebb3c707ff2"
     },
     {
       "path": "astro/__init__.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "path": "astro/aspects.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "8729b2869d48ea671d7815303b3194b5512664a5",
       "sha256": "fe4ee687abafdb5f8d69a594ce98085d678a18f8c27a5525f37aed5d27f3cd81"
     },
     {
       "path": "astro/dignities.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "28c22534428cb079286ad93cead9b8141a557b9a",
       "sha256": "a387cc3df0a936f7d7e72d75e87c55eef9c33f25e47a6e04d0dc198b3e9bf232"
     },
     {
       "path": "astro/engine.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "8a74f1a7db00f4e6a8ef7ed38429d1d2f51f40dd",
       "sha256": "37fd868d2cd574641bcfa62c95d017e34fc72d5cd1d1873ff47b23e4d579dd70"
     },
     {
       "path": "astro/natal.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "9f0d54427a300ebe9cc88f900fb39f7900cbc5e8",
       "sha256": "b5a757629c4a0b9484e8a83b1e6e99b39fc79a479e8b537d3fe0bbbf76e3e277"
     },
     {
       "path": "astro/placements.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "8806aa5046dd1b3eb21e218036b70340dab8f0d1",
       "sha256": "bfc48542f10b6cf85a193058f9c34a0cd521ee07a894af7afa360a824eddaf5e"
     },
     {
       "path": "astro/profection.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "053774e881fdb0b6950c354f78e4a6f07f160062",
       "sha256": "27c3699443f32c871f8bcefe60b8da7243a88c3b31b37e65095e61f6e6c550ea"
     },
     {
       "path": "astro/rising_hands.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "084efab0ccadfb410546c719c7a1d90573a75576",
       "sha256": "5d9512f85704bb60a73b9c16fd96f35c6fb136a3b2f927a2ecc7be7d36f88dde"
     },
     {
       "path": "astro/sect.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "8f6a4ea6d5024a8909e8357dd02676c763aa9ba3",
       "sha256": "12ef8f80f639132fd560c4c44494ea38bc2e4eabf54df093e5be75f592cd2437"
     },
     {
       "path": "astro/server.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "d785605e16f5de289891682181061e7ef4f0aa12",
       "sha256": "dcfd374148bc9540bcfec1c736d04584a9482d8da89d27583d76252039975b76"
     },
     {
       "path": "astro/solar.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "b052f183f2de6293646c8dcaad460eaf8c9f3e22",
       "sha256": "12d5517c5ed18f671b5f9ea1f6a38d46c28cf72d5e19758079258e759638da79"
     },
     {
       "path": "astro/transits.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "8610c22eace56fe65212901b4a59206fb00f5059",
       "sha256": "82574395a6565972ccc7279dde52964894b2ee39bf08517d7d0318e0405118ef"
     },
     {
       "path": "docs/engines.md",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "e6d43a278d7334a3dbe1807687a117394ead70ae",
       "sha256": "16bfc2e5abefb2e7f6dd94f8827bf3161bb4c2b2242a71d998e6d8593c68f070"
     },
     {
       "path": "docs/mcp-api.md",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "c119e9a9fc1ae368bd8b9372ed28094e31a7d7bf",
       "sha256": "62eb5f597732ffb061bad6a3ab03bdee5f29ffe5bc4c0f1999c472dee753d36a"
     },
     {
       "path": "docs/output-contract.md",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "dc18a06d3eb72bae51a7791a02e60796db8f9414",
       "sha256": "c71b0f75a3b9fbb137931d8dbd482b805df7849d194e597c9bb656452fcaebef"
+    },
+    {
+      "path": "docs/stars/README.md",
+      "origin": "source",
+      "git_blob": "40af3a27a8433dc7ed35f194c3806edcae95d284",
+      "sha256": "1d38ed4b0ae6a7cb593ef2b974b7ffbb31d82ace56ead013e64ae6e5c8e5096b"
+    },
+    {
+      "path": "docs/stars/READ2PLAY.md",
+      "origin": "source",
+      "git_blob": "dddfbb482dc6df61d5160afeb75d37d4ef93ef83",
+      "sha256": "01c252bb8ac67f025c984c3437988e13dfe771cdd0881a71f71437b9bf0851fa"
+    },
+    {
+      "path": "docs/stars/EXAMPLE.md",
+      "origin": "source",
+      "git_blob": "a17acad896fc90dfe128408132cd639744cd132d",
+      "sha256": "1d9a9613b2dbbb77218117664559ca78fabf4cd8300ce2c2abf9562628c8ca8b"
+    },
+    {
+      "path": "docs/stars-supplier-metacontract.md",
+      "origin": "source",
+      "git_blob": "8cb65eebe2d1f07211717a01c1d37fcc4c5dde5f",
+      "sha256": "970d6d4970d19d3828b9014163dde7130af527b85a2acf177ea34fd5aec46290"
+    },
+    {
+      "path": "docs/stars-consumer-metacontract.md",
+      "origin": "source",
+      "git_blob": "5a9dbf7a409aafbb05b4946e7baae08cd94faf0a",
+      "sha256": "a5ecdc42e15969762585c1a9db15cf21eabe9443055b1cacf0e325e35ef6200e"
     },
     {
       "path": "examples/call_mcp.py",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "0ca43e68141905eb0834917b28e7e33667fb81f5",
       "sha256": "1d5a14fdc997a5c92b5228b3c1a11cb98004b787f3d9e4c8f08e2750f7bd1c82"
     },
     {
       "path": "infra/ephe/MANIFEST.sha256",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "b5f69fc2accf6674310d3822774640da81ba33bd",
       "sha256": "99c8170701c7ac935ea1fb0eee3d06ff26a5ea7c7bc79d2a432c7d29fe15c45b"
     },
     {
       "path": "infra/ephe/get-ephe.ps1",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "72cd0a8e415a586856d7d9328bbd71e3a26070e0",
       "sha256": "5ce0a0e6986bdbe6e468ebfc85ebbd1cada04c135b8cd6923298bccfb3e1734a"
     },
     {
       "path": "pyproject.toml",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "00bbec1ba0f8a039ed4237ccaf03f90c051d4b2b",
       "sha256": "a0b3f381442194716c417dcb0f40ab8658b6795486262b0384301bdc5bddbfdb"
     },
     {
       "path": "tests/conftest.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "2ca9c9e29fa92485df3e32b8ed852961aa7b564a",
       "sha256": "01a8a8df856c8a03e336f7b5cc5971993eab6017cc05d61b03e549ea78e9e65c"
     },
     {
       "path": "tests/fixtures/trump/house_placidus/01_primary_positions.json",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "94002bd8573c4740530a5fa9d2357a040c2b40b8",
       "sha256": "9b4a340521d97b4b48926a4db0e295e4f7c9873144e2c659afe51b88f03c102b"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/02_primary_longitudes.csv",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "f12382df2d321928353b013a0baf2e650e1166df",
       "sha256": "099d04e5738734d57438224cc8052e28983c2bab8e194042850a5fd3eb991d76"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/04_backup_aspects.json",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "cd9b5da9a5d4812024346612f03b75a9c78accd5",
       "sha256": "aa3dfc1da0b56b102dd77f7245f47e9899d943037840e012e68736a0f4971c8a"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/06_backup_longitudes.csv",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "93fe8c6f18c5f6deaf923deeb5679791a195ecc0",
       "sha256": "c5d448b54615e7b23f2300c705ea3ed9a1994c7372643de2f44e9617a2ddb22a"
     },
     {
       "path": "tests/test_aspects.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "5ecaa7f68add917df4980cc3160ef0f9eedc5b1c",
       "sha256": "252dfa5e8820f20fe71d50c899a24f1d904516755d203cd60edbb9a214a7d2ff"
     },
     {
       "path": "tests/test_dignities.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "4869413ef14ab6bb6b6bce86f8909b3c02eef691",
       "sha256": "c433bee0e61aa9d58044482641f19de9157e34291acbbe65fd4f71afe9c9180d"
     },
     {
       "path": "tests/test_engine.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "24581a7e0a69eed33cfe21a103ed2292e0c4aaaf",
       "sha256": "690cdbcbd7f91b94fd978508858c92e039e8f71d6e32b7576c8213bfbf1ca082"
     },
     {
       "path": "tests/test_guard.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "395d10b96c53ffa37bafdeaae78647d68cba315b",
       "sha256": "f132ea70f3f9c0a0a1e3aa800b6799039154c0e5e990e69bd04399b3fc87cfde"
     },
     {
       "path": "tests/test_houses.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "a77ec625ea0cec65f23d063d080df18dc4c5f999",
       "sha256": "ab42dac5803c623f6dfe2761e4541681d214cca41a8136c7badd321733454ed6"
     },
     {
       "path": "tests/test_mcp_server.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "03d0d316018e49571fe80c2373704e11d95fb7c4",
       "sha256": "565271c6a32fcdac80d179890b738b2f3efe18a973ac9fe21069d3dac1d5360d"
     },
     {
       "path": "tests/test_mcp_api_contract.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "f40177e91b7fcf05d9db8f85a3b3bfe11aee6b2d",
       "sha256": "ee4d408c6906416dfc59d1569a7679336510ca2badf05491d79e1b5f8076f210"
     },
     {
       "path": "tests/test_natal.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "819e0a78a29ab072e2a39a41fcede4b061b1da91",
       "sha256": "94170f8658308be829cc872f4f8866deb873313928c690414ca5cb147b1513f2"
     },
     {
       "path": "tests/test_positions.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "efd13d489bffe558b913c2b9f67c79a0dd291f9c",
       "sha256": "ed66417dff2a60b6d339b45500ca300eb2192c8e8a954fc4c603a5dc1904ed46"
     },
     {
       "path": "tests/test_profection.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "66223784a70b6d47829cbe79133f9bf5c3c067e4",
       "sha256": "c58236d5873aecff56b39261a3c169f9380321e4f16dabd34f0771e0df562f96"
     },
     {
       "path": "tests/test_rising_hands.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "95c6ce263c08e710bad5e26df8e50916bf074681",
       "sha256": "9f6e51878eb326cbcc993deac2e656f2a3eb03f1a81220d926090ad18baf2977"
     },
     {
       "path": "tests/test_sect_and_placements.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "bea92071377e1b82cdea713bb2058fe360ce1b15",
       "sha256": "7046fe06dff955c53805fb5e2135602105b9eb030f2b9f93cb7e7a7b17b3890e"
     },
     {
       "path": "tests/test_solar.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "22d2465bbaee58bfebcba839e062c4cff8a2bd20",
       "sha256": "a163c1b9a16a8c1e19f4998b21b02cd680c88144cc07288f19062a80f67b043e"
+    },
+    {
+      "path": "tests/test_stars_package.py",
+      "origin": "source",
+      "git_blob": "80ca6c546e259d7d09f516d43c3133f7f85aa5d5",
+      "sha256": "12c10bb1b19c8e805b0c9420e529df1f4ac758bdb60ced8a6e8e9e9bd5c615d4"
     },
     {
       "path": "tests/test_transits.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "1bb5c1a5891a3cc70639a2606a7909259f6cc837",
       "sha256": "ffc27cb21495aae79550bfbbe0b572f48fbc1cdd853ae84da9eb0fc6ed6f23bf"
     },
     {
       "path": "tests/test_transport_http.py",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "e8ba3aea6d59887392a76cc59ce3a6545a0e3843",
       "sha256": "e245839084facf817db746ccce1331d67085d2d067120897c1d399cba96ece3c"
     },
     {
       "path": "tools/check_public_surface.py",
       "origin": "overlay",
-      "git_blob": null,
+      "git_blob": "4e5adf98425b7b111b6f39fe6dfd96b68a46f260",
       "sha256": "820ba8a502b64f37ad3b2fe8329c51d84f64e821e560710f0dc5444104324cce"
     },
     {
       "path": "uv.lock",
       "origin": "source",
-      "git_blob": null,
+      "git_blob": "213b9bed20ba210935aa383dd10b1cf6783ecd35",
       "sha256": "05a94ec105c9bbc0c248924cda4a1f3217595d5a41ac344daf65c02b2e21cadb"
     }
   ]

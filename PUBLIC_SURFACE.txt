@@ -24,6 +24,11 @@ source	astro/transits.py
 overlay	docs/engines.md
 overlay	docs/mcp-api.md
 overlay	docs/output-contract.md
+source	docs/stars/README.md
+source	docs/stars/READ2PLAY.md
+source	docs/stars/EXAMPLE.md
+source	docs/stars-supplier-metacontract.md
+source	docs/stars-consumer-metacontract.md
 overlay	examples/call_mcp.py
 source	infra/ephe/MANIFEST.sha256
 source	infra/ephe/get-ephe.ps1
@@ -46,6 +51,7 @@ source	tests/test_profection.py
 source	tests/test_rising_hands.py
 source	tests/test_sect_and_placements.py
 source	tests/test_solar.py
+source	tests/test_stars_package.py
 source	tests/test_transits.py
 source	tests/test_transport_http.py
 overlay	tools/check_public_surface.py

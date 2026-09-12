@@ -3,6 +3,20 @@
 Headless MCP server for reproducible astrology calculations. It returns structured data; the caller
 chooses how to store, display, or interpret it.
 
+[STARS: personal AI context](docs/stars/README.md) · [Run calculations](#run-with-docker) ·
+[API reference](docs/mcp-api.md)
+
+## STARS — свой контекст для ИИ
+
+**Соберите личный комплект, который помогает агенту общаться именно с вами.**
+STARS 0.1.0 — инструкции для создания короткого `STARS.md`, полного `STARS.full.md`
+и подключения к вашей агентной среде. Личных профилей в поставке нет.
+
+Начните с [понятного руководства и готового поручения](docs/stars/README.md).
+Агенту — [READ2PLAY](docs/stars/READ2PLAY.md). Для сборки по уже предоставленным текстам
+установка сервера не нужна; для нового расчёта карты используйте MCP ниже.
+Расчётный сервер возвращает данные, а не пишет профиль вместо агента.
+
 ## Available tools
 
 - `rising_hands` - the twelve rising-sign intervals for a date and place;
