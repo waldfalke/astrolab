@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "ce939f6258cd67b766532fb3652a12206979c044",
+  "source_commit": "4b253df630bdb3045fc81e55efd25b8ae39a3eb8",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -51,8 +51,8 @@
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "9336d90369706da8b5f1e0bdc72f6e544cb02ca1",
-      "sha256": "cb3732476588b00b7242367c9a33d9148772600e90008f5b29c365aa65c22b60"
+      "git_blob": "01345360fa564a5b293bdb1cee50b58437ffd060",
+      "sha256": "63510a8333a6311b28bafe6bb5f3ffccecb1edb49a7208bc57788ab7e42726ce"
     },
     {
       "path": "assets/astrolab-hero.png",
@@ -183,32 +183,32 @@
     {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "741d9f839c423c09410fcad80f5a916a279929bd",
-      "sha256": "dea41e3579fc6a677631be583f261b66823d7290772eac8a4b7b1e32e5e65063"
+      "git_blob": "88ddb898fe759f1e5282de79019cca1116ecd66a",
+      "sha256": "fd0f6622374bfda3cd75ddaf0c0e9cc8b7cf1f697dac47e3d0925b164e350fdb"
     },
     {
       "path": "docs/stars/README.md",
       "origin": "source",
-      "git_blob": "327ffa0469ce428146511d4c5ef5e579a1365a2f",
-      "sha256": "2bff68b05df30aa79d3c333acb24e0d2120bc8ee88acd285bbbf2994fde14a3c"
+      "git_blob": "2676f945bcc5ecf8746bf0f91e29ea97ee969c57",
+      "sha256": "ab660959f0253d5c75c08f41fbdc3a81114c473d6de1777209924b21e0af402c"
     },
     {
       "path": "docs/stars/READ2PLAY.md",
       "origin": "source",
-      "git_blob": "d37b4706f1dfb67be310fac6579e45edc90eea55",
-      "sha256": "95c7ef6c3ecf42f1bc0912512be58f3ed052abcfb447d67fd92bd0abc0fc459d"
+      "git_blob": "0626e075030ceab89b46a5b5e9648e790799b3f0",
+      "sha256": "eaf4953d8ee724b05bfcdb5a544fa905f32f43f4c9c0bc37e57264187a45022a"
     },
     {
       "path": "docs/stars/EXAMPLE.md",
       "origin": "source",
-      "git_blob": "9f3c1646505c70387a3bac95086dc04049f6a511",
-      "sha256": "adb93ea13ee10c55aad15b9c97fa815cd08ccc3553bd46e4677427de28c64a70"
+      "git_blob": "f9fa8600e9402ef65d27b58b53dd768915b4c0d0",
+      "sha256": "b41712e30eee37407a5fd66fb4018c85d91c44ab864a2ebe3fb89b201be31b84"
     },
     {
       "path": "docs/stars-supplier-metacontract.md",
       "origin": "source",
-      "git_blob": "be0cbcf70511165ce53394d1c803dad1141996c6",
-      "sha256": "a646d67a41b262b914ce668b27e0f7ba99f981e10b81ce55878eef283eabd120"
+      "git_blob": "9af01b9512c41f391ee7771808c805d1f614ab05",
+      "sha256": "cb63d1e50cb3311f5c9125be4999085ed2d1d07bf894e85ee1cadee7ca642da9"
     },
     {
       "path": "docs/stars-consumer-metacontract.md",
