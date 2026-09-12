@@ -62,6 +62,7 @@ class StarsPackageTests(unittest.TestCase):
         tables = re.findall(r'<table>(.*?)</table>', text, re.DOTALL)
         self.assertEqual(len(tables), 0, 'Recipe cards must not inherit GitHub table borders')
         self.assertRegex(text, r'<img src="assets/stars-dialogue.png"[^>]+width="100%"')
+        self.assertNotIn('Пока не входит в публичный пакет.', text)
         for name in ('natal', 'solar', 'transits', 'day-forecast'):
             tag = re.search(r'<img src="assets/' + name + r'-card.svg"[^>]+>', text)
             self.assertIsNotNone(tag, name)
@@ -69,6 +70,7 @@ class StarsPackageTests(unittest.TestCase):
             self.assertGreater(len(re.search(r'alt="([^"]+)"', tag.group())[1]), 70)
             assets = overlay / 'assets' if overlay.exists() else ROOT / 'assets'
             svg = ET.parse(assets / (name + '-card.svg')).getroot()
+            self.assertNotIn('Пока не входит в публичный пакет.', ''.join(svg.itertext()))
             self.assertEqual(svg.attrib['viewBox'], '0 0 360 390')
             image = svg.find('{http://www.w3.org/2000/svg}image')
             encoded = image.attrib['href']

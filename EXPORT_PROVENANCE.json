@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "b08389b040721befa09b565debbd73430ed1eac2",
+  "source_commit": "194c910cef4daf3a9e2b2441ae6f0225bbf613cc",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -51,8 +51,8 @@
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "482f91e52891f6d1a1440a5b89fece24e5ed174a",
-      "sha256": "3f960cc0972c4d95b78c7b5777b689c2cd2a602750ee3f02c437e71d1d22773d"
+      "git_blob": "b151a2b104d2a12bc9f4a7a37b3cf8c5929d41c2",
+      "sha256": "3f6283f526a32b00943b3ec4595b43570e2db0002f2c0ef916efdaa33c71d669"
     },
     {
       "path": "assets/astrolab-hero.png",
@@ -111,8 +111,8 @@
     {
       "path": "assets/day-forecast-card.svg",
       "origin": "overlay",
-      "git_blob": "60be1a5510113c53b9011c7e192d1a5b2b971b26",
-      "sha256": "d6e4910e4e55912fc9c10db1c34029c2dc48c8da6aced93855df768cd61b86fa"
+      "git_blob": "c1b92607686ae9723be0cd8a349d0e019911463e",
+      "sha256": "6173d11dd187b761adcd7207bb74a837d36979edaf725d07bb7f31b89103065d"
     },
     {
       "path": "astro/__init__.py",
@@ -375,8 +375,8 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "source",
-      "git_blob": "deaa47bc247e939cfbc7831310d8432cf8f2232b",
-      "sha256": "1382087065ac648ec70795e81a420fa7e04e13cf8af6cdc0e1d0a4771eef8901"
+      "git_blob": "262474fdcf308bf77666deaaa38e8bfbc1545de4",
+      "sha256": "4b2e79904f2b6169f2f82e33b23c76c0865e7fba88e938d43ef15ed22e67f77c"
     },
     {
       "path": "tests/test_transits.py",
