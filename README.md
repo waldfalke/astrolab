@@ -10,6 +10,8 @@
 
 ## STARS.md — ИИ, который лучше понимает вас
 
+<img src="assets/stars-dialogue.png" alt="Человек и собеседник вместе складывают созвездие — общий язык STARS" width="560">
+
 STARS.md помогает ИИ лучше понимать вас и учитывать это в совместной работе:
 какие вопросы задавать, что предлагать и как объяснять.
 
@@ -39,6 +41,9 @@ STARS.md помогает ИИ лучше понимать вас и учиты�
 <p><a href="docs/recipes.md#solar">Посмотреть год →</a></p>
 </td>
 </tr>
+</table>
+
+<table>
 <tr>
 <td width="50%" valign="top">
 <a href="docs/recipes.md#transits"><img src="assets/transits.png" alt="Путешественник среди планетных орбит" width="220"></a>

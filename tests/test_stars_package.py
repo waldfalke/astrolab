@@ -56,7 +56,11 @@ class StarsPackageTests(unittest.TestCase):
         overlay = ROOT / "distribution/public"
         landing = overlay / "README.md" if overlay.exists() else ROOT / "README.md"
         text = landing.read_text(encoding="utf-8")
-        self.assertEqual(len(re.findall(r'<img\s', text)), 5)
+        self.assertEqual(len(re.findall(r'<img\s', text)), 6)
+        tables = re.findall(r'<table>(.*?)</table>', text, re.DOTALL)
+        self.assertEqual(len(tables), 2)
+        for table in tables:
+            self.assertEqual(table.count('<tr>'), 1, 'Avoid GitHub alternating row backgrounds')
         recipes = (ROOT / "docs/recipes.md").read_text(encoding="utf-8")
         for anchor in ("natal", "solar", "transits", "day"):
             self.assertIn(f'docs/recipes.md#{anchor}', text)

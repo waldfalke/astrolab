@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "11cac8c77f40cd18a3762db23faaace87a270815",
+  "source_commit": "ce939f6258cd67b766532fb3652a12206979c044",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,20 +45,26 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "ffc5ffffe81c2fcede747086d9eb298817477a5f",
-      "sha256": "023038d310018aa259fe28b1b4d33cc3c067e510ca30a4f0254eeb2cd42c8a2e"
+      "git_blob": "7b17acf4b3783d91ea18419dcde813768161070a",
+      "sha256": "d38e74f80e753f5bed344732e4000df63523db5fc11eb8b8c0a9b0e095428a78"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "4623487c091cd002796e863d40db4886e104bd02",
-      "sha256": "f2f46f7d3b253f914a0ff604c6cf43950cd1b684238e0c51df4e5ded606721aa"
+      "git_blob": "9336d90369706da8b5f1e0bdc72f6e544cb02ca1",
+      "sha256": "cb3732476588b00b7242367c9a33d9148772600e90008f5b29c365aa65c22b60"
     },
     {
       "path": "assets/astrolab-hero.png",
       "origin": "overlay",
       "git_blob": "f0a4c8feff56239bf00b56029db4ba30b8367fa3",
       "sha256": "fdcc9d7695b1233cf9bf95b4844f2280361ee9d6ef62f6654e30fd10e145526f"
+    },
+    {
+      "path": "assets/stars-dialogue.png",
+      "origin": "overlay",
+      "git_blob": "0cdbd4bef92cd537005d16b738c1b6c0bc19b5bf",
+      "sha256": "2fa5f43d3254893579fab7a70c96de3a1424152d57618197d9b4a7831687cca4"
     },
     {
       "path": "assets/natal.png",
@@ -345,8 +351,8 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "source",
-      "git_blob": "c0c4dc7369dcb6a1bb579fba09b86a5dfbd7c6e1",
-      "sha256": "542e37da45b6a739681053f2ee6bd40d1723b6afe13be69502c47e7d57a50228"
+      "git_blob": "e5c85f528bfa9cd26365fb6399af55d2bfc1ceca",
+      "sha256": "a0221fdf06185e57990750253e3cf6c8dd0ef1a9561dc05e69382d8480dc2353"
     },
     {
       "path": "tests/test_transits.py",

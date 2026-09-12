@@ -10,6 +10,7 @@ source	LICENSE
 overlay	PUBLIC_SURFACE.txt
 overlay	README.md
 overlay	assets/astrolab-hero.png
+overlay	assets/stars-dialogue.png
 overlay	assets/natal.png
 overlay	assets/solar.png
 overlay	assets/transits.png
