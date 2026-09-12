@@ -2,6 +2,8 @@
 
 from pathlib import Path
 import re
+import base64
+import xml.etree.ElementTree as ET
 import unittest
 from urllib.parse import unquote, urlsplit
 
@@ -19,9 +21,9 @@ DOCS = (
 
 class StarsPackageTests(unittest.TestCase):
     def test_all_entry_points_ship(self):
-        surface = ROOT / "PUBLIC_SURFACE.txt"
+        surface = ROOT / "distribution/public/PUBLIC_SURFACE.txt"
         if not surface.exists():
-            surface = ROOT / "distribution/public/PUBLIC_SURFACE.txt"
+            surface = ROOT / "PUBLIC_SURFACE.txt"
         paths = {line.split("\t", 1)[1] for line in surface.read_text().splitlines()
                  if line and not line.startswith("#")}
         for name in (*DOCS, "tests/test_stars_package.py"):
@@ -58,9 +60,22 @@ class StarsPackageTests(unittest.TestCase):
         text = landing.read_text(encoding="utf-8")
         self.assertEqual(len(re.findall(r'<img\s', text)), 6)
         tables = re.findall(r'<table>(.*?)</table>', text, re.DOTALL)
-        self.assertEqual(len(tables), 2)
-        for table in tables:
-            self.assertEqual(table.count('<tr>'), 1, 'Avoid GitHub alternating row backgrounds')
+        self.assertEqual(len(tables), 0, 'Recipe cards must not inherit GitHub table borders')
+        self.assertRegex(text, r'<img src="assets/stars-dialogue.png"[^>]+width="100%"')
+        for name in ('natal', 'solar', 'transits', 'day-forecast'):
+            tag = re.search(r'<img src="assets/' + name + r'-card.svg"[^>]+>', text)
+            self.assertIsNotNone(tag, name)
+            self.assertIn('width="360"', tag.group())
+            self.assertGreater(len(re.search(r'alt="([^"]+)"', tag.group())[1]), 70)
+            assets = overlay / 'assets' if overlay.exists() else ROOT / 'assets'
+            svg = ET.parse(assets / (name + '-card.svg')).getroot()
+            self.assertEqual(svg.attrib['viewBox'], '0 0 360 390')
+            image = svg.find('{http://www.w3.org/2000/svg}image')
+            encoded = image.attrib['href']
+            self.assertTrue(encoded.startswith('data:image/png;base64,'))
+            self.assertEqual(base64.b64decode(encoded.split(',', 1)[1]),
+                             (assets / (name + '.png')).read_bytes())
+            self.assertIsNone(svg.find('{http://www.w3.org/2000/svg}script'))
         recipes = (ROOT / "docs/recipes.md").read_text(encoding="utf-8")
         for anchor in ("natal", "solar", "transits", "day"):
             self.assertIn(f'docs/recipes.md#{anchor}', text)
