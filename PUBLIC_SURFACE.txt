@@ -19,6 +19,8 @@ overlay	assets/natal-card.svg
 overlay	assets/solar-card.svg
 overlay	assets/transits-card.svg
 overlay	assets/day-forecast-card.svg
+overlay	assets/city-day.png
+overlay	assets/city-day-card.svg
 source	astro/__init__.py
 source	astro/aspects.py
 source	astro/dignities.py

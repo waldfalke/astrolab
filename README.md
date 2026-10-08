@@ -6,7 +6,7 @@
 ты с агентом разбираешь, что они могут значить для тебя.
 
 [Создать STARS](docs/stars/README.md) · [Выбрать разбор](#разборы) ·
-[Подключить расчёты](#run-with-docker) · [API](docs/mcp-api.md)
+[Подключить расчёты](#запуск-в-docker) · [API](docs/mcp-api.md)
 
 ## STARS.md — ИИ, который лучше понимает тебя
 
@@ -34,49 +34,53 @@ STARS.md помогает ИИ лучше понимать тебя и учит�
 <a href="docs/recipes.md#transits"><img src="assets/transits-card.svg" alt="Транзиты. Увидеть развитие периода: длительный фон, точные прохождения и возвращение одной темы. Разобрать период →" width="360"></a>
 <a href="docs/recipes.md#day"><img src="assets/day-forecast-card.svg" alt="Прогноз дня. Проследить день в движении: общий фон, смену ритма и часы, когда сходятся несколько указаний. Как устроен разбор →" width="360"></a>
 </p>
+<p>
+<a href="docs/recipes.md#city-day"><img src="assets/city-day-card.svg" alt="Мунданные астрологические часы. Прогноз на день для города по смене восходящих знаков и местным акцентам суток. Посмотреть день →" width="360"></a>
+</p>
 
 Знаешь астрологию глубже? Собирай свои разборы из [расчётов API](docs/mcp-api.md).
 Astrolab возвращает структурированные данные и не ограничивает тебя этими рецептами.
 Астрологические толкования — не установленные факты и не гарантии событий.
 
-## Available tools
+## Доступные инструменты
 
-- `rising_hands` - the twelve rising-sign intervals for a date and place;
-- `natal` - positions, houses, angles, aspects, dignities, sect, placements, and Part of Fortune;
-- `profection` - annual profection and lord of the year;
-- `solar_return` - solar-return instant and return-to-natal structure;
-- `transits` - exact transit events and merged carrier windows.
+- `rising_hands` — двенадцать интервалов восходящих знаков для заданной даты и места;
+- `natal` — положения, дома, углы, аспекты, достоинства, секта, размещения и Парс Фортуны;
+- `profection` — годовая профекция и управитель года;
+- `solar_return` — точный момент соляра и его связи с натальной картой;
+- `transits` — точные транзитные события и объединённые окна прохождений.
 
-All datetimes crossing the API are UTC ISO 8601 unless a tool explicitly asks for a display offset.
-Longitudes are ecliptic degrees in `[0, 360)`.
+Дата и время передаются через API в UTC и формате ISO 8601, если инструмент явно
+не запрашивает смещение для отображения. Долготы задаются в эклиптических градусах
+диапазона `[0, 360)`.
 
-## Run with Docker
+## Запуск в Docker
 
-Docker is the shortest supported path. The image downloads the pinned Swiss Ephemeris files during
-the build and verifies their SHA-256 hashes.
+Самый короткий поддерживаемый путь — Docker. При сборке образ загружает закреплённые
+файлы Swiss Ephemeris и проверяет их хеши SHA-256.
 
 ```powershell
 docker build -t astrolab .
 docker run --rm --name astrolab -p 127.0.0.1:8400:8400 astrolab
 ```
 
-The MCP endpoint is `http://127.0.0.1:8400/mcp`. In another terminal:
+Адрес MCP-сервера: `http://127.0.0.1:8400/mcp`. В другом терминале:
 
 ```powershell
 uv sync --frozen
 uv run python examples/call_mcp.py --url http://127.0.0.1:8400/mcp
 ```
 
-The example supports `rising_hands`, `natal`, `chart_workflow`, and `invalid_input`;
-see the MCP documentation below.
+Пример поддерживает `rising_hands`, `natal`, `chart_workflow` и `invalid_input`;
+описание вызовов находится в документации MCP ниже.
 
-This command exposes Astrolab only on the local machine. The server does not provide authentication
-or TLS; do not publish its port on a LAN or the internet. Remote deployment requires a separate
-authenticated TLS ingress with access controls.
+Эта команда открывает Astrolab только на локальной машине. В сервере нет аутентификации
+и TLS: не публикуй его порт в локальной сети или интернете. Для удалённого развёртывания
+нужен отдельный TLS-вход с аутентификацией и контролем доступа.
 
-## Run from source
+## Запуск из исходников
 
-Requirements: Python 3.13, [uv](https://docs.astral.sh/uv/), and PowerShell 7.
+Требования: Python 3.13, [uv](https://docs.astral.sh/uv/) и PowerShell 7.
 
 ```powershell
 uv sync --frozen --group engine-a
@@ -89,9 +93,9 @@ $env:ASTRO_MCP_HOST = "127.0.0.1"
 uv run python -m astro.server
 ```
 
-The server refuses to use Engine A when the required ephemeris files are absent or incomplete.
+Сервер не запустит Engine A, если необходимые файлы эфемерид отсутствуют или неполны.
 
-## Verify a checkout
+## Проверка копии репозитория
 
 ```powershell
 python tools/check_public_surface.py
@@ -104,16 +108,17 @@ $env:REQUIRE_ENGINE_A = "1"
 uv run pytest -m "not needs_swiss_mcp" -q
 ```
 
-The four `needs_swiss_mcp` comparison tests additionally require the reference sidecar at
-`http://localhost:8000/mcp`. They are not needed to run the public Docker image.
+Четырём сравнительным тестам `needs_swiss_mcp` дополнительно нужен эталонный сервис
+по адресу `http://localhost:8000/mcp`. Для работы публичного Docker-образа они не нужны.
 
-## Documentation
+## Документация
 
-- [MCP tools](docs/mcp-api.md)
-- [Calculation engines](docs/engines.md)
-- [Output contract](docs/output-contract.md)
+- [Инструменты MCP](docs/mcp-api.md)
+- [Расчётные движки](docs/engines.md)
+- [Контракт результата](docs/output-contract.md)
 
-## License
+## Лицензия
 
-Private non-commercial evaluation is permitted for 30 days. Production and commercial use require a
-written license agreement. See [LICENSE](LICENSE).
+Частное некоммерческое ознакомление разрешено в течение 30 дней. Для производственного
+и коммерческого использования нужно письменное лицензионное соглашение. Условия — в
+[LICENSE](LICENSE).
