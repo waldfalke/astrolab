@@ -1,12 +1,13 @@
 # Что разобрать с Astrolab
 
-[Натальная карта](#natal) · [Соляр](#solar) · [Транзиты](#transits) ·
+[Натальная карта](#natal) · [Синастрия](#synastry) · [Соляр](#solar) · [Транзиты](#transits) ·
 [Мунданные астрологические часы](#city-day) · [Личный прогноз дня](#day)
 
-Для расчётов нужен [запущенный Astrolab](../README.md#запуск-в-docker)
+Для большинства расчётов нужен [запущенный Astrolab](../README.md#запуск-в-docker)
 и агент с доступом к его MCP-серверу. Способ подключения зависит от приложения;
 локальный адрес сервера — `http://127.0.0.1:8400/mcp`.
 Если подключение недоступно, агент должен сказать об этом, а не придумывать расчёт.
+Синастрия пока запускается отдельным локальным рецептом из исходников.
 
 Передай агенту одно из поручений ниже. Он уточнит исходные данные и сверится
 с [описанием инструментов](mcp-api.md). Дата, время и место рождения — личные данные:
@@ -40,6 +41,98 @@
 
 **На выходе:** основные темы карты, их расчётные основания и вопросы для дальнейшего разговора.
 Если захочешь сохранить полезное для общения с ИИ — [сделай свой STARS](stars/README.md).
+
+<a id="synastry"></a>
+
+## Синастрия
+
+Чтение отношений двух людей без предположения, что отношения обязательно романтические.
+Один и тот же расчёт можно разбирать для пары, друзей, родственников или двух коллег.
+Первая версия требует точного времени и места рождения обоих участников.
+
+Установи дополнительную группу и Chromium для PDF:
+
+```powershell
+uv sync --frozen --group engine-a --group synastry
+uv run playwright install chromium
+pwsh infra/ephe/get-ephe.ps1 -Source web
+
+$env:SWISS_ENGINE = "a"
+$env:SWISS_EPHE_PATH = (Resolve-Path "infra/ephe/files").Path
+$env:REQUIRE_ENGINE_A = "1"
+```
+
+Сохрани вход в `.private/synastry-input.json`. Время уже должно быть переведено в UTC:
+
+```json
+{
+  "participants": {
+    "A": {
+      "id": "person-a",
+      "datetime_utc": "1990-03-21T12:00:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "B": {
+      "id": "person-b",
+      "datetime_utc": "1992-09-23T18:30:00Z",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    }
+  }
+}
+```
+
+Рассчитай пакет и два взаимных вида карты:
+
+```powershell
+uv run python artifacts/mcp-recipes/synastry_local.py `
+  --input .private/synastry-input.json `
+  --output .private/synastry-calculation
+
+uv run python artifacts/renderer/render_synastry.py `
+  --bundle .private/synastry-calculation `
+  --output-dir .private/synastry-visuals `
+  --label-a "Участник A" `
+  --label-b "Участник B"
+```
+
+Затем передай агенту такое поручение:
+
+```text
+Подготовь чтение синастрии по рассчитанному пакету.
+Прочитай docs/synastry-reading-recipe.md и пустое основание
+artifacts/report-templates/synastry-astrology.md.
+Используй natals/A.json, natals/B.json, cross_aspects.csv и overlays.csv.
+В каждом натале обязательно рассмотри phases: это состояние объектов исходной карты,
+а не отдельная «фаза пары». Сначала заполни основание с расчётами, альтернативами
+и ограничениями, затем напиши связный текст для читателя.
+Учитывай указанный контекст отношений, но не подгоняй под него расчёт.
+Не утверждай чувства, согласие или намерения другого человека как известный факт.
+```
+
+Сохрани результат агента как `.private/synastry-reading.md`, а заполненное основание —
+как `.private/synastry-astrology.md`. Собери самодостаточный HTML и PDF:
+
+```powershell
+uv run python artifacts/renderer/assemble_synastry.py `
+  --bundle .private/synastry-calculation `
+  --visuals .private/synastry-visuals `
+  --reading .private/synastry-reading.md `
+  --twin .private/synastry-astrology.md `
+  --art assets/synastry.png `
+  --output-dir .private/synastry-report `
+  --title "Синастрия двух людей" `
+  --label-a "Участник A" `
+  --label-b "Участник B" `
+  --pdf
+```
+
+**На выходе:** расчёт с фазами обеих карт, межкартные аспекты, оба направления
+наложений на дома, два взаимных колеса и проверяемый HTML/PDF с исходным чтением.
+Личные входы и результаты остаются внутри `.private`.
+
+[Открыть вымышленный пример готовой синастрии →](examples/synastry-fictional/README.md)
 
 <a id="solar"></a>
 

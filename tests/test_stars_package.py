@@ -11,6 +11,9 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = (
     "docs/recipes.md",
+    "docs/synastry-reading-recipe.md",
+    "docs/synastry-practice-research.md",
+    "docs/examples/synastry-fictional/README.md",
     "docs/stars/README.md",
     "docs/stars/READ2PLAY.md",
     "docs/stars/EXAMPLE.md",
@@ -58,12 +61,12 @@ class StarsPackageTests(unittest.TestCase):
         overlay = ROOT / "distribution/public"
         landing = overlay / "README.md" if overlay.exists() else ROOT / "README.md"
         text = landing.read_text(encoding="utf-8")
-        self.assertEqual(len(re.findall(r'<img\s', text)), 7)
+        self.assertEqual(len(re.findall(r'<img\s', text)), 8)
         tables = re.findall(r'<table>(.*?)</table>', text, re.DOTALL)
         self.assertEqual(len(tables), 0, 'Recipe cards must not inherit GitHub table borders')
         self.assertRegex(text, r'<img src="assets/stars-dialogue.png"[^>]+width="100%"')
         self.assertNotIn('Пока не входит в публичный пакет.', text)
-        for name in ('natal', 'solar', 'transits', 'day-forecast', 'city-day'):
+        for name in ('natal', 'solar', 'transits', 'day-forecast', 'city-day', 'synastry'):
             tag = re.search(r'<img src="assets/' + name + r'-card.svg"[^>]+>', text)
             self.assertIsNotNone(tag, name)
             self.assertIn('width="360"', tag.group())
@@ -79,7 +82,7 @@ class StarsPackageTests(unittest.TestCase):
                              (assets / (name + '.png')).read_bytes())
             self.assertIsNone(svg.find('{http://www.w3.org/2000/svg}script'))
         recipes = (ROOT / "docs/recipes.md").read_text(encoding="utf-8")
-        for anchor in ("natal", "solar", "transits", "city-day", "day"):
+        for anchor in ("natal", "synastry", "solar", "transits", "city-day", "day"):
             self.assertIn(f'docs/recipes.md#{anchor}', text)
             self.assertIn(f'<a id="{anchor}"></a>', recipes)
         targets = re.findall(r'(?:src|href)="([^"]+)"', text)

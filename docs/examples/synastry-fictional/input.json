@@ -1,0 +1,16 @@
+{
+  "participants": {
+    "A": {
+      "id": "aliya-example",
+      "datetime_utc": "1990-03-21T12:00:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "B": {
+      "id": "marek-example",
+      "datetime_utc": "1992-09-23T18:30:00Z",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "assembler": "catme-synastry-presentation",
+  "basis_in_html": true,
+  "contact_count": 40,
+  "house_owner": {
+    "01_A_inner_B_outer.svg": "A",
+    "02_B_inner_A_outer.svg": "B"
+  },
+  "inputs": {
+    "art": "8c850cc2f60ebaa2c584bfd6f41c8b19947ebac0ba5a638af5069a67254602b3",
+    "assembler": "31910a8ded4a79f7342499528a144b5f52684395e69ac17c4b01f1fae872c074",
+    "bundle_files": {
+      "adapters/charts/A/outputs/chart_points.csv": "d7c0bb06a71918fc51aef855a15d665ba6b92241dcdd62abec6cee6863f5cb1b",
+      "adapters/charts/A/outputs/houses_placidus.csv": "b30fc1cda6489213393aa5f58436354cfb1bcd9dcb1da81d07f9359ad0d77350",
+      "adapters/charts/A/outputs/natal_longitudes.csv": "d1e29cd853403aff0e1127633059c8d1ec69b07075d4b1360afa6bf888980712",
+      "adapters/charts/A/outputs/planets_primary.csv": "1a2566b915a1fa875ff557471921838bf1dd5a3548c40a3bf04c10f0d28e19c9",
+      "adapters/charts/B/outputs/chart_points.csv": "1bcf6d8223870f331d7e51ce8e2f65ab3107b36ae4328576578d37b19d84801a",
+      "adapters/charts/B/outputs/houses_placidus.csv": "ba034ec3a7472f4363c7d2e001e7e4d1a2a1a513b39c473086058dc3a9326256",
+      "adapters/charts/B/outputs/natal_longitudes.csv": "d9f3dfe81bf4ca5cec865bff187f4e49b5b2823039a7cfc9300eca386d8645fe",
+      "adapters/charts/B/outputs/planets_primary.csv": "dce713b66de0ec06f883229904e39ef6db49b6088b0fbd941a97bc833a9ca01a",
+      "cross_aspects.csv": "0512da44cbb3fd2014d2306ae0a5c40a903d1e1b29cef22dfa25421f5a0aa20b",
+      "natals/A.json": "9dcf190d36ce0b7de1aa020e70149dc6059ad860c16ce227cb1d0b3969a1d96e",
+      "natals/A_aspects.csv": "fef3eb2642e79c4593f1d912f6f07f2ebed6ef59c198e80703e5b9c25a610ff7",
+      "natals/B.json": "89bc7fb6c3f85883d31c5dc046eb604c018100782c80f13eb3899e304732c671",
+      "natals/B_aspects.csv": "b99a88eb4224b309ab2b19ad8c1a51fa23e526480c36587d0941b7e56702e354",
+      "overlays.csv": "e8f6b9eca61b3dd4870bd6baf4be3a9200bf9b5a72e8e62b6e79d7573573ac2b"
+    },
+    "bundle_manifest": "f25169a0b319605a125838d4c16ac49d14221c557c3c9e374ac92dd4253ddd9e",
+    "reading": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082",
+    "template": "74872abbbf2eeb56efaba710020e3b11696450602facd71cf9c0bd7ba00755e1",
+    "twin": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8",
+    "visual_manifest": "97e37987a0b576edc33ca43e45b235cb3d6a82ef8d0506be5a792c3f5d636a9f",
+    "visuals": {
+      "01_A_inner_B_outer.svg": "c2e7dbca868ee73ed2e98caa0b2233a3410ee0e7f3dd21a317887e07eb022f33",
+      "02_B_inner_A_outer.svg": "91bb68518a10f3bb87df152dc0b9a27847f9972aea376a29fcdae72b03577aaf",
+      "03_cross_aspect_grid.svg": "5b33fda4a87e8e47614bfdce30a8b9fdd25100a985b9f9ca89973cdaf9aeaf2f"
+    }
+  },
+  "labels": {
+    "A": "Алия",
+    "B": "Марек"
+  },
+  "outputs": {
+    "reading.md": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082",
+    "report.html": "2c076f71bca81941a9a5a6f90ada299830e2ec1fbc32055b192ae926621d4afc",
+    "report.pdf": "bdfda375b663bce71b0659355297626625fba3671abe33ff6d0b660c7b8cd681",
+    "twin.md": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8"
+  },
+  "participants": {
+    "A": "aliya-example",
+    "B": "marek-example"
+  },
+  "title": "Синастрия: Алия и Марек",
+  "version": "0.1.0",
+  "versions": {
+    "browser": {
+      "chromium": "153.0.8010.12",
+      "playwright": "1.63.0"
+    },
+    "markdown_it_py": "4.2.0",
+    "renderer_sha256": {
+      "render_chart.py": "e1d6e3f7cb2b8c00d0a544eb08d08a1140971e1fd6fbb55bb1eea430c7298c41",
+      "render_synastry.py": "6539722a867849b0e005e99e9971f314036bb9fb3da744688a1719b90dacd6b9"
+    }
+  }
+}
