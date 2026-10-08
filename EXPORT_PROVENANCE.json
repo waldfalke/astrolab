@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "194c910cef4daf3a9e2b2441ae6f0225bbf613cc",
+  "source_commit": "c9b09d92e8e32b1a783faf94ab56dbe561af86f7",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,14 +45,14 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "c44401bb2202cd25005102162e79fe49e1054092",
-      "sha256": "49c57a6fa86c58c964359e64ab4921d5adc3b069ff68328f7f8839a6674413ff"
+      "git_blob": "824cfba063a86577fe64b53cf702b9e89d5f799a",
+      "sha256": "196fd51051a94cea097b29c2e807a635beb7bc20ea09932e94b68beb69446034"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "b151a2b104d2a12bc9f4a7a37b3cf8c5929d41c2",
-      "sha256": "3f6283f526a32b00943b3ec4595b43570e2db0002f2c0ef916efdaa33c71d669"
+      "git_blob": "36bca6c7b4306d22e16c4e9253879bb336fed78b",
+      "sha256": "fea87c60286416b994fca59807fa478d1e002dad9b9c3aef2a2246849f92c586"
     },
     {
       "path": "assets/astrolab-hero.png",
@@ -113,6 +113,18 @@
       "origin": "overlay",
       "git_blob": "c1b92607686ae9723be0cd8a349d0e019911463e",
       "sha256": "6173d11dd187b761adcd7207bb74a837d36979edaf725d07bb7f31b89103065d"
+    },
+    {
+      "path": "assets/city-day.png",
+      "origin": "overlay",
+      "git_blob": "fab9171f78fa2d3d2e6ba95645290a70698d68a9",
+      "sha256": "61b484bebb439f427b059f62a696f8cca71bd67e26f3b90a3276b3c472057b71"
+    },
+    {
+      "path": "assets/city-day-card.svg",
+      "origin": "overlay",
+      "git_blob": "cf06a7edb1dea59fc0d6f9ff15d0a62190083b8b",
+      "sha256": "10a9508e8f33b79ad387545a20ccdca2cc87caa9198b19a374672d447805fd29"
     },
     {
       "path": "astro/__init__.py",
@@ -207,8 +219,8 @@
     {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "88ddb898fe759f1e5282de79019cca1116ecd66a",
-      "sha256": "fd0f6622374bfda3cd75ddaf0c0e9cc8b7cf1f697dac47e3d0925b164e350fdb"
+      "git_blob": "60821b2fdbea98a2f993c663d69edb76fd7f29ad",
+      "sha256": "6e45aee3f68f6364b614974cc1eba64bf6b9669435f98dd928232429a025c002"
     },
     {
       "path": "docs/stars/README.md",
@@ -375,8 +387,8 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "source",
-      "git_blob": "262474fdcf308bf77666deaaa38e8bfbc1545de4",
-      "sha256": "4b2e79904f2b6169f2f82e33b23c76c0865e7fba88e938d43ef15ed22e67f77c"
+      "git_blob": "d55803dc2aad37c11cfe117a1860140ae0562046",
+      "sha256": "8b8d0763d38c1870e7f7302f3e925542b2d7b96e1ce854c88113012390df3887"
     },
     {
       "path": "tests/test_transits.py",
