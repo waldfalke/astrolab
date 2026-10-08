@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "c9b09d92e8e32b1a783faf94ab56dbe561af86f7",
+  "source_commit": "60e217bea613e3deef3d128e99aa96a94ef8b232",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,14 +45,50 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "824cfba063a86577fe64b53cf702b9e89d5f799a",
-      "sha256": "196fd51051a94cea097b29c2e807a635beb7bc20ea09932e94b68beb69446034"
+      "git_blob": "22fa0b5229b68c7836b50773bef27aeff0f0b63d",
+      "sha256": "ad9dff840f6b840619944a32d8418d98aeae07404867ee04c6e98c6a19e80387"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "36bca6c7b4306d22e16c4e9253879bb336fed78b",
-      "sha256": "fea87c60286416b994fca59807fa478d1e002dad9b9c3aef2a2246849f92c586"
+      "git_blob": "955bb76dc225768d2244dcd6e1496f3a5b228a3e",
+      "sha256": "62030463d2c95dac0271e4f31184d5a0997bfe86fc9cf2c8cdf93804d769d27e"
+    },
+    {
+      "path": "artifacts/mcp-recipes/synastry_local.py",
+      "origin": "source",
+      "git_blob": "2394e07cea491587d712f75464a2c701be916392",
+      "sha256": "43bb5fb1600c25e53799bc83067f14d98558cac641a6aff0e2430675c9397b1b"
+    },
+    {
+      "path": "artifacts/renderer/assemble_synastry.py",
+      "origin": "source",
+      "git_blob": "6d36854acd92122c67d5995a082c72672131a40e",
+      "sha256": "31910a8ded4a79f7342499528a144b5f52684395e69ac17c4b01f1fae872c074"
+    },
+    {
+      "path": "artifacts/renderer/render_chart.py",
+      "origin": "source",
+      "git_blob": "b259e855586a7b305963e663203890775d0d2e8c",
+      "sha256": "e1d6e3f7cb2b8c00d0a544eb08d08a1140971e1fd6fbb55bb1eea430c7298c41"
+    },
+    {
+      "path": "artifacts/renderer/render_synastry.py",
+      "origin": "source",
+      "git_blob": "d923c00f64083cc29acf133a9f465fed084a33db",
+      "sha256": "6539722a867849b0e005e99e9971f314036bb9fb3da744688a1719b90dacd6b9"
+    },
+    {
+      "path": "artifacts/report-templates/synastry-astrology.md",
+      "origin": "source",
+      "git_blob": "0d031dd835422806463ba93ae931692f4206d3cb",
+      "sha256": "c905dac81cbb4c9db41e9302c9a0d22da1636818d7c4eb5129251aedfcc4e995"
+    },
+    {
+      "path": "artifacts/report-templates/synastry-reading.html",
+      "origin": "source",
+      "git_blob": "c11fc087674c0a8af9e0742bd1440da3d0dbc963",
+      "sha256": "74872abbbf2eeb56efaba710020e3b11696450602facd71cf9c0bd7ba00755e1"
     },
     {
       "path": "assets/astrolab-hero.png",
@@ -127,6 +163,18 @@
       "sha256": "10a9508e8f33b79ad387545a20ccdca2cc87caa9198b19a374672d447805fd29"
     },
     {
+      "path": "assets/synastry.png",
+      "origin": "overlay",
+      "git_blob": "ffcc6554aa9e2a2724d70995b7a3115abcc5c341",
+      "sha256": "8c850cc2f60ebaa2c584bfd6f41c8b19947ebac0ba5a638af5069a67254602b3"
+    },
+    {
+      "path": "assets/synastry-card.svg",
+      "origin": "overlay",
+      "git_blob": "e6242bc1e6a7ff7a93ffed141abcbdf3e4187ebb",
+      "sha256": "386d2c56b6b804e386cf9103194bc06a40a17f5daddcffe032f51af2b0d0037d"
+    },
+    {
       "path": "astro/__init__.py",
       "origin": "source",
       "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
@@ -155,6 +203,12 @@
       "origin": "source",
       "git_blob": "9f0d54427a300ebe9cc88f900fb39f7900cbc5e8",
       "sha256": "b5a757629c4a0b9484e8a83b1e6e99b39fc79a479e8b537d3fe0bbbf76e3e277"
+    },
+    {
+      "path": "astro/phases.py",
+      "origin": "source",
+      "git_blob": "c124d3fffb1a5601a01ba900fa63b2bb1c72764e",
+      "sha256": "fb39690363f9be67cb9bf663c136ae5f6cd47284106fad346576df56c059b3d5"
     },
     {
       "path": "astro/placements.py",
@@ -219,8 +273,50 @@
     {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "60821b2fdbea98a2f993c663d69edb76fd7f29ad",
-      "sha256": "6e45aee3f68f6364b614974cc1eba64bf6b9669435f98dd928232429a025c002"
+      "git_blob": "e3d615ddf7931bf9147d9e43985abdf520fef6cc",
+      "sha256": "a4a00e8dbf6ec38b03f6d83ec3bf9c2eacd0b0b7e1e6bda61d1ce69906f867d5"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/README.md",
+      "origin": "source",
+      "git_blob": "29229066407da5701ba9fb7d7257f32fac7ca223",
+      "sha256": "e4f40c8d038ece65c649e5d525bec36ae4f346f1b890d3e5dfc0f81ce45f5a15"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/input.json",
+      "origin": "source",
+      "git_blob": "afa04d4f3b26278869a8237a3932b543baa9ab4e",
+      "sha256": "54850c98f72de36cc575a95ecaf509e5fb81a9768e4537e61ca8d882a07e0764"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/manifest.json",
+      "origin": "source",
+      "git_blob": "2ab7bcdf4a0a05f0c2f1dc9501b73238a5c2aa24",
+      "sha256": "78171de715bec3ef71b804d2310402cb33af57905881cd8b14543a456085e7df"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/reading.md",
+      "origin": "source",
+      "git_blob": "77149b42345ff17aeb8661d3f6597c3d7731c396",
+      "sha256": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/report.html",
+      "origin": "source",
+      "git_blob": "8aa432c53706f017b1506ee89fdd5a0279a948ae",
+      "sha256": "2c076f71bca81941a9a5a6f90ada299830e2ec1fbc32055b192ae926621d4afc"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/report.pdf",
+      "origin": "source",
+      "git_blob": "9db316b55fe9141dfa2df5399af772760e885940",
+      "sha256": "bdfda375b663bce71b0659355297626625fba3671abe33ff6d0b660c7b8cd681"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/twin.md",
+      "origin": "source",
+      "git_blob": "ba106c0a868b04dccbf4f20c126e0a9676ba2cb8",
+      "sha256": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8"
     },
     {
       "path": "docs/stars/README.md",
@@ -253,6 +349,18 @@
       "sha256": "cc5dce8d206abc6967c6aeb242144a08f3714f624dc3df2c585a5209e2dcbee7"
     },
     {
+      "path": "docs/synastry-practice-research.md",
+      "origin": "source",
+      "git_blob": "dbe1df0995381559ef138e527331fc3d08a8cef8",
+      "sha256": "0a313e99a7b432dc2b2bc0a7c483aad2688858cc2c0bcf3da55b6171e1f94367"
+    },
+    {
+      "path": "docs/synastry-reading-recipe.md",
+      "origin": "source",
+      "git_blob": "6dc77dafa34ac72aad9e6fbd367c930583f526c4",
+      "sha256": "b59e00f296dabb216ffa7e346da69bb784c068f463502e41dda2b77aaa798eb8"
+    },
+    {
       "path": "examples/call_mcp.py",
       "origin": "overlay",
       "git_blob": "0ca43e68141905eb0834917b28e7e33667fb81f5",
@@ -273,8 +381,8 @@
     {
       "path": "pyproject.toml",
       "origin": "source",
-      "git_blob": "00bbec1ba0f8a039ed4237ccaf03f90c051d4b2b",
-      "sha256": "a0b3f381442194716c417dcb0f40ab8658b6795486262b0384301bdc5bddbfdb"
+      "git_blob": "ccfdf1b824721b4422fb3527bc17f0d890093f53",
+      "sha256": "25197ff976000181f9079905f3c3e0f769d5318c593b31fdb31481e1d6aeb8f9"
     },
     {
       "path": "tests/conftest.py",
@@ -311,6 +419,12 @@
       "origin": "source",
       "git_blob": "5ecaa7f68add917df4980cc3160ef0f9eedc5b1c",
       "sha256": "252dfa5e8820f20fe71d50c899a24f1d904516755d203cd60edbb9a214a7d2ff"
+    },
+    {
+      "path": "tests/test_biwheel_renderer.py",
+      "origin": "source",
+      "git_blob": "bc1507e764f0268bd0e586953fc07ec1d718eb36",
+      "sha256": "911d9ab5ddab719c79951e2adaecc139a9c72c31c96922a19593cb217428b140"
     },
     {
       "path": "tests/test_dignities.py",
@@ -355,6 +469,12 @@
       "sha256": "94170f8658308be829cc872f4f8866deb873313928c690414ca5cb147b1513f2"
     },
     {
+      "path": "tests/test_phases.py",
+      "origin": "source",
+      "git_blob": "2f4faf2bde1c8d88ac19da4fd1629c4ccb6d2347",
+      "sha256": "08b184b9cdd58cffa2a605f3ab2af03b590d0b0d7b055418ae1b0cf4a4eb188a"
+    },
+    {
       "path": "tests/test_positions.py",
       "origin": "source",
       "git_blob": "efd13d489bffe558b913c2b9f67c79a0dd291f9c",
@@ -387,8 +507,26 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "source",
-      "git_blob": "d55803dc2aad37c11cfe117a1860140ae0562046",
-      "sha256": "8b8d0763d38c1870e7f7302f3e925542b2d7b96e1ce854c88113012390df3887"
+      "git_blob": "b0341a133a1540055c6cc712f8d45b84609e7604",
+      "sha256": "b8bdf7f86b74f765613a91f0984b7b12b4c4097d928cab289b8739bb6d08f454"
+    },
+    {
+      "path": "tests/test_synastry_local.py",
+      "origin": "source",
+      "git_blob": "eeec740afd1bd9613a47fabbda1c1739684edc34",
+      "sha256": "90dbf192ed2f28952d1fb5aae7ba9c2750705b9da206fbaaafb75e7cf0f6d664"
+    },
+    {
+      "path": "tests/test_synastry_presentation.py",
+      "origin": "source",
+      "git_blob": "514e3732070acd923923af0d3bc5934db72f16ff",
+      "sha256": "043ae6bafe2136895bfc7e17e62f33199c6d2e083dccfe25f8b44f0a05ed1089"
+    },
+    {
+      "path": "tests/test_synastry_renderer.py",
+      "origin": "source",
+      "git_blob": "6f7e190dae49c72063b7c533f3ee5ae4e186a7f8",
+      "sha256": "62f3e9647d54248cb1e00c716723438f8072a8b1b1be63cd5351408c013a3873"
     },
     {
       "path": "tests/test_transits.py",
@@ -411,8 +549,8 @@
     {
       "path": "uv.lock",
       "origin": "source",
-      "git_blob": "213b9bed20ba210935aa383dd10b1cf6783ecd35",
-      "sha256": "05a94ec105c9bbc0c248924cda4a1f3217595d5a41ac344daf65c02b2e21cadb"
+      "git_blob": "2e98d7858d925c99c098e3013f225938aefa9fa4",
+      "sha256": "1631856acfc356cce29b89f39ed82770e1d46387fbe7352754930f68904e4e29"
     }
   ]
 }
