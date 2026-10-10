@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "60e217bea613e3deef3d128e99aa96a94ef8b232",
+  "source_commit": "a7fc846abd4c7a866573aca18afbf3401db2b3c3",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,14 +45,38 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "22fa0b5229b68c7836b50773bef27aeff0f0b63d",
-      "sha256": "ad9dff840f6b840619944a32d8418d98aeae07404867ee04c6e98c6a19e80387"
+      "git_blob": "24c969daa1da3a48d4bbf2b14a9ad12d54e4faf5",
+      "sha256": "804d80a8ce995a2b7d2456548dabf7a15e0a79ab231dda6312a3fb9eee5e29bb"
     },
     {
       "path": "README.md",
       "origin": "overlay",
       "git_blob": "955bb76dc225768d2244dcd6e1496f3a5b228a3e",
       "sha256": "62030463d2c95dac0271e4f31184d5a0997bfe86fc9cf2c8cdf93804d769d27e"
+    },
+    {
+      "path": "artifacts/mcp-recipes/build_day_ribbon.py",
+      "origin": "source",
+      "git_blob": "19e7819e87ca44a2eded2add17f1f0d93b32d669",
+      "sha256": "5a83ac26b8ac829b09a55f3e93ae818e2fb957056b7c9362a0f6f32050c3eba9"
+    },
+    {
+      "path": "artifacts/mcp-recipes/clock_event_state_probe.py",
+      "origin": "source",
+      "git_blob": "9dc71033f34449fc3d9d4556f30fccb5a942bbbb",
+      "sha256": "f383b3968647fb70eb44681ded38a3c7d97160d5a1c107c461374c5f1654799e"
+    },
+    {
+      "path": "artifacts/mcp-recipes/collect_mcp_boundary_context.py",
+      "origin": "source",
+      "git_blob": "f82428dfb6c8fa923aa641aaa4fcaeef44d23014",
+      "sha256": "5c84d9de65c1c3a863849ee4754f1f73a0d691ae3c61767afe3061f185b5a1ca"
+    },
+    {
+      "path": "artifacts/mcp-recipes/collect_mcp_day_frames.py",
+      "origin": "source",
+      "git_blob": "e0c2231c8a662573ec4e24f65872a603c203636b",
+      "sha256": "8a7a356cc9cc0de3ec8318f14deb3fbf3dad66e1d97d3f3cd90364ebfac8c5e9"
     },
     {
       "path": "artifacts/mcp-recipes/synastry_local.py",
@@ -77,6 +101,18 @@
       "origin": "source",
       "git_blob": "d923c00f64083cc29acf133a9f465fed084a33db",
       "sha256": "6539722a867849b0e005e99e9971f314036bb9fb3da744688a1719b90dacd6b9"
+    },
+    {
+      "path": "artifacts/report-templates/city-day-astrology.md",
+      "origin": "source",
+      "git_blob": "e61f824b84e0846b6a60818b69d3341b4bef303f",
+      "sha256": "260894f11cf151d28b930545568aa1521d7822bc1b67a1100327ea5eebe74e8b"
+    },
+    {
+      "path": "artifacts/report-templates/city-day-reading.html",
+      "origin": "source",
+      "git_blob": "4f3953b4d698905454a87708afac34a62afeeb3a",
+      "sha256": "3e7b18fbd071b6fb839356699933c8e15a91bea64e4ca0572ae1db7c51b5e759"
     },
     {
       "path": "artifacts/report-templates/synastry-astrology.md",
@@ -201,8 +237,8 @@
     {
       "path": "astro/natal.py",
       "origin": "source",
-      "git_blob": "9f0d54427a300ebe9cc88f900fb39f7900cbc5e8",
-      "sha256": "b5a757629c4a0b9484e8a83b1e6e99b39fc79a479e8b537d3fe0bbbf76e3e277"
+      "git_blob": "271e60b6b3122c050fbe8b2c20248cdfa5f446c2",
+      "sha256": "653e9a2b44ee595cb1f944690ada6a3f12b84183fc6b2f7fdc2aff0f1e33f33c"
     },
     {
       "path": "astro/phases.py",
@@ -271,10 +307,16 @@
       "sha256": "c71b0f75a3b9fbb137931d8dbd482b805df7849d194e597c9bb656452fcaebef"
     },
     {
+      "path": "docs/city-day-reading.md",
+      "origin": "source",
+      "git_blob": "5a8be07e331e9a69d44b26a3db0a579120ddc601",
+      "sha256": "33a28cc2ac321573b718c60713c4fb910f788c5611dce74eead9d1f4a4fea3fd"
+    },
+    {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "e3d615ddf7931bf9147d9e43985abdf520fef6cc",
-      "sha256": "a4a00e8dbf6ec38b03f6d83ec3bf9c2eacd0b0b7e1e6bda61d1ce69906f867d5"
+      "git_blob": "a482a26a8e20dd7de3846acf502611a85184a3d0",
+      "sha256": "49f5bf02c025f94a3104bbafd6500047dc0448d418bef331eda58db26e473fd5"
     },
     {
       "path": "docs/examples/synastry-fictional/README.md",
@@ -427,6 +469,18 @@
       "sha256": "911d9ab5ddab719c79951e2adaecc139a9c72c31c96922a19593cb217428b140"
     },
     {
+      "path": "tests/test_clock_event_state_probe.py",
+      "origin": "source",
+      "git_blob": "e674e6272abf16ca299325fbbbbded02ae64a63b",
+      "sha256": "44cc76f6cb715af41c526bb1a309e4a694453aec17c505aee1054329cee9aebe"
+    },
+    {
+      "path": "tests/test_day_ribbon_build.py",
+      "origin": "source",
+      "git_blob": "c0becc001c0ac7c9110955b316ab4044a8ab2ef6",
+      "sha256": "880e68f36879d27e35658a2d64bac15056455838946a02fea52eda355a5fe20b"
+    },
+    {
       "path": "tests/test_dignities.py",
       "origin": "source",
       "git_blob": "4869413ef14ab6bb6b6bce86f8909b3c02eef691",
@@ -463,10 +517,22 @@
       "sha256": "ee4d408c6906416dfc59d1569a7679336510ca2badf05491d79e1b5f8076f210"
     },
     {
+      "path": "tests/test_mcp_boundary_context.py",
+      "origin": "source",
+      "git_blob": "836c97c5e4a76044052a681ec744e778838e924a",
+      "sha256": "7399a87bcf5d4b0f211ce24df5e10e85431cadd102b622e888cc44a218f35487"
+    },
+    {
+      "path": "tests/test_mcp_day_frames.py",
+      "origin": "source",
+      "git_blob": "dee70d78b408ea585493861e619e89a11493472e",
+      "sha256": "23695db83e91290c60fe03cd13799a161adac515104232e8a7bbb6a2d7ff5585"
+    },
+    {
       "path": "tests/test_natal.py",
       "origin": "source",
-      "git_blob": "819e0a78a29ab072e2a39a41fcede4b061b1da91",
-      "sha256": "94170f8658308be829cc872f4f8866deb873313928c690414ca5cb147b1513f2"
+      "git_blob": "2bc860b960392083dcb21fc3f81f2fa6f76580b6",
+      "sha256": "b7e04d7f16c21552802da321fb8dba05dd59f37fdaa06e1d0e2be032f3e80289"
     },
     {
       "path": "tests/test_phases.py",
