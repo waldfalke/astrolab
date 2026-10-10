@@ -21,6 +21,7 @@ from astro.engine import (
     compute_positions_series,
 )
 from astro.placements import compute_placements
+from astro.phases import compute_phase_states
 from astro.sect import compute_part_of_fortune, compute_sect
 
 # The natal body set (feature map: 10 classical + nodes + Lilith + Chiron). PoF is derived, not
@@ -50,7 +51,7 @@ def compute_natal(
     Returns:
         {"moment_utc", "location": {lat, lon}, "positions", "houses": {cusps, angles},
          "aspects", "dignities", "sect", "points": {"part_of_fortune"},
-         "placements"} — the normalized natal structure (#118).
+         "placements", "phases"} — the normalized natal structure (#118).
     """
     bods = list(bodies) if bodies is not None else list(NATAL_BODIES)
     positions = compute_positions_series([moment_utc], lat, lon, bodies=bods, engine=engine)[0]
@@ -62,8 +63,9 @@ def compute_natal(
         points["part_of_fortune"] = compute_part_of_fortune(
             asc, positions["sun"], positions["moon"], sect["chart_sect"]
         )
+    instant = _iso_utc(moment_utc)
     return {
-        "moment_utc": _iso_utc(moment_utc),
+        "moment_utc": instant,
         "location": {"lat": lat, "lon": lon},
         "positions": positions,
         "houses": houses,
@@ -72,4 +74,6 @@ def compute_natal(
         "sect": sect,
         "points": points,
         "placements": compute_placements({**positions, **points}, houses["cusps"]),
+        "phases": compute_phase_states(positions, cusps=houses["cusps"],
+                                       moment_utc=instant),
     }

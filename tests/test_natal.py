@@ -33,6 +33,26 @@ TOL_DEG = 1e-6
 ASPECT_ORB_TOL = 1e-2
 
 
+def test_natal_composite_adds_phase_states_without_changing_engine_dignities(monkeypatch):
+    import astro.natal as natal
+
+    positions = {"sun": 300.0, "mercury": 150.0, "uranus": 300.0,
+                 "chiron": 90.0}
+    cusps = [350, 10, 40, 70, 100, 130, 160, 190, 220, 250, 280, 310]
+    houses = {"cusps": cusps, "angles": {"asc": 350.0}}
+    monkeypatch.setattr(natal, "compute_positions_series", lambda *a, **k: [positions])
+    monkeypatch.setattr(natal, "compute_houses_series", lambda *a, **k: [houses])
+    monkeypatch.setattr(natal, "compute_sect", lambda *a, **k: {"chart_sect": "day"})
+    monkeypatch.setattr(natal, "compute_placements", lambda *a, **k: {})
+    chart = compute_natal(datetime(2000, 1, 1, tzinfo=timezone.utc), 0.0, 0.0,
+                          bodies=list(positions), scheme="traditional")
+    assert chart["phases"]["moment_utc"] == chart["moment_utc"]
+    assert chart["phases"]["house_frame"] == "placidus"
+    assert chart["phases"]["states"]["sun"]["Z"] == "7"
+    assert chart["phases"]["states"]["chiron"]["availability"]["Z"] == "unsupported_body"
+    assert chart["dignities"]["sun"]["dignity"] == "detriment"
+
+
 def test_natal_composite_assembles_goldens():
     chart = compute_natal(GOLDEN_MOMENT, GOLDEN_LAT, GOLDEN_LON)
 
