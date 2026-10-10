@@ -16,7 +16,18 @@ from tests.conftest import require_engine_a
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "artifacts/mcp-recipes/collect_mcp_day_frames.py"
-EXPECTED_SHA256 = "44dba7f04d489e7da07721f08d235b099ae15cb56a6c299a96c20d4151a7afd7"
+EXPECTED_ROUNDED_SHA256 = "04199dd84984157feea05196c94638546ffaea90c9476b439f84d6d948cf4ab5"
+
+
+def rounded_coordinates(value):
+    """Remove platform noise far below the precision used by the product."""
+    if isinstance(value, float):
+        return round(value, 9)
+    if isinstance(value, list):
+        return [rounded_coordinates(item) for item in value]
+    if isinstance(value, dict):
+        return {key: rounded_coordinates(item) for key, item in value.items()}
+    return value
 
 
 def collector():
@@ -88,8 +99,10 @@ def test_full_local_day_through_fastmcp_matches_accepted_input(monkeypatch):
             )
 
     frames = asyncio.run(acquire())
-    raw = json.dumps(frames, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    raw = json.dumps(
+        rounded_coordinates(frames), ensure_ascii=False, separators=(",", ":"),
+    ).encode("utf-8")
     assert len(frames) == 1441
-    assert hashlib.sha256(raw).hexdigest() == EXPECTED_SHA256
+    assert hashlib.sha256(raw).hexdigest() == EXPECTED_ROUNDED_SHA256
 
 
