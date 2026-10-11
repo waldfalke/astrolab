@@ -200,6 +200,8 @@ def transits_tool(
     """Transit timeline over a period: dated exact-pass EVENTS of transiting bodies (sun..pluto +
     north node; no Moon — daily steps can't resolve it) over natal planets and angles, plus
     CARRIER WINDOWS — slow movers' retro passes merged into one open->exact(s)->close theme.
+    Event and peak instants are estimates from the configured sampling step, not separately
+    refined astronomical roots.
 
     Args:
         natal_datetime_utc: birth instant in UTC, "yyyy-MM-ddTHH:MM:SSZ".
@@ -211,9 +213,10 @@ def transits_tool(
             each carrier window and drops themes that closed before the year opened.
 
     Returns:
-        {"timeline": [{transit_body, natal_target, aspect, exact_date, min_orb_deg,
-        window_start, window_end}], "carrier_windows": [{window_open, window_close, transit_body,
-        aspect, natal_target, zone, passes, exact_dates, tightest_orb_deg}]}.
+        {"timeline": [{transit_body, natal_target, aspect, exact_date,
+        estimated_exact_instant_utc, min_orb_deg, window_start, window_end}],
+        "carrier_windows": [{window_open, window_close, transit_body, aspect, natal_target, zone,
+        passes, exact_dates, tightest_orb_deg, estimated_peak_instant_utc}]}.
     """
     natal_moment = _parse_utc(natal_datetime_utc, "natal_datetime_utc")
     range_start = _parse_utc(range_start_utc, "range_start_utc")

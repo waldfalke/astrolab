@@ -70,22 +70,42 @@ async def _chart_workflow(url: str) -> dict:
                 },
             )
         ).data
+        solar_events = [
+            event
+            for event in transits["timeline"]
+            if event["transit_body"] == "sun"
+            and event["natal_target"] == "sun"
+            and event["aspect"] == "conjunction"
+        ]
+        if len(solar_events) != 1:
+            raise RuntimeError(f"expected one Sun-to-Sun conjunction, got {len(solar_events)}")
+
+        transit_instant = solar_events[0]["estimated_exact_instant_utc"]
+        transit_chart = (
+            await client.call_tool(
+                "natal",
+                {
+                    "datetime_utc": transit_instant,
+                    "lat": natal_args["lat"],
+                    "lon": natal_args["lon"],
+                },
+            )
+        ).data
+        transit_phases = (
+            await client.call_tool(
+                "phase_states",
+                {
+                    "positions": transit_chart["positions"],
+                    "moment_utc": transit_instant,
+                },
+            )
+        ).data
 
     natal_sun = natal["positions"]["sun"]
     if abs(solar["natal"]["positions"]["sun"] - natal_sun) > 1e-8:
         raise RuntimeError("solar-return natal Sun differs from the natal tool")
     if abs(solar["return"]["positions"]["sun"] - natal_sun) > 1e-5:
         raise RuntimeError("return Sun does not reproduce the natal Sun")
-    solar_events = [
-        event
-        for event in transits["timeline"]
-        if event["transit_body"] == "sun"
-        and event["natal_target"] == "sun"
-        and event["aspect"] == "conjunction"
-    ]
-    if len(solar_events) != 1:
-        raise RuntimeError(f"expected one Sun-to-Sun conjunction, got {len(solar_events)}")
-
     return {
         "natal_moment_utc": natal["moment_utc"],
         "natal_sun_deg": natal_sun,
@@ -96,6 +116,9 @@ async def _chart_workflow(url: str) -> dict:
             "lord_of_year": solar["profection"]["lord_of_year"],
         },
         "solar_conjunction_exact_date": solar_events[0]["exact_date"],
+        "solar_conjunction_estimated_instant_utc": transit_instant,
+        "transit_sun_phase": transit_phases["states"]["sun"],
+        "transit_phase_frame": transit_phases["house_frame"],
         "transit_event_count": len(transits["timeline"]),
     }
 

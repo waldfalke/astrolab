@@ -119,4 +119,9 @@ def test_chart_workflow_example_over_http_subprocess(http_server_url):
     assert summary["solar_return_instant_utc"] == "2025-06-13T16:57:23Z"
     assert summary["profection"] == {"age": 79, "lord_of_year": "jupiter"}
     assert summary["solar_conjunction_exact_date"] == "2025-06-13"
+    assert summary["solar_conjunction_estimated_instant_utc"].endswith("Z")
+    assert summary["solar_conjunction_estimated_instant_utc"][:10] == "2025-06-13"
+    assert summary["transit_sun_phase"]["Z"] is not None
+    assert summary["transit_sun_phase"]["H_house"] is None
+    assert summary["transit_phase_frame"] == "unavailable"
     assert summary["transit_event_count"] > 0

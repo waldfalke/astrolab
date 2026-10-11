@@ -59,7 +59,14 @@ Required inputs: `natal_datetime_utc: string`, `lat: number`, `lon: number`,
 Optional inputs: `step_days: number = 7.0`, `orb: number = 1.0`,
 `solar_year_start_utc: string | null = null`.
 
-Returns dated exact-pass events and merged carrier windows.
+Returns dated exact-pass events and merged carrier windows. Every timeline event includes
+`estimated_exact_instant_utc`; every carrier window includes the corresponding
+`estimated_peak_instant_utc` of its tightest pass. These instants come from interpolation over the
+configured sampling step and are not separately refined astronomical roots.
+
+For a phase-aware reading, select an event that carries a conclusion, calculate `natal` at its
+estimated instant, then pass only that response's `positions` to `phase_states` without cusps.
+This provides Z/z/D for the transiting body without inventing local H/h for a period scan.
 
 ## Examples
 
@@ -327,7 +334,7 @@ object rather than enumerating its fields.
   },
   {
     "name": "transits",
-    "description": "Transit timeline over a period: dated exact-pass EVENTS of transiting bodies (sun..pluto +\nnorth node; no Moon — daily steps can't resolve it) over natal planets and angles, plus\nCARRIER WINDOWS — slow movers' retro passes merged into one open->exact(s)->close theme.",
+    "description": "Transit timeline over a period: dated exact-pass EVENTS of transiting bodies (sun..pluto +\nnorth node; no Moon — daily steps can't resolve it) over natal planets and angles, plus\nCARRIER WINDOWS — slow movers' retro passes merged into one open->exact(s)->close theme.\nEvent and peak instants are estimates from the configured sampling step, not separately\nrefined astronomical roots.",
     "inputSchema": {
       "additionalProperties": false,
       "properties": {
