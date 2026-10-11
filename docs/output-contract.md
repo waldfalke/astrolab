@@ -7,6 +7,8 @@ Astrolab returns structured calculation artifacts, not client prose.
 - Body and angle keys are lowercase ASCII identifiers.
 - Houses are Placidus unless a tool explicitly states another frame.
 - Aspect records name both endpoints, aspect type, actual angle, and orb.
+- Phase records preserve their source positions, moment, house frame and input hash. A phase is a
+  state of a body in that frame; it is not a second dignity or an independently calculated event.
 - Functions return dictionaries and lists and do not write client data to disk.
 
 The caller owns persistence, presentation, interpretation, and final report composition. A future

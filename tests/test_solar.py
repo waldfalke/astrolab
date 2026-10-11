@@ -13,6 +13,7 @@ so they are container-independent when SWISS_ENGINE=a.
 from datetime import datetime, timezone
 
 from astro.aspects import compute_cross_aspects
+from astro.phases import compute_phase_states
 from astro.solar import compute_solar_return, find_solar_return_instant
 
 NATAL_MOMENT = datetime(1946, 6, 14, 14, 54, 0, tzinfo=timezone.utc)
@@ -50,6 +51,21 @@ def test_solar_return_composite_structure():
     chart = compute_solar_return(NATAL_MOMENT, BIRTH_LAT, BIRTH_LON, 2025)
     assert chart["location"] == {"lat": BIRTH_LAT, "lon": BIRTH_LON, "relocated": False}
     ret = chart["return"]
+    expected_natal_phases = compute_phase_states(
+        chart["natal"]["positions"],
+        cusps=chart["natal"]["phases"]["input"]["cusps"],
+        moment_utc="1946-06-14T14:54:00Z",
+    )
+    expected_return_phases = compute_phase_states(
+        ret["positions"],
+        cusps=ret["houses"]["cusps"],
+        moment_utc=chart["return_instant_utc"],
+    )
+    assert chart["natal"]["phases"] == expected_natal_phases
+    assert ret["phases"] == expected_return_phases
+    assert chart["natal"]["phases"]["house_frame"] == "placidus"
+    assert ret["phases"]["house_frame"] == "placidus"
+    assert chart["natal"]["phases"]["input_sha256"] != ret["phases"]["input_sha256"]
     assert len(ret["houses"]["cusps"]) == 12
     assert set(ret["placements"].values()) <= set(range(1, 13))
     assert ret["sect"]["chart_sect"] in ("day", "night")
@@ -96,5 +112,14 @@ def test_relocation_changes_houses_not_positions():
     assert away["return_instant_utc"] == home["return_instant_utc"]
     for b, lon in home["return"]["positions"].items():
         assert abs(away["return"]["positions"][b] - lon) < 1e-9, b
+    assert home["natal"]["phases"]["input_sha256"] == away["natal"]["phases"]["input_sha256"]
+    assert (
+        home["return"]["phases"]["states"]["jupiter"]["Z"]
+        == away["return"]["phases"]["states"]["jupiter"]["Z"]
+    )
+    assert (
+        home["return"]["phases"]["input"]["cusps"]
+        != away["return"]["phases"]["input"]["cusps"]
+    )
     assert abs(away["return"]["houses"]["angles"]["asc"]
                - home["return"]["houses"]["angles"]["asc"]) > 1.0

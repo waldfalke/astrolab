@@ -4,10 +4,13 @@ FastMCP derives input schemas from the annotated function signatures and returns
 as structured content. The server is stateless and does not write files.
 """
 from datetime import date as date_type, datetime, timedelta, timezone
+import re
 
 from fastmcp import FastMCP
+from pydantic import StrictFloat
 
 from astro.natal import compute_natal
+from astro.phases import compute_phase_states
 from astro.profection import compute_profection_for_year
 from astro.rising_hands import rising_hands
 from astro.solar import compute_solar_return
@@ -84,13 +87,37 @@ def natal_tool(
 
     Returns:
         {"moment_utc", "location", "positions", "houses": {"cusps", "angles"}, "aspects",
-        "dignities", "sect", "points": {"part_of_fortune"}, "placements"} — positions/angles in
-        ecliptic degrees, bodies keyed by normalized lowercase names, placements as house numbers.
+        "dignities", "phases", "sect", "points": {"part_of_fortune"}, "placements"} —
+        positions/angles in ecliptic degrees, bodies keyed by normalized lowercase names,
+        placements as house numbers.
     """
     moment = _parse_utc(datetime_utc, "datetime_utc")
     _validate_location(lat, lon)
     _validate_orb(orb)
     return compute_natal(moment, lat, lon, orb=orb, scheme=scheme)
+
+
+@mcp.tool(name="phase_states")
+def phase_states_tool(
+    positions: dict[str, StrictFloat],
+    moment_utc: str,
+    cusps: list[StrictFloat] | None = None,
+    asc_longitude: StrictFloat | None = None,
+) -> dict:
+    """Transform supplied body longitudes into phase states; no ephemeris is calculated.
+
+    The caller supplies positions for one UTC instant and may supply either twelve real
+    house cusps or an explicit ASC for the equal-house special case. With neither, H/h
+    remain unavailable. The input hash identifies the supplied values, not their source.
+    """
+    if any(re.fullmatch(r"[a-z][a-z0-9_]*", body) is None for body in positions):
+        raise ValueError("positions keys must be lowercase ASCII body names")
+    return compute_phase_states(
+        positions,
+        cusps=cusps,
+        asc_longitude=asc_longitude,
+        moment_utc=moment_utc,
+    )
 
 
 @mcp.tool(name="profection")
@@ -141,9 +168,10 @@ def solar_return_tool(
         scheme: essential-dignity scheme, "modern" or "traditional".
 
     Returns:
-        {"return_instant_utc", "location", "natal": {"positions"}, "return": {"positions",
-        "houses", "dignities", "sect", "placements"}, "sr_to_natal_aspects" (directed),
-        "profection"} — degrees ecliptic, normalized lowercase body names.
+        {"return_instant_utc", "location", "natal": {"positions", "phases"},
+        "return": {"positions", "houses", "phases", "dignities", "sect", "placements"},
+        "sr_to_natal_aspects" (directed), "profection"} — degrees ecliptic, normalized lowercase
+        body names.
     """
     moment = _parse_utc(natal_datetime_utc, "natal_datetime_utc")
     _validate_location(birth_lat, birth_lon, prefix="birth_")

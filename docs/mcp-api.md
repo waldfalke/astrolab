@@ -1,6 +1,6 @@
 # MCP tools
 
-The server exposes five tools. MCP discovery is the runtime authority for input validation. The
+The server exposes six tools. MCP discovery is the runtime authority for input validation. The
 JSON block below records the public discovery contract and is checked against the running server by
 `tests/test_mcp_api_contract.py`.
 
@@ -18,8 +18,18 @@ Required inputs: `datetime_utc: string`, `lat: number`, `lon: number`.
 
 Optional inputs: `orb: number = 6.0`, `scheme: string = "modern"`.
 
-Returns positions, Placidus houses and angles, aspects, dignities, sect, placements, and calculated
-points in one structure.
+Returns positions, Placidus houses and angles, aspects, dignities, phases, sect, placements, and
+calculated points in one structure.
+
+### `phase_states`
+
+Required inputs: `positions: object`, `moment_utc: string`.
+
+Optional inputs: `cusps: array | null = null`, `asc_longitude: number | null = null`.
+
+Transforms supplied body longitudes into phase states. It does not calculate ephemerides or verify
+where the longitudes came from. Supply either twelve real cusps or an explicit ASC; with neither,
+house-dependent states remain unavailable.
 
 ### `profection`
 
@@ -38,8 +48,8 @@ Required inputs: `natal_datetime_utc: string`, `birth_lat: number`, `birth_lon: 
 Optional inputs: `sr_lat: number | null = null`, `sr_lon: number | null = null`,
 `orb: number = 2.0`, `scheme: string = "modern"`.
 
-Returns the calculated return instant, return chart structure, directed return-to-natal aspects, and
-annual profection.
+Returns the calculated return instant, natal and return phase states, return chart structure,
+directed return-to-natal aspects, and annual profection.
 
 ### `transits`
 
@@ -72,7 +82,8 @@ boundary rejects it.
 Datetime inputs marked UTC must contain an explicit zero offset (`Z` or `+00:00`). Latitudes are
 limited to `-90..90`, longitudes to `-180..180`, and orbs cannot be negative. Transit ranges must
 end after they start and `step_days` must be greater than zero. Solar-return relocation accepts
-`sr_lat` and `sr_lon` only as a complete pair.
+`sr_lat` and `sr_lon` only as a complete pair. `phase_states` accepts lowercase ASCII body names
+and either `cusps` or `asc_longitude`, never both.
 
 ## Discovery contract
 
@@ -90,20 +101,20 @@ object rather than enumerating its fields.
       "additionalProperties": false,
       "properties": {
         "date": {
-          "description": "day to scan, \"yyyy-MM-dd\".",
-          "type": "string"
+          "type": "string",
+          "description": "day to scan, \"yyyy-MM-dd\"."
         },
         "lat": {
-          "description": "observation latitude (degrees).",
-          "type": "number"
+          "type": "number",
+          "description": "observation latitude (degrees)."
         },
         "lon": {
-          "description": "observation longitude (degrees).",
-          "type": "number"
+          "type": "number",
+          "description": "observation longitude (degrees)."
         },
         "tz": {
-          "description": "local-time DISPLAY offset in whole hours (e.g. 3 for Krasnodar).",
-          "type": "integer"
+          "type": "integer",
+          "description": "local-time DISPLAY offset in whole hours (e.g. 3 for Krasnodar)."
         }
       },
       "required": [
@@ -126,26 +137,26 @@ object rather than enumerating its fields.
       "additionalProperties": false,
       "properties": {
         "datetime_utc": {
-          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\" (ISO 8601).",
-          "type": "string"
+          "type": "string",
+          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\" (ISO 8601)."
         },
         "lat": {
-          "description": "birth latitude (degrees).",
-          "type": "number"
+          "type": "number",
+          "description": "birth latitude (degrees)."
         },
         "lon": {
-          "description": "birth longitude (degrees).",
-          "type": "number"
+          "type": "number",
+          "description": "birth longitude (degrees)."
         },
         "orb": {
           "default": 6.0,
-          "description": "major-aspect orb in degrees.",
-          "type": "number"
+          "type": "number",
+          "description": "major-aspect orb in degrees."
         },
         "scheme": {
           "default": "modern",
-          "description": "essential-dignity scheme, \"modern\" or \"traditional\".",
-          "type": "string"
+          "type": "string",
+          "description": "essential-dignity scheme, \"modern\" or \"traditional\"."
         }
       },
       "required": [
@@ -161,26 +172,78 @@ object rather than enumerating its fields.
     }
   },
   {
+    "name": "phase_states",
+    "description": "Transform supplied body longitudes into phase states; no ephemeris is calculated.\n\nThe caller supplies positions for one UTC instant and may supply either twelve real\nhouse cusps or an explicit ASC for the equal-house special case. With neither, H/h\nremain unavailable. The input hash identifies the supplied values, not their source.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "positions": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "type": "object"
+        },
+        "moment_utc": {
+          "type": "string"
+        },
+        "cusps": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "asc_longitude": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "positions",
+        "moment_utc"
+      ],
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "type": "object"
+    }
+  },
+  {
     "name": "profection",
     "description": "Annual profection (whole-sign timelord) of a solar year, straight from birth data.",
     "inputSchema": {
       "additionalProperties": false,
       "properties": {
+        "natal_datetime_utc": {
+          "type": "string",
+          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\" (ISO 8601)."
+        },
         "lat": {
-          "description": "birth latitude (degrees).",
-          "type": "number"
+          "type": "number",
+          "description": "birth latitude (degrees)."
         },
         "lon": {
-          "description": "birth longitude (degrees).",
-          "type": "number"
-        },
-        "natal_datetime_utc": {
-          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\" (ISO 8601).",
-          "type": "string"
+          "type": "number",
+          "description": "birth longitude (degrees)."
         },
         "return_year": {
-          "description": "calendar year of the solar return (age = return_year - birth year).",
-          "type": "integer"
+          "type": "integer",
+          "description": "calendar year of the solar return (age = return_year - birth year)."
         }
       },
       "required": [
@@ -202,29 +265,19 @@ object rather than enumerating its fields.
     "inputSchema": {
       "additionalProperties": false,
       "properties": {
+        "natal_datetime_utc": {
+          "type": "string",
+          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\" (ISO 8601)."
+        },
         "birth_lat": {
           "type": "number"
         },
         "birth_lon": {
           "type": "number"
         },
-        "natal_datetime_utc": {
-          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\" (ISO 8601).",
-          "type": "string"
-        },
-        "orb": {
-          "default": 2.0,
-          "description": "cross-aspect orb in degrees (return->natal, classical 10 bodies).",
-          "type": "number"
-        },
         "return_year": {
-          "description": "calendar year of the return.",
-          "type": "integer"
-        },
-        "scheme": {
-          "default": "modern",
-          "description": "essential-dignity scheme, \"modern\" or \"traditional\".",
-          "type": "string"
+          "type": "integer",
+          "description": "calendar year of the return."
         },
         "sr_lat": {
           "anyOf": [
@@ -247,6 +300,16 @@ object rather than enumerating its fields.
             }
           ],
           "default": null
+        },
+        "orb": {
+          "default": 2.0,
+          "type": "number",
+          "description": "cross-aspect orb in degrees (return->natal, classical 10 bodies)."
+        },
+        "scheme": {
+          "default": "modern",
+          "type": "string",
+          "description": "essential-dignity scheme, \"modern\" or \"traditional\"."
         }
       },
       "required": [
@@ -268,26 +331,31 @@ object rather than enumerating its fields.
     "inputSchema": {
       "additionalProperties": false,
       "properties": {
+        "natal_datetime_utc": {
+          "type": "string",
+          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\"."
+        },
         "lat": {
           "type": "number"
         },
         "lon": {
           "type": "number"
         },
-        "natal_datetime_utc": {
-          "description": "birth instant in UTC, \"yyyy-MM-ddTHH:MM:SSZ\".",
+        "range_start_utc": {
           "type": "string"
-        },
-        "orb": {
-          "default": 1.0,
-          "description": "event orb in degrees (default 1.0).",
-          "type": "number"
         },
         "range_end_utc": {
           "type": "string"
         },
-        "range_start_utc": {
-          "type": "string"
+        "step_days": {
+          "default": 7.0,
+          "type": "number",
+          "description": "sampling step (use 2-3 for clean carrier windows; default 7)."
+        },
+        "orb": {
+          "default": 1.0,
+          "type": "number",
+          "description": "event orb in degrees (default 1.0)."
         },
         "solar_year_start_utc": {
           "anyOf": [
@@ -300,11 +368,6 @@ object rather than enumerating its fields.
           ],
           "default": null,
           "description": "OPTIONAL solar-return instant — adds zone (tail/core/horizon) to\neach carrier window and drops themes that closed before the year opened."
-        },
-        "step_days": {
-          "default": 7.0,
-          "description": "sampling step (use 2-3 for clean carrier windows; default 7).",
-          "type": "number"
         }
       },
       "required": [

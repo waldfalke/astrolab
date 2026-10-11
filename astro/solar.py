@@ -28,6 +28,7 @@ from astro.engine import (
     compute_positions_series,
 )
 from astro.natal import NATAL_BODIES
+from astro.phases import compute_phase_states
 from astro.placements import compute_placements
 from astro.profection import compute_profection, locate_wholesign
 from astro.sect import compute_sect, signed_delta_deg
@@ -98,8 +99,9 @@ def compute_solar_return(
 ) -> dict:
     """Assemble the solar-return structure for one solar year.
 
-    Returns {"return_instant_utc", "location": {lat, lon, relocated}, "natal": {positions},
-    "return": {positions, houses, dignities, sect, placements}, "sr_to_natal_aspects"
+    Returns {"return_instant_utc", "location": {lat, lon, relocated},
+    "natal": {positions, phases}, "return": {positions, houses, phases, dignities, sect,
+    placements}, "sr_to_natal_aspects"
     (classical 10, directed, orb 2), "profection"} — stateless dict, seam elements only.
     """
     eff_lat = sr_lat if sr_lat is not None else birth_lat
@@ -133,10 +135,22 @@ def compute_solar_return(
     return {
         "return_instant_utc": _iso_utc(instant),
         "location": {"lat": eff_lat, "lon": eff_lon, "relocated": sr_lat is not None},
-        "natal": {"positions": natal_pos},
+        "natal": {
+            "positions": natal_pos,
+            "phases": compute_phase_states(
+                natal_pos,
+                cusps=natal_houses["cusps"],
+                moment_utc=_iso_utc(natal_moment_utc),
+            ),
+        },
         "return": {
             "positions": sr_pos,
             "houses": sr_houses,
+            "phases": compute_phase_states(
+                sr_pos,
+                cusps=sr_houses["cusps"],
+                moment_utc=_iso_utc(instant),
+            ),
             "dignities": compute_dignities(sr_pos, scheme=scheme),
             "sect": sect,
             "placements": compute_placements(sr_pos, sr_houses["cusps"]),

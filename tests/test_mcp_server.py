@@ -59,7 +59,75 @@ def test_solar_return_tool_returns_witnessed_golden():
     sr = result.data
     assert sr["return_instant_utc"] == "2025-06-13T16:57:23Z"
     assert abs(sr["return"]["positions"]["jupiter"] - 90.87001844444444) < 1e-6
+    assert sr["natal"]["phases"]["moment_utc"] == "1946-06-14T14:54:00Z"
+    assert sr["return"]["phases"]["moment_utc"] == sr["return_instant_utc"]
     assert sr["profection"]["lord_of_year"] == "jupiter"
+
+
+def test_phase_states_tool_calculates_supplied_positions_with_optional_frame():
+    positions = {"sun": 300.0, "mercury": 150.0, "venus": 180.0}
+    moment = "2026-09-23T00:05:00Z"
+    sign_only = asyncio.run(_call_tool(
+        "phase_states", {"positions": positions, "moment_utc": moment},
+    )).data
+    assert sign_only["input"]["positions"] == positions
+    assert sign_only["moment_utc"] == moment
+    assert sign_only["house_frame"] == "unavailable"
+    assert sign_only["states"]["sun"]["Z"] == "7"
+    assert sign_only["states"]["sun"]["H_house"] is None
+
+    cusps = [350, 10, 40, 70, 100, 130, 160, 190, 220, 250, 280, 310]
+    local = asyncio.run(_call_tool(
+        "phase_states",
+        {"positions": positions, "cusps": cusps, "moment_utc": moment},
+    )).data
+    assert local["house_frame"] == "placidus"
+    assert list(local["input"]["cusps"]) == cusps
+    assert local["states"]["sun"]["H_house"] == 11
+    assert local["input_sha256"] != sign_only["input_sha256"]
+
+
+def test_phase_states_tool_rejects_invalid_boundary_inputs():
+    for longitude in (True, "1", float("nan"), float("inf"), -float("inf")):
+        with pytest.raises(Exception):
+            asyncio.run(_call_tool(
+                "phase_states",
+                {"positions": {"sun": longitude}, "moment_utc": "2026-09-23T00:05:00Z"},
+            ))
+
+    with pytest.raises(Exception, match="lowercase"):
+        asyncio.run(_call_tool(
+            "phase_states",
+            {"positions": {"Sun": 300.0}, "moment_utc": "2026-09-23T00:05:00Z"},
+        ))
+    with pytest.raises(Exception):
+        asyncio.run(_call_tool(
+            "phase_states",
+            {
+                "positions": {"sun": 300.0},
+                "cusps": [True, *[i * 30 for i in range(1, 12)]],
+                "moment_utc": "2026-09-23T00:05:00Z",
+            },
+        ))
+    with pytest.raises(Exception):
+        asyncio.run(_call_tool(
+            "phase_states",
+            {
+                "positions": {"sun": 300.0},
+                "asc_longitude": True,
+                "moment_utc": "2026-09-23T00:05:00Z",
+            },
+        ))
+    with pytest.raises(Exception, match="either"):
+        asyncio.run(_call_tool(
+            "phase_states",
+            {
+                "positions": {"sun": 300.0},
+                "cusps": [i * 30 for i in range(12)],
+                "asc_longitude": 0.0,
+                "moment_utc": "2026-09-23T00:05:00Z",
+            },
+        ))
 
 
 def test_profection_tool_returns_witnessed_golden():
