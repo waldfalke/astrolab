@@ -70,7 +70,9 @@ def compute_transit_events(
     """Dated exact-pass events of transiting bodies over natal targets in [start, end].
 
     One event per LOCAL MINIMUM of the orb series within `orb`: {"transit_body", "natal_target",
-    "aspect", "exact_date" (yyyy-mm-dd), "min_orb_deg" (3 dp), "window_start", "window_end"}.
+    "aspect", "exact_date" (yyyy-mm-dd), "estimated_exact_instant_utc" (the existing sampling
+    interpolation, not a separately refined root), "min_orb_deg" (3 dp), "window_start",
+    "window_end"}.
     Sorted like the recipe timeline (exact_date, body, target).
     """
     if step_days <= 0:
@@ -127,6 +129,9 @@ def compute_transit_events(
                         "natal_target": target,
                         "aspect": asp_name,
                         "exact_date": exact_t.strftime("%Y-%m-%d"),
+                        "estimated_exact_instant_utc": exact_t.astimezone(timezone.utc).strftime(
+                            "%Y-%m-%dT%H:%M:%SZ"
+                        ),
                         "min_orb_deg": round(min_orb, 3),
                         "window_start": open_t.strftime("%Y-%m-%d"),
                         "window_end": close_t.strftime("%Y-%m-%d"),
@@ -141,7 +146,8 @@ def compute_carrier_windows(
     """Merge slow-carrier passes into one theme per (body, target, aspect) — pure function.
 
     Window = earliest open -> latest close across ALL passes (retro gaps included); peak = the
-    TIGHTEST pass; zone (only with an anchor): drop if closed before the anchor, else
+    TIGHTEST pass, including its estimated instant when the source event provides one; zone
+    (only with an anchor): drop if closed before the anchor, else
     tail (peak before anchor) / core (peak inside [anchor, +365.25d]) / horizon (peak past it).
     """
     groups: dict[tuple, list[dict]] = {}
@@ -175,6 +181,7 @@ def compute_carrier_windows(
             "passes": len(passes),
             "exact_dates": "; ".join(exacts),
             "tightest_orb_deg": round(peak["min_orb_deg"], 3),
+            "estimated_peak_instant_utc": peak.get("estimated_exact_instant_utc"),
         })
     windows.sort(key=lambda w: (w["window_open"], w["transit_body"], w["natal_target"]))
     return windows

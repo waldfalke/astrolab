@@ -30,8 +30,12 @@ def test_transit_events_reject_nonpositive_step_before_engine_call(step_days):
 
 
 def _ev(body, target, aspect, exact, orb, start, end):
-    return {"transit_body": body, "natal_target": target, "aspect": aspect,
-            "exact_date": exact, "min_orb_deg": orb, "window_start": start, "window_end": end}
+    return {
+        "transit_body": body, "natal_target": target, "aspect": aspect,
+        "exact_date": exact,
+        "estimated_exact_instant_utc": f"{exact}T12:00:00Z",
+        "min_orb_deg": orb, "window_start": start, "window_end": end,
+    }
 
 
 def test_carrier_windows_merge_retro_passes_pure():
@@ -51,11 +55,21 @@ def test_carrier_windows_merge_retro_passes_pure():
     assert (w["window_open"], w["window_close"]) == ("2025-11-01", "2026-07-10")
     assert w["passes"] == 3
     assert w["tightest_orb_deg"] == 0.1
+    assert w["estimated_peak_instant_utc"] == "2026-01-15T12:00:00Z"
     assert w["zone"] == "core"  # peak 2026-01-15 inside [2025-06-13, +365.25d]
     # no anchor -> nothing dropped, zone empty
     wins_free = compute_carrier_windows(events)
     assert {w["transit_body"] for w in wins_free} == {"jupiter", "saturn"}
     assert all(w["zone"] == "" for w in wins_free)
+
+
+def test_carrier_windows_keep_legacy_events_without_an_instant():
+    legacy = [{
+        "transit_body": "saturn", "natal_target": "sun", "aspect": "square",
+        "exact_date": "2026-01-10", "min_orb_deg": 0.2,
+        "window_start": "2026-01-01", "window_end": "2026-01-20",
+    }]
+    assert compute_carrier_windows(legacy)[0]["estimated_peak_instant_utc"] is None
 
 
 def test_sun_conjunct_natal_sun_peaks_on_solar_return_date():
@@ -70,6 +84,10 @@ def test_sun_conjunct_natal_sun_peaks_on_solar_return_date():
             if e["natal_target"] == "sun" and e["aspect"] == "conjunction"]
     assert len(hits) == 1
     assert hits[0]["exact_date"] == "2025-06-13"
+    instant = hits[0]["estimated_exact_instant_utc"]
+    parsed = datetime.fromisoformat(instant.replace("Z", "+00:00"))
+    assert parsed.tzinfo == timezone.utc
+    assert parsed.strftime("%Y-%m-%d") == hits[0]["exact_date"]
     # min_orb is the recipe's parabolic ESTIMATE on a V-shaped series — coarse for fast bodies at
     # 2-day steps (the DATE is the refined quantity); the recipe-golden test checks exact equality.
     assert hits[0]["min_orb_deg"] <= 1.0
