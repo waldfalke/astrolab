@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "b6dbe7607dba4feb104fa91cc97e02501efde2de",
+  "source_commit": "19510163fd06ca831681e58ffae5ff924721334e",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -273,8 +273,8 @@
     {
       "path": "astro/server.py",
       "origin": "source",
-      "git_blob": "554d6d023bdd27376226c45d44d340f5ef6480dd",
-      "sha256": "8fd0843f7ed1300055453b3d816f01442b4e31d1d6727b6db054d96afbff2f23"
+      "git_blob": "db48e7ac8a46d9dd2fee6865db97db105037a9e2",
+      "sha256": "0d8fba44cece5403b337a7c9d24c755e85d86e511abf3004390f8a6149325f14"
     },
     {
       "path": "astro/solar.py",
@@ -285,8 +285,8 @@
     {
       "path": "astro/transits.py",
       "origin": "source",
-      "git_blob": "8610c22eace56fe65212901b4a59206fb00f5059",
-      "sha256": "82574395a6565972ccc7279dde52964894b2ee39bf08517d7d0318e0405118ef"
+      "git_blob": "c13140554f32cecd8af21cc10784c31f57f2150a",
+      "sha256": "317c2a87fc0f98c9a312c97933d27a68fd1ec9a791a75b2b8a751ae2a4009264"
     },
     {
       "path": "docs/engines.md",
@@ -297,8 +297,8 @@
     {
       "path": "docs/mcp-api.md",
       "origin": "overlay",
-      "git_blob": "5bb0fe684af488d115e3cd4a2303b504123e63c3",
-      "sha256": "e1d11830a60ba2aa4500f93feb5a83ecd0be26afeaa6ca316917feac871e45f5"
+      "git_blob": "fd71ce3911a3622d7ccf5b26a003b578b99ac940",
+      "sha256": "a9d1a83b509c1d6a5b2483127d2c130b93a3d8775b1bee198be828e186dca56d"
     },
     {
       "path": "docs/output-contract.md",
@@ -315,8 +315,8 @@
     {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "9ff9e9dda7e33f5bacd648df23cadbb624722996",
-      "sha256": "af735f994c684722f9b3dc6320c083ec13d3eb1d99c185ad6a2443c0c0d4401b"
+      "git_blob": "c2ba47c978944b7bbca2c6a901585b4371e93b84",
+      "sha256": "0a9e46029261be6fc8b575db4f51b339f2a962921b3ba2f7329981439f48dd80"
     },
     {
       "path": "docs/examples/synastry-fictional/README.md",
@@ -405,8 +405,8 @@
     {
       "path": "examples/call_mcp.py",
       "origin": "overlay",
-      "git_blob": "0ca43e68141905eb0834917b28e7e33667fb81f5",
-      "sha256": "1d5a14fdc997a5c92b5228b3c1a11cb98004b787f3d9e4c8f08e2750f7bd1c82"
+      "git_blob": "f736cf82fd38e4d019a4e69de59756f3449588fb",
+      "sha256": "dd694d50e2754d2fb0add26161ca15758ce1aeb0d26e6284a76c4ccb810f8af8"
     },
     {
       "path": "infra/ephe/MANIFEST.sha256",
@@ -597,14 +597,14 @@
     {
       "path": "tests/test_transits.py",
       "origin": "source",
-      "git_blob": "1bb5c1a5891a3cc70639a2606a7909259f6cc837",
-      "sha256": "ffc27cb21495aae79550bfbbe0b572f48fbc1cdd853ae84da9eb0fc6ed6f23bf"
+      "git_blob": "7fb8fc638f462d6809a70acfed2b4e0a338b5dc6",
+      "sha256": "a83182d439b9909890ce3ca8e27fd54f657a89474485c259893934b8dcd62a0d"
     },
     {
       "path": "tests/test_transport_http.py",
       "origin": "source",
-      "git_blob": "e8ba3aea6d59887392a76cc59ce3a6545a0e3843",
-      "sha256": "e245839084facf817db746ccce1331d67085d2d067120897c1d399cba96ece3c"
+      "git_blob": "a325d948c7d299088e57303a5374c7120000b158",
+      "sha256": "7df55e8a3e8b1659ff16fec23292092e423b71e51d73dd6cae698e837f990b35"
     },
     {
       "path": "tools/check_public_surface.py",
