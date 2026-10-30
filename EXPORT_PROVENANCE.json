@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "efe148c27900ba4047d3d0a8d5ab16b7019f1775",
+  "source_commit": "eaca7afa935c4af49a26e3b7797c4a0ac488dcac",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,8 +45,8 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "c2c9a6c84e9728d4b45a2bbd918e9ba2f274b9e0",
-      "sha256": "8a60701e8a5887c59355d3d6297ac8c97dcd1e4f9c94a8fa56d986b30748e5d3"
+      "git_blob": "95050a6ff8ba968137df5b99d198214acd9ba626",
+      "sha256": "7307145d0d6db7fa71d2ed0b4ca4d45c4fa90a91b5db458388c849b18ec62f0b"
     },
     {
       "path": "README.md",
@@ -115,16 +115,16 @@
       "sha256": "6173d11dd187b761adcd7207bb74a837d36979edaf725d07bb7f31b89103065d"
     },
     {
-      "path": "assets/horary-question.png",
+      "path": "assets/horary.png",
       "origin": "overlay",
-      "git_blob": "469fe382c3ec0dfe2f7d9e996c1f439f805af1c8",
-      "sha256": "33628b1b4dd0856221219e68ece146a2ede6f839e6bb6785ab3243402da10f19"
+      "git_blob": "86d9d8cd2106efe207bcdfd333887ea0aac61599",
+      "sha256": "c44462f7db133c2da8e50890a09d53cc8558ab7ca909985c29395a6e2cee8518"
     },
     {
       "path": "assets/horary-card.svg",
       "origin": "overlay",
-      "git_blob": "4153ef7fb85da95b2dab67444988b55204fe0252",
-      "sha256": "d59a56f607e0f44dbac2e7c8a2636fd596d8834f7af91f86913b1aba6d4c7fc3"
+      "git_blob": "ec8a39e51d73a36a55740dcc13960b68fa7c1bd6",
+      "sha256": "d9dbf585b06e6ea2741e9fc4afeaa77f14ecca3fa4a2dcb7529cb0f8d1655f07"
     },
     {
       "path": "astro/__init__.py",
@@ -543,8 +543,8 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "overlay",
-      "git_blob": "758b866c845a130c7012ef42fc46aced3f646185",
-      "sha256": "61b0de3dc94deaa13587643a6c579654866b4d3734c87ff163cbed1b7397986f"
+      "git_blob": "3e55ebf7816ca7b8426812237dea0c3e41e87d60",
+      "sha256": "34113a8a6af927fa115832a872f0397dcea64074bdb7ae77622387d9483975f1"
     },
     {
       "path": "tests/test_transits.py",
