@@ -18,6 +18,7 @@ MOMENT = datetime(2000, 1, 1, 12, tzinfo=timezone.utc)
 
 def test_body_states_matches_direct_swiss_reference():
     reference = json.loads(REFERENCE.read_text(encoding="utf-8"))
+    # Same Swiss/files: measured Win/Linux Venus speed drift is 3.47e-9 deg/day (2026-03-20).
     for case in reference["cases"]:
         moment = datetime.fromisoformat(case["moment_utc"].replace("Z", "+00:00"))
         result = engine.compute_body_states_series([moment], engine="a")[0]
@@ -31,7 +32,8 @@ def test_body_states_matches_direct_swiss_reference():
                                     ("distance_au", raw["ecliptic"][2]),
                                     ("longitude_speed_deg_per_day", raw["ecliptic"][3]),
                                     ("declination_deg", raw["equatorial"][1])):
-                assert row[field] == pytest.approx(expected, abs=1e-10)
+                tolerance = 1e-8 if field == "longitude_speed_deg_per_day" else 1e-10
+                assert row[field] == pytest.approx(expected, abs=tolerance), (case["moment_utc"], body, field)
             assert row["id"] == body and row["name"] and row["model"]
 
 

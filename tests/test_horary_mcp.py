@@ -168,7 +168,10 @@ def test_cli_creates_exact_artifacts_preserves_existing_bytes_and_leaves_no_fals
     output = tmp_path / ".private/synthetic-result"
     command = [sys.executable, "-B", str(ROOT / "artifacts/mcp-recipes/horary_facts.py"),
                "--input", str(source), "--out", str(output)]
-    run = lambda: subprocess.run(command, cwd=tmp_path, env=dict(os.environ, SWISS_ENGINE="a"),
+    env = dict(os.environ, SWISS_ENGINE="a")
+    if env.get("SWISS_EPHE_PATH"):
+        env["SWISS_EPHE_PATH"] = str(Path(env["SWISS_EPHE_PATH"]).expanduser().resolve())
+    run = lambda: subprocess.run(command, cwd=tmp_path, env=env,
                                  capture_output=True, encoding="utf-8")
     first = run()
     assert first.returncode == 0, first.stdout + first.stderr
