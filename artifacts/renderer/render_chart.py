@@ -286,9 +286,9 @@ def lon_to_sign_deg(lon):
     return sign, lon % 30.0
 
 
-def draw_wheel(planets, houses, points, aspects, out_path: Path,
+def draw_wheel(planets, houses, points, aspects, out_path: Path | None = None,
                outer_planets=None, outer_aspects=None, outer_label="",
-               inner_label="", outer_points=None, cross_only=False):
+               inner_label="", outer_points=None, cross_only=False) -> str:
     size = 1500
     c = size / 2
     outer = 520
@@ -690,7 +690,10 @@ def draw_wheel(planets, houses, points, aspects, out_path: Path,
     else:
         lines.append('<text class="mid bold" x="40" y="42">CATMEastrolab Renderer MVP</text>')
     lines.append('</svg>')
-    out_path.write_text("\n".join(lines), encoding="utf-8")
+    svg = "\n".join(lines)
+    if out_path is not None:
+        out_path.write_text(svg, encoding="utf-8", newline="")
+    return svg
 
 
 def draw_aspect_grid(planets, aspects, out_path: Path):

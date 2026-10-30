@@ -4,7 +4,11 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import copy
+import hashlib
 import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
 
 from fastmcp import Client
 from fastmcp.exceptions import ToolError
@@ -34,6 +38,87 @@ _CALLS = {
         },
     ),
 }
+_ROOT = Path(__file__).resolve().parents[1]
+_KIT_PATHS = {
+    "partner_portrait": {
+        "recipe": "docs/partner-portrait-reading-recipe.md",
+        "sources": "docs/research/partner-portrait-method-sources.md",
+        "twin": "artifacts/report-templates/partner-portrait-astrology.md",
+        "html": "artifacts/report-templates/partner-portrait-reading.html",
+        "boundary": "docs/report-system.md",
+    },
+    "horary": {
+        "recipe": "docs/horary-reading-recipe.md",
+        "sources": "docs/research/horary-method-sources.md",
+        "twin": "artifacts/report-templates/horary-astrology.md",
+        "html": "artifacts/report-templates/horary-reading.html",
+        "boundary": "docs/report-system.md",
+    },
+}
+
+
+def _digest(value: dict) -> str:
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False,
+        separators=(",", ":"), allow_nan=False).encode("utf-8")).hexdigest()
+
+
+async def _read_product_kit(client: Client, product: str) -> dict:
+    tool, paths = product + "_kit", _KIT_PATHS[product]
+    manifest = (await client.call_tool(tool, {})).data
+    if manifest["manifest_sha256"] != _digest({k: v for k, v in manifest.items() if k != "manifest_sha256"}):
+        raise RuntimeError(f"{product}: manifest hash differs")
+    entries = manifest["documents"]
+    if len(entries) != len(paths) or {e["id"] for e in entries} != set(paths):
+        raise RuntimeError(f"{product}: expected exactly five known documents")
+    for entry in entries:
+        identity = entry["id"]
+        document = (await client.call_tool(tool, {"document": identity})).data
+        raw = document["content"].encode("utf-8")
+        if (document["source_path"] != paths[identity] or entry["source_path"] != paths[identity]
+                or document["id"] != identity or entry["required"] is not True
+                or raw != (_ROOT / paths[identity]).read_bytes()
+                or len(raw) != document["byte_length"] or len(raw) != entry["byte_length"]
+                or hashlib.sha256(raw).hexdigest() != document["sha256"]
+                or document["sha256"] != entry["sha256"]):
+            raise RuntimeError(f"{product}: delivered {identity} differs from the allowed source bytes")
+    return manifest
+
+
+async def _products_workflow(url: str) -> dict:
+    moment = "2000-01-01T12:00:00Z"
+    cfg = json.loads((_ROOT / "artifacts/mcp-recipes/examples/horary-input.example.json").read_text(encoding="utf-8"))
+    async with Client(url) as client:
+        physical = (await client.call_tool("body_states", {"datetime_utc": moment})).data
+        kits = {product: await _read_product_kit(client, product) for product in _KIT_PATHS}
+        partner = (await client.call_tool("partner_portrait", {
+            "datetime_utc": moment, "lat": 0.0, "lon": 0.0, "partner": "women",
+        })).data
+        horary = (await client.call_tool("horary", {"input": cfg})).data
+        bad = copy.deepcopy(cfg)
+        bad["intake"]["status"] = "needs_clarification"
+        rejected = await client.call_tool("horary", {"input": bad}, raise_on_error=False)
+    if physical["moment_utc"] != moment or partner["body_states"] != physical:
+        raise RuntimeError("partner physical states differ from the independent body-state call")
+    for product, result in (("partner_portrait", partner), ("horary", horary)):
+        if result["kit"] != kits[product] or result["provenance"]["kit_manifest_sha256"] != kits[product]["manifest_sha256"]:
+            raise RuntimeError(f"{product}: result is not bound to the delivered kit")
+    facts, provenance = horary["facts"], horary["provenance"]
+    if (facts["input"] != cfg or facts["radicality_verdict"] is not None
+            or provenance["input_sha256"] != _digest(cfg) or provenance["facts_sha256"] != _digest(facts)
+            or ET.fromstring(horary["wheel_svg"]).tag != "{http://www.w3.org/2000/svg}svg"):
+        raise RuntimeError("horary input, facts provenance or SVG differs")
+    if not rejected.is_error or rejected.data is not None:
+        raise RuntimeError("unaccepted horary input was not rejected as an MCP error")
+    return {
+        "body_state_count": len(physical["bodies"]),
+        "kit_document_counts": {product: len(kit["documents"]) for product, kit in kits.items()},
+        "kit_manifest_sha256": {product: kit["manifest_sha256"] for product, kit in kits.items()},
+        "partner": partner["partner"],
+        "horary_method": facts["method"], "horary_moment_utc": facts["moment_utc"],
+        "horary_event_count": len(facts["events"]),
+        "wheel_svg_bytes": len(horary["wheel_svg"].encode("utf-8")),
+        "invalid_horary_rejected": rejected.is_error,
+    }
 
 
 async def _chart_workflow(url: str) -> dict:
@@ -124,6 +209,9 @@ async def _chart_workflow(url: str) -> dict:
 
 
 async def call(url: str, example: str) -> None:
+    if example == "products_workflow":
+        print(json.dumps(await _products_workflow(url), ensure_ascii=False, indent=2))
+        return
     if example == "chart_workflow":
         print(json.dumps(await _chart_workflow(url), ensure_ascii=False, indent=2))
         return
@@ -144,7 +232,7 @@ async def call(url: str, example: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "example", choices=(*_CALLS, "chart_workflow"), nargs="?", default="rising_hands"
+        "example", choices=(*_CALLS, "chart_workflow", "products_workflow"), nargs="?", default="rising_hands"
     )
     parser.add_argument("--url", default="http://127.0.0.1:8400/mcp")
     args = parser.parse_args()

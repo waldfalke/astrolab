@@ -64,6 +64,9 @@ def http_server_url():
             proc.wait(timeout=10)
         except subprocess.TimeoutExpired:
             proc.kill()
+            proc.wait(timeout=10)
+        if proc.stdout:
+            proc.stdout.close()
 
 
 async def _call_over_http(url: str, name: str, args: dict):
@@ -125,3 +128,54 @@ def test_chart_workflow_example_over_http_subprocess(http_server_url):
     assert summary["transit_sun_phase"]["H_house"] is None
     assert summary["transit_phase_frame"] == "unavailable"
     assert summary["transit_event_count"] > 0
+
+
+def test_horary_kit_and_facts_over_native_http_subprocess(monkeypatch, request):
+    import asyncio
+    import copy
+    import hashlib
+    from astro.horary import compute_facts
+
+    monkeypatch.setenv("SWISS_ENGINE", "a")
+    url = request.getfixturevalue("http_server_url")
+    cfg = json.loads((_ROOT / "artifacts/mcp-recipes/examples/horary-input.example.json").read_text(encoding="utf-8"))
+    cfg["scan_days"] = 3
+
+    async def consume():
+        async with Client(url) as client:
+            manifest = (await client.call_tool("horary_kit", {})).data
+            for entry in manifest["documents"]:
+                document = (await client.call_tool("horary_kit", {"document": entry["id"]})).data
+                raw = document["content"].encode("utf-8")
+                assert len(raw) == entry["byte_length"]
+                assert hashlib.sha256(raw).hexdigest() == entry["sha256"]
+            result = (await client.call_tool("horary", {"input": cfg})).data
+            bad = copy.deepcopy(cfg)
+            bad["intake"]["status"] = "needs_clarification"
+            rejected = await client.call_tool("horary", {"input": bad}, raise_on_error=False)
+            return manifest, result, rejected
+
+    manifest, result, rejected = asyncio.run(consume())
+    assert result["kit"] == manifest
+    assert result["facts"] == json.loads(json.dumps(compute_facts(cfg)))
+    assert result["provenance"]["kit_manifest_sha256"] == manifest["manifest_sha256"]
+    assert result["wheel_svg"].startswith('<svg xmlns="http://www.w3.org/2000/svg"')
+    assert rejected.is_error and rejected.data is None
+
+
+def test_products_workflow_example_over_native_http_subprocess(monkeypatch, request):
+    monkeypatch.setenv("SWISS_ENGINE", "a")
+    url = request.getfixturevalue("http_server_url")
+    result = subprocess.run(
+        [sys.executable, str(_PUBLIC_ROOT / "examples/call_mcp.py"), "products_workflow", "--url", url],
+        cwd=_ROOT, check=False, capture_output=True, encoding="utf-8",
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    summary = json.loads(result.stdout)
+    assert summary["body_state_count"] == 10
+    assert summary["kit_document_counts"] == {"partner_portrait": 5, "horary": 5}
+    assert summary["partner"] == "women"
+    assert summary["horary_method"] == "horary-v1"
+    assert summary["horary_event_count"] > 0 and summary["wheel_svg_bytes"] > 0
+    assert summary["invalid_horary_rejected"] is True
+    assert all(len(digest) == 64 for digest in summary["kit_manifest_sha256"].values())

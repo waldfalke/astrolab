@@ -37,7 +37,15 @@ RUN groupadd --gid 10001 astrolab \
         --shell /usr/sbin/nologin astrolab
 COPY --from=builder --chown=10001:10001 /app/.venv /app/.venv
 COPY --chown=10001:10001 astro/ astro/
+COPY --chown=10001:10001 docs/partner-portrait-reading-recipe.md docs/report-system.md docs/
+COPY --chown=10001:10001 docs/research/partner-portrait-method-sources.md docs/research/
+COPY --chown=10001:10001 artifacts/report-templates/partner-portrait-astrology.md artifacts/report-templates/partner-portrait-reading.html artifacts/report-templates/
+COPY --chown=10001:10001 docs/horary-reading-recipe.md docs/
+COPY --chown=10001:10001 docs/research/horary-method-sources.md docs/research/
+COPY --chown=10001:10001 artifacts/report-templates/horary-astrology.md artifacts/report-templates/horary-reading.html artifacts/report-templates/
+COPY --chown=10001:10001 artifacts/renderer/render_chart.py artifacts/renderer/
 COPY --from=ephe /ephe/*.se1 /app/ephe/
+COPY --from=ephe --chown=10001:10001 /ephe/MANIFEST.sha256 /app/ephe/MANIFEST.sha256
 
 ENV PATH="/app/.venv/bin:${PATH}" \
     HOME=/home/astrolab \

@@ -49,6 +49,103 @@ DEFAULT_BODIES = (
     "jupiter", "saturn", "uranus", "neptune", "pluto",
 )
 
+BODY_STATE_COORDINATES = {
+    "center": "geocentric", "zodiac": "tropical",
+    "reference_frame": "apparent_equinox_equator_of_date",
+    "angular_units": "deg", "speed_units": "deg/day", "distance_units": "au",
+}
+
+
+def compute_body_states_series(
+    moments_utc: list[datetime], bodies: list[str] | None = None,
+    engine: str | None = None,
+) -> list[dict]:
+    """Full named physical slice, Engine A only; never substitute longitude-only B1."""
+    import hashlib
+    from importlib.metadata import version
+    from pathlib import Path
+
+    if (engine or DEFAULT_ENGINE).lower() != "a":
+        raise ValueError("body states support only engine A; B1 has no full-state contract")
+    if os.environ.get("SE_EPHE_PATH"):
+        raise RuntimeError("body states cannot verify SE_EPHE_PATH; unset it and use SWISS_EPHE_PATH")
+    if not isinstance(moments_utc, list) or any(
+        not isinstance(m, datetime) or m.tzinfo is None or m.utcoffset() is None
+        for m in moments_utc
+    ):
+        raise ValueError("moments_utc must contain timezone-aware datetimes")
+    bods = list(DEFAULT_BODIES) if bodies is None else bodies
+    if (not isinstance(bods, list) or not bods or any(not isinstance(b, str) for b in bods)
+            or len(set(bods)) != len(bods)):
+        raise ValueError("bodies must be a nonempty list of unique body IDs")
+    swe = _init_swe()
+    consts = _swe_body_consts()
+    if any(b not in consts for b in bods):
+        raise ValueError("unsupported body ID")
+    ephe = Path(_SWE_EPHE_PATH)
+    source_manifest = Path(__file__).resolve().parents[1] / "infra/ephe/MANIFEST.sha256"
+    manifest = source_manifest if source_manifest.is_file() else ephe / "MANIFEST.sha256"
+    try:
+        manifest_bytes = manifest.read_bytes()
+        expected = {name: digest for digest, name in
+                    (line.split() for line in manifest_bytes.decode("ascii").splitlines() if line.strip())}
+        if set(expected) != set(_SWE_RUNTIME_FILES):
+            raise ValueError("unexpected ephemeris manifest file set")
+        hashes = {name: hashlib.sha256((ephe / name).read_bytes()).hexdigest()
+                  for name in _SWE_RUNTIME_FILES}
+        if hashes != expected:
+            raise ValueError("ephemeris hash mismatch")
+    except (OSError, UnicodeError, ValueError) as exc:
+        raise RuntimeError("body states require verified ephemeris files and manifest") from exc
+    operator_hash = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    requested = {"ecliptic": swe.FLG_SWIEPH | swe.FLG_SPEED,
+                 "equatorial": swe.FLG_SWIEPH | swe.FLG_SPEED | swe.FLG_EQUATORIAL}
+    out = []
+    for moment in moments_utc:
+        moment = moment.astimezone(timezone.utc)
+        hours = (moment.hour + moment.minute / 60 + moment.second / 3600
+                 + moment.microsecond / 3_600_000_000)
+        jd = swe.julday(moment.year, moment.month, moment.day, hours)
+        obliquity, _ = swe.calc_ut(jd, swe.ECL_NUT)
+        if not all(math.isfinite(v) and 0 < v < 90 for v in obliquity[:2]):
+            raise RuntimeError("invalid Swiss obliquity")
+        states, returned = {}, {}
+        for body in bods:
+            vectors, returned[body] = {}, {}
+            for frame, flags in requested.items():
+                vector, ret = swe.calc_ut(jd, consts[body], flags)
+                if ((ret & (swe.FLG_SWIEPH | swe.FLG_MOSEPH | swe.FLG_JPLEPH)) != swe.FLG_SWIEPH
+                        or ret & flags != flags
+                        or ret & swe.FLG_EQUATORIAL != flags & swe.FLG_EQUATORIAL):
+                    raise RuntimeError("unexpected Swiss flags or ephemeris fallback for %s" % body)
+                if len(vector) != 6 or not all(math.isfinite(v) for v in vector):
+                    raise RuntimeError("invalid Swiss vector for %s" % body)
+                vectors[frame], returned[body][frame] = vector, ret
+            ecliptic, equatorial = vectors["ecliptic"], vectors["equatorial"]
+            if (not 0 <= ecliptic[0] < 360 or not -90 <= ecliptic[1] <= 90
+                    or ecliptic[2] <= 0 or not -90 <= equatorial[1] <= 90):
+                raise RuntimeError("out-of-range Swiss state for %s" % body)
+            states[body] = {
+                "id": body, "name": body.replace("_", " ").title(), "swiss_id": consts[body],
+                "model": {"north_node": "true_node", "lilith": "mean_apogee"}.get(body, "solar_system_body"),
+                "longitude_deg": ecliptic[0], "latitude_deg": ecliptic[1],
+                "distance_au": ecliptic[2], "longitude_speed_deg_per_day": ecliptic[3],
+                "declination_deg": equatorial[1],
+            }
+        out.append({
+            "version": "0.1.0", "moment_utc": moment.isoformat().replace("+00:00", "Z"),
+            "coordinate_system": dict(BODY_STATE_COORDINATES), "bodies": states,
+            "obliquity": {"true_obliquity_deg": obliquity[0], "mean_obliquity_deg": obliquity[1]},
+            "provenance": {
+                "engine": "a", "swiss_version": swe.version, "pyswisseph_version": version("pyswisseph"),
+                "requested_flags": dict(requested), "returned_flags": returned,
+                "ephemeris_files": dict(hashes),
+                "ephemeris_manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+                "operator_sha256": {"astro/engine.py": operator_hash},
+            },
+        })
+    return out
+
 
 def compute_asc_series(
     moments_utc: list[datetime], lat: float, lon: float, engine: str | None = None

@@ -1,0 +1,31 @@
+{
+  "schema": "astrolab.horary.input.v1",
+  "synthetic_example": true,
+  "question": {
+    "original": "Получу ли я должность в компании N по текущему конкурсу?",
+    "settled": "Получу ли я должность в компании N по текущему конкурсу?",
+    "domain": "work",
+    "outcome_test": "Компания предложит мне эту должность по итогам указанного конкурса.",
+    "horizon": "До завершения текущего конкурса; календарный срок не сообщён."
+  },
+  "intake": {
+    "status": "accepted",
+    "reviewer": "оператор учебного примера",
+    "single_question_basis": "Один кверент, одна должность и один текущий конкурс; зарплата и смена профессии не спрашиваются.",
+    "answerability_basis": "И предложение должности, и отказ различимы; результат пока неизвестен.",
+    "previous_question": {"status": "none"}
+  },
+  "moment": {
+    "kind": "asked",
+    "local": "2026-01-15T12:00:00+00:00",
+    "timezone": "Europe/London",
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "place_source": "Центр Лондона; вымышленный пример, не данные клиента.",
+    "source": "Учебный момент, не реальный акт вопроса.",
+    "precision_seconds": 60
+  },
+  "scan_days": 30,
+  "past_days": 3,
+  "phase_samples_utc": []
+}

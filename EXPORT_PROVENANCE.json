@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "19510163fd06ca831681e58ffae5ff924721334e",
+  "source_commit": "1baad3333b415b87c99dc349e053c664cf6f11e5",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -9,14 +9,14 @@
     {
       "path": ".dockerignore",
       "origin": "overlay",
-      "git_blob": "ee676060abd5e713f29d17fb036cf846d230b06e",
-      "sha256": "1efcffd2a19c138c9ba97f9738d8ef84d5eac9f5dae10a380db64d4a14c37e14"
+      "git_blob": "6e1bbd463f53819f253ad3af82d61078ec6d8dae",
+      "sha256": "cf226c832d3fd628f865bfd2a802b91a1233f919b16796ea6de0cac7be0772c4"
     },
     {
       "path": ".github/workflows/ci.yml",
       "origin": "overlay",
-      "git_blob": "7e91d32ff2417742af8a9b6e70bcdcc2fa73b6c5",
-      "sha256": "40b794b32eb570981646a29e7670cbd88b5a681c0acab223c00b6416ac53d8c5"
+      "git_blob": "568966bf9e5a21b9e860796bc5e35a318f0be20d",
+      "sha256": "140a4e3d0d9d2d956b85bf14b904a94ae16ce0bfa5b56265bbacc3586fb24cce"
     },
     {
       "path": ".gitattributes",
@@ -33,8 +33,8 @@
     {
       "path": "Dockerfile",
       "origin": "source",
-      "git_blob": "06a220ad9f9bcce9688f56a8f542c9306b7af7c7",
-      "sha256": "a003240f80ccb624c8678dabf87822991228e81bdd27addd44c0576310ae0433"
+      "git_blob": "4db39a1074a188d3911303eb7023a52c2837d55d",
+      "sha256": "d9efe26a9f106c88f48fa0dadaca1cd4bcedac03148b3cf956f1edfac5ca1477"
     },
     {
       "path": "LICENSE",
@@ -45,86 +45,14 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "24c969daa1da3a48d4bbf2b14a9ad12d54e4faf5",
-      "sha256": "804d80a8ce995a2b7d2456548dabf7a15e0a79ab231dda6312a3fb9eee5e29bb"
+      "git_blob": "ddf3109392c1e5f21d3bb90e44a67b51a7bd2c92",
+      "sha256": "b25a854802daae2abf94c3dc943216ace52984f20ed0679bda5d854a86f286b2"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "14bcfdd2ab96f25c9c0bd64a82d66669e3bd38c6",
-      "sha256": "223a34cb4ba65d7d80580a382fe484e3d4f64595c307cc6966e097cb5b9f6181"
-    },
-    {
-      "path": "artifacts/mcp-recipes/build_day_ribbon.py",
-      "origin": "source",
-      "git_blob": "19e7819e87ca44a2eded2add17f1f0d93b32d669",
-      "sha256": "5a83ac26b8ac829b09a55f3e93ae818e2fb957056b7c9362a0f6f32050c3eba9"
-    },
-    {
-      "path": "artifacts/mcp-recipes/clock_event_state_probe.py",
-      "origin": "source",
-      "git_blob": "9dc71033f34449fc3d9d4556f30fccb5a942bbbb",
-      "sha256": "f383b3968647fb70eb44681ded38a3c7d97160d5a1c107c461374c5f1654799e"
-    },
-    {
-      "path": "artifacts/mcp-recipes/collect_mcp_boundary_context.py",
-      "origin": "source",
-      "git_blob": "f82428dfb6c8fa923aa641aaa4fcaeef44d23014",
-      "sha256": "5c84d9de65c1c3a863849ee4754f1f73a0d691ae3c61767afe3061f185b5a1ca"
-    },
-    {
-      "path": "artifacts/mcp-recipes/collect_mcp_day_frames.py",
-      "origin": "source",
-      "git_blob": "e0c2231c8a662573ec4e24f65872a603c203636b",
-      "sha256": "8a7a356cc9cc0de3ec8318f14deb3fbf3dad66e1d97d3f3cd90364ebfac8c5e9"
-    },
-    {
-      "path": "artifacts/mcp-recipes/synastry_local.py",
-      "origin": "source",
-      "git_blob": "2394e07cea491587d712f75464a2c701be916392",
-      "sha256": "43bb5fb1600c25e53799bc83067f14d98558cac641a6aff0e2430675c9397b1b"
-    },
-    {
-      "path": "artifacts/renderer/assemble_synastry.py",
-      "origin": "source",
-      "git_blob": "6d36854acd92122c67d5995a082c72672131a40e",
-      "sha256": "31910a8ded4a79f7342499528a144b5f52684395e69ac17c4b01f1fae872c074"
-    },
-    {
-      "path": "artifacts/renderer/render_chart.py",
-      "origin": "source",
-      "git_blob": "b259e855586a7b305963e663203890775d0d2e8c",
-      "sha256": "e1d6e3f7cb2b8c00d0a544eb08d08a1140971e1fd6fbb55bb1eea430c7298c41"
-    },
-    {
-      "path": "artifacts/renderer/render_synastry.py",
-      "origin": "source",
-      "git_blob": "d923c00f64083cc29acf133a9f465fed084a33db",
-      "sha256": "6539722a867849b0e005e99e9971f314036bb9fb3da744688a1719b90dacd6b9"
-    },
-    {
-      "path": "artifacts/report-templates/city-day-astrology.md",
-      "origin": "source",
-      "git_blob": "e61f824b84e0846b6a60818b69d3341b4bef303f",
-      "sha256": "260894f11cf151d28b930545568aa1521d7822bc1b67a1100327ea5eebe74e8b"
-    },
-    {
-      "path": "artifacts/report-templates/city-day-reading.html",
-      "origin": "source",
-      "git_blob": "4f3953b4d698905454a87708afac34a62afeeb3a",
-      "sha256": "3e7b18fbd071b6fb839356699933c8e15a91bea64e4ca0572ae1db7c51b5e759"
-    },
-    {
-      "path": "artifacts/report-templates/synastry-astrology.md",
-      "origin": "source",
-      "git_blob": "0d031dd835422806463ba93ae931692f4206d3cb",
-      "sha256": "c905dac81cbb4c9db41e9302c9a0d22da1636818d7c4eb5129251aedfcc4e995"
-    },
-    {
-      "path": "artifacts/report-templates/synastry-reading.html",
-      "origin": "source",
-      "git_blob": "c11fc087674c0a8af9e0742bd1440da3d0dbc963",
-      "sha256": "74872abbbf2eeb56efaba710020e3b11696450602facd71cf9c0bd7ba00755e1"
+      "git_blob": "880ce2982886d987f717fcd9a7204bae9ebc5252",
+      "sha256": "d75635e719c82908132d2909d417963a8bcf4d1a3f304da224f777679e97b687"
     },
     {
       "path": "assets/astrolab-hero.png",
@@ -187,30 +115,6 @@
       "sha256": "6173d11dd187b761adcd7207bb74a837d36979edaf725d07bb7f31b89103065d"
     },
     {
-      "path": "assets/city-day.png",
-      "origin": "overlay",
-      "git_blob": "fab9171f78fa2d3d2e6ba95645290a70698d68a9",
-      "sha256": "61b484bebb439f427b059f62a696f8cca71bd67e26f3b90a3276b3c472057b71"
-    },
-    {
-      "path": "assets/city-day-card.svg",
-      "origin": "overlay",
-      "git_blob": "cf06a7edb1dea59fc0d6f9ff15d0a62190083b8b",
-      "sha256": "10a9508e8f33b79ad387545a20ccdca2cc87caa9198b19a374672d447805fd29"
-    },
-    {
-      "path": "assets/synastry.png",
-      "origin": "overlay",
-      "git_blob": "ffcc6554aa9e2a2724d70995b7a3115abcc5c341",
-      "sha256": "8c850cc2f60ebaa2c584bfd6f41c8b19947ebac0ba5a638af5069a67254602b3"
-    },
-    {
-      "path": "assets/synastry-card.svg",
-      "origin": "overlay",
-      "git_blob": "e6242bc1e6a7ff7a93ffed141abcbdf3e4187ebb",
-      "sha256": "386d2c56b6b804e386cf9103194bc06a40a17f5daddcffe032f51af2b0d0037d"
-    },
-    {
       "path": "astro/__init__.py",
       "origin": "source",
       "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
@@ -223,22 +127,40 @@
       "sha256": "fe4ee687abafdb5f8d69a594ce98085d678a18f8c27a5525f37aed5d27f3cd81"
     },
     {
+      "path": "astro/carrier_states.py",
+      "origin": "source",
+      "git_blob": "16852861fd8fd34c0424f2506296200cec63045d",
+      "sha256": "aa99e304b28db9bca2b1a8075076795f39dff16ceb5471344a689626722bbad6"
+    },
+    {
       "path": "astro/dignities.py",
       "origin": "source",
-      "git_blob": "28c22534428cb079286ad93cead9b8141a557b9a",
-      "sha256": "a387cc3df0a936f7d7e72d75e87c55eef9c33f25e47a6e04d0dc198b3e9bf232"
+      "git_blob": "8433299355105ddf2141c317f582a7b5363ef4fc",
+      "sha256": "0643e9b66a6efcb97ced0f564eb9dbb373df762f51974639d86c5bfde604cc87"
     },
     {
       "path": "astro/engine.py",
       "origin": "source",
-      "git_blob": "8a74f1a7db00f4e6a8ef7ed38429d1d2f51f40dd",
-      "sha256": "37fd868d2cd574641bcfa62c95d017e34fc72d5cd1d1873ff47b23e4d579dd70"
+      "git_blob": "1e60571515f1be6fa995ef480d02b9cb7c23e3f8",
+      "sha256": "f9e9c2f80888164be003f5393b94c0707c8a5d64edac66354155fac488e852c9"
+    },
+    {
+      "path": "astro/horary.py",
+      "origin": "source",
+      "git_blob": "8a067c34f3b1d4b032735c3c3be174023d8da25c",
+      "sha256": "4f47e47361bda24895b2e67c9b09a2db512187f0290a5ae93bd815a091aa7474"
     },
     {
       "path": "astro/natal.py",
       "origin": "source",
       "git_blob": "271e60b6b3122c050fbe8b2c20248cdfa5f446c2",
       "sha256": "653e9a2b44ee595cb1f944690ada6a3f12b84183fc6b2f7fdc2aff0f1e33f33c"
+    },
+    {
+      "path": "astro/partner_portrait.py",
+      "origin": "source",
+      "git_blob": "45777e5b3e34dff407c98153dab2fabe2db41668",
+      "sha256": "34434dec3177efcd6ab31ca4871ad783bff0b0ef9ed736fff8a85f083fccc718"
     },
     {
       "path": "astro/phases.py",
@@ -272,19 +194,19 @@
     },
     {
       "path": "astro/server.py",
-      "origin": "source",
-      "git_blob": "db48e7ac8a46d9dd2fee6865db97db105037a9e2",
-      "sha256": "0d8fba44cece5403b337a7c9d24c755e85d86e511abf3004390f8a6149325f14"
+      "origin": "overlay",
+      "git_blob": "d3cd2feda21f8d961519e9a1ad7f308f0d2a49b1",
+      "sha256": "44c5ab1f5010f0b6e0863ef3dd0c6b2621e004ad0cf2bb1b1a806903cb62e795"
     },
     {
       "path": "astro/solar.py",
-      "origin": "source",
+      "origin": "overlay",
       "git_blob": "29bd9464d95c2ed98c09f0b71f121816b6f8b63a",
       "sha256": "61c416fae11a4efe52213a18f4329c141424568179273f0b53a4729b42e1c56a"
     },
     {
       "path": "astro/transits.py",
-      "origin": "source",
+      "origin": "overlay",
       "git_blob": "c13140554f32cecd8af21cc10784c31f57f2150a",
       "sha256": "317c2a87fc0f98c9a312c97933d27a68fd1ec9a791a75b2b8a751ae2a4009264"
     },
@@ -297,68 +219,110 @@
     {
       "path": "docs/mcp-api.md",
       "origin": "overlay",
-      "git_blob": "fd71ce3911a3622d7ccf5b26a003b578b99ac940",
-      "sha256": "a9d1a83b509c1d6a5b2483127d2c130b93a3d8775b1bee198be828e186dca56d"
+      "git_blob": "29eaac43e66fd2bf690869f4860aeb7d1d5c4239",
+      "sha256": "2ef0715a06161b6af517268c30ca08485882fc2d5b9bfebc6c765545b1fe22a6"
     },
     {
       "path": "docs/output-contract.md",
       "origin": "overlay",
-      "git_blob": "06c5afdc70bf53e4eca50b96f37d786248c15ead",
-      "sha256": "cd2a4f545a3d4021e34a5ebba7b24b4d4c080849f59be12410ee8df62dca33f6"
-    },
-    {
-      "path": "docs/city-day-reading.md",
-      "origin": "source",
-      "git_blob": "5a8be07e331e9a69d44b26a3db0a579120ddc601",
-      "sha256": "33a28cc2ac321573b718c60713c4fb910f788c5611dce74eead9d1f4a4fea3fd"
+      "git_blob": "407960f1331b3a33bc167a8550d4eb3d2b142cfc",
+      "sha256": "2ee4703c40406c9c22da3fd230fb6a14ff27ac92c3a625e95590ccadba2d2063"
     },
     {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "c2ba47c978944b7bbca2c6a901585b4371e93b84",
-      "sha256": "0a9e46029261be6fc8b575db4f51b339f2a962921b3ba2f7329981439f48dd80"
+      "git_blob": "7ef3986b522b8a8936edecee537183bd927008a3",
+      "sha256": "4574fcfd91f251cfce3aed86937a9961a90f45180743dc391f5cef3b0323774e"
     },
     {
-      "path": "docs/examples/synastry-fictional/README.md",
+      "path": "docs/forecast-boundary-context.md",
       "origin": "source",
-      "git_blob": "29229066407da5701ba9fb7d7257f32fac7ca223",
-      "sha256": "e4f40c8d038ece65c649e5d525bec36ae4f346f1b890d3e5dfc0f81ce45f5a15"
+      "git_blob": "0da205769d8253dfa852066bb5628ebc1a6ce7af",
+      "sha256": "b3a949aadd91cfbcc15e7b111826cefe6efcad59d1a59aed16bc7336caa16818"
     },
     {
-      "path": "docs/examples/synastry-fictional/input.json",
+      "path": "docs/partner-portrait-reading-recipe.md",
       "origin": "source",
-      "git_blob": "afa04d4f3b26278869a8237a3932b543baa9ab4e",
-      "sha256": "54850c98f72de36cc575a95ecaf509e5fb81a9768e4537e61ca8d882a07e0764"
+      "git_blob": "21607b1d2d411e158714ab3533e47bf1787d6eff",
+      "sha256": "4143cc85824b847e898f8ebc92e8672ddb8845fd82bcaa90236aa4089515939c"
     },
     {
-      "path": "docs/examples/synastry-fictional/manifest.json",
+      "path": "docs/research/partner-portrait-method-sources.md",
       "origin": "source",
-      "git_blob": "2ab7bcdf4a0a05f0c2f1dc9501b73238a5c2aa24",
-      "sha256": "78171de715bec3ef71b804d2310402cb33af57905881cd8b14543a456085e7df"
+      "git_blob": "64301a67247b3ef0afc4a061a985848e5ab7221f",
+      "sha256": "48149cdc3482460d85da55ef2f67e3e5f2c4508a7b99ceefed813a9174b88c11"
     },
     {
-      "path": "docs/examples/synastry-fictional/reading.md",
+      "path": "docs/report-system.md",
       "origin": "source",
-      "git_blob": "77149b42345ff17aeb8661d3f6597c3d7731c396",
-      "sha256": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082"
+      "git_blob": "50f5340f63c1214c44013060b64d2dc419bdf62f",
+      "sha256": "f92f19b7c86765be17123d4e83c029cdb79b6c62bdb4bb1b7ead68d344f6cb0c"
     },
     {
-      "path": "docs/examples/synastry-fictional/report.html",
+      "path": "docs/horary-reading-recipe.md",
       "origin": "source",
-      "git_blob": "8aa432c53706f017b1506ee89fdd5a0279a948ae",
-      "sha256": "2c076f71bca81941a9a5a6f90ada299830e2ec1fbc32055b192ae926621d4afc"
+      "git_blob": "16ff2f8088cfecb726c170c5735557d103b9d165",
+      "sha256": "9695d62d6c64acfcd9213605419a425b5410639902a28e132822781514c0885f"
     },
     {
-      "path": "docs/examples/synastry-fictional/report.pdf",
+      "path": "docs/research/horary-method-sources.md",
       "origin": "source",
-      "git_blob": "9db316b55fe9141dfa2df5399af772760e885940",
-      "sha256": "bdfda375b663bce71b0659355297626625fba3671abe33ff6d0b660c7b8cd681"
+      "git_blob": "af161c749440775f1756934fe86a99a3f4ead542",
+      "sha256": "ac019232403f850aecbd8137f6755bc0941e86eeab2bd22f6406eba5b81a03b8"
     },
     {
-      "path": "docs/examples/synastry-fictional/twin.md",
+      "path": "docs/examples/horary-method-cases.md",
       "origin": "source",
-      "git_blob": "ba106c0a868b04dccbf4f20c126e0a9676ba2cb8",
-      "sha256": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8"
+      "git_blob": "59a1d343a7babfa7f7ed188d5dd925edad708648",
+      "sha256": "81ba2e6bb2500d2d2f74abb6b9e8ebcc4803c3b4c7f7fca150f08181cb61e69e"
+    },
+    {
+      "path": "artifacts/mcp-recipes/horary_facts.py",
+      "origin": "source",
+      "git_blob": "e2e7affb800ced44a3237695ccfb14c60300136b",
+      "sha256": "51c25c4d490f756e4bd5e8e5a98dba6b8aa4f0209a92b2fd29dfa9b55d05d4a0"
+    },
+    {
+      "path": "artifacts/mcp-recipes/examples/horary-input.example.json",
+      "origin": "source",
+      "git_blob": "4165c4abe4df1081d3350036044b3b3427d02c0b",
+      "sha256": "744d01a6924f5521382ca225d9064c89f19e60c5f5b0b6511d797de9c3b6714b"
+    },
+    {
+      "path": "artifacts/renderer/render_chart.py",
+      "origin": "source",
+      "git_blob": "74c5f76d951a3fe891f02e2e3adfd49adb53e123",
+      "sha256": "025e80a7f203cf5dba67d846f1da4e1f79dd5a7b3e026f728ecfd86d23fe3c78"
+    },
+    {
+      "path": "artifacts/report-templates/horary-astrology.md",
+      "origin": "source",
+      "git_blob": "ca51838ec0e55edea8756692d0529d785e6330ea",
+      "sha256": "871fc11407965b18a02a0bac4c2f648acd95b712284dd9af84724bedc0835a29"
+    },
+    {
+      "path": "artifacts/report-templates/horary-reading.html",
+      "origin": "source",
+      "git_blob": "0212eb4cdbc34c0e1f7f8e7ad9736da20b8db9c0",
+      "sha256": "f9733774f39d92f2c21cb921eca8e8640e70bdf57aebcfad1ffae3ffd97ac3e7"
+    },
+    {
+      "path": "artifacts/mcp-recipes/partner_portrait.py",
+      "origin": "source",
+      "git_blob": "88271d7465f722c7cfd2366c7bce9572e035a664",
+      "sha256": "cc0bedb75f578d0073cbeedd6d873ee4685e58b0d2784655911309099462041b"
+    },
+    {
+      "path": "artifacts/report-templates/partner-portrait-astrology.md",
+      "origin": "source",
+      "git_blob": "7aaad362588820a971092232a1da141261b8ef7d",
+      "sha256": "e95fcb48524bdde222aebd87fc7d9dd76a7c9ed1f818d642d0219a2e0f1497c2"
+    },
+    {
+      "path": "artifacts/report-templates/partner-portrait-reading.html",
+      "origin": "source",
+      "git_blob": "311a6330785db3f1e98f5232253c31864e42a13b",
+      "sha256": "179e5adb642d35ddb8519929efce45838562b51ec7ac956c527dfef384fc4da8"
     },
     {
       "path": "docs/stars/README.md",
@@ -391,22 +355,10 @@
       "sha256": "cc5dce8d206abc6967c6aeb242144a08f3714f624dc3df2c585a5209e2dcbee7"
     },
     {
-      "path": "docs/synastry-practice-research.md",
-      "origin": "source",
-      "git_blob": "dbe1df0995381559ef138e527331fc3d08a8cef8",
-      "sha256": "0a313e99a7b432dc2b2bc0a7c483aad2688858cc2c0bcf3da55b6171e1f94367"
-    },
-    {
-      "path": "docs/synastry-reading-recipe.md",
-      "origin": "source",
-      "git_blob": "6dc77dafa34ac72aad9e6fbd367c930583f526c4",
-      "sha256": "b59e00f296dabb216ffa7e346da69bb784c068f463502e41dda2b77aaa798eb8"
-    },
-    {
       "path": "examples/call_mcp.py",
       "origin": "overlay",
-      "git_blob": "f736cf82fd38e4d019a4e69de59756f3449588fb",
-      "sha256": "dd694d50e2754d2fb0add26161ca15758ce1aeb0d26e6284a76c4ccb810f8af8"
+      "git_blob": "1fe0ca62600242c217d3d2a7ddafb105a5e04a94",
+      "sha256": "479d005b0371a97d808ba2b69991c2c011a000e2f88d633177247afce6298570"
     },
     {
       "path": "infra/ephe/MANIFEST.sha256",
@@ -423,8 +375,8 @@
     {
       "path": "pyproject.toml",
       "origin": "source",
-      "git_blob": "ccfdf1b824721b4422fb3527bc17f0d890093f53",
-      "sha256": "25197ff976000181f9079905f3c3e0f769d5318c593b31fdb31481e1d6aeb8f9"
+      "git_blob": "8c8201b675405500d83866d4e56b068a1e4b308a",
+      "sha256": "eb7e8a9bcba682f23d415100da130f4b5c86637b71896bdb2c7e1197b73367b9"
     },
     {
       "path": "tests/conftest.py",
@@ -433,27 +385,33 @@
       "sha256": "01a8a8df856c8a03e336f7b5cc5971993eab6017cc05d61b03e549ea78e9e65c"
     },
     {
+      "path": "tests/fixtures/body-states/swiss-reference.json",
+      "origin": "source",
+      "git_blob": "d7a9c0c0c38bf3c9b5cacd4e02e01118fc0e419e",
+      "sha256": "6d60e1166d391b45d6b43525bb400a6d89f7fc8108ccd797536cc26bf629aeb2"
+    },
+    {
       "path": "tests/fixtures/trump/house_placidus/01_primary_positions.json",
       "origin": "source",
-      "git_blob": "94002bd8573c4740530a5fa9d2357a040c2b40b8",
+      "git_blob": "5a74a8804159ee9c6541bf08b831274e870a5b61",
       "sha256": "9b4a340521d97b4b48926a4db0e295e4f7c9873144e2c659afe51b88f03c102b"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/02_primary_longitudes.csv",
       "origin": "source",
-      "git_blob": "f12382df2d321928353b013a0baf2e650e1166df",
+      "git_blob": "a0dd5bb488cf1e1eff733d850dfa69902af9156a",
       "sha256": "099d04e5738734d57438224cc8052e28983c2bab8e194042850a5fd3eb991d76"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/04_backup_aspects.json",
       "origin": "source",
-      "git_blob": "cd9b5da9a5d4812024346612f03b75a9c78accd5",
+      "git_blob": "94a81120fba04ec13d49a3dffeadd50f9d75fb17",
       "sha256": "aa3dfc1da0b56b102dd77f7245f47e9899d943037840e012e68736a0f4971c8a"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/06_backup_longitudes.csv",
       "origin": "source",
-      "git_blob": "93fe8c6f18c5f6deaf923deeb5679791a195ecc0",
+      "git_blob": "b9b1a2a108424e3b35ae694e84b48544ee348927",
       "sha256": "c5d448b54615e7b23f2300c705ea3ed9a1994c7372643de2f44e9617a2ddb22a"
     },
     {
@@ -463,22 +421,10 @@
       "sha256": "252dfa5e8820f20fe71d50c899a24f1d904516755d203cd60edbb9a214a7d2ff"
     },
     {
-      "path": "tests/test_biwheel_renderer.py",
+      "path": "tests/test_carrier_states.py",
       "origin": "source",
-      "git_blob": "bc1507e764f0268bd0e586953fc07ec1d718eb36",
-      "sha256": "911d9ab5ddab719c79951e2adaecc139a9c72c31c96922a19593cb217428b140"
-    },
-    {
-      "path": "tests/test_clock_event_state_probe.py",
-      "origin": "source",
-      "git_blob": "e674e6272abf16ca299325fbbbbded02ae64a63b",
-      "sha256": "44cc76f6cb715af41c526bb1a309e4a694453aec17c505aee1054329cee9aebe"
-    },
-    {
-      "path": "tests/test_day_ribbon_build.py",
-      "origin": "source",
-      "git_blob": "c0becc001c0ac7c9110955b316ab4044a8ab2ef6",
-      "sha256": "880e68f36879d27e35658a2d64bac15056455838946a02fea52eda355a5fe20b"
+      "git_blob": "664a5d47a210650ac59909b6734301e0926381dc",
+      "sha256": "b18368171ee357951920d227266fede7d657a6c2772b15befa5e428517153d04"
     },
     {
       "path": "tests/test_dignities.py",
@@ -489,7 +435,7 @@
     {
       "path": "tests/test_engine.py",
       "origin": "source",
-      "git_blob": "24581a7e0a69eed33cfe21a103ed2292e0c4aaaf",
+      "git_blob": "d876bec11589c61f72638838ce9727fea11c0a89",
       "sha256": "690cdbcbd7f91b94fd978508858c92e039e8f71d6e32b7576c8213bfbf1ca082"
     },
     {
@@ -501,14 +447,26 @@
     {
       "path": "tests/test_houses.py",
       "origin": "source",
-      "git_blob": "a77ec625ea0cec65f23d063d080df18dc4c5f999",
+      "git_blob": "8587d8ce9fb2167ad400393b779e6342e4300929",
       "sha256": "ab42dac5803c623f6dfe2761e4541681d214cca41a8136c7badd321733454ed6"
     },
     {
-      "path": "tests/test_mcp_server.py",
+      "path": "tests/test_horary_facts.py",
       "origin": "source",
-      "git_blob": "d6298bdcecfec2f621b91a86a89916d04aeb048c",
-      "sha256": "ba0f7c45d8e323f51f08cf4f49229639e0ed8885af5255f09a50b64f3a1861cb"
+      "git_blob": "b698cb18b3859b3b4f54dcde96edd25b4745619b",
+      "sha256": "bdaa297e2b9791f21997c9865143508bad3278ed2cd0450c4eca7783f61621e9"
+    },
+    {
+      "path": "tests/test_horary_mcp.py",
+      "origin": "overlay",
+      "git_blob": "490f690b696b0a25fe1442f80cd9760a5648d2fb",
+      "sha256": "75d2b7228c4ea7ca803ed793e518883c1b3d58e49a99b2c27630971da69bb087"
+    },
+    {
+      "path": "tests/test_mcp_server.py",
+      "origin": "overlay",
+      "git_blob": "15063f1a8c87a0837ce9243d84ee2ccc9dcbaaec",
+      "sha256": "d22962fd519b3adf1ed1cae7e225f86c6545f663758545471f11ae20fa879efd"
     },
     {
       "path": "tests/test_mcp_api_contract.py",
@@ -517,22 +475,22 @@
       "sha256": "ee4d408c6906416dfc59d1569a7679336510ca2badf05491d79e1b5f8076f210"
     },
     {
-      "path": "tests/test_mcp_boundary_context.py",
-      "origin": "source",
-      "git_blob": "836c97c5e4a76044052a681ec744e778838e924a",
-      "sha256": "7399a87bcf5d4b0f211ce24df5e10e85431cadd102b622e888cc44a218f35487"
-    },
-    {
-      "path": "tests/test_mcp_day_frames.py",
-      "origin": "source",
-      "git_blob": "bdc4c19657cd2eb8932851287d233b40ac1d603a",
-      "sha256": "1ba0e6883a9e75dd885367a398cb81f8bad2126d8c8ac599da4659f5ff0342e0"
-    },
-    {
       "path": "tests/test_natal.py",
       "origin": "source",
       "git_blob": "2bc860b960392083dcb21fc3f81f2fa6f76580b6",
       "sha256": "b7e04d7f16c21552802da321fb8dba05dd59f37fdaa06e1d0e2be032f3e80289"
+    },
+    {
+      "path": "tests/test_partner_mcp.py",
+      "origin": "overlay",
+      "git_blob": "7cecadc0b68d6f805ca27c97b234ea2d4de00766",
+      "sha256": "9113decd4f5bac74011b25e3432ce0b2d69715407d35d4a2893749bee1f29acd"
+    },
+    {
+      "path": "tests/test_partner_portrait.py",
+      "origin": "source",
+      "git_blob": "0e50132f44603c297cc5a2d517b15d6c2296fd80",
+      "sha256": "27b72508bdf936f9a87f3f5df78121c627606259d13d00d3d8a29c7e773adcc2"
     },
     {
       "path": "tests/test_phases.py",
@@ -543,7 +501,7 @@
     {
       "path": "tests/test_positions.py",
       "origin": "source",
-      "git_blob": "efd13d489bffe558b913c2b9f67c79a0dd291f9c",
+      "git_blob": "d2401f4eabcad2951ed2ef7ace5dd468a3e3b3de",
       "sha256": "ed66417dff2a60b6d339b45500ca300eb2192c8e8a954fc4c603a5dc1904ed46"
     },
     {
@@ -555,7 +513,7 @@
     {
       "path": "tests/test_rising_hands.py",
       "origin": "source",
-      "git_blob": "95c6ce263c08e710bad5e26df8e50916bf074681",
+      "git_blob": "9f85246cf32910715aabd7ab1c780a920e564c2b",
       "sha256": "9f6e51878eb326cbcc993deac2e656f2a3eb03f1a81220d926090ad18baf2977"
     },
     {
@@ -566,45 +524,27 @@
     },
     {
       "path": "tests/test_solar.py",
-      "origin": "source",
-      "git_blob": "3e5c701d4ba8f8ebacd5abbcab8d55e539018603",
-      "sha256": "2ef5bbee63d5dedbcb786c043f4babb0e5862520863d7dd543eac664364c3f67"
+      "origin": "overlay",
+      "git_blob": "827892bdfb0b771f7b1516d282d6b67113aef717",
+      "sha256": "08ec7b9f02fd414f1eef4f4a2ec502656b2f5cfc739f2a4791b3324a5535c572"
     },
     {
       "path": "tests/test_stars_package.py",
-      "origin": "source",
-      "git_blob": "b0341a133a1540055c6cc712f8d45b84609e7604",
-      "sha256": "b8bdf7f86b74f765613a91f0984b7b12b4c4097d928cab289b8739bb6d08f454"
-    },
-    {
-      "path": "tests/test_synastry_local.py",
-      "origin": "source",
-      "git_blob": "eeec740afd1bd9613a47fabbda1c1739684edc34",
-      "sha256": "90dbf192ed2f28952d1fb5aae7ba9c2750705b9da206fbaaafb75e7cf0f6d664"
-    },
-    {
-      "path": "tests/test_synastry_presentation.py",
-      "origin": "source",
-      "git_blob": "514e3732070acd923923af0d3bc5934db72f16ff",
-      "sha256": "043ae6bafe2136895bfc7e17e62f33199c6d2e083dccfe25f8b44f0a05ed1089"
-    },
-    {
-      "path": "tests/test_synastry_renderer.py",
-      "origin": "source",
-      "git_blob": "6f7e190dae49c72063b7c533f3ee5ae4e186a7f8",
-      "sha256": "62f3e9647d54248cb1e00c716723438f8072a8b1b1be63cd5351408c013a3873"
+      "origin": "overlay",
+      "git_blob": "758b866c845a130c7012ef42fc46aced3f646185",
+      "sha256": "61b0de3dc94deaa13587643a6c579654866b4d3734c87ff163cbed1b7397986f"
     },
     {
       "path": "tests/test_transits.py",
-      "origin": "source",
+      "origin": "overlay",
       "git_blob": "7fb8fc638f462d6809a70acfed2b4e0a338b5dc6",
       "sha256": "a83182d439b9909890ce3ca8e27fd54f657a89474485c259893934b8dcd62a0d"
     },
     {
       "path": "tests/test_transport_http.py",
-      "origin": "source",
-      "git_blob": "a325d948c7d299088e57303a5374c7120000b158",
-      "sha256": "7df55e8a3e8b1659ff16fec23292092e423b71e51d73dd6cae698e837f990b35"
+      "origin": "overlay",
+      "git_blob": "168a19d86482fef2f7084969765161c5f84e7716",
+      "sha256": "9e3588dca52f1efaad370d884e677892be1ae142794f736d2683e7a73fb9d5ef"
     },
     {
       "path": "tools/check_public_surface.py",
@@ -615,8 +555,218 @@
     {
       "path": "uv.lock",
       "origin": "source",
-      "git_blob": "2e98d7858d925c99c098e3013f225938aefa9fa4",
-      "sha256": "1631856acfc356cce29b89f39ed82770e1d46387fbe7352754930f68904e4e29"
+      "git_blob": "c849c76997c5c0d40e467d8e0ef303105972278c",
+      "sha256": "38276680f54b88a0ec17cfc8da246741f34947153112407a1626efc4a8bace88"
+    },
+    {
+      "path": "docs/city-day-reading.md",
+      "origin": "overlay",
+      "git_blob": "5a8be07e331e9a69d44b26a3db0a579120ddc601",
+      "sha256": "33a28cc2ac321573b718c60713c4fb910f788c5611dce74eead9d1f4a4fea3fd"
+    },
+    {
+      "path": "artifacts/report-templates/city-day-astrology.md",
+      "origin": "overlay",
+      "git_blob": "e61f824b84e0846b6a60818b69d3341b4bef303f",
+      "sha256": "260894f11cf151d28b930545568aa1521d7822bc1b67a1100327ea5eebe74e8b"
+    },
+    {
+      "path": "artifacts/report-templates/city-day-reading.html",
+      "origin": "overlay",
+      "git_blob": "4f3953b4d698905454a87708afac34a62afeeb3a",
+      "sha256": "3e7b18fbd071b6fb839356699933c8e15a91bea64e4ca0572ae1db7c51b5e759"
+    },
+    {
+      "path": "artifacts/github-art/city-day.png",
+      "origin": "source",
+      "git_blob": "fab9171f78fa2d3d2e6ba95645290a70698d68a9",
+      "sha256": "61b484bebb439f427b059f62a696f8cca71bd67e26f3b90a3276b3c472057b71"
+    },
+    {
+      "path": "artifacts/github-art/city-day.prompt.md",
+      "origin": "source",
+      "git_blob": "f50546db52fc9e2295c62c48aac880ba676b8ce3",
+      "sha256": "00a390686973a62d2804d2d9ad8c08ddbbea68505c86c18bda61d364c31599ab"
+    },
+    {
+      "path": "artifacts/mcp-recipes/build_day_ribbon.py",
+      "origin": "overlay",
+      "git_blob": "19e7819e87ca44a2eded2add17f1f0d93b32d669",
+      "sha256": "5a83ac26b8ac829b09a55f3e93ae818e2fb957056b7c9362a0f6f32050c3eba9"
+    },
+    {
+      "path": "artifacts/mcp-recipes/clock_event_state_probe.py",
+      "origin": "overlay",
+      "git_blob": "9dc71033f34449fc3d9d4556f30fccb5a942bbbb",
+      "sha256": "f383b3968647fb70eb44681ded38a3c7d97160d5a1c107c461374c5f1654799e"
+    },
+    {
+      "path": "artifacts/mcp-recipes/collect_mcp_boundary_context.py",
+      "origin": "overlay",
+      "git_blob": "f82428dfb6c8fa923aa641aaa4fcaeef44d23014",
+      "sha256": "5c84d9de65c1c3a863849ee4754f1f73a0d691ae3c61767afe3061f185b5a1ca"
+    },
+    {
+      "path": "artifacts/mcp-recipes/collect_mcp_day_frames.py",
+      "origin": "overlay",
+      "git_blob": "e0c2231c8a662573ec4e24f65872a603c203636b",
+      "sha256": "8a7a356cc9cc0de3ec8318f14deb3fbf3dad66e1d97d3f3cd90364ebfac8c5e9"
+    },
+    {
+      "path": "artifacts/mcp-recipes/synastry_local.py",
+      "origin": "overlay",
+      "git_blob": "2394e07cea491587d712f75464a2c701be916392",
+      "sha256": "43bb5fb1600c25e53799bc83067f14d98558cac641a6aff0e2430675c9397b1b"
+    },
+    {
+      "path": "artifacts/renderer/assemble_synastry.py",
+      "origin": "overlay",
+      "git_blob": "6d36854acd92122c67d5995a082c72672131a40e",
+      "sha256": "31910a8ded4a79f7342499528a144b5f52684395e69ac17c4b01f1fae872c074"
+    },
+    {
+      "path": "artifacts/renderer/render_synastry.py",
+      "origin": "overlay",
+      "git_blob": "d923c00f64083cc29acf133a9f465fed084a33db",
+      "sha256": "6539722a867849b0e005e99e9971f314036bb9fb3da744688a1719b90dacd6b9"
+    },
+    {
+      "path": "artifacts/report-templates/synastry-astrology.md",
+      "origin": "overlay",
+      "git_blob": "0d031dd835422806463ba93ae931692f4206d3cb",
+      "sha256": "c905dac81cbb4c9db41e9302c9a0d22da1636818d7c4eb5129251aedfcc4e995"
+    },
+    {
+      "path": "artifacts/report-templates/synastry-reading.html",
+      "origin": "overlay",
+      "git_blob": "c11fc087674c0a8af9e0742bd1440da3d0dbc963",
+      "sha256": "74872abbbf2eeb56efaba710020e3b11696450602facd71cf9c0bd7ba00755e1"
+    },
+    {
+      "path": "assets/city-day-card.svg",
+      "origin": "overlay",
+      "git_blob": "cf06a7edb1dea59fc0d6f9ff15d0a62190083b8b",
+      "sha256": "10a9508e8f33b79ad387545a20ccdca2cc87caa9198b19a374672d447805fd29"
+    },
+    {
+      "path": "assets/city-day.png",
+      "origin": "overlay",
+      "git_blob": "fab9171f78fa2d3d2e6ba95645290a70698d68a9",
+      "sha256": "61b484bebb439f427b059f62a696f8cca71bd67e26f3b90a3276b3c472057b71"
+    },
+    {
+      "path": "assets/synastry-card.svg",
+      "origin": "overlay",
+      "git_blob": "e6242bc1e6a7ff7a93ffed141abcbdf3e4187ebb",
+      "sha256": "386d2c56b6b804e386cf9103194bc06a40a17f5daddcffe032f51af2b0d0037d"
+    },
+    {
+      "path": "assets/synastry.png",
+      "origin": "overlay",
+      "git_blob": "ffcc6554aa9e2a2724d70995b7a3115abcc5c341",
+      "sha256": "8c850cc2f60ebaa2c584bfd6f41c8b19947ebac0ba5a638af5069a67254602b3"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/README.md",
+      "origin": "overlay",
+      "git_blob": "29229066407da5701ba9fb7d7257f32fac7ca223",
+      "sha256": "e4f40c8d038ece65c649e5d525bec36ae4f346f1b890d3e5dfc0f81ce45f5a15"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/input.json",
+      "origin": "overlay",
+      "git_blob": "afa04d4f3b26278869a8237a3932b543baa9ab4e",
+      "sha256": "54850c98f72de36cc575a95ecaf509e5fb81a9768e4537e61ca8d882a07e0764"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/manifest.json",
+      "origin": "overlay",
+      "git_blob": "2ab7bcdf4a0a05f0c2f1dc9501b73238a5c2aa24",
+      "sha256": "78171de715bec3ef71b804d2310402cb33af57905881cd8b14543a456085e7df"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/reading.md",
+      "origin": "overlay",
+      "git_blob": "77149b42345ff17aeb8661d3f6597c3d7731c396",
+      "sha256": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/report.html",
+      "origin": "overlay",
+      "git_blob": "8aa432c53706f017b1506ee89fdd5a0279a948ae",
+      "sha256": "2c076f71bca81941a9a5a6f90ada299830e2ec1fbc32055b192ae926621d4afc"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/report.pdf",
+      "origin": "overlay",
+      "git_blob": "9db316b55fe9141dfa2df5399af772760e885940",
+      "sha256": "bdfda375b663bce71b0659355297626625fba3671abe33ff6d0b660c7b8cd681"
+    },
+    {
+      "path": "docs/examples/synastry-fictional/twin.md",
+      "origin": "overlay",
+      "git_blob": "ba106c0a868b04dccbf4f20c126e0a9676ba2cb8",
+      "sha256": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8"
+    },
+    {
+      "path": "docs/synastry-practice-research.md",
+      "origin": "overlay",
+      "git_blob": "dbe1df0995381559ef138e527331fc3d08a8cef8",
+      "sha256": "0a313e99a7b432dc2b2bc0a7c483aad2688858cc2c0bcf3da55b6171e1f94367"
+    },
+    {
+      "path": "docs/synastry-reading-recipe.md",
+      "origin": "overlay",
+      "git_blob": "6dc77dafa34ac72aad9e6fbd367c930583f526c4",
+      "sha256": "b59e00f296dabb216ffa7e346da69bb784c068f463502e41dda2b77aaa798eb8"
+    },
+    {
+      "path": "tests/test_biwheel_renderer.py",
+      "origin": "overlay",
+      "git_blob": "bc1507e764f0268bd0e586953fc07ec1d718eb36",
+      "sha256": "911d9ab5ddab719c79951e2adaecc139a9c72c31c96922a19593cb217428b140"
+    },
+    {
+      "path": "tests/test_clock_event_state_probe.py",
+      "origin": "overlay",
+      "git_blob": "e674e6272abf16ca299325fbbbbded02ae64a63b",
+      "sha256": "44cc76f6cb715af41c526bb1a309e4a694453aec17c505aee1054329cee9aebe"
+    },
+    {
+      "path": "tests/test_day_ribbon_build.py",
+      "origin": "overlay",
+      "git_blob": "c0becc001c0ac7c9110955b316ab4044a8ab2ef6",
+      "sha256": "880e68f36879d27e35658a2d64bac15056455838946a02fea52eda355a5fe20b"
+    },
+    {
+      "path": "tests/test_mcp_boundary_context.py",
+      "origin": "overlay",
+      "git_blob": "836c97c5e4a76044052a681ec744e778838e924a",
+      "sha256": "7399a87bcf5d4b0f211ce24df5e10e85431cadd102b622e888cc44a218f35487"
+    },
+    {
+      "path": "tests/test_mcp_day_frames.py",
+      "origin": "overlay",
+      "git_blob": "bdc4c19657cd2eb8932851287d233b40ac1d603a",
+      "sha256": "1ba0e6883a9e75dd885367a398cb81f8bad2126d8c8ac599da4659f5ff0342e0"
+    },
+    {
+      "path": "tests/test_synastry_local.py",
+      "origin": "overlay",
+      "git_blob": "eeec740afd1bd9613a47fabbda1c1739684edc34",
+      "sha256": "90dbf192ed2f28952d1fb5aae7ba9c2750705b9da206fbaaafb75e7cf0f6d664"
+    },
+    {
+      "path": "tests/test_synastry_presentation.py",
+      "origin": "overlay",
+      "git_blob": "514e3732070acd923923af0d3bc5934db72f16ff",
+      "sha256": "043ae6bafe2136895bfc7e17e62f33199c6d2e083dccfe25f8b44f0a05ed1089"
+    },
+    {
+      "path": "tests/test_synastry_renderer.py",
+      "origin": "overlay",
+      "git_blob": "6f7e190dae49c72063b7c533f3ee5ae4e186a7f8",
+      "sha256": "62f3e9647d54248cb1e00c716723438f8072a8b1b1be63cd5351408c013a3873"
     }
   ]
 }

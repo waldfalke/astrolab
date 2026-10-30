@@ -11,6 +11,9 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = (
     "docs/recipes.md",
+    "docs/partner-portrait-reading-recipe.md",
+    "docs/horary-reading-recipe.md",
+    "docs/forecast-boundary-context.md",
     "docs/synastry-reading-recipe.md",
     "docs/synastry-practice-research.md",
     "docs/examples/synastry-fictional/README.md",
@@ -82,7 +85,7 @@ class StarsPackageTests(unittest.TestCase):
                              (assets / (name + '.png')).read_bytes())
             self.assertIsNone(svg.find('{http://www.w3.org/2000/svg}script'))
         recipes = (ROOT / "docs/recipes.md").read_text(encoding="utf-8")
-        for anchor in ("natal", "synastry", "solar", "transits", "city-day", "day"):
+        for anchor in ("natal", "synastry", "solar", "transits", "city-day", "day", "partner-portrait", "horary"):
             self.assertIn(f'docs/recipes.md#{anchor}', text)
             self.assertIn(f'<a id="{anchor}"></a>', recipes)
         targets = re.findall(r'(?:src|href)="([^"]+)"', text)

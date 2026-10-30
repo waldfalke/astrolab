@@ -103,7 +103,7 @@ jobs:
         working-directory: ${{ runner.temp }}/public-clone
         run: |
           set -euo pipefail
-          for example in rising_hands natal chart_workflow invalid_input; do
+          for example in rising_hands natal chart_workflow invalid_input products_workflow; do
             uv run python examples/call_mcp.py "$example" \
               --url http://127.0.0.1:18400/mcp
           done

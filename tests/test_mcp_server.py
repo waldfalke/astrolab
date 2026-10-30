@@ -75,6 +75,8 @@ def test_phase_states_tool_calculates_supplied_positions_with_optional_frame():
     assert sign_only["house_frame"] == "unavailable"
     assert sign_only["states"]["sun"]["Z"] == "7"
     assert sign_only["states"]["sun"]["H_house"] is None
+    assert sign_only["states"]["mercury"]["Z"] == "4/1"
+    assert sign_only["states"]["venus"]["Z"] == "6/1"
 
     cusps = [350, 10, 40, 70, 100, 130, 160, 190, 220, 250, 280, 310]
     local = asyncio.run(_call_tool(
@@ -207,3 +209,16 @@ def test_solar_return_requires_complete_relocation_pair():
 def test_tools_reject_invalid_public_inputs(tool, arguments, message):
     with pytest.raises(Exception, match=message):
         asyncio.run(_call_tool(tool, arguments))
+
+
+def test_phase_states_tool_keeps_machine_degrees_inside_the_sign():
+    result = asyncio.run(_call_tool("phase_states", dict(
+        positions={"sun": 359.99999, "chiron": 359.99999},
+        moment_utc="2026-09-23T00:05:00Z",
+    ))).data
+    for body in ("sun", "chiron"):
+        row = result["states"][body]
+        assert row["sign"] == "Рыбы"
+        assert row["longitude"] == result["input"]["positions"][body] == 359.99999
+        assert row["deg_in_sign"] == 359.99999 - 330.0
+        assert 0.0 <= row["deg_in_sign"] < 30.0

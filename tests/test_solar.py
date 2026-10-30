@@ -63,6 +63,9 @@ def test_solar_return_composite_structure():
     )
     assert chart["natal"]["phases"] == expected_natal_phases
     assert ret["phases"] == expected_return_phases
+    assert chart["natal"]["phases"]["input"]["positions"] == chart["natal"]["positions"]
+    assert ret["phases"]["input"]["positions"] == ret["positions"]
+    assert list(ret["phases"]["input"]["cusps"]) == ret["houses"]["cusps"]
     assert chart["natal"]["phases"]["house_frame"] == "placidus"
     assert ret["phases"]["house_frame"] == "placidus"
     assert chart["natal"]["phases"]["input_sha256"] != ret["phases"]["input_sha256"]
