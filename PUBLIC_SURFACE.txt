@@ -19,6 +19,8 @@ overlay	assets/natal-card.svg
 overlay	assets/solar-card.svg
 overlay	assets/transits-card.svg
 overlay	assets/day-forecast-card.svg
+overlay	assets/horary-question.png
+overlay	assets/horary-card.svg
 source	astro/__init__.py
 source	astro/aspects.py
 source	astro/carrier_states.py
