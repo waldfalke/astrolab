@@ -51,7 +51,7 @@ def test_discovery_identifies_product_and_preserves_old_six_contracts():
         if tool.name in OLD_TOOLS:
             row = tool.model_dump(by_alias=True, exclude_none=True)
             projection.append({key: row[key] for key in ("name", "description", "inputSchema", "outputSchema")})
-    assert digest(projection) == "2a92f7899c2da6f165b925d0e8e20d662cdda98b73c51ecdb538271f1226e344"
+    assert digest(projection) == "b30a579d558d5ba41188339707340f0c9b36f86db5de7be15cb1de0725f80288"
 
 
 def test_five_documents_are_full_exact_bytes_and_manifest_is_bound():

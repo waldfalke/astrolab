@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "eaca7afa935c4af49a26e3b7797c4a0ac488dcac",
+  "source_commit": "8333385c1a83bf451a3bf5150652dd872a7b0c82",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -147,7 +147,7 @@
     {
       "path": "astro/dignities.py",
       "origin": "source",
-      "git_blob": "8433299355105ddf2141c317f582a7b5363ef4fc",
+      "git_blob": "d9fa46160233a9bb9b4f4993c6f37146ee3e775b",
       "sha256": "0643e9b66a6efcb97ced0f564eb9dbb373df762f51974639d86c5bfde604cc87"
     },
     {
@@ -159,19 +159,19 @@
     {
       "path": "astro/horary.py",
       "origin": "source",
-      "git_blob": "8a067c34f3b1d4b032735c3c3be174023d8da25c",
+      "git_blob": "3ed524a61ddd89ade44f8df6989d6b3aa49fdfff",
       "sha256": "4f47e47361bda24895b2e67c9b09a2db512187f0290a5ae93bd815a091aa7474"
     },
     {
       "path": "astro/natal.py",
       "origin": "source",
-      "git_blob": "271e60b6b3122c050fbe8b2c20248cdfa5f446c2",
-      "sha256": "653e9a2b44ee595cb1f944690ada6a3f12b84183fc6b2f7fdc2aff0f1e33f33c"
+      "git_blob": "e767b8f5c2fa10379c904dd73188797fcb6d9c79",
+      "sha256": "d0eb396fcbeb180fe3e296be6563c3f3a2dad7e42d141765d87cda31e4f5dbab"
     },
     {
       "path": "astro/partner_portrait.py",
       "origin": "source",
-      "git_blob": "45777e5b3e34dff407c98153dab2fabe2db41668",
+      "git_blob": "ff5184efa512a978b1867e1020bc890811ff710e",
       "sha256": "34434dec3177efcd6ab31ca4871ad783bff0b0ef9ed736fff8a85f083fccc718"
     },
     {
@@ -207,14 +207,14 @@
     {
       "path": "astro/server.py",
       "origin": "overlay",
-      "git_blob": "d3cd2feda21f8d961519e9a1ad7f308f0d2a49b1",
-      "sha256": "44c5ab1f5010f0b6e0863ef3dd0c6b2621e004ad0cf2bb1b1a806903cb62e795"
+      "git_blob": "473774c37639f889885bbe0928594999e441666c",
+      "sha256": "8eca9cbe56911677cd7c9fc7655053bed054a6e6d3eff68ec82b40da59a57309"
     },
     {
       "path": "astro/solar.py",
       "origin": "overlay",
-      "git_blob": "29bd9464d95c2ed98c09f0b71f121816b6f8b63a",
-      "sha256": "61c416fae11a4efe52213a18f4329c141424568179273f0b53a4729b42e1c56a"
+      "git_blob": "1d444b11b98c1e66955b609a199919b8c858cfbd",
+      "sha256": "555be37fb9e814ba0b089f62fb1db835aeb8a7d611d3d97bc802e66b1784d1a7"
     },
     {
       "path": "astro/transits.py",
@@ -231,8 +231,8 @@
     {
       "path": "docs/mcp-api.md",
       "origin": "overlay",
-      "git_blob": "29eaac43e66fd2bf690869f4860aeb7d1d5c4239",
-      "sha256": "2ef0715a06161b6af517268c30ca08485882fc2d5b9bfebc6c765545b1fe22a6"
+      "git_blob": "a513d8637dc4d0cff2b4c0dc95f606a5613cee67",
+      "sha256": "5bda38947dc1a580756eab34112ba648a3597e7a38f55deef7be4e6f33c8bf57"
     },
     {
       "path": "docs/output-contract.md",
@@ -243,8 +243,8 @@
     {
       "path": "docs/recipes.md",
       "origin": "source",
-      "git_blob": "7ef3986b522b8a8936edecee537183bd927008a3",
-      "sha256": "4574fcfd91f251cfce3aed86937a9961a90f45180743dc391f5cef3b0323774e"
+      "git_blob": "2e1bb876ce80f675a62138bc1f3628bcdc05dd34",
+      "sha256": "98c5daa399d93bb4a24685d58ae1a3143543c3c4712e23925bde49d329edfbc5"
     },
     {
       "path": "docs/forecast-boundary-context.md",
@@ -279,7 +279,7 @@
     {
       "path": "docs/research/horary-method-sources.md",
       "origin": "source",
-      "git_blob": "af161c749440775f1756934fe86a99a3f4ead542",
+      "git_blob": "73b129bb32ecbcc93a9fb2cc3390f03a3ff88db0",
       "sha256": "ac019232403f850aecbd8137f6755bc0941e86eeab2bd22f6406eba5b81a03b8"
     },
     {
@@ -291,13 +291,13 @@
     {
       "path": "artifacts/mcp-recipes/horary_facts.py",
       "origin": "source",
-      "git_blob": "e2e7affb800ced44a3237695ccfb14c60300136b",
+      "git_blob": "03bc4b27be6853c2a7231f1328ad1b76cec3e668",
       "sha256": "51c25c4d490f756e4bd5e8e5a98dba6b8aa4f0209a92b2fd29dfa9b55d05d4a0"
     },
     {
       "path": "artifacts/mcp-recipes/examples/horary-input.example.json",
       "origin": "source",
-      "git_blob": "4165c4abe4df1081d3350036044b3b3427d02c0b",
+      "git_blob": "5582b250aecb726593ffa8c16501db95ac915a6a",
       "sha256": "744d01a6924f5521382ca225d9064c89f19e60c5f5b0b6511d797de9c3b6714b"
     },
     {
@@ -321,7 +321,7 @@
     {
       "path": "artifacts/mcp-recipes/partner_portrait.py",
       "origin": "source",
-      "git_blob": "88271d7465f722c7cfd2366c7bce9572e035a664",
+      "git_blob": "495e89938030fbffcbc17b45d4fd08e6d92cd043",
       "sha256": "cc0bedb75f578d0073cbeedd6d873ee4685e58b0d2784655911309099462041b"
     },
     {
@@ -399,31 +399,31 @@
     {
       "path": "tests/fixtures/body-states/swiss-reference.json",
       "origin": "source",
-      "git_blob": "d7a9c0c0c38bf3c9b5cacd4e02e01118fc0e419e",
+      "git_blob": "ede6250cbc2ab43614c5a1a1a8e0d72f2565aada",
       "sha256": "6d60e1166d391b45d6b43525bb400a6d89f7fc8108ccd797536cc26bf629aeb2"
     },
     {
       "path": "tests/fixtures/trump/house_placidus/01_primary_positions.json",
       "origin": "source",
-      "git_blob": "5a74a8804159ee9c6541bf08b831274e870a5b61",
+      "git_blob": "94002bd8573c4740530a5fa9d2357a040c2b40b8",
       "sha256": "9b4a340521d97b4b48926a4db0e295e4f7c9873144e2c659afe51b88f03c102b"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/02_primary_longitudes.csv",
       "origin": "source",
-      "git_blob": "a0dd5bb488cf1e1eff733d850dfa69902af9156a",
+      "git_blob": "f12382df2d321928353b013a0baf2e650e1166df",
       "sha256": "099d04e5738734d57438224cc8052e28983c2bab8e194042850a5fd3eb991d76"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/04_backup_aspects.json",
       "origin": "source",
-      "git_blob": "94a81120fba04ec13d49a3dffeadd50f9d75fb17",
+      "git_blob": "cd9b5da9a5d4812024346612f03b75a9c78accd5",
       "sha256": "aa3dfc1da0b56b102dd77f7245f47e9899d943037840e012e68736a0f4971c8a"
     },
     {
       "path": "tests/fixtures/trump/natal_failover/06_backup_longitudes.csv",
       "origin": "source",
-      "git_blob": "b9b1a2a108424e3b35ae694e84b48544ee348927",
+      "git_blob": "93fe8c6f18c5f6deaf923deeb5679791a195ecc0",
       "sha256": "c5d448b54615e7b23f2300c705ea3ed9a1994c7372643de2f44e9617a2ddb22a"
     },
     {
@@ -447,7 +447,7 @@
     {
       "path": "tests/test_engine.py",
       "origin": "source",
-      "git_blob": "d876bec11589c61f72638838ce9727fea11c0a89",
+      "git_blob": "24581a7e0a69eed33cfe21a103ed2292e0c4aaaf",
       "sha256": "690cdbcbd7f91b94fd978508858c92e039e8f71d6e32b7576c8213bfbf1ca082"
     },
     {
@@ -459,7 +459,7 @@
     {
       "path": "tests/test_houses.py",
       "origin": "source",
-      "git_blob": "8587d8ce9fb2167ad400393b779e6342e4300929",
+      "git_blob": "a77ec625ea0cec65f23d063d080df18dc4c5f999",
       "sha256": "ab42dac5803c623f6dfe2761e4541681d214cca41a8136c7badd321733454ed6"
     },
     {
@@ -471,14 +471,14 @@
     {
       "path": "tests/test_horary_mcp.py",
       "origin": "overlay",
-      "git_blob": "5b3a80dd7b47741730fe37c4d32bf056f7800969",
-      "sha256": "9b7a6336ea5c038ce684f7f7a759b8966224bcb82de0f0c9512af0ce91100e85"
+      "git_blob": "30da8e4f2879ca5f47a6343e8ffb4c8a5c0c8bd5",
+      "sha256": "d2a65793fc7b038da7a75a2d3d7c83aca6920c700d2ced2905e288ec93b6aac7"
     },
     {
       "path": "tests/test_mcp_server.py",
       "origin": "overlay",
-      "git_blob": "15063f1a8c87a0837ce9243d84ee2ccc9dcbaaec",
-      "sha256": "d22962fd519b3adf1ed1cae7e225f86c6545f663758545471f11ae20fa879efd"
+      "git_blob": "4aa92693ed4581b5d00ac0e749129302c173fe92",
+      "sha256": "fd88d60c6819c4dbf7da116671a97bcb661db0e89c4050cf6487cb017a0e3a54"
     },
     {
       "path": "tests/test_mcp_api_contract.py",
@@ -489,14 +489,14 @@
     {
       "path": "tests/test_natal.py",
       "origin": "source",
-      "git_blob": "2bc860b960392083dcb21fc3f81f2fa6f76580b6",
-      "sha256": "b7e04d7f16c21552802da321fb8dba05dd59f37fdaa06e1d0e2be032f3e80289"
+      "git_blob": "7df0c4b613d0f128ebd4ec657d402bf181fe74fb",
+      "sha256": "303b438314e026478c0edfdcd74698b576fe429a5418c13e3f32568231ae26f8"
     },
     {
       "path": "tests/test_partner_mcp.py",
       "origin": "overlay",
-      "git_blob": "7cecadc0b68d6f805ca27c97b234ea2d4de00766",
-      "sha256": "9113decd4f5bac74011b25e3432ce0b2d69715407d35d4a2893749bee1f29acd"
+      "git_blob": "dd47ca3df14eefe5a797d170ea5fb57cef2f5c3d",
+      "sha256": "9f12a99a5530a78c0bc7db6c5270b3c951beec1cd588c29eb5b85b896bbbe069"
     },
     {
       "path": "tests/test_partner_portrait.py",
@@ -513,7 +513,7 @@
     {
       "path": "tests/test_positions.py",
       "origin": "source",
-      "git_blob": "d2401f4eabcad2951ed2ef7ace5dd468a3e3b3de",
+      "git_blob": "efd13d489bffe558b913c2b9f67c79a0dd291f9c",
       "sha256": "ed66417dff2a60b6d339b45500ca300eb2192c8e8a954fc4c603a5dc1904ed46"
     },
     {
@@ -525,7 +525,7 @@
     {
       "path": "tests/test_rising_hands.py",
       "origin": "source",
-      "git_blob": "9f85246cf32910715aabd7ab1c780a920e564c2b",
+      "git_blob": "95c6ce263c08e710bad5e26df8e50916bf074681",
       "sha256": "9f6e51878eb326cbcc993deac2e656f2a3eb03f1a81220d926090ad18baf2977"
     },
     {
@@ -537,8 +537,8 @@
     {
       "path": "tests/test_solar.py",
       "origin": "overlay",
-      "git_blob": "827892bdfb0b771f7b1516d282d6b67113aef717",
-      "sha256": "08ec7b9f02fd414f1eef4f4a2ec502656b2f5cfc739f2a4791b3324a5535c572"
+      "git_blob": "75403d3ccfbbbc969235af408b4e34af88c6f17e",
+      "sha256": "64071a6abd9981c3d6cf127bbfd93636e391622a2ac2a63b3b353a9c20e69af1"
     },
     {
       "path": "tests/test_stars_package.py",

@@ -61,7 +61,7 @@ def test_horary_discovery_preserves_all_nine_existing_tools():
         if tool.name in OLD_NINE:
             wire = tool.model_dump(by_alias=True, exclude_none=True)
             projection.append({k: wire[k] for k in ("name", "description", "inputSchema", "outputSchema")})
-    assert digest(projection) == "0c8bba95b907c42ead93f04773692f536e79d19a289775f6bdd651d621defd91"
+    assert digest(projection) == "094747566235d47e146f9ae4204303ce1c705564706dcb6121606f5b79c0cd2c"
 
 
 def test_horary_kit_delivers_exact_five_documents_and_bound_manifest():

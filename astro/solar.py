@@ -10,7 +10,7 @@ Bisection semantics match run_solar_revolution.ps1 for golden fidelity: bracket 
 halvings, instant truncated to whole seconds before casting. Feb-29 births share the recipe's
 known limitation (naive month/day transplant).
 
-Cross-aspects (return -> natal) follow the recipe: classical 10 bodies, orb 2.0, directed —
+Cross-aspects (return -> natal) use all calculated positions, orb 2.0, directed —
 endpoints are never sorted (return:saturn->natal:moon is not natal:saturn->return:moon).
 NOT in v1 (deliberate): declination layer (ephem-only source), the timing layer (monthly phase
 windows, Sun-activation dates) — recipe steps 4-5 remain PS-only for now.
@@ -22,12 +22,11 @@ from datetime import datetime, timedelta, timezone
 from astro.aspects import compute_cross_aspects
 from astro.dignities import compute_dignities
 from astro.engine import (
-    DEFAULT_BODIES,
     _iso_utc,
     compute_houses_series,
     compute_positions_series,
 )
-from astro.natal import NATAL_BODIES
+from astro.natal import NATAL_BODIES, _node_points
 from astro.phases import compute_phase_states
 from astro.placements import compute_placements
 from astro.profection import compute_profection, locate_wholesign
@@ -100,9 +99,9 @@ def compute_solar_return(
     """Assemble the solar-return structure for one solar year.
 
     Returns {"return_instant_utc", "location": {lat, lon, relocated},
-    "natal": {positions, phases}, "return": {positions, houses, phases, dignities, sect,
-    placements}, "sr_to_natal_aspects"
-    (classical 10, directed, orb 2), "profection"} — stateless dict, seam elements only.
+    "natal": {positions, points, placements, phases},
+    "return": {positions, points, houses, phases, dignities, sect, placements},
+    "sr_to_natal_aspects" (all positions, directed, orb 2), "profection"}.
     """
     eff_lat = sr_lat if sr_lat is not None else birth_lat
     eff_lon = sr_lon if sr_lon is not None else birth_lon
@@ -121,10 +120,9 @@ def compute_solar_return(
         [natal_moment_utc], birth_lat, birth_lon, engine=engine
     )[0]
 
-    classical = list(DEFAULT_BODIES)
-    aspects = compute_cross_aspects(
-        {b: sr_pos[b] for b in classical}, {b: natal_pos[b] for b in classical}, orb=orb
-    )
+    aspects = compute_cross_aspects(sr_pos, natal_pos, orb=orb)
+    natal_points = _node_points(natal_pos)
+    sr_points = _node_points(sr_pos)
 
     natal_asc = natal_houses["angles"]["asc"]
     prof = compute_profection(natal_asc, return_year - natal_moment_utc.year)
@@ -137,6 +135,8 @@ def compute_solar_return(
         "location": {"lat": eff_lat, "lon": eff_lon, "relocated": sr_lat is not None},
         "natal": {
             "positions": natal_pos,
+            "points": natal_points,
+            "placements": compute_placements({**natal_pos, **natal_points}, natal_houses["cusps"]),
             "phases": compute_phase_states(
                 natal_pos,
                 cusps=natal_houses["cusps"],
@@ -145,6 +145,7 @@ def compute_solar_return(
         },
         "return": {
             "positions": sr_pos,
+            "points": sr_points,
             "houses": sr_houses,
             "phases": compute_phase_states(
                 sr_pos,
@@ -153,7 +154,7 @@ def compute_solar_return(
             ),
             "dignities": compute_dignities(sr_pos, scheme=scheme),
             "sect": sect,
-            "placements": compute_placements(sr_pos, sr_houses["cusps"]),
+            "placements": compute_placements({**sr_pos, **sr_points}, sr_houses["cusps"]),
         },
         "sr_to_natal_aspects": aspects,
         "profection": prof,

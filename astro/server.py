@@ -28,6 +28,8 @@ from astro.solar import compute_solar_return
 from astro.transits import compute_transits_to_natal
 
 mcp = FastMCP("Astrolab", instructions=(
+    "Пиши так, как будто читатель и его ИИ не знают нашего контекста. "
+    "Соблюдай контекстную локальность, избегай неявных отсылок и двусмысленности формулировок. "
     "For Портрет партнёра / partner portrait, discover partner_portrait_kit and read its manifest "
     "and all five documents before interpreting partner_portrait calculations or choosing images. "
     "The product fixes its calculation profile; ask the user for birth data/time quality and women/men, "
@@ -203,8 +205,10 @@ def natal_tool(
 
     Returns:
         {"moment_utc", "location", "positions", "houses": {"cusps", "angles"}, "aspects",
-        "dignities", "phases", "sect", "points": {"part_of_fortune"}, "placements"} — positions/angles in
-        ecliptic degrees, bodies keyed by normalized lowercase names, placements as house numbers.
+        "dignities", "phases", "sect", "points": {"part_of_fortune", "south_node"}, "placements"}
+        — positions/angles in ecliptic degrees, placements as house numbers. The South Node is
+        derived opposite the North Node; Engine A uses true north node and mean-apogee Lilith.
+        Use body_states when physical model provenance must be checked.
     """
     moment = _parse_utc(datetime_utc, "datetime_utc")
     _validate_location(lat, lon)
@@ -274,13 +278,15 @@ def solar_return_tool(
         birth_lat, birth_lon: birth location (degrees).
         return_year: calendar year of the return.
         sr_lat, sr_lon: OPTIONAL relocation — where the return is lived; omit for birth location.
-        orb: cross-aspect orb in degrees (return->natal, classical 10 bodies).
+        orb: cross-aspect orb in degrees (return->natal, all calculated positions).
         scheme: essential-dignity scheme, "modern" or "traditional".
 
     Returns:
-        {"return_instant_utc", "location", "natal": {"positions", "phases"}, "return": {"positions",
-        "houses", "phases", "dignities", "sect", "placements"}, "sr_to_natal_aspects" (directed),
-        "profection"} — degrees ecliptic, normalized lowercase body names.
+        {"return_instant_utc", "location", "natal": {"positions", "points", "placements", "phases"},
+        "return": {"positions", "points", "houses", "phases", "dignities", "sect", "placements"},
+        "sr_to_natal_aspects" (directed), "profection"} — degrees ecliptic, normalized lowercase
+        body names. South Node is derived opposite North; Engine A uses true north node and
+        mean-apogee Lilith. Use body_states when physical model provenance must be checked.
     """
     moment = _parse_utc(natal_datetime_utc, "natal_datetime_utc")
     _validate_location(birth_lat, birth_lon, prefix="birth_")

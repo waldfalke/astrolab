@@ -19,7 +19,9 @@ Required inputs: `datetime_utc: string`, `lat: number`, `lon: number`.
 Optional inputs: `orb: number = 6.0`, `scheme: string = "modern"`.
 
 Returns positions, Placidus houses and angles, aspects, dignities, phases, sect, placements, and
-calculated points in one structure.
+calculated points in one structure. `points.south_node` is derived opposite `positions.north_node`;
+the two poles form one axis. Engine A uses the true north node and mean-apogee Lilith. Use
+`body_states` at the same instant to check the physical model and provenance.
 
 ### `phase_states`
 
@@ -48,8 +50,10 @@ Required inputs: `natal_datetime_utc: string`, `birth_lat: number`, `birth_lon: 
 Optional inputs: `sr_lat: number | null = null`, `sr_lon: number | null = null`,
 `orb: number = 2.0`, `scheme: string = "modern"`.
 
-Returns the calculated return instant, natal and return phase states, return chart structure,
-directed return-to-natal aspects, and annual profection.
+Returns the calculated return instant, natal and return phase states, `points.south_node` and
+placements on both charts, directed return-to-natal aspects across all calculated positions, and
+annual profection. The South Node is derived from the North Node and is absent from the aspect
+matrix; use `body_states` at both instants to check Engine A models and provenance.
 
 ### `transits`
 
@@ -394,7 +398,7 @@ object rather than enumerating its fields.
         "orb": {
           "default": 2.0,
           "type": "number",
-          "description": "cross-aspect orb in degrees (return->natal, classical 10 bodies)."
+          "description": "cross-aspect orb in degrees (return->natal, all calculated positions)."
         },
         "scheme": {
           "default": "modern",

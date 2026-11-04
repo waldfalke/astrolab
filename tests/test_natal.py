@@ -51,6 +51,26 @@ def test_natal_composite_adds_phase_states_without_changing_engine_dignities(mon
     assert chart["phases"]["states"]["sun"]["Z"] == "7"
     assert chart["phases"]["states"]["chiron"]["availability"]["Z"] == "unsupported_body"
     assert chart["dignities"]["sun"]["dignity"] == "detriment"
+    assert "south_node" not in chart["points"]
+
+
+def test_natal_south_node_wraps_without_entering_body_layers(monkeypatch):
+    import astro.natal as natal
+
+    positions = {"north_node": 359.75}
+    cusps = [i * 30.0 for i in range(12)]
+    monkeypatch.setattr(natal, "compute_positions_series", lambda *a, **k: [positions])
+    monkeypatch.setattr(natal, "compute_houses_series", lambda *a, **k: [{
+        "cusps": cusps, "angles": {"asc": 0.0},
+    }])
+    monkeypatch.setattr(natal, "compute_sect", lambda *a, **k: {"chart_sect": "day"})
+    chart = compute_natal(datetime(2000, 1, 1, tzinfo=timezone.utc), 0.0, 0.0,
+                          bodies=["north_node"])
+    assert chart["points"]["south_node"] == 179.75
+    assert chart["placements"]["south_node"] == 6
+    assert "south_node" not in chart["positions"]
+    assert "south_node" not in chart["phases"]["states"]
+    assert not any("south_node" in (a["body1"], a["body2"]) for a in chart["aspects"])
 
 
 def test_natal_composite_assembles_goldens():
@@ -68,6 +88,8 @@ def test_natal_composite_assembles_goldens():
     # the natal body set carries nodes/lilith/chiron on top of the 10 classical
     for extra in ("north_node", "lilith", "chiron"):
         assert extra in pos
+    assert abs(chart["points"]["south_node"] - 260.80373462309163) < TOL_DEG
+    assert chart["placements"]["south_node"] == 4
 
     # house frame (02_houses_placidus.csv / 03_chart_points.csv values)
     assert abs(chart["houses"]["cusps"][0] - 149.958846361111) < TOL_DEG

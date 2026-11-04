@@ -82,6 +82,26 @@ def test_solar_return_composite_structure():
         assert a["orb"] <= 2.0
 
 
+def test_solar_return_carries_node_axis_and_additional_cross_contacts():
+    chart = compute_solar_return(NATAL_MOMENT, BIRTH_LAT, BIRTH_LON, 2025)
+    natal, ret = chart["natal"], chart["return"]
+    assert abs(natal["points"]["south_node"] - 260.80373462309163) < 1e-6
+    assert natal["placements"]["south_node"] == 4
+    assert abs(ret["points"]["south_node"] - 172.59015943969354) < 1e-6
+    assert ret["placements"]["south_node"] == 12
+    for side in (natal, ret):
+        assert "south_node" not in side["positions"]
+        assert "south_node" not in side["phases"]["states"]
+    contacts = {
+        (a["from_body"], a["to_body"], a["aspect"]): a["orb"]
+        for a in chart["sr_to_natal_aspects"]
+    }
+    assert abs(contacts[("lilith", "mercury", "trine")] - 0.10271) < 1e-4
+    assert abs(contacts[("north_node", "sun", "square")] - 0.33824) < 1e-4
+    assert abs(contacts[("chiron", "venus", "square")] - 0.49252) < 1e-4
+    assert not any("south_node" in pair[:2] for pair in contacts)
+
+
 def test_solar_return_matches_recipe_golden():
     """Witnessed golden (run_solar_revolution.ps1 on the public fixture, ReturnYear 2025, run
     solar_return_trump_sr2025_20260703_230939): the port converges with the PS recipe TO THE

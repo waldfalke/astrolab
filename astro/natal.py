@@ -29,6 +29,10 @@ from astro.sect import compute_part_of_fortune, compute_sect
 NATAL_BODIES = DEFAULT_BODIES + ("north_node", "lilith", "chiron")
 
 
+def _node_points(positions: dict[str, float]) -> dict[str, float]:
+    return {"south_node": (positions["north_node"] + 180.0) % 360.0} if "north_node" in positions else {}
+
+
 def compute_natal(
     moment_utc: datetime,
     lat: float,
@@ -50,7 +54,7 @@ def compute_natal(
 
     Returns:
         {"moment_utc", "location": {lat, lon}, "positions", "houses": {cusps, angles},
-         "aspects", "dignities", "sect", "points": {"part_of_fortune"},
+         "aspects", "dignities", "sect", "points": {"part_of_fortune", "south_node"},
          "placements", "phases"} — the normalized natal structure (#118).
     """
     bods = list(bodies) if bodies is not None else list(NATAL_BODIES)
@@ -59,6 +63,7 @@ def compute_natal(
     asc = houses["angles"]["asc"]
     sect = compute_sect(positions, asc)
     points = {}
+    points.update(_node_points(positions))
     if "sun" in positions and "moon" in positions:
         points["part_of_fortune"] = compute_part_of_fortune(
             asc, positions["sun"], positions["moon"], sect["chart_sect"]

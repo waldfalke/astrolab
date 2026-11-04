@@ -22,6 +22,19 @@ async def _call_tool(name: str, args: dict):
         return await client.call_tool(name, args)
 
 
+def test_initialize_delivers_context_locality_instruction():
+    async def initialize():
+        async with Client(mcp, auto_initialize=False) as client:
+            return await client.initialize()
+
+    result = asyncio.run(initialize())
+    assert (
+        "Пиши так, как будто читатель и его ИИ не знают нашего контекста. "
+        "Соблюдай контекстную локальность, избегай неявных отсылок "
+        "и двусмысленности формулировок."
+    ) in (result.instructions or "")
+
+
 def test_tool_returns_golden_watches():
     # Drive the async in-memory MCP client from a sync test (no pytest-asyncio dependency).
     result = asyncio.run(_call_tool("rising_hands", GOLDEN_INPUT))
@@ -43,6 +56,9 @@ def test_natal_tool_returns_golden_structure():
     assert abs(chart["positions"]["sun"] - 82.9284020277778) < 1e-6
     assert abs(chart["houses"]["angles"]["asc"] - 149.958846361111) < 1e-6
     assert chart["dignities"]["saturn"] == {"sign": "Cancer", "dignity": "detriment"}
+    assert not result.is_error
+    assert abs(chart["points"]["south_node"] - 260.80373462309163) < 1e-6
+    assert chart["placements"]["south_node"] == 4
     assert any(
         {a["body1"], a["body2"]} == {"venus", "saturn"} and a["aspect"] == "conjunction"
         for a in chart["aspects"]
@@ -62,6 +78,11 @@ def test_solar_return_tool_returns_witnessed_golden():
     assert sr["natal"]["phases"]["moment_utc"] == "1946-06-14T14:54:00Z"
     assert sr["return"]["phases"]["moment_utc"] == sr["return_instant_utc"]
     assert sr["profection"]["lord_of_year"] == "jupiter"
+    assert not result.is_error
+    assert sr["natal"]["placements"]["south_node"] == 4
+    assert sr["return"]["placements"]["south_node"] == 12
+    assert any(a["from_body"] == "chiron" and a["to_body"] == "venus" and
+               a["aspect"] == "square" for a in sr["sr_to_natal_aspects"])
 
 
 def test_phase_states_tool_calculates_supplied_positions_with_optional_frame():
