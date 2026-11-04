@@ -83,6 +83,9 @@ def test_solar_return_tool_returns_witnessed_golden():
     assert sr["return"]["placements"]["south_node"] == 12
     assert any(a["from_body"] == "chiron" and a["to_body"] == "venus" and
                a["aspect"] == "square" for a in sr["sr_to_natal_aspects"])
+    assert any(a["body1"] == "chiron" and a["body2"] == "sun" and
+               a["aspect"] == "sextile" and abs(a["orb"] - 3.3022681693) < 1e-6
+               for a in sr["return"]["aspects"])
 
 
 def test_phase_states_tool_calculates_supplied_positions_with_optional_frame():

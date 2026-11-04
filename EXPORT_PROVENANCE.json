@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "8333385c1a83bf451a3bf5150652dd872a7b0c82",
+  "source_commit": "b2b4f880a44890b943fb40b055a41c19d4e36102",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -207,14 +207,14 @@
     {
       "path": "astro/server.py",
       "origin": "overlay",
-      "git_blob": "473774c37639f889885bbe0928594999e441666c",
-      "sha256": "8eca9cbe56911677cd7c9fc7655053bed054a6e6d3eff68ec82b40da59a57309"
+      "git_blob": "d4f8a3bd5ea1c57c696afef28d59851a99cfcfaa",
+      "sha256": "aff492e338d7c334fd4ac92e6fc7edce6e5c05c8002aa5bac329ae2cdcc4f51f"
     },
     {
       "path": "astro/solar.py",
       "origin": "overlay",
-      "git_blob": "1d444b11b98c1e66955b609a199919b8c858cfbd",
-      "sha256": "555be37fb9e814ba0b089f62fb1db835aeb8a7d611d3d97bc802e66b1784d1a7"
+      "git_blob": "63057b02dfa5077db49585c3153207de45d8eb54",
+      "sha256": "c033f1f29b3ece350f589cbd71311b7abddb866865b329dbb5c1f6c9c2474e9e"
     },
     {
       "path": "astro/transits.py",
@@ -231,8 +231,8 @@
     {
       "path": "docs/mcp-api.md",
       "origin": "overlay",
-      "git_blob": "a513d8637dc4d0cff2b4c0dc95f606a5613cee67",
-      "sha256": "5bda38947dc1a580756eab34112ba648a3597e7a38f55deef7be4e6f33c8bf57"
+      "git_blob": "96beeabc826e80d6b7c674b906c04dc48cc406b6",
+      "sha256": "5c72b26222a9d78f8fa2257f410e15e2be8da4c0a78c3a595c69357845f8741d"
     },
     {
       "path": "docs/output-contract.md",
@@ -477,8 +477,8 @@
     {
       "path": "tests/test_mcp_server.py",
       "origin": "overlay",
-      "git_blob": "4aa92693ed4581b5d00ac0e749129302c173fe92",
-      "sha256": "fd88d60c6819c4dbf7da116671a97bcb661db0e89c4050cf6487cb017a0e3a54"
+      "git_blob": "c13b1419cbb1141433323dad7d76dd1505dbde9b",
+      "sha256": "5c1a32f0ae6a2ea9ccdebd0b00e3aa4c069899c329da36471c6f9bb17033ee1a"
     },
     {
       "path": "tests/test_mcp_api_contract.py",
@@ -537,8 +537,8 @@
     {
       "path": "tests/test_solar.py",
       "origin": "overlay",
-      "git_blob": "75403d3ccfbbbc969235af408b4e34af88c6f17e",
-      "sha256": "64071a6abd9981c3d6cf127bbfd93636e391622a2ac2a63b3b353a9c20e69af1"
+      "git_blob": "9bf86b9d1c93bae95ba44baa075e6438c86fe25c",
+      "sha256": "057a1a322092b80b1d018c8316490472c6ed4437144a8ab1f0f5ba61d8fdc658"
     },
     {
       "path": "tests/test_stars_package.py",

@@ -283,9 +283,11 @@ def solar_return_tool(
 
     Returns:
         {"return_instant_utc", "location", "natal": {"positions", "points", "placements", "phases"},
-        "return": {"positions", "points", "houses", "phases", "dignities", "sect", "placements"},
+        "return": {"positions", "points", "houses", "aspects", "phases", "dignities", "sect", "placements"},
         "sr_to_natal_aspects" (directed), "profection"} — degrees ecliptic, normalized lowercase
-        body names. South Node is derived opposite North; Engine A uses true north node and
+        body names. Internal return.aspects use all positions and the standard 6-degree orb;
+        the orb argument applies only to return->natal. South Node is derived opposite North;
+        Engine A uses true north node and
         mean-apogee Lilith. Use body_states when physical model provenance must be checked.
     """
     moment = _parse_utc(natal_datetime_utc, "natal_datetime_utc")

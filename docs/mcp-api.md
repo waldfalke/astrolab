@@ -51,9 +51,11 @@ Optional inputs: `sr_lat: number | null = null`, `sr_lon: number | null = null`,
 `orb: number = 2.0`, `scheme: string = "modern"`.
 
 Returns the calculated return instant, natal and return phase states, `points.south_node` and
-placements on both charts, directed return-to-natal aspects across all calculated positions, and
-annual profection. The South Node is derived from the North Node and is absent from the aspect
-matrix; use `body_states` at both instants to check Engine A models and provenance.
+placements on both charts, internal major aspects in `return.aspects` across all calculated
+positions with the standard 6-degree orb, directed return-to-natal aspects, and annual profection.
+The `orb` argument applies only to return-to-natal aspects. The South Node is derived from the
+North Node and is absent from the aspect matrix; use `body_states` at both instants to check
+Engine A models and provenance.
 
 ### `transits`
 

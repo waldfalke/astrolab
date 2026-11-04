@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-from astro.aspects import compute_cross_aspects
+from astro.aspects import compute_aspects, compute_cross_aspects
 from astro.dignities import compute_dignities
 from astro.engine import (
     _iso_utc,
@@ -100,8 +100,9 @@ def compute_solar_return(
 
     Returns {"return_instant_utc", "location": {lat, lon, relocated},
     "natal": {positions, points, placements, phases},
-    "return": {positions, points, houses, phases, dignities, sect, placements},
+    "return": {positions, points, houses, aspects, phases, dignities, sect, placements},
     "sr_to_natal_aspects" (all positions, directed, orb 2), "profection"}.
+    Internal return aspects use the standard 6-degree orb, independent of cross-aspect orb.
     """
     eff_lat = sr_lat if sr_lat is not None else birth_lat
     eff_lon = sr_lon if sr_lon is not None else birth_lon
@@ -147,6 +148,7 @@ def compute_solar_return(
             "positions": sr_pos,
             "points": sr_points,
             "houses": sr_houses,
+            "aspects": compute_aspects(sr_pos),
             "phases": compute_phase_states(
                 sr_pos,
                 cusps=sr_houses["cusps"],
