@@ -89,11 +89,14 @@ def test_solar_return_tool_returns_witnessed_golden():
 
 
 def test_phase_states_tool_calculates_supplied_positions_with_optional_frame():
+    from astro.phases import READING_METHOD
+
     positions = {"sun": 300.0, "mercury": 150.0, "venus": 180.0}
     moment = "2026-09-23T00:05:00Z"
     sign_only = asyncio.run(_call_tool(
         "phase_states", {"positions": positions, "moment_utc": moment},
     )).data
+    assert sign_only["reading_method"] == READING_METHOD
     assert sign_only["input"]["positions"] == positions
     assert sign_only["moment_utc"] == moment
     assert sign_only["house_frame"] == "unavailable"
@@ -108,6 +111,7 @@ def test_phase_states_tool_calculates_supplied_positions_with_optional_frame():
         {"positions": positions, "cusps": cusps, "moment_utc": moment},
     )).data
     assert local["house_frame"] == "placidus"
+    assert local["reading_method"] == READING_METHOD
     assert list(local["input"]["cusps"]) == cusps
     assert local["states"]["sun"]["H_house"] == 11
     assert local["input_sha256"] != sign_only["input_sha256"]

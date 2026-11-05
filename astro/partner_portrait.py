@@ -79,13 +79,19 @@ def compute_partner_portrait(natal: dict, *, partner: str, speeds: dict | None =
         raise ValueError("ASC and DSC must be opposite")
     # Accepted angle rounding must not put the seventh cusp into house VI.
     asc, dsc = cusps[0], cusps[6]
-    # JSON round-trips turn the operator's tuple cusps into lists; compare both
-    # complete payloads in their serialized representation, including the states.
-    if "phases" in natal and (
-        json.dumps(natal["phases"], sort_keys=True, allow_nan=False)
-        != json.dumps(phases, sort_keys=True, allow_nan=False)
-    ):
-        raise ValueError("natal phases are stale or incompatible with the shared operator")
+    # JSON round-trips turn tuple cusps into lists; reading_method is explanatory.
+    if "phases" in natal:
+        stored_phases = natal["phases"]
+        if isinstance(stored_phases, dict) and "reading_method" in stored_phases:
+            if not isinstance(stored_phases["reading_method"], str):
+                raise ValueError("natal phases reading_method must be a string")
+            stored_phases = stored_phases.copy()
+            stored_phases.pop("reading_method")
+        computed_phases = phases.copy()
+        computed_phases.pop("reading_method")
+        if (json.dumps(stored_phases, sort_keys=True, allow_nan=False)
+                != json.dumps(computed_phases, sort_keys=True, allow_nan=False)):
+            raise ValueError("natal phases are stale or incompatible with the shared operator")
     sect = compute_sect(positions, asc)["chart_sect"]
     if natal.get("sect", {}).get("chart_sect") != sect:
         raise ValueError("natal sect is missing or inconsistent with Sun/ASC")

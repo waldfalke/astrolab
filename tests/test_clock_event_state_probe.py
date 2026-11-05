@@ -169,6 +169,9 @@ def test_cli_from_another_cwd_writes_reproducible_package(tmp_path):
         assert result.returncode == 0, result.stdout + result.stderr
     for name in ("states.json", "events.json", "events.csv", "manifest.json", "BRIEF.md"):
         assert (outputs[0]/name).read_bytes() == (outputs[1]/name).read_bytes()
+    from astro.phases import READING_METHOD
+    states = json.loads((outputs[0]/"states.json").read_text(encoding="utf-8"))
+    assert all(row["phase_states"]["reading_method"] == READING_METHOD for row in states)
     manifest = json.loads((outputs[0]/"manifest.json").read_text(encoding="utf-8"))
     assert manifest["method_version"] == "clock-event-state-v2-draft1"
     assert manifest["status"] == "experimental"

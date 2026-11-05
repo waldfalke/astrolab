@@ -114,6 +114,55 @@ def test_serialized_phase_round_trip_and_tampered_state():
         recipe.compute_partner_portrait(source, partner="men")
 
 
+@pytest.mark.parametrize("old_method", [None, "Earlier explanatory wording"])
+def test_saved_phase_annotation_does_not_make_numeric_states_stale(old_method):
+    source = natal()
+    current = compute_phase_states(source["positions"], cusps=source["houses"]["cusps"],
+                                   moment_utc=source["moment_utc"])
+    source["phases"] = copy.deepcopy(current)
+    if old_method is None:
+        source["phases"].pop("reading_method")
+    else:
+        source["phases"]["reading_method"] = old_method
+    source = json.loads(json.dumps(source))
+    original = copy.deepcopy(source)
+    result = recipe.compute_partner_portrait(source, partner="men")
+    assert result["phase_states"] == current
+    assert result["phase_origin"] == "natal.phases"
+    assert result["natal"] == source == original
+
+
+@pytest.mark.parametrize("path,value", [
+    (("states", "venus", "Z"), "tampered"),
+    (("states", "venus", "availability", "Z"), "unavailable"),
+    (("input", "positions", "venus"), 341.0),
+    (("input_sha256",), "0" * 64),
+    (("operator_version",), "old"),
+    (("extra",), "unrecognized"),
+])
+def test_old_saved_phase_still_rejects_tampered_computation(path, value):
+    source = natal()
+    source["phases"] = compute_phase_states(source["positions"],
+        cusps=source["houses"]["cusps"], moment_utc=source["moment_utc"])
+    source["phases"].pop("reading_method")
+    target = source["phases"]
+    for key in path[:-1]:
+        target = target[key]
+    target[path[-1]] = value
+    with pytest.raises(ValueError, match="phase"):
+        recipe.compute_partner_portrait(source, partner="men")
+
+
+@pytest.mark.parametrize("annotation", [None, 123, float("nan"), {}])
+def test_saved_phase_annotation_must_be_a_json_string(annotation):
+    source = natal()
+    source["phases"] = compute_phase_states(source["positions"],
+        cusps=source["houses"]["cusps"], moment_utc=source["moment_utc"])
+    source["phases"]["reading_method"] = annotation
+    with pytest.raises(ValueError):
+        recipe.compute_partner_portrait(source, partner="men")
+
+
 def test_seventh_uses_exact_cusp_after_tolerant_angle_match():
     source = natal()
     source["houses"]["angles"]["asc"] -= 1e-12

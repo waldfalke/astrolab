@@ -20,6 +20,20 @@ def compute_phase_states(*args, **kwargs):
     return calculate(*args, **kwargs)
 
 
+def test_reading_method_travels_without_becoming_numerical_input(monkeypatch):
+    import astro.phases as phases
+
+    before = phases.compute_phase_states({"sun": 60.0, "chiron": 90.0})
+    assert isinstance(before.get("reading_method"), str)
+    assert before["reading_method"].strip()
+    assert "reading_method" not in before["input"]
+    monkeypatch.setattr(phases, "READING_METHOD", "Изменён только методический текст.")
+    after = phases.compute_phase_states({"sun": 60.0, "chiron": 90.0})
+    assert after.pop("reading_method") == phases.READING_METHOD
+    before.pop("reading_method")
+    assert after == before
+
+
 def test_book_table_22_all_sign_phases():
     # Literal Table 2.2 rows carried by the original recipe, independent of the Python constants.
     expected = {
@@ -201,6 +215,8 @@ def test_batch_cli_reads_json_and_emits_only_json():
     assert result.returncode == 0, result.stderr
     output = json.loads(result.stdout)
     assert len(output["results"]) == 2
+    from astro.phases import READING_METHOD
+    assert all(item["reading_method"] == READING_METHOD for item in output["results"])
     assert output["results"][0]["states"]["mars"]["Z"] == "1"
     assert output["results"][1]["states"]["mars"]["Z"] == "2"
     assert output["results"][0]["house_frame"] == "unavailable"
