@@ -64,7 +64,8 @@ class StarsPackageTests(unittest.TestCase):
         overlay = ROOT / "distribution/public"
         landing = overlay / "README.md" if overlay.exists() else ROOT / "README.md"
         text = landing.read_text(encoding="utf-8")
-        self.assertEqual(len(re.findall(r'<img\s', text)), 9)
+        self.assertEqual(len(re.findall(r'<img\s', text)), 10)
+        self.assertIn('<img src="assets/astrolab-mark.svg"', text)
         tables = re.findall(r'<table>(.*?)</table>', text, re.DOTALL)
         self.assertEqual(len(tables), 0, 'Recipe cards must not inherit GitHub table borders')
         self.assertRegex(text, r'<img src="assets/stars-dialogue.png"[^>]+width="100%"')

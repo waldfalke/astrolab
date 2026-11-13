@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "export_mode": "Release",
-  "source_commit": "529dde8f1d6a6ec1716e672db2cbbf54c7a9a8c7",
+  "source_commit": "0c4cf84cf92f6470727f99afc08260e7d19b3b76",
   "source_dirty": false,
   "dirty_public_paths": [],
   "exporter_sha256": "bcfe1397ebb56430bbab6b61c19bea2622dffada8f1e3bdbdafe68bc7aee71a0",
@@ -45,14 +45,20 @@
     {
       "path": "PUBLIC_SURFACE.txt",
       "origin": "overlay",
-      "git_blob": "95050a6ff8ba968137df5b99d198214acd9ba626",
-      "sha256": "7307145d0d6db7fa71d2ed0b4ca4d45c4fa90a91b5db458388c849b18ec62f0b"
+      "git_blob": "c3acb56e98e4b6654d55c3e2cf2f35ddbf0b23c1",
+      "sha256": "c5d42700e714245d23d70936ae40700d2250c107c961e40064e7aaa4712bc2a9"
     },
     {
       "path": "README.md",
       "origin": "overlay",
-      "git_blob": "e9060f893916350c843d80cfa62d932732cdbd2e",
-      "sha256": "bb1fb8a6ac34536b748281c0b8fe8eb774fe7b6ec25a4cbf7cf8211ca6133843"
+      "git_blob": "382195b6b7ccc1595b165f364bb10912806165cb",
+      "sha256": "3934d2c99425be8bd2c4d247006156b4ba4ad41949f2f1eda43401fc77199c11"
+    },
+    {
+      "path": "assets/astrolab-mark.svg",
+      "origin": "overlay",
+      "git_blob": "7f898d079cf2af71b04bf65d6ecdec8f19fef1e2",
+      "sha256": "e2e4ff545fdbae90ecf88b321febb5888e57b150e36722fff6eacd0d22c06375"
     },
     {
       "path": "assets/astrolab-hero.png",
@@ -315,8 +321,8 @@
     {
       "path": "artifacts/report-templates/horary-reading.html",
       "origin": "source",
-      "git_blob": "0212eb4cdbc34c0e1f7f8e7ad9736da20b8db9c0",
-      "sha256": "f9733774f39d92f2c21cb921eca8e8640e70bdf57aebcfad1ffae3ffd97ac3e7"
+      "git_blob": "b5f6cafaa95448fa27fcf317320c4d84b24ade5b",
+      "sha256": "f6804b55daa2666efaf5a6af6e9d87eb78230b70f461cb0d411a26e1a6099a89"
     },
     {
       "path": "artifacts/mcp-recipes/partner_portrait.py",
@@ -333,8 +339,8 @@
     {
       "path": "artifacts/report-templates/partner-portrait-reading.html",
       "origin": "source",
-      "git_blob": "311a6330785db3f1e98f5232253c31864e42a13b",
-      "sha256": "179e5adb642d35ddb8519929efce45838562b51ec7ac956c527dfef384fc4da8"
+      "git_blob": "a81ef39215c149d4c4a34cbc1dfe074cb0a9f819",
+      "sha256": "0b6b756ea610549554de2da42896fe8a27a3016253048adc2e5bf2e1a922f85e"
     },
     {
       "path": "docs/stars/README.md",
@@ -543,8 +549,8 @@
     {
       "path": "tests/test_stars_package.py",
       "origin": "overlay",
-      "git_blob": "3e55ebf7816ca7b8426812237dea0c3e41e87d60",
-      "sha256": "34113a8a6af927fa115832a872f0397dcea64074bdb7ae77622387d9483975f1"
+      "git_blob": "a3deaa06e5c8d6e15e7dd9e02a41c935f83f7ace",
+      "sha256": "318acf57a1e085b53449e494226264d76c69ee09ed7c30341cd47c74904bacaa"
     },
     {
       "path": "tests/test_transits.py",
@@ -585,8 +591,8 @@
     {
       "path": "artifacts/report-templates/city-day-reading.html",
       "origin": "overlay",
-      "git_blob": "4f3953b4d698905454a87708afac34a62afeeb3a",
-      "sha256": "3e7b18fbd071b6fb839356699933c8e15a91bea64e4ca0572ae1db7c51b5e759"
+      "git_blob": "4bd06a5fc1b01c255966a7721cbe6181b2df8570",
+      "sha256": "2488e85f5be76d13f2d799cfc554d65259d1b3524dd6a6837aececda6a0343f7"
     },
     {
       "path": "artifacts/github-art/city-day.png",
@@ -651,8 +657,8 @@
     {
       "path": "artifacts/report-templates/synastry-reading.html",
       "origin": "overlay",
-      "git_blob": "c11fc087674c0a8af9e0742bd1440da3d0dbc963",
-      "sha256": "74872abbbf2eeb56efaba710020e3b11696450602facd71cf9c0bd7ba00755e1"
+      "git_blob": "b95a59c57f7ed99b629e705b93c13ac95b153826",
+      "sha256": "6c388bcd011f0989210a43b4da0d583e99b1cbdc167026ee742ebe46343d7a65"
     },
     {
       "path": "assets/city-day-card.svg",
@@ -693,8 +699,8 @@
     {
       "path": "docs/examples/synastry-fictional/manifest.json",
       "origin": "overlay",
-      "git_blob": "2ab7bcdf4a0a05f0c2f1dc9501b73238a5c2aa24",
-      "sha256": "78171de715bec3ef71b804d2310402cb33af57905881cd8b14543a456085e7df"
+      "git_blob": "f47c067c337cd3094673d5eef0cb1a67d652182f",
+      "sha256": "c02a18a8d5a10da768dcc98d1ddde395ea8a746b495334be4def19559bff8797"
     },
     {
       "path": "docs/examples/synastry-fictional/reading.md",
@@ -705,14 +711,14 @@
     {
       "path": "docs/examples/synastry-fictional/report.html",
       "origin": "overlay",
-      "git_blob": "8aa432c53706f017b1506ee89fdd5a0279a948ae",
-      "sha256": "2c076f71bca81941a9a5a6f90ada299830e2ec1fbc32055b192ae926621d4afc"
+      "git_blob": "3deab4afe8ded9010af8a57beb5216944bf75324",
+      "sha256": "658931a9c15fcd8224e8fd778644eba450fc50513961358b1831bde87975824f"
     },
     {
       "path": "docs/examples/synastry-fictional/report.pdf",
       "origin": "overlay",
-      "git_blob": "9db316b55fe9141dfa2df5399af772760e885940",
-      "sha256": "bdfda375b663bce71b0659355297626625fba3671abe33ff6d0b660c7b8cd681"
+      "git_blob": "04adf417e7a37e98606550e3d358d4ccc4e24217",
+      "sha256": "cac8c8a110c230aac4e8eee77e3b66a3bb66b9d506d6b397d46dd756c4ae36e9"
     },
     {
       "path": "docs/examples/synastry-fictional/twin.md",

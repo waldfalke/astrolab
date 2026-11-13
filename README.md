@@ -1,6 +1,6 @@
 <img src="assets/astrolab-hero.png" alt="Astrolab — небесный путешественник с астролябией" width="100%">
 
-# Astrolab
+# <img src="assets/astrolab-mark.svg" width="28" height="28" alt=""> Astrolab
 
 Астрология для работы с ИИ. Astrolab рассчитывает карту, соляр, транзиты и синастрию —
 ты с агентом разбираешь, что они могут значить для тебя.

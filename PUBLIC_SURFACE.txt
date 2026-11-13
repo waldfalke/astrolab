@@ -9,6 +9,7 @@ generated	EXPORT_PROVENANCE.json
 source	LICENSE
 overlay	PUBLIC_SURFACE.txt
 overlay	README.md
+overlay	assets/astrolab-mark.svg
 overlay	assets/astrolab-hero.png
 overlay	assets/stars-dialogue.png
 overlay	assets/natal.png

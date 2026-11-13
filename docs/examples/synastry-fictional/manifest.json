@@ -19,20 +19,20 @@
       "adapters/charts/B/outputs/natal_longitudes.csv": "d9f3dfe81bf4ca5cec865bff187f4e49b5b2823039a7cfc9300eca386d8645fe",
       "adapters/charts/B/outputs/planets_primary.csv": "dce713b66de0ec06f883229904e39ef6db49b6088b0fbd941a97bc833a9ca01a",
       "cross_aspects.csv": "0512da44cbb3fd2014d2306ae0a5c40a903d1e1b29cef22dfa25421f5a0aa20b",
-      "natals/A.json": "9dcf190d36ce0b7de1aa020e70149dc6059ad860c16ce227cb1d0b3969a1d96e",
+      "natals/A.json": "87a5d1dfa39781168c0d1d819529048129c2940c38545d09fb7eae304b8dffc2",
       "natals/A_aspects.csv": "fef3eb2642e79c4593f1d912f6f07f2ebed6ef59c198e80703e5b9c25a610ff7",
-      "natals/B.json": "89bc7fb6c3f85883d31c5dc046eb604c018100782c80f13eb3899e304732c671",
+      "natals/B.json": "4bc3956b4130b953f8feaf39cd2df4a9dde44280e7faef0212985f3e0fbc55e5",
       "natals/B_aspects.csv": "b99a88eb4224b309ab2b19ad8c1a51fa23e526480c36587d0941b7e56702e354",
       "overlays.csv": "e8f6b9eca61b3dd4870bd6baf4be3a9200bf9b5a72e8e62b6e79d7573573ac2b"
     },
-    "bundle_manifest": "f25169a0b319605a125838d4c16ac49d14221c557c3c9e374ac92dd4253ddd9e",
+    "bundle_manifest": "b665c617b0c24030446b5810755e5d3e5900d8546a51d5d6957a7acbcbaa9ee0",
     "reading": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082",
-    "template": "74872abbbf2eeb56efaba710020e3b11696450602facd71cf9c0bd7ba00755e1",
+    "template": "6c388bcd011f0989210a43b4da0d583e99b1cbdc167026ee742ebe46343d7a65",
     "twin": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8",
-    "visual_manifest": "97e37987a0b576edc33ca43e45b235cb3d6a82ef8d0506be5a792c3f5d636a9f",
+    "visual_manifest": "f16b94f878052e5cb3d711d5549d333fdd3580b0f6fce5a9ecfbb987a84701e6",
     "visuals": {
-      "01_A_inner_B_outer.svg": "c2e7dbca868ee73ed2e98caa0b2233a3410ee0e7f3dd21a317887e07eb022f33",
-      "02_B_inner_A_outer.svg": "91bb68518a10f3bb87df152dc0b9a27847f9972aea376a29fcdae72b03577aaf",
+      "01_A_inner_B_outer.svg": "248de843927f7320c67be2343ece2934cc0e36d47ff95a7b8c0312d5c5fe1078",
+      "02_B_inner_A_outer.svg": "6916357d32d963664e19ae434786804e82524f6941de6d2f926e239ddfbbe3a1",
       "03_cross_aspect_grid.svg": "5b33fda4a87e8e47614bfdce30a8b9fdd25100a985b9f9ca89973cdaf9aeaf2f"
     }
   },
@@ -42,8 +42,8 @@
   },
   "outputs": {
     "reading.md": "04fb0abfadc37be82bb0266ee64166efa200d12685613b4e2a045e5e46206082",
-    "report.html": "2c076f71bca81941a9a5a6f90ada299830e2ec1fbc32055b192ae926621d4afc",
-    "report.pdf": "bdfda375b663bce71b0659355297626625fba3671abe33ff6d0b660c7b8cd681",
+    "report.html": "658931a9c15fcd8224e8fd778644eba450fc50513961358b1831bde87975824f",
+    "report.pdf": "cac8c8a110c230aac4e8eee77e3b66a3bb66b9d506d6b397d46dd756c4ae36e9",
     "twin.md": "2834a354c1ed2b65ddcc131345885c605ddac572f916285f649ac2d02a5046a8"
   },
   "participants": {
@@ -54,12 +54,12 @@
   "version": "0.1.0",
   "versions": {
     "browser": {
-      "chromium": "153.0.8010.12",
+      "chromium": "157.0.8103.51",
       "playwright": "1.63.0"
     },
     "markdown_it_py": "4.2.0",
     "renderer_sha256": {
-      "render_chart.py": "e1d6e3f7cb2b8c00d0a544eb08d08a1140971e1fd6fbb55bb1eea430c7298c41",
+      "render_chart.py": "025e80a7f203cf5dba67d846f1da4e1f79dd5a7b3e026f728ecfd86d23fe3c78",
       "render_synastry.py": "6539722a867849b0e005e99e9971f314036bb9fb3da744688a1719b90dacd6b9"
     }
   }
