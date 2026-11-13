@@ -6,7 +6,8 @@ on:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    # Ephemeris references depend on the native Swiss Ephemeris build.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -14,6 +15,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           version: "0.7.19"
+          python-version: "3.13.5"
 
       - name: Clone the candidate from Git
         run: |
